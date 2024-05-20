@@ -2,12 +2,14 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - develop
+    pull_request:
+        branches:
+            - 'develop'
+        types: [opened]
+        paths:
+            - '**'
+        # Puedes agregar patrones de archivos si deseas restringir el flujo a cambios específicos
+
 
 jobs:
   build-and-test:
@@ -31,7 +33,7 @@ jobs:
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
 
-      
+
   format:
     runs-on: ubuntu-latest
 
