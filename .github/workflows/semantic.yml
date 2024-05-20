@@ -1,0 +1,22 @@
+name: Semantic PR Title
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate PR title
+        run: |
+          title=$(jq -r .pull_request.title "$GITHUB_EVENT_PATH")
+          # Validate PR title using regex for semantic versioning
+          if [[ ! $title =~ ^(feat|fix|docs|style|refactor|perf|test|chore)(\(.+\))?:\s.+$ ]]; then
+            echo "Invalid PR title format. PR titles must follow the format: 'type(scope): description'."
+            echo "Example: feat(login): Add login functionality"
+            exit 1
+          fi

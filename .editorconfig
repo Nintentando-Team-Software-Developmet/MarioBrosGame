@@ -1,0 +1,74 @@
+# .editorconfig
+root = true
+
+# All files
+[*]
+indent_style = space
+indent_size = 4
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# C# files
+[*.cs]
+# Use four spaces for indentation
+indent_style = space
+indent_size = 4
+
+# Naming conventions
+dotnet_naming_rule.interface_prefix = true
+dotnet_naming_rule.interface_prefix.symbols = interface
+dotnet_naming_rule.interface_prefix.style = prefix
+dotnet_naming_rule.interface_prefix.style.prefix = I
+
+# Example: interface IExampleInterface { }
+
+# System directives should be first
+dotnet_sort_system_directives_first = true
+
+# Example:
+# using System;
+# using MonoGame.Framework;
+
+# Separate import directive groups
+dotnet_separate_import_directive_groups = true
+
+# Example:
+# using System;
+# 
+# using MonoGame.Framework;
+
+# Qualification rules
+dotnet_style_qualification_for_event = false
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_property = false
+
+# Example: avoid `this.` qualification unless necessary
+# private void Method()
+# {
+#     this.Property = value; // Avoid unless required
+# }
+
+# Naming conventions
+dotnet_naming_rule.private_field_prefix = true
+dotnet_naming_rule.private_field_prefix.symbols = private_field
+dotnet_naming_rule.private_field_prefix.style = prefix
+dotnet_naming_rule.private_field_prefix.style.prefix = _
+
+dotnet_naming_symbols.private_field.applicable_kinds = field
+dotnet_naming_symbols.private_field.applicable_accessibilities = private
+dotnet_naming_symbols.private_field.required_modifiers =
+
+# Example: private int _exampleField;
+
+# Enforce code documentation
+dotnet_diagnostic.CS1591.severity = warning
+
+# Example:
+# /// <summary>
+# /// This is a summary.
+# /// </summary>
+# public void Method() { }
+
+# Add more rules as needed for your project

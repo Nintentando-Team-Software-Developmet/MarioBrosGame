@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace SuperMarioBros;
+namespace MarioGame;
 
 public class Game1 : Game
 {

@@ -1,0 +1,54 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Run tests
+      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+
+      
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+
+    - name: Install dotnet format tool
+      run: dotnet tool install -g dotnet-format
+
+    - name: Add dotnet tools to PATH
+      run: echo "/home/runner/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Run dotnet format
+      run: dotnet format --verify-no-changes
