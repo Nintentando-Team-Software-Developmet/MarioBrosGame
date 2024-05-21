@@ -1,4 +1,3 @@
-# .github/workflows/ci.yml
 name: CI
 
 on:
@@ -8,8 +7,6 @@ on:
         types: [opened]
         paths:
             - '**'
-        # Puedes agregar patrones de archivos si deseas restringir el flujo a cambios específicos
-
 
 jobs:
   build-and-test:
@@ -27,11 +24,17 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    - name: Install Roslyn Analyzers
+      run: dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers
+
     - name: Build
       run: dotnet build --no-restore
 
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+
+    - name: Run Roslyn Analyzers
+      run: dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
 
 
   format:
