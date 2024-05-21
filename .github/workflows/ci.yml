@@ -25,16 +25,40 @@ jobs:
       run: dotnet restore
 
     - name: Install Roslyn Analyzers
-      run: dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers
-
+      run: |
+        cd MarioGame
+        dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers
+        cd ..
+        cd MarioGame.Tests
+        dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers
+        cd ..
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        cd MarioGame
+        dotnet build --no-restore
+        cd ..
+        cd MarioGame.Tests
+        dotnet build --no-restore
+        cd ..
 
     - name: Run tests
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+      run: |
+        cd MarioGame.Tests
+        dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+        cd ..
 
-    - name: Run Roslyn Analyzers
-      run: dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
+    - name: Run Roslyn Analyzers Dev
+      run: |
+        cd MarioGame
+        dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
+        cd ..
+
+    - name: Run Roslyn Analyzers Test
+      run: |
+        cd MarioGame.Tests
+        dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
+        cd ..
+
 
 
   format:
