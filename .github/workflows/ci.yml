@@ -60,11 +60,6 @@ jobs:
         dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
         cd ..
 
-
-    - name: Run Roslyn Analyzers
-      run: dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
-
-
   format:
     runs-on: ubuntu-latest
 
