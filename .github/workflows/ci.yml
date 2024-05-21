@@ -32,6 +32,7 @@ jobs:
         cd MarioGame.Tests
         dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers
         cd ..
+
     - name: Build
       run: |
         cd MarioGame
@@ -59,6 +60,9 @@ jobs:
         dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
         cd ..
 
+
+    - name: Run Roslyn Analyzers
+      run: dotnet build --no-restore /p:RunAnalyzersDuringBuild=true /p:TreatWarningsAsErrors=true
 
 
   format:
