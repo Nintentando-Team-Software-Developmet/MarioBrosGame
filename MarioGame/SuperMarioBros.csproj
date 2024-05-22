@@ -5,6 +5,10 @@
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -26,4 +30,7 @@
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />
   </Target>
+  <ItemGroup>
+    <EditorConfig Condition="Exists('$(MSBuildThisFileDirectory).editorconfig')" Include="$(MSBuildThisFileDirectory).editorconfig" />
+  </ItemGroup>
 </Project>

@@ -1,14 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <OutputType>Exe</OutputType> 
-    <GenerateProgramFile>false</GenerateProgramFile> 
+    <OutputType>Exe</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarioGame\SuperMarioBros.csproj" />
+    <ProjectReference Include="../MarioGame/SuperMarioBros.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfig Condition="Exists('$(MSBuildThisFileDirectory).editorconfig')" Include="$(MSBuildThisFileDirectory).editorconfig" />
+  </ItemGroup>
 </Project>
