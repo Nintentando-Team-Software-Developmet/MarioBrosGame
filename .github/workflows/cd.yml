@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
     push:
         branches:
-        - release/ID_37/ContinueDeploment
+        - release/ID_37/ContinueDeployment
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
