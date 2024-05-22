@@ -47,11 +47,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /bin/Release/net6.0/win-x64/publish/MarioGame.exe
+        asset_path: MarioGame/bin/Release/net6.0/win-x64/publish/MarioGame.exe
         asset_name: MarioGame.exe
         asset_content_type: application/x-msdownload
-        working-directory: ./MarioGame
-      
      
     - name: Upload Relsease Asset Linux
       id: upload-release-asset-linux
@@ -60,7 +58,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /bin/Release/net6.0/linux-x64/publish/MarioGame
+        asset_path: MarioGame/bin/Release/net6.0/linux-x64/publish/MarioGame
         asset_name: MarioGame
         asset_content_type: application/x-msdownload
-        working-directory: ./MarioGame
+        
