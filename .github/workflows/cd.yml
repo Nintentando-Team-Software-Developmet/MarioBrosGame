@@ -48,7 +48,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       with:
         tag_name: ${{ github.run_number }}
-        release_name: Release ${{ github.ref }}
+        release_name: Release ${{ github.run_number }} Super Mario Bros
         draft: false
         prerelease: false
 
