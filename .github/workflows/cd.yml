@@ -37,9 +37,9 @@ jobs:
         mkdir -p package/DEBIAN
         mkdir -p package/usr/local/bin
         cp MarioGame/bin/Release/net6.0/linux-x64/publish/SuperMarioBros package/usr/local/bin/MarioGame
-        echo "Package: MarioGame\nVersion: 1.0.0\nSection: custom\nPriority: optional\nArchitecture: all\nEssential: no\nInstalled-Size: 1024\nMaintainer: Your Name <your.email@example.com>\nDescription: A brief description of your package" > package/DEBIAN/control
+        echo -e "Package: MarioGame\nVersion: 1.0.0\nSection: custom\nPriority: optional\nArchitecture: all\nEssential: no\nInstalled-Size: 1024\nMaintainer: Your Name <your.email@example.com>\nDescription: A brief description of your package" > package/DEBIAN/control
         dpkg-deb --build package
-      shell: bash 
+      shell: bash
 
     - name: Create Release
       id: create_release
