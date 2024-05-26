@@ -119,3 +119,17 @@
 /build:sprites/Mario/Power/Walk-2.png
 /build:sprites/Mario/Power/Walk-3_l.png
 /build:sprites/Mario/Power/Walk-3.png
+
+#begin Fonts/Body.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Body.spritefont
+
+#begin Fonts/Title.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Title.spritefont

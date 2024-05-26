@@ -1,0 +1,76 @@
+name: Build and Deploy
+
+on:
+    push:
+        branches:
+        - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish windows
+      run: dotnet publish -c Release -r win-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained true /p:PublishSingleFile=true
+
+    - name: Publish linux
+      run: dotnet publish -c Release -r linux-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained true /p:PublishSingleFile=true
+    
+    - name: Install dpkg-deb (Ubuntu only)
+      run: sudo apt-get install -y dpkg
+    
+    - name: Create deb package
+      run: |
+        mkdir -p package/DEBIAN
+        mkdir -p package/usr/local/bin
+        cp MarioGame/bin/Release/net6.0/linux-x64/publish/SuperMarioBros package/usr/local/bin/MarioGame
+        echo -e "Package: MarioGame\nVersion: 1.0.0\nSection: custom\nPriority: optional\nArchitecture: all\nEssential: no\nInstalled-Size: 1024\nMaintainer: Your Name <your.email@example.com>\nDescription: A brief description of your package" > package/DEBIAN/control
+        dpkg-deb --build package
+      shell: bash
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }} Super Mario Bros
+        draft: false
+        prerelease: false
+
+    - name: Upload Relsease Asset Windows
+      id: upload-release-asset-windows
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: MarioGame/bin/Release/net6.0/win-x64/publish/SuperMarioBros.exe
+        asset_name: MarioGame.exe
+        asset_content_type: application/x-msdownload
+
+    - name: Upload .deb Release Asset
+      id: upload-release-asset-deb
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: package.deb
+        asset_name: MarioGame.deb
+        asset_content_type: application/vnd.debian.binary-package
+        
