@@ -24,6 +24,10 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        Sprites.Load(Content);
+
+        // TODO: use this.Content to load your game content here
+
     }
 
     protected override void Update(GameTime gameTime)
