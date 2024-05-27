@@ -40,6 +40,11 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
+        _spriteBatch.Begin();
+        Vector2 scale = new Vector2(1.5f);
+        _spriteBatch.Draw(Sprites.Goomba1, new Vector2(100, 100), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+        _spriteBatch.End();
         base.Draw(gameTime);
     }
 
