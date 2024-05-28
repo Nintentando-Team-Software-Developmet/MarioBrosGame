@@ -8,117 +8,117 @@ namespace MarioGame
     public static class Sprites
     {
         //blocks
-        public static Texture2D BlockedBlockBrown { get; set;}
-        public static Texture2D BlockedBlockBlue { get; set;}
-        public static Texture2D BlockedBlockGrey { get; set;}
-        public static Texture2D BrickBlockBrown { get; set;}
-        public static Texture2D BrickBlockBlue { get; set;}
-        public static Texture2D BrickBlockGrey { get; set;}
-        public static Texture2D DuctCrossGreen { get; set;}
-        public static Texture2D DuctCrossOrange { get; set;}
-        public static Texture2D DuctCrossColors { get; set;}
-        public static Texture2D DuctSquareGreen { get; set;}
-        public static Texture2D DuctSquareOrange { get; set;}
-        public static Texture2D DuctSquareColors { get; set;}
-        public static Texture2D DuctVerticalGreen { get; set;}
-        public static Texture2D DuctVerticalOrange { get; set;}
-        public static Texture2D DuctVerticalColors { get; set;}
-        public static Texture2D NoIluminatedBrickBlockBrown { get; set;}
-        public static Texture2D NoIluminatedBrickBlockBlue { get; set;}
-        public static Texture2D NoIluminatedBrickBlockGrey { get; set;}
-        public static Texture2D PolishedStoneBlockBrown { get; set;}
-        public static Texture2D PolishedStoneBlockBlue { get; set;}
-        public static Texture2D PolishedStoneBlockGrey { get; set;}
-        public static Texture2D QuestionBlockBrown { get; set;}
-        public static Texture2D QuestionBlockBlue { get; set;}
-        public static Texture2D QuestionBlockGrey { get; set;}
-        public static Texture2D QuestionBlockAny { get; set;}
-        public static Texture2D StoneBlockBrown { get; set;}
-        public static Texture2D StoneBlockBlue { get; set;}
-        public static Texture2D StoneBlockGrey { get; set;}
+        public static Texture2D BlockedBlockBrown { get; set; }
+        public static Texture2D BlockedBlockBlue { get; set; }
+        public static Texture2D BlockedBlockGrey { get; set; }
+        public static Texture2D BrickBlockBrown { get; set; }
+        public static Texture2D BrickBlockBlue { get; set; }
+        public static Texture2D BrickBlockGrey { get; set; }
+        public static Texture2D DuctCrossGreen { get; set; }
+        public static Texture2D DuctCrossOrange { get; set; }
+        public static Texture2D DuctCrossColors { get; set; }
+        public static Texture2D DuctSquareGreen { get; set; }
+        public static Texture2D DuctSquareOrange { get; set; }
+        public static Texture2D DuctSquareColors { get; set; }
+        public static Texture2D DuctVerticalGreen { get; set; }
+        public static Texture2D DuctVerticalOrange { get; set; }
+        public static Texture2D DuctVerticalColors { get; set; }
+        public static Texture2D NoIluminatedBrickBlockBrown { get; set; }
+        public static Texture2D NoIluminatedBrickBlockBlue { get; set; }
+        public static Texture2D NoIluminatedBrickBlockGrey { get; set; }
+        public static Texture2D PolishedStoneBlockBrown { get; set; }
+        public static Texture2D PolishedStoneBlockBlue { get; set; }
+        public static Texture2D PolishedStoneBlockGrey { get; set; }
+        public static Texture2D QuestionBlockBrown { get; set; }
+        public static Texture2D QuestionBlockBlue { get; set; }
+        public static Texture2D QuestionBlockGrey { get; set; }
+        public static Texture2D QuestionBlockAny { get; set; }
+        public static Texture2D StoneBlockBrown { get; set; }
+        public static Texture2D StoneBlockBlue { get; set; }
+        public static Texture2D StoneBlockGrey { get; set; }
         //Enemies
-        public static Texture2D Goomba1 { get; set;}
-        public static Texture2D Goomba2 { get; set;}
-        public static Texture2D Goomba3 { get; set;}
-        public static Texture2D Koopa1 { get; set;}
-        public static Texture2D Koopa2 { get; set;}
-        public static Texture2D Koopa3 { get; set;}
-        public static Texture2D Koopa4 { get; set;}
-        public static Texture2D Koopa5 { get; set;}
-        public static Texture2D Koopa6 { get; set;}
-        public static Texture2D PiranhaPlant1 { get; set;}
-        public static Texture2D PiranhaPlant2 { get; set;}
+        public static Texture2D Goomba1 { get; set; }
+        public static Texture2D Goomba2 { get; set; }
+        public static Texture2D Goomba3 { get; set; }
+        public static Texture2D Koopa1 { get; set; }
+        public static Texture2D Koopa2 { get; set; }
+        public static Texture2D Koopa3 { get; set; }
+        public static Texture2D Koopa4 { get; set; }
+        public static Texture2D Koopa5 { get; set; }
+        public static Texture2D Koopa6 { get; set; }
+        public static Texture2D PiranhaPlant1 { get; set; }
+        public static Texture2D PiranhaPlant2 { get; set; }
         // Props
-        public static Texture2D CastleBrown { get; set;}
-        public static Texture2D CastleBlue { get; set;}
-        public static Texture2D WinFlagGreen { get; set;}
-        public static Texture2D WinFlagBrown { get; set;}
-        public static Texture2D WinFlagWhite { get; set;}
+        public static Texture2D CastleBrown { get; set; }
+        public static Texture2D CastleBlue { get; set; }
+        public static Texture2D WinFlagGreen { get; set; }
+        public static Texture2D WinFlagBrown { get; set; }
+        public static Texture2D WinFlagWhite { get; set; }
 
         // Powerups
-        public static Texture2D FireBallDown { get; set;}
-        public static Texture2D FireBallExplode1 { get; set;}
-        public static Texture2D FireBallExplode2 { get; set;}
-        public static Texture2D FireBallExplode3 { get; set;}
-        public static Texture2D FireBallLeft { get; set;}
-        public static Texture2D FireBallRight { get; set;}
-        public static Texture2D FireBallUp { get; set;}
-        public static Texture2D FireFlower1 { get; set;}
-        public static Texture2D FireFlower2 { get; set;}
-        public static Texture2D FireFlower3 { get; set;}
-        public static Texture2D GrowMushroom1 { get; set;}
-        public static Texture2D GrowMushroom2 { get; set;}
-        public static Texture2D GrowMushroom3 { get; set;}
-        public static Texture2D SuperStar1 { get; set;}
-        public static Texture2D SuperStar2 { get; set;}
-        public static Texture2D SuperStar3 { get; set;}
+        public static Texture2D FireBallDown { get; set; }
+        public static Texture2D FireBallExplode1 { get; set; }
+        public static Texture2D FireBallExplode2 { get; set; }
+        public static Texture2D FireBallExplode3 { get; set; }
+        public static Texture2D FireBallLeft { get; set; }
+        public static Texture2D FireBallRight { get; set; }
+        public static Texture2D FireBallUp { get; set; }
+        public static Texture2D FireFlower1 { get; set; }
+        public static Texture2D FireFlower2 { get; set; }
+        public static Texture2D FireFlower3 { get; set; }
+        public static Texture2D GrowMushroom1 { get; set; }
+        public static Texture2D GrowMushroom2 { get; set; }
+        public static Texture2D GrowMushroom3 { get; set; }
+        public static Texture2D SuperStar1 { get; set; }
+        public static Texture2D SuperStar2 { get; set; }
+        public static Texture2D SuperStar3 { get; set; }
 
         // Mario Big
-        public static Texture2D BigBendLeft { get; set;}
-        public static Texture2D BigBend { get; set;}
-        public static Texture2D BigJumpBackLeft { get; set;}
-        public static Texture2D BigJumpBack { get; set;}
-        public static Texture2D BigRunLeft { get; set;}
-        public static Texture2D BigRun { get; set;}
-        public static Texture2D BigStopLeft { get; set;}
-        public static Texture2D BigStop { get; set;}
-        public static Texture2D BigWalk1Left { get; set;}
-        public static Texture2D BigWalk1 { get; set;}
-        public static Texture2D BigWalk2Left { get; set;}
-        public static Texture2D BigWalk2 { get; set;}
-        public static Texture2D BigWalk3Left { get; set;}
-        public static Texture2D BigWalk3 { get; set;}
+        public static Texture2D BigBendLeft { get; set; }
+        public static Texture2D BigBend { get; set; }
+        public static Texture2D BigJumpBackLeft { get; set; }
+        public static Texture2D BigJumpBack { get; set; }
+        public static Texture2D BigRunLeft { get; set; }
+        public static Texture2D BigRun { get; set; }
+        public static Texture2D BigStopLeft { get; set; }
+        public static Texture2D BigStop { get; set; }
+        public static Texture2D BigWalk1Left { get; set; }
+        public static Texture2D BigWalk1 { get; set; }
+        public static Texture2D BigWalk2Left { get; set; }
+        public static Texture2D BigWalk2 { get; set; }
+        public static Texture2D BigWalk3Left { get; set; }
+        public static Texture2D BigWalk3 { get; set; }
 
         // Mario Small
-        public static Texture2D SmallDie { get; set;}
-        public static Texture2D SmallJumpLeft { get; set;}
-        public static Texture2D SmallJump { get; set;}
-        public static Texture2D SmallRunLeft { get; set;}
-        public static Texture2D SmallRun { get; set;}
-        public static Texture2D SmallStopLeft { get; set;}
-        public static Texture2D SmallStop { get; set;}
-        public static Texture2D SmallWalk1Left { get; set;}
-        public static Texture2D SmallWalk1 { get; set;}
-        public static Texture2D SmallWalk2Left { get; set;}
-        public static Texture2D SmallWalk2 { get; set;}
-        public static Texture2D SmallWalk3Left { get; set;}
-        public static Texture2D SmallWalk3 { get; set;}
+        public static Texture2D SmallDie { get; set; }
+        public static Texture2D SmallJumpLeft { get; set; }
+        public static Texture2D SmallJump { get; set; }
+        public static Texture2D SmallRunLeft { get; set; }
+        public static Texture2D SmallRun { get; set; }
+        public static Texture2D SmallStopLeft { get; set; }
+        public static Texture2D SmallStop { get; set; }
+        public static Texture2D SmallWalk1Left { get; set; }
+        public static Texture2D SmallWalk1 { get; set; }
+        public static Texture2D SmallWalk2Left { get; set; }
+        public static Texture2D SmallWalk2 { get; set; }
+        public static Texture2D SmallWalk3Left { get; set; }
+        public static Texture2D SmallWalk3 { get; set; }
 
         // Mario Power
-        public static Texture2D PowerBendLeft { get; set;}
-        public static Texture2D PowerBend { get; set;}
-        public static Texture2D PowerJumpLeft { get; set;}
-        public static Texture2D PowerJump { get; set;}
-        public static Texture2D PowerRunLeft { get; set;}
-        public static Texture2D PowerRun { get; set;}
-        public static Texture2D PowerStopLeft { get; set;}
-        public static Texture2D PowerStop { get; set;}
-        public static Texture2D PowerWalk1Left { get; set;}
-        public static Texture2D PowerWalk1 { get; set;}
-        public static Texture2D PowerWalk2Left { get; set;}
-        public static Texture2D PowerWalk2 { get; set;}
-        public static Texture2D PowerWalk3Left { get; set;}
-        public static Texture2D PowerWalk3 { get; set;}
+        public static Texture2D PowerBendLeft { get; set; }
+        public static Texture2D PowerBend { get; set; }
+        public static Texture2D PowerJumpLeft { get; set; }
+        public static Texture2D PowerJump { get; set; }
+        public static Texture2D PowerRunLeft { get; set; }
+        public static Texture2D PowerRun { get; set; }
+        public static Texture2D PowerStopLeft { get; set; }
+        public static Texture2D PowerStop { get; set; }
+        public static Texture2D PowerWalk1Left { get; set; }
+        public static Texture2D PowerWalk1 { get; set; }
+        public static Texture2D PowerWalk2Left { get; set; }
+        public static Texture2D PowerWalk2 { get; set; }
+        public static Texture2D PowerWalk3Left { get; set; }
+        public static Texture2D PowerWalk3 { get; set; }
         public static void Load(ContentManager content)
         {
             if (content == null)
