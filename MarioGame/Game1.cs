@@ -1,46 +1,55 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Core;
+using Levels;
+using Services;
 
-namespace MarioGame;
-
-public class Game1 : Game
+namespace MarioGame
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
-    public Game1()
+    public class Game1 : Game
     {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-    }
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private World _world;
+        private WorldInitializer _worldInitializer;
 
-    protected override void Initialize()
-    {
-        base.Initialize();
-    }
+        public Game1()
+        {
+            _graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            IsMouseVisible = true;
+        }
 
-    protected override void LoadContent()
-    {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        Sprites.Load(Content);
+        protected override void Initialize()
+        {
+            base.Initialize();
+            _world = new World();
+            _worldInitializer = new WorldInitializer(GraphicsDevice);
+            _worldInitializer.Initialize(_world);
+        }
 
-        // TODO: use this.Content to load your game content here
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+        }
 
-    }
+        protected override void Update(GameTime gameTime)
+        {
+            _world.Update(gameTime);
+            base.Update(gameTime);
+        }
 
-    protected override void Update(GameTime gameTime)
-    {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-        base.Update(gameTime);
-    }
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _world.Render(gameTime);
+            base.Draw(gameTime);
+        }
 
-    protected override void Draw(GameTime gameTime)
-    {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-        base.Draw(gameTime);
+        public void LoadNewLevel(LevelData levelData)
+        {
+            _world.LoadLevel(levelData);
+        }
     }
 
     protected override void Dispose(bool disposing)
