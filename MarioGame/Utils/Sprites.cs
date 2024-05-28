@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,120 +8,123 @@ namespace MarioGame
     public static class Sprites
     {
         //blocks
-        public static Texture2D BlockedBlockBrown;
-        public static Texture2D BlockedBlockBlue;
-        public static Texture2D BlockedBlockGrey;
-        public static Texture2D BrickBlockBrown;
-        public static Texture2D BrickBlockBlue;
-        public static Texture2D BrickBlockGrey;
-        public static Texture2D DuctCrossGreen;
-        public static Texture2D DuctCrossOrange;
-        public static Texture2D DuctCrossColors;
-        public static Texture2D DuctSquareGreen;
-        public static Texture2D DuctSquareOrange;
-        public static Texture2D DuctSquareColors;
-        public static Texture2D DuctVerticalGreen;
-        public static Texture2D DuctVerticalOrange;
-        public static Texture2D DuctVerticalColors;
-        public static Texture2D NoIluminatedBrickBlockBrown;
-        public static Texture2D NoIluminatedBrickBlockBlue;
-        public static Texture2D NoIluminatedBrickBlockGrey;
-        public static Texture2D PolishedStoneBlockBrown;
-        public static Texture2D PolishedStoneBlockBlue;
-        public static Texture2D PolishedStoneBlockGrey;
-        public static Texture2D QuestionBlockBrown;
-        public static Texture2D QuestionBlockBlue;
-        public static Texture2D QuestionBlockGrey;
-        public static Texture2D QuestionBlockAny;
-        public static Texture2D StoneBlockBrown;
-        public static Texture2D StoneBlockBlue;
-        public static Texture2D StoneBlockGrey;
+        public static Texture2D BlockedBlockBrown { get; set; }
+        public static Texture2D BlockedBlockBlue { get; set; }
+        public static Texture2D BlockedBlockGrey { get; set; }
+        public static Texture2D BrickBlockBrown { get; set; }
+        public static Texture2D BrickBlockBlue { get; set; }
+        public static Texture2D BrickBlockGrey { get; set; }
+        public static Texture2D DuctCrossGreen { get; set; }
+        public static Texture2D DuctCrossOrange { get; set; }
+        public static Texture2D DuctCrossColors { get; set; }
+        public static Texture2D DuctSquareGreen { get; set; }
+        public static Texture2D DuctSquareOrange { get; set; }
+        public static Texture2D DuctSquareColors { get; set; }
+        public static Texture2D DuctVerticalGreen { get; set; }
+        public static Texture2D DuctVerticalOrange { get; set; }
+        public static Texture2D DuctVerticalColors { get; set; }
+        public static Texture2D NoIluminatedBrickBlockBrown { get; set; }
+        public static Texture2D NoIluminatedBrickBlockBlue { get; set; }
+        public static Texture2D NoIluminatedBrickBlockGrey { get; set; }
+        public static Texture2D PolishedStoneBlockBrown { get; set; }
+        public static Texture2D PolishedStoneBlockBlue { get; set; }
+        public static Texture2D PolishedStoneBlockGrey { get; set; }
+        public static Texture2D QuestionBlockBrown { get; set; }
+        public static Texture2D QuestionBlockBlue { get; set; }
+        public static Texture2D QuestionBlockGrey { get; set; }
+        public static Texture2D QuestionBlockAny { get; set; }
+        public static Texture2D StoneBlockBrown { get; set; }
+        public static Texture2D StoneBlockBlue { get; set; }
+        public static Texture2D StoneBlockGrey { get; set; }
         //Enemies
-        public static Texture2D Goomba1;
-        public static Texture2D Goomba2;
-        public static Texture2D Goomba3;
-        public static Texture2D Koopa1;
-        public static Texture2D Koopa2;
-        public static Texture2D Koopa3;
-        public static Texture2D Koopa4;
-        public static Texture2D Koopa5;
-        public static Texture2D Koopa6;
-        public static Texture2D PiranhaPlant1;
-        public static Texture2D PiranhaPlant2;
+        public static Texture2D Goomba1 { get; set; }
+        public static Texture2D Goomba2 { get; set; }
+        public static Texture2D Goomba3 { get; set; }
+        public static Texture2D Koopa1 { get; set; }
+        public static Texture2D Koopa2 { get; set; }
+        public static Texture2D Koopa3 { get; set; }
+        public static Texture2D Koopa4 { get; set; }
+        public static Texture2D Koopa5 { get; set; }
+        public static Texture2D Koopa6 { get; set; }
+        public static Texture2D PiranhaPlant1 { get; set; }
+        public static Texture2D PiranhaPlant2 { get; set; }
         // Props
-        public static Texture2D CastleBrown;
-        public static Texture2D CastleBlue;
-        public static Texture2D WinFlagGreen;
-        public static Texture2D WinFlagBrown;
-        public static Texture2D WinFlagWhite;
+        public static Texture2D CastleBrown { get; set; }
+        public static Texture2D CastleBlue { get; set; }
+        public static Texture2D WinFlagGreen { get; set; }
+        public static Texture2D WinFlagBrown { get; set; }
+        public static Texture2D WinFlagWhite { get; set; }
 
         // Powerups
-        public static Texture2D FireBallDown;
-        public static Texture2D FireBallExplode1;
-        public static Texture2D FireBallExplode2;
-        public static Texture2D FireBallExplode3;
-        public static Texture2D FireBallLeft;
-        public static Texture2D FireBallRight;
-        public static Texture2D FireBallUp;
-        public static Texture2D FireFlower1;
-        public static Texture2D FireFlower2;
-        public static Texture2D FireFlower3;
-        public static Texture2D GrowMushroom1;
-        public static Texture2D GrowMushroom2;
-        public static Texture2D GrowMushroom3;
-        public static Texture2D SuperStar1;
-        public static Texture2D SuperStar2;
-        public static Texture2D SuperStar3;
+        public static Texture2D FireBallDown { get; set; }
+        public static Texture2D FireBallExplode1 { get; set; }
+        public static Texture2D FireBallExplode2 { get; set; }
+        public static Texture2D FireBallExplode3 { get; set; }
+        public static Texture2D FireBallLeft { get; set; }
+        public static Texture2D FireBallRight { get; set; }
+        public static Texture2D FireBallUp { get; set; }
+        public static Texture2D FireFlower1 { get; set; }
+        public static Texture2D FireFlower2 { get; set; }
+        public static Texture2D FireFlower3 { get; set; }
+        public static Texture2D GrowMushroom1 { get; set; }
+        public static Texture2D GrowMushroom2 { get; set; }
+        public static Texture2D GrowMushroom3 { get; set; }
+        public static Texture2D SuperStar1 { get; set; }
+        public static Texture2D SuperStar2 { get; set; }
+        public static Texture2D SuperStar3 { get; set; }
 
         // Mario Big
-        public static Texture2D BigBendLeft;
-        public static Texture2D BigBend;
-        public static Texture2D BigJumpBackLeft;
-        public static Texture2D BigJumpBack;
-        public static Texture2D BigRunLeft;
-        public static Texture2D BigRun;
-        public static Texture2D BigStopLeft;
-        public static Texture2D BigStop;
-        public static Texture2D BigWalk1Left;
-        public static Texture2D BigWalk1;
-        public static Texture2D BigWalk2Left;
-        public static Texture2D BigWalk2;
-        public static Texture2D BigWalk3Left;
-        public static Texture2D BigWalk3;
+        public static Texture2D BigBendLeft { get; set; }
+        public static Texture2D BigBend { get; set; }
+        public static Texture2D BigJumpBackLeft { get; set; }
+        public static Texture2D BigJumpBack { get; set; }
+        public static Texture2D BigRunLeft { get; set; }
+        public static Texture2D BigRun { get; set; }
+        public static Texture2D BigStopLeft { get; set; }
+        public static Texture2D BigStop { get; set; }
+        public static Texture2D BigWalk1Left { get; set; }
+        public static Texture2D BigWalk1 { get; set; }
+        public static Texture2D BigWalk2Left { get; set; }
+        public static Texture2D BigWalk2 { get; set; }
+        public static Texture2D BigWalk3Left { get; set; }
+        public static Texture2D BigWalk3 { get; set; }
 
         // Mario Small
-        public static Texture2D SmallDie;
-        public static Texture2D SmallJumpLeft;
-        public static Texture2D SmallJump;
-        public static Texture2D SmallRunLeft;
-        public static Texture2D SmallRun;
-        public static Texture2D SmallStopLeft;
-        public static Texture2D SmallStop;
-        public static Texture2D SmallWalk1Left;
-        public static Texture2D SmallWalk1;
-        public static Texture2D SmallWalk2Left;
-        public static Texture2D SmallWalk2;
-        public static Texture2D SmallWalk3Left;
-        public static Texture2D SmallWalk3;
+        public static Texture2D SmallDie { get; set; }
+        public static Texture2D SmallJumpLeft { get; set; }
+        public static Texture2D SmallJump { get; set; }
+        public static Texture2D SmallRunLeft { get; set; }
+        public static Texture2D SmallRun { get; set; }
+        public static Texture2D SmallStopLeft { get; set; }
+        public static Texture2D SmallStop { get; set; }
+        public static Texture2D SmallWalk1Left { get; set; }
+        public static Texture2D SmallWalk1 { get; set; }
+        public static Texture2D SmallWalk2Left { get; set; }
+        public static Texture2D SmallWalk2 { get; set; }
+        public static Texture2D SmallWalk3Left { get; set; }
+        public static Texture2D SmallWalk3 { get; set; }
 
         // Mario Power
-        public static Texture2D PowerBendLeft;
-        public static Texture2D PowerBend;
-        public static Texture2D PowerJumpLeft;
-        public static Texture2D PowerJump;
-        public static Texture2D PowerRunLeft;
-        public static Texture2D PowerRun;
-        public static Texture2D PowerStopLeft;
-        public static Texture2D PowerStop;
-        public static Texture2D PowerWalk1Left;
-        public static Texture2D PowerWalk1;
-        public static Texture2D PowerWalk2Left;
-        public static Texture2D PowerWalk2;
-        public static Texture2D PowerWalk3Left;
-        public static Texture2D PowerWalk3;
-
+        public static Texture2D PowerBendLeft { get; set; }
+        public static Texture2D PowerBend { get; set; }
+        public static Texture2D PowerJumpLeft { get; set; }
+        public static Texture2D PowerJump { get; set; }
+        public static Texture2D PowerRunLeft { get; set; }
+        public static Texture2D PowerRun { get; set; }
+        public static Texture2D PowerStopLeft { get; set; }
+        public static Texture2D PowerStop { get; set; }
+        public static Texture2D PowerWalk1Left { get; set; }
+        public static Texture2D PowerWalk1 { get; set; }
+        public static Texture2D PowerWalk2Left { get; set; }
+        public static Texture2D PowerWalk2 { get; set; }
+        public static Texture2D PowerWalk3Left { get; set; }
+        public static Texture2D PowerWalk3 { get; set; }
         public static void Load(ContentManager content)
         {
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content), "ContentManager cannot be null.");
+            }
             //blocks
             BlockedBlockBrown = content.Load<Texture2D>("sprites/blocks/blocked_block_1");
             BlockedBlockBlue = content.Load<Texture2D>("sprites/blocks/blocked_block_2");
