@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Scenes
+namespace SuperMarioBros.Source.Scenes
 {
     public class SceneManager
     {

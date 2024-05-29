@@ -1,25 +1,27 @@
-using Components;
-using Managers;
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Managers;
 
 using Microsoft.Xna.Framework.Graphics;
 
 using System;
 
-namespace Levels
+namespace SuperMarioBros.Source.Levels
 {
     public class LevelLoader
     {
-        private EntityManager _entityManager;
-        private ComponentManager _componentManager;
+        private readonly EntityManager _entityManager;
+        private readonly ComponentManager _componentManager;
 
         public LevelLoader(EntityManager entityManager, ComponentManager componentManager)
         {
-            _entityManager = entityManager;
-            _componentManager = componentManager;
+            _entityManager = entityManager ?? throw new ArgumentNullException(nameof(entityManager));
+            _componentManager = componentManager ?? throw new ArgumentNullException(nameof(componentManager));
         }
 
         public void LoadLevel(LevelData levelData)
         {
+            if (levelData == null) throw new ArgumentNullException(nameof(levelData));
+
             foreach (var entityData in levelData.Entities)
             {
                 var entity = _entityManager.CreateEntity(entityData.Type);
@@ -30,7 +32,7 @@ namespace Levels
                     _componentManager.AddComponent(entity.Id, component);
                 }
 
-                var transform = _componentManager.GetComponent<TransformComponent>(entity.Id);
+                var transform = _componentManager.GetComponent<TransformBaseComponent>(entity.Id);
                 if (transform != null)
                 {
                     transform.Position = entityData.Position;
@@ -43,8 +45,8 @@ namespace Levels
                 foreach (var tileData in levelData.Tiles)
                 {
                     var tileEntity = _entityManager.CreateEntity("Tile");
-                    var transform = new TransformComponent { Position = tileData.Position };
-                    var sprite = new SpriteComponent { Texture = LoadTexture(tileData.TexturePath) };
+                    var transform = new TransformBaseComponent { Position = tileData.Position };
+                    var sprite = new SpriteBaseComponent { Texture = LoadTexture(tileData.TexturePath) };
 
                     _componentManager.AddComponent(tileEntity.Id, transform);
                     _componentManager.AddComponent(tileEntity.Id, sprite);
@@ -52,20 +54,22 @@ namespace Levels
             }
         }
 
-        private Component CreateComponent(ComponentData componentData)
+        private static BaseComponent CreateComponent(ComponentData componentData)
         {
+            if (componentData == null) throw new ArgumentNullException(nameof(componentData));
+
             // Example implementation, you should expand this to cover all component types
             switch (componentData.Type)
             {
                 case "TransformComponent":
-                    return new TransformComponent
+                    return new TransformBaseComponent
                     {
                         Position = componentData.Position,
                         Rotation = componentData.Rotation,
                         Scale = componentData.Scale
                     };
                 case "SpriteComponent":
-                    return new SpriteComponent
+                    return new SpriteBaseComponent
                     {
                         Texture = LoadTexture(componentData.TexturePath)
                     };
@@ -75,8 +79,10 @@ namespace Levels
             }
         }
 
-        private Texture2D LoadTexture(string texturePath)
+        private static Texture2D LoadTexture(string texturePath)
         {
+            if (string.IsNullOrEmpty(texturePath)) throw new ArgumentNullException(nameof(texturePath));
+
             // Load the texture from the content pipeline or other source
             // This is a placeholder implementation
             return null;

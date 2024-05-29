@@ -1,24 +1,25 @@
 using System;
 using System.Collections.Generic;
 
-using Components;
+using SuperMarioBros.Source.Components;
 
-namespace Managers
+namespace SuperMarioBros.Source.Managers
 {
     public class ComponentManager
     {
-        private Dictionary<int, Dictionary<Type, Component>> _entityComponents = new();
+        private Dictionary<int, Dictionary<Type, BaseComponent>> _entityComponents = new();
 
-        public void AddComponent(int entityId, Component component)
+        public void AddComponent(int entityId, BaseComponent baseComponent)
         {
             if (!_entityComponents.ContainsKey(entityId))
             {
-                _entityComponents[entityId] = new Dictionary<Type, Component>();
+                _entityComponents[entityId] = new Dictionary<Type, BaseComponent>();
             }
-            _entityComponents[entityId][component.GetType()] = component;
+
+            if (baseComponent != null) _entityComponents[entityId][baseComponent.GetType()] = baseComponent;
         }
 
-        public void RemoveComponent<T>(int entityId) where T : Component
+        public void RemoveComponent<T>(int entityId) where T : BaseComponent
         {
             if (_entityComponents.ContainsKey(entityId))
             {
@@ -26,7 +27,7 @@ namespace Managers
             }
         }
 
-        public T GetComponent<T>(int entityId) where T : Component
+        public T GetComponent<T>(int entityId) where T : BaseComponent
         {
             if (_entityComponents.ContainsKey(entityId) && _entityComponents[entityId].TryGetValue(typeof(T), out var component))
             {
@@ -35,7 +36,7 @@ namespace Managers
             return null;
         }
 
-        public IEnumerable<int> GetAllEntitiesWithComponent<T>() where T : Component
+        public IEnumerable<int> GetAllEntitiesWithComponent<T>() where T : BaseComponent
         {
             foreach (var entity in _entityComponents)
             {

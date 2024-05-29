@@ -1,11 +1,11 @@
-using Managers;
-using Events;
-using Scenes;
-using Levels;
+using SuperMarioBros.Source.Managers;
+using SuperMarioBros.Source.Events;
+using SuperMarioBros.Source.Scenes;
+using SuperMarioBros.Source.Levels;
 
 using Microsoft.Xna.Framework;
 
-namespace Core
+namespace SuperMarioBros.Source.Core
 {
     public class World
     {

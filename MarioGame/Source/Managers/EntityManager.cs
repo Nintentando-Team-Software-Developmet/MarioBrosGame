@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 
-using Entities;
+using SuperMarioBros.Source.Entities;
 
-namespace Managers
+namespace SuperMarioBros.Source.Managers
 {
     public class EntityManager
     {
         private Dictionary<int, Entity> _entities = new();
-        private int _nextId = 0;
+        private int _nextId;
 
         public Entity CreateEntity(string tag)
         {
             var entity = new Entity(_nextId++) { Tag = tag };
             _entities[entity.Id] = entity;
+            _nextId = 0;
             return entity;
         }
 

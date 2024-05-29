@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace Systems
+namespace SuperMarioBros.Source.Systems
 {
     public abstract class BaseSystem
     {

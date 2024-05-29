@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Components
+namespace SuperMarioBros.Source.Components
 {
-    public class SpriteComponent : Component
+    public class SpriteBaseComponent : BaseComponent
     {
         public Texture2D Texture { get; set; }
         public Rectangle SourceRectangle { get; set; }

@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 
-using Entities;
+using SuperMarioBros.Source.Entities;
 
-namespace Components
+namespace SuperMarioBros.Source.Components
 {
-    public class CameraComponent : Component
+    public class CameraComponent : BaseComponent
     {
         public Vector2 Position { get; set; }
         public Entity Target { get; set; }

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-using Events;
+using SuperMarioBros.Source.Events;
 
-namespace Systems
+namespace SuperMarioBros.Source.Systems
 {
     public class InputSystem : BaseSystem
     {

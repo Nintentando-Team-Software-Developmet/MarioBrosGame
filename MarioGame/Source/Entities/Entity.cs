@@ -1,32 +1,31 @@
-using Components;
-
+using SuperMarioBros.Source.Components;
 using System;
 using System.Collections.Generic;
 
-namespace Entities
+namespace SuperMarioBros.Source.Entities
 {
     public class Entity
     {
         public int Id { get; private set; }
         public string Tag { get; set; }
-        private Dictionary<Type, Component> _components = new();
+        private Dictionary<Type, BaseComponent> _components = new();
 
         public Entity(int id)
         {
             Id = id;
         }
 
-        public void AddComponent(Component component)
+        public void AddComponent(BaseComponent baseComponent)
         {
-            _components[component.GetType()] = component;
+            if (baseComponent != null) _components[baseComponent.GetType()] = baseComponent;
         }
 
-        public void RemoveComponent<T>() where T : Component
+        public void RemoveComponent<T>() where T : BaseComponent
         {
             _components.Remove(typeof(T));
         }
 
-        public T GetComponent<T>() where T : Component
+        public T GetComponent<T>() where T : BaseComponent
         {
             _components.TryGetValue(typeof(T), out var component);
             return (T)component;

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
-using Components;
-using Managers;
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Managers;
 
-namespace Systems
+namespace SuperMarioBros.Source.Systems
 {
     public class CameraSystem : BaseSystem
     {
@@ -18,7 +18,7 @@ namespace Systems
             foreach (var entityId in _componentManager.GetAllEntitiesWithComponent<CameraComponent>())
             {
                 var camera = _componentManager.GetComponent<CameraComponent>(entityId);
-                var targetTransform = camera?.Target.GetComponent<TransformComponent>();
+                var targetTransform = camera?.Target.GetComponent<TransformBaseComponent>();
 
                 if (camera != null && targetTransform != null)
                 {

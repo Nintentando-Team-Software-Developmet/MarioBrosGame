@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
-using Components;
-using Managers;
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Managers;
 
-namespace Systems
+namespace SuperMarioBros.Source.Systems
 {
     public class PhysicsSystem : BaseSystem
     {
@@ -15,14 +15,15 @@ namespace Systems
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var entityId in _componentManager.GetAllEntitiesWithComponent<PhysicsComponent>())
+            foreach (var entityId in _componentManager.GetAllEntitiesWithComponent<PhysicsBaseComponent>())
             {
-                var transform = _componentManager.GetComponent<TransformComponent>(entityId);
-                var physics = _componentManager.GetComponent<PhysicsComponent>(entityId);
+                var transform = _componentManager.GetComponent<TransformBaseComponent>(entityId);
+                var physics = _componentManager.GetComponent<PhysicsBaseComponent>(entityId);
 
                 if (transform != null && physics != null)
                 {
-                    transform.Position += physics.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (gameTime != null)
+                        transform.Position += physics.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
         }

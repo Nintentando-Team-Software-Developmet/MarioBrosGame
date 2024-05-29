@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Systems;
+using SuperMarioBros.Source.Systems;
 
-namespace Managers
+namespace SuperMarioBros.Source.Managers
 {
     public class SystemManager
     {

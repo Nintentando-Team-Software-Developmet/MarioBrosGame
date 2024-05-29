@@ -1,21 +1,21 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Core;
-using Levels;
+using SuperMarioBros.Source.Core;
+using SuperMarioBros.Source.Levels;
 using Services;
 
-namespace MarioGame
+namespace SuperMarioBros
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public GraphicsDeviceManager Graphics { get; }
+        public SpriteBatch Batch { get; private set; }
         private World _world;
         private WorldInitializer _worldInitializer;
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -30,7 +30,7 @@ namespace MarioGame
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Batch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,16 +50,16 @@ namespace MarioGame
         {
             _world.LoadLevel(levelData);
         }
-    }
 
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
+        protected override void Dispose(bool disposing)
         {
-            _spriteBatch?.Dispose();
-            _graphics?.Dispose();
-        }
+            if (disposing)
+            {
+                Batch?.Dispose();
+                Graphics?.Dispose();
+            }
 
-        base.Dispose(disposing);
+            base.Dispose(disposing);
+        }
     }
 }

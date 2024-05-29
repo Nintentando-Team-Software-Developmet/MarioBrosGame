@@ -1,11 +1,11 @@
 
-namespace Events
+namespace SuperMarioBros.Source.Events
 {
-    public class Event
+    public class BaseEvent
     {
         public string Name { get; set; }
 
-        public Event(string name)
+        public BaseEvent(string name)
         {
             Name = name;
         }

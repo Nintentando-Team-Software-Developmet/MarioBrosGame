@@ -1,20 +1,21 @@
+using System;
 using System.Collections.Generic;
-using Entities;
+using SuperMarioBros.Source.Entities;
 
-namespace Scenes
+namespace SuperMarioBros.Source.Scenes
 {
     public class Scene
     {
-        public List<Entity> Entities { get; private set; } = new();
+        private List<Entity> Entities { get;  set; } = new();
 
         public void Load()
         {
-            // Load entities and initialize scene
+            Console.WriteLine(Entities);
         }
 
         public void Unload()
         {
-            // Clean up entities and scene
+            Console.WriteLine(Entities);
         }
     }
 }

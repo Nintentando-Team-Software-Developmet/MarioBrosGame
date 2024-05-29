@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 
-namespace Components
+namespace SuperMarioBros.Source.Components
 {
-    public class TransformComponent : Component
+    public class TransformBaseComponent : BaseComponent
     {
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }

@@ -1,19 +1,27 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace Levels
+namespace SuperMarioBros.Source.Levels
 {
     public class LevelData
     {
-        public List<EntityData> Entities { get; set; }
-        public List<TileData> Tiles { get; set; }
+        private readonly List<EntityData> _entities = new();
+        private readonly List<TileData> _tiles = new();
+
+        public IReadOnlyList<EntityData> Entities => _entities.AsReadOnly();
+        public IReadOnlyList<TileData> Tiles => _tiles.AsReadOnly();
+
+        public void AddEntity(EntityData entity) => _entities.Add(entity);
+        public void AddTile(TileData tile) => _tiles.Add(tile);
     }
 
     public class EntityData
     {
+        private readonly List<ComponentData> _components = new();
+
         public string Type { get; set; }
         public Vector2 Position { get; set; }
-        public List<ComponentData> Components { get; set; }
+        public IReadOnlyList<ComponentData> Components => _components.AsReadOnly();
     }
 
     public class ComponentData
@@ -23,7 +31,6 @@ namespace Levels
         public float Rotation { get; set; }
         public Vector2 Scale { get; set; }
         public string TexturePath { get; set; }
-        // Add other component-specific fields as needed
     }
 
     public class TileData

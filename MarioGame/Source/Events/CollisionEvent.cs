@@ -1,6 +1,6 @@
-namespace Events
+namespace SuperMarioBros.Source.Events
 {
-    public class CollisionEvent : Event
+    public class CollisionEvent : BaseEvent
     {
         public int Entity1 { get; set; }
         public int Entity2 { get; set; }

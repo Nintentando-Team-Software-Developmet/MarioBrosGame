@@ -1,14 +1,14 @@
-using Components;
+using SuperMarioBros.Source.Components;
 
-namespace Entities
+namespace SuperMarioBros.Source.Entities
 {
     public class PlayerEntity : Entity
     {
         public PlayerEntity(int id) : base(id)
         {
-            AddComponent(new TransformComponent());
-            AddComponent(new PhysicsComponent());
-            AddComponent(new SpriteComponent());
+            AddComponent(new TransformBaseComponent());
+            AddComponent(new PhysicsBaseComponent());
+            AddComponent(new SpriteBaseComponent());
         }
     }
 }

@@ -1,22 +1,22 @@
 using System;
 using System.Collections.Generic;
 
-namespace Events
+namespace SuperMarioBros.Source.Events
 {
     public class EventDispatcher
     {
-        private Dictionary<Type, List<Action<Event>>> _subscribers = new();
+        private Dictionary<Type, List<Action<BaseEvent>>> _subscribers = new();
 
-        public void Subscribe<T>(Action<Event> callback) where T : Event
+        public void Subscribe<T>(Action<BaseEvent> callback) where T : BaseEvent
         {
             if (!_subscribers.ContainsKey(typeof(T)))
             {
-                _subscribers[typeof(T)] = new List<Action<Event>>();
+                _subscribers[typeof(T)] = new List<Action<BaseEvent>>();
             }
             _subscribers[typeof(T)].Add(callback);
         }
 
-        public void Unsubscribe<T>(Action<Event> callback) where T : Event
+        public void Unsubscribe<T>(Action<BaseEvent> callback) where T : BaseEvent
         {
             if (_subscribers.ContainsKey(typeof(T)))
             {
@@ -24,14 +24,17 @@ namespace Events
             }
         }
 
-        public void Dispatch(Event evt)
+        public void Dispatch(InputEvent evt)
         {
-            var type = evt.GetType();
-            if (_subscribers.ContainsKey(type))
+            if (evt != null)
             {
-                foreach (var subscriber in _subscribers[type])
+                var type = evt.GetType();
+                if (_subscribers.ContainsKey(type))
                 {
-                    subscriber.Invoke(evt);
+                    foreach (var subscriber in _subscribers[type])
+                    {
+                        subscriber.Invoke(evt);
+                    }
                 }
             }
         }
