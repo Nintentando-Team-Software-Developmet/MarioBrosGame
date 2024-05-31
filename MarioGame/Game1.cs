@@ -1,61 +1,63 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using MarioGame;
 
-namespace MarioGame;
-
-public class Game1 : Game
+namespace SuperMarioBros
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
-    public Game1()
+    public class Game1 : Game
     {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-    }
+        public GraphicsDeviceManager Graphics { get; }
+        public SpriteBatch Batch { get; private set; }
+        private WorldGame _world;
 
-    protected override void Initialize()
-    {
-        base.Initialize();
-    }
-
-    protected override void LoadContent()
-    {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        Sprites.Load(Content);
-
-        // TODO: use this.Content to load your game content here
-
-    }
-
-    protected override void Update(GameTime gameTime)
-    {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-        base.Update(gameTime);
-    }
-
-    protected override void Draw(GameTime gameTime)
-    {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-        _spriteBatch.Begin();
-        Vector2 scale = new Vector2(1.5f);
-        _spriteBatch.Draw(Sprites.Goomba1, new Vector2(100, 100), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-
-        _spriteBatch.End();
-        base.Draw(gameTime);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
+        public Game1()
         {
-            _spriteBatch?.Dispose();
-            _graphics?.Dispose();
+            Graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 1080,
+                PreferredBackBufferHeight = 720
+            };
+            Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
-        base.Dispose(disposing);
+        protected override void Initialize()
+        {
+            base.Initialize();
+            _world = new WorldGame();
+            //TODO: Review
+            //_worldInitializer = new WorldInitializer(GraphicsDevice);
+            //_worldInitializer.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            Batch = new SpriteBatch(GraphicsDevice);
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            Batch.Begin();
+            _world.Draw();
+            Batch.End();
+            base.Draw(gameTime);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Batch?.Dispose();
+                Graphics?.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }
