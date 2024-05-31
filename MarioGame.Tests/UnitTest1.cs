@@ -1,3 +1,5 @@
+using SuperMarioBros;
+
 namespace MarioGame.Tests;
 
 public class UnitTest1

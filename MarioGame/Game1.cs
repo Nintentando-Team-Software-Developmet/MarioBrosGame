@@ -1,41 +1,43 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using SuperMarioBros.Source.Core;
+using SuperMarioBros.Source.Levels;
+using Services;
 
-namespace MarioGame;
-
-public class Game1 : Game
+namespace SuperMarioBros
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
-    public Game1()
+    public class Game1 : Game
     {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-    }
+        public GraphicsDeviceManager Graphics { get; }
+        public SpriteBatch Batch { get; private set; }
+        private World _world;
+        private WorldInitializer _worldInitializer;
 
-    protected override void Initialize()
-    {
-        base.Initialize();
-    }
+        public Game1()
+        {
+            Graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            IsMouseVisible = true;
+        }
 
-    protected override void LoadContent()
-    {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        Sprites.Load(Content);
+        protected override void Initialize()
+        {
+            base.Initialize();
+            _world = new World();
+            _worldInitializer = new WorldInitializer(GraphicsDevice);
+            _worldInitializer.Initialize(_world);
+        }
 
-        // TODO: use this.Content to load your game content here
+        protected override void LoadContent()
+        {
+            Batch = new SpriteBatch(GraphicsDevice);
+        }
 
-    }
-
-    protected override void Update(GameTime gameTime)
-    {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-        base.Update(gameTime);
-    }
+        protected override void Update(GameTime gameTime)
+        {
+            _world.Update(gameTime);
+            base.Update(gameTime);
+        }
 
     protected override void Draw(GameTime gameTime)
     {
@@ -48,14 +50,15 @@ public class Game1 : Game
         base.Draw(gameTime);
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
+        protected override void Dispose(bool disposing)
         {
-            _spriteBatch?.Dispose();
-            _graphics?.Dispose();
-        }
+            if (disposing)
+            {
+                Batch?.Dispose();
+                Graphics?.Dispose();
+            }
 
-        base.Dispose(disposing);
+            base.Dispose(disposing);
+        }
     }
 }

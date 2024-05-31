@@ -1,0 +1,4 @@
+interface ISystem
+{
+    void Update();
+}

@@ -1,6 +1,4 @@
-using System;
-
-using MarioGame;
+using SuperMarioBros;
 
 namespace MarioGame.Tests
 {

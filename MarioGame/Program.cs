@@ -1,3 +1,3 @@
 
-using var game = new MarioGame.Game1();
+using var game = new SuperMarioBros.Game1();
 game.Run();
