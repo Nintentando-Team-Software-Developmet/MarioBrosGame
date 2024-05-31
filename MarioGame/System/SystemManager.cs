@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace System {
    public class SystemManager
@@ -8,6 +10,14 @@ namespace System {
         public SystemManager()
         {
             systems = new List<ISystem>();
+        }
+
+        public void Update()
+        {
+            foreach (ISystem system in systems)
+            {
+                system.Update();
+            }
         }
     }
 }

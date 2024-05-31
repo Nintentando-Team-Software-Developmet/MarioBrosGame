@@ -5,7 +5,8 @@ using SuperMarioBros.Source.Core;
 using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Levels;
-
+using SuperMarioBros.Source.Entities;
+using MarioGame;
 
 namespace Services
 {
@@ -18,7 +19,7 @@ namespace Services
             _graphicsDevice = graphicsDevice;
         }
 
-        public void Initialize(World world)
+        public void Initialize()
         {
             var entityManager = new EntityManager();
             var componentManager = new ComponentManager();
@@ -28,9 +29,9 @@ namespace Services
             var levelLoader = new LevelLoader(entityManager, componentManager);
             var renderingSystem = new RenderingSystem(componentManager, new SpriteBatch(_graphicsDevice));
 
-            if (world != null)
-                world.SetManagers(entityManager, componentManager, systemManager, eventDispatcher, sceneManager,
-                    levelLoader);
+            //if (world != null)
+            //    world.SetManagers(entityManager, componentManager, systemManager, eventDispatcher, sceneManager,
+            //        levelLoader);
 
             systemManager.AddSystem(new InputSystem(eventDispatcher));
             systemManager.AddSystem(new PhysicsSystem(componentManager));
