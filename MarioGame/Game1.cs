@@ -39,17 +39,16 @@ namespace SuperMarioBros
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            _world.Render(gameTime);
-            base.Draw(gameTime);
-        }
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
+        _spriteBatch.Begin();
+        Vector2 scale = new Vector2(1.5f);
+        _spriteBatch.Draw(Sprites.Goomba1, new Vector2(100, 100), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-        public void LoadNewLevel(LevelData levelData)
-        {
-            _world.LoadLevel(levelData);
-        }
+        _spriteBatch.End();
+        base.Draw(gameTime);
+    }
 
         protected override void Dispose(bool disposing)
         {
