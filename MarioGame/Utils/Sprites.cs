@@ -119,6 +119,8 @@ namespace MarioGame
         public static Texture2D PowerWalk2 { get; set; }
         public static Texture2D PowerWalk3Left { get; set; }
         public static Texture2D PowerWalk3 { get; set; }
+        public static Texture2D MountainMenu { get; set; }
+        public static Texture2D BushMenu { get; set; }
         public static void Load(ContentManager content)
         {
             if (content == null)
@@ -239,6 +241,9 @@ namespace MarioGame
             PowerWalk2 = content.Load<Texture2D>("sprites/Mario/Power/Walk-2");
             PowerWalk3Left = content.Load<Texture2D>("sprites/Mario/Power/Walk-3_l");
             PowerWalk3 = content.Load<Texture2D>("sprites/Mario/Power/Walk-3");
+
+            MountainMenu = content.Load<Texture2D>("sprites/props/mountain");
+            BushMenu = content.Load<Texture2D>("sprites/props/bush");
         }
     }
 }
