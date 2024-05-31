@@ -39,24 +39,25 @@ public class Player:EntityBase
     public override void Update()
     {
         GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+        KeyboardState keyboardState = Keyboard.GetState();
 
         velocity = Vector2.Zero;
 
 
-        if (gamePadState.ThumbSticks.Left.X < -0.1f)
+        if (gamePadState.ThumbSticks.Left.X < -0.1f  || keyboardState.IsKeyDown(Keys.Left))
         {
             velocity = velocity with { X = -playerSpeed };
         }
 
 
-        if (gamePadState.ThumbSticks.Left.X > 0.1f)
+        if (gamePadState.ThumbSticks.Left.X > 0.1f || keyboardState.IsKeyDown(Keys.Right) )
         {
             velocity = velocity with { X = playerSpeed };
         }
 
-        HandleJumping(gamePadState);
+        HandleJumping(gamePadState,keyboardState);
 
-        isBending = gamePadState.IsButtonDown(Buttons.LeftThumbstickDown);
+        isBending = gamePadState.IsButtonDown(Buttons.LeftThumbstickDown) || keyboardState.IsKeyDown(Keys.Down);
 
         position += velocity;
 
@@ -64,13 +65,13 @@ public class Player:EntityBase
     }
 
 
-    private void HandleJumping(GamePadState gamePadState)
+    private void HandleJumping(GamePadState gamePadState,KeyboardState keyboardState)
     {
 
         const float jumpHeight = 30f;
         const float fallSpeed = 1f;
 
-        if (gamePadState.IsButtonDown(Buttons.LeftThumbstickUp) && !isJumping)
+        if ((gamePadState.IsButtonDown(Buttons.LeftThumbstickUp) || keyboardState.IsKeyDown(Keys.Up) ) && !isJumping)
         {
             if (position.Y == originalYPosition)
             {
