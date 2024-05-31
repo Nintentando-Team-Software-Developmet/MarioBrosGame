@@ -8,7 +8,9 @@ namespace SuperMarioBros
     {
         public GraphicsDeviceManager Graphics { get; }
         public SpriteBatch Batch { get; private set; }
+        public SpriteFont Font { get; private set; }
         private WorldGame _world;
+        private SpriteData spriteData;
 
         public Game1()
         {
@@ -18,21 +20,17 @@ namespace SuperMarioBros
                 PreferredBackBufferHeight = 720
             };
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-            _world = new WorldGame();
-            //TODO: Review
-            //_worldInitializer = new WorldInitializer(GraphicsDevice);
-            //_worldInitializer.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
             Batch = new SpriteBatch(GraphicsDevice);
+            Font = Content.Load<SpriteFont>("Fonts/Title");
+            spriteData = new SpriteData(Batch,Font );
+            _world = new WorldGame(spriteData);
+            _world.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
@@ -43,9 +41,7 @@ namespace SuperMarioBros
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            Batch.Begin();
             _world.Draw();
-            Batch.End();
             base.Draw(gameTime);
         }
 

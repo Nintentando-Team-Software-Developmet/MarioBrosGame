@@ -25,7 +25,7 @@ namespace Services
             var componentManager = new ComponentManager();
             var systemManager = new SystemManager();
             var eventDispatcher = new EventDispatcher();
-            var sceneManager = new SceneManager();
+            //var sceneManager = new SceneManager();
             var levelLoader = new LevelLoader(entityManager, componentManager);
             var renderingSystem = new RenderingSystem(componentManager, new SpriteBatch(_graphicsDevice));
 
