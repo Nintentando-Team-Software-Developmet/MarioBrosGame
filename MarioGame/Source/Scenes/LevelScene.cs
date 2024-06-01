@@ -11,10 +11,9 @@ namespace SuperMarioBros.Source.Scenes
     {
         private List<Entity> Entities { get;  set; } = new();
 
-
-        public void Load()
+        public void Load(SpriteData spriteData)
         {
-            Console.WriteLine(Entities);
+            throw new NotImplementedException();
         }
 
         public void Unload()
@@ -24,7 +23,7 @@ namespace SuperMarioBros.Source.Scenes
 
         public  void Draw(SpriteData spriteData)
         {
-            
+
             Console.WriteLine(Entities);
         }
     }

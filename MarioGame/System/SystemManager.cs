@@ -19,5 +19,10 @@ namespace System {
                 system.Update();
             }
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

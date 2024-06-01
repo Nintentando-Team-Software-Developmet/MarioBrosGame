@@ -27,8 +27,9 @@ namespace SuperMarioBros
         {
             base.Initialize();
             Batch = new SpriteBatch(GraphicsDevice);
+            Sprites.Load(Content);
             Font = Content.Load<SpriteFont>("Fonts/Title");
-            spriteData = new SpriteData(Batch,Font );
+            spriteData = new SpriteData(Batch,Font, Content, Graphics);
             _world = new WorldGame(spriteData);
             _world.Initialize();
         }
@@ -51,6 +52,7 @@ namespace SuperMarioBros
             {
                 Batch?.Dispose();
                 Graphics?.Dispose();
+                _world?.Dispose();
             }
 
             base.Dispose(disposing);
