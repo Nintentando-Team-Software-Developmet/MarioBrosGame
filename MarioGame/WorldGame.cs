@@ -1,22 +1,19 @@
-
+using SuperMarioBros;
+using SuperMarioBros.Source.Scenes;
 using System;
 
-using Microsoft.Xna.Framework.Graphics;
-using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Source.Scenes;
-using Microsoft.Xna.Framework;
-using SuperMarioBros;
 
 namespace MarioGame
 {
-    /** 
+    /**
     * This class is responsible for managing the game world.
     * It contains a SystemManager and a SceneManager.
     */
-    public class WorldGame
+    public class WorldGame : IDisposable
     {
         private SystemManager systemManager;
         private SceneManager sceneManager;
+        private bool disposed;
 
         public WorldGame(SpriteData spriteData)
         {
@@ -25,16 +22,39 @@ namespace MarioGame
         }
 
         public void Initialize()
-        {   ;
-            sceneManager.AddScene("Menu", new MenuScene());
-            sceneManager.setScene("Menu");
+        {
+            using (var menuScene = new MenuScene())
+            {
+                sceneManager.AddScene("Menu", menuScene);
+                sceneManager.setScene("Menu");
+                sceneManager.LoadScene("Menu");
+            }
         }
 
         public void Draw()
-
         {
             sceneManager.DrawScene();
             systemManager.Update();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                systemManager?.Dispose();
+                sceneManager?.Dispose();
+            }
+
+            disposed = true;
         }
     }
 }

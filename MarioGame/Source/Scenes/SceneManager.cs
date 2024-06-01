@@ -19,20 +19,20 @@ namespace SuperMarioBros.Source.Scenes
         public void AddScene(string name, IScene scene)
         {
             _scenes[name] = scene;
-            
+
         }
 
         public void ChangeScene(string name)
         {
             _currentScene?.Unload();
             _currentScene = _scenes[name];
-            _currentScene.Load();
+            _currentScene.Load(this._spriteData);
         }
 
         public void LoadScene(string name)
         {
             _currentScene = _scenes[name];
-            _currentScene.Load();
+            _currentScene.Load(this._spriteData);
         }
 
         public void DrawScene(){
@@ -43,5 +43,9 @@ namespace SuperMarioBros.Source.Scenes
             _currentScene = _scenes[name];
         }
 
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
