@@ -1,12 +1,11 @@
-using SuperMarioBros;
+using SuperMarioBros.Utils.DataStructures;
 
-namespace MarioGame.Source.Scenes
+namespace SuperMarioBros.Source.Scenes
 {
     public interface IScene
     {
         void Load(SpriteData spriteData);
         void Unload();
-
         void Draw(SpriteData spriteData);
     }
 }

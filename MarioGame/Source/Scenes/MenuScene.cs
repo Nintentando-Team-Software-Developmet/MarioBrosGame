@@ -1,11 +1,12 @@
 using System;
 
-using MarioGame;
-using MarioGame.Source.Scenes;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes
 {
@@ -16,7 +17,7 @@ namespace SuperMarioBros.Source.Scenes
      */
     public class MenuScene : IScene, IDisposable
     {
-        private bool disposed;
+        private bool _disposed;
         private string Screen { get; set; } = "Screen";
 
         /*
@@ -29,22 +30,29 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Load(SpriteData spriteData)
         {
-            Sprites.Load(spriteData?.content);
+            if (spriteData == null) return;
 
-            MediaPlayer.Play(spriteData?.content.Load<Song>("Sounds/mario-bros-remix"));
+            Sprites.Load(spriteData.content);
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/mario-bros-remix"));
             MediaPlayer.IsRepeating = true;
         }
 
-        //TODO: Implement
-        /*protected void Update(GameTime gameTime)
+        /*
+         * Updates the menu scene.
+         * Handles user input to transition to other scenes.
+         */
+        public static void Update(GameTime gameTime, SceneManager sceneManager)
         {
             var gamePadState = GamePad.GetState(PlayerIndex.One);
+            var keyboardState = Keyboard.GetState();
 
-            if (gamePadState.Buttons.B == ButtonState.Pressed)
+            if (gamePadState.Buttons.Start == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Enter))
             {
-                DrawMessage("Button pressed");
+                if (sceneManager != null)
+                    sceneManager
+                        .ChangeScene("LevelScene"); // Assuming "LevelScene" is the identifier for your level scene
             }
-        }*/
+        }
 
         /*
          * Unloads resources and performs cleanup operations for the menu scene.
@@ -63,11 +71,13 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Draw(SpriteData spriteData)
         {
-            spriteData?.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
+            if (spriteData == null) return;
+
+            spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
 
             spriteData.spriteBatch.Begin();
             DrawBricks(spriteData);
-            DrawScene(spriteData);
+            DrawSceneElements(spriteData);
             DrawMario(spriteData);
             DrawTitle(spriteData);
             DrawTextWithNumber("MONEDAS", "000000", 70, 10, spriteData);
@@ -98,7 +108,7 @@ namespace SuperMarioBros.Source.Scenes
         /*
          * Draws the scenery elements such as mountains and bushes.
          */
-        private static void DrawScene(SpriteData spriteData)
+        private static void DrawSceneElements(SpriteData spriteData)
         {
             Vector2 mountainPosition = new Vector2(90, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.MountainMenu.Height * 1.45f));
             spriteData.spriteBatch.Draw(Sprites.MountainMenu, mountainPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(1f), SpriteEffects.None, 0f);
@@ -157,7 +167,6 @@ namespace SuperMarioBros.Source.Scenes
             DrawBackground(spriteData);
 
             float fontSize = 60f;
-
             Vector2 textSize = spriteData.spriteFont.MeasureString("MARIO BROS") * (fontSize / spriteData.spriteFont.LineSpacing);
 
             Rectangle textRectangle = new Rectangle(260, 90, 600, 300);
@@ -222,14 +231,15 @@ namespace SuperMarioBros.Source.Scenes
         */
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
             {
+                // Release managed resources here
             }
 
-            disposed = true;
+            _disposed = true;
         }
     }
 }

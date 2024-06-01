@@ -1,11 +1,11 @@
 using System;
 
-using MarioGame;
-using MarioGame.Source.Scenes;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+
+using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes;
 
