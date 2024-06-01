@@ -37,7 +37,7 @@ namespace SuperMarioBros.Source.Scenes
 
         public void Unload()
         {
-            Console.WriteLine(Screen);
+            //Console.WriteLine(Screen);
         }
 
         public void Draw(SpriteData spriteData)

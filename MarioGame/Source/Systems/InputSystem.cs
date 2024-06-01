@@ -46,6 +46,8 @@ namespace SuperMarioBros.Source.Systems
                         {
                             velocity.Velocity += new Vector2(0, 1);
                         }
+
+                        //Console.WriteLine("Velocity: " + velocity.Velocity);
                     }
                 }
 
