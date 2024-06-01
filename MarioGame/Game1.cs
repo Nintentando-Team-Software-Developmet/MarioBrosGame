@@ -11,6 +11,7 @@ namespace SuperMarioBros
         public SpriteFont Font { get; private set; }
         private WorldGame _world;
         private SpriteData spriteData;
+        private Texture2D _pixelTexture;
 
         public Game1()
         {
@@ -29,7 +30,9 @@ namespace SuperMarioBros
             Batch = new SpriteBatch(GraphicsDevice);
             Sprites.Load(Content);
             Font = Content.Load<SpriteFont>("Fonts/Title");
-            spriteData = new SpriteData(Batch,Font, Content, Graphics);
+            _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
+            _pixelTexture.SetData(new Color[] { Color.White });
+            spriteData = new SpriteData(Batch, Font, Content, Graphics, _pixelTexture);
             _world = new WorldGame(spriteData);
             _world.Initialize();
         }
@@ -53,6 +56,7 @@ namespace SuperMarioBros
                 Batch?.Dispose();
                 Graphics?.Dispose();
                 _world?.Dispose();
+                _pixelTexture?.Dispose();
             }
 
             base.Dispose(disposing);
