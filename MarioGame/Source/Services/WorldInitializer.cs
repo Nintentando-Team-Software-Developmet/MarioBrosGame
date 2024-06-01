@@ -6,7 +6,6 @@ using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Levels;
 using SuperMarioBros.Source.Entities;
-using MarioGame;
 
 namespace Services
 {

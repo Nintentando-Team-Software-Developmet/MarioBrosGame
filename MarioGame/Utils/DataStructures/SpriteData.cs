@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 
-namespace SuperMarioBros
+namespace SuperMarioBros.Utils.DataStructures
 {
     /**
     * This class manage the sprite data.
