@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -18,6 +19,7 @@ namespace SuperMarioBros.Source.Scenes
     public class LevelScene : IScene, IDisposable
     {
         private List<Entity> Entities { get; set; } = new();
+        private List<BaseSystem> Systems { get; set; } = new();
         private bool _disposed;
 
         /*
@@ -29,23 +31,30 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Load(SpriteData spriteData)
         {
-            //if (spriteData == null) return;
-
-            // Example loading logic, replace with actual entity loading
-            /*var mario = new Mario
+            // Load player entity
+            var playerTextures = new Texture2D[]
             {
-                Position = new Vector2(100, 100),
-                Texture = spriteData.content.Load<Texture2D>("Sprites/Mario")
+                Utils.Sprites.BigStop,
+                Utils.Sprites.BigWalk1,
+                Utils.Sprites.BigWalk2,
+                Utils.Sprites.BigWalk1Left,
+                Utils.Sprites.BigWalk2Left,
+                Utils.Sprites.BigBend,
+                Utils.Sprites.BigBendLeft,
+                Utils.Sprites.BigStopLeft,
+                Utils.Sprites.BigJumpBack,
+                Utils.Sprites.BigJumpBackLeft,
+                Utils.Sprites.BigWalk3,
+                Utils.Sprites.BigWalk3Left,
+                Utils.Sprites.BigRun,
+                Utils.Sprites.BigRunLeft
             };
+            var player = new PlayerEntity(playerTextures, new Vector2(100, 100));
+            Entities.Add(player);
 
-            Entities.Add(mario);
-*/
-            // Load other entities like enemies, obstacles, etc.
-            // Example: var goomba = new Goomba { Position = new Vector2(200, 100), Texture = spriteData.content.Load<Texture2D>("Sprites/Goomba") };
-            // Entities.Add(goomba);
-
-            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/mario-bros-remix.mp3"));
-            //MediaPlayer.IsRepeating = true;
+            Systems.Add(new InputSystem());
+            Systems.Add(new MovementSystem());
+            if (spriteData != null) Systems.Add(new AnimationSystem(spriteData.spriteBatch));
         }
 
         /*
@@ -59,25 +68,53 @@ namespace SuperMarioBros.Source.Scenes
             Entities.Clear();
         }
 
+/*
+         * Updates the level scene.
+         * This method updates all entities in the scene and processes systems.
+         *
+         * Parameters:
+         *   gameTime: GameTime object containing timing information.
+         */
+        public void Update(GameTime gameTime, SceneManager sceneManager)
+        {
+            foreach (var system in Systems)
+            {
+                system.Update(gameTime, Entities);
+            }
+        }
+
         /*
          * Draws the level scene on the screen.
          * This method clears the graphics device, then draws all entities in the scene.
          */
-        public void Draw(SpriteData spriteData)
+        public void Draw(SpriteData spriteData, GameTime gameTime)
         {
             if (spriteData == null) return;
 
             spriteData.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //spriteData.spriteBatch.Begin();
+            spriteData.spriteBatch.Begin();
 
-            /*foreach (var entity in Entities)
+            // Draw entities using the AnimationSystem
+            foreach (var system in Systems)
             {
-                spriteData.spriteBatch.Draw(entity.Texture, entity.Position, Color.White);
+                if (system is IRenderableSystem renderableSystem)
+                {
+                    renderableSystem.Draw(gameTime, Entities);
+                }
             }
-            */
+            spriteData.spriteBatch.End();
 
-            //spriteData.spriteBatch.End();
+        }
+
+        public string GetSceneType()
+        {
+            return "Level";
+        }
+
+        public void Draw(SpriteData spriteData)
+        {
+            throw new NotImplementedException();
         }
 
         /*

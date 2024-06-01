@@ -5,36 +5,44 @@ namespace SuperMarioBros.Source.Events
 {
     public class EventDispatcher
     {
-        private Dictionary<Type, List<Action<BaseEvent>>> _subscribers = new();
+        private static EventDispatcher _instance;
+        private readonly Dictionary<Type, List<Action<object>>> _eventListeners = new();
 
-        public void Subscribe<T>(Action<BaseEvent> callback) where T : BaseEvent
+        private EventDispatcher() { }
+
+        public static EventDispatcher Instance => _instance ??= new EventDispatcher();
+
+        public void Subscribe<T>(Action<object> listener)
         {
-            if (!_subscribers.ContainsKey(typeof(T)))
+            var eventType = typeof(T);
+
+            if (!_eventListeners.ContainsKey(eventType))
             {
-                _subscribers[typeof(T)] = new List<Action<BaseEvent>>();
+                _eventListeners[eventType] = new List<Action<object>>();
             }
-            _subscribers[typeof(T)].Add(callback);
+
+            _eventListeners[eventType].Add(listener);
         }
 
-        public void Unsubscribe<T>(Action<BaseEvent> callback) where T : BaseEvent
+        public void Unsubscribe<T>(Action<object> listener)
         {
-            if (_subscribers.ContainsKey(typeof(T)))
+            var eventType = typeof(T);
+
+            if (_eventListeners.ContainsKey(eventType))
             {
-                _subscribers[typeof(T)].Remove(callback);
+                _eventListeners[eventType].Remove(listener);
             }
         }
 
-        public void Dispatch(InputEvent evt)
+        public void Dispatch<T>(T eventArgs)
         {
-            if (evt != null)
+            var eventType = typeof(T);
+
+            if (_eventListeners.ContainsKey(eventType))
             {
-                var type = evt.GetType();
-                if (_subscribers.ContainsKey(type))
+                foreach (var listener in _eventListeners[eventType])
                 {
-                    foreach (var subscriber in _subscribers[type])
-                    {
-                        subscriber.Invoke(evt);
-                    }
+                    listener.Invoke(eventArgs);
                 }
             }
         }

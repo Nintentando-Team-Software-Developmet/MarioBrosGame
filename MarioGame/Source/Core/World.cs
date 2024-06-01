@@ -1,44 +1,42 @@
-using SuperMarioBros.Source.Managers;
-using SuperMarioBros.Source.Events;
-using SuperMarioBros.Source.Scenes;
-using SuperMarioBros.Source.Levels;
-
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Managers;
+using SuperMarioBros.Source.Systems;
 
 namespace SuperMarioBros.Source.Core
 {
     public class World
     {
         private EntityManager _entityManager;
-        private ComponentManager _componentManager;
         private SystemManager _systemManager;
-        private EventDispatcher _eventDispatcher;
-        private SceneManager _sceneManager;
-        private LevelLoader _levelLoader;
 
-        public void SetManagers(EntityManager entityManager, ComponentManager componentManager, SystemManager systemManager, EventDispatcher eventDispatcher, SceneManager sceneManager, LevelLoader levelLoader)
+        public World(SpriteBatch spriteBatch)
         {
-            _entityManager = entityManager;
-            _componentManager = componentManager;
-            _systemManager = systemManager;
-            _eventDispatcher = eventDispatcher;
-            _sceneManager = sceneManager;
-            _levelLoader = levelLoader;
+            _entityManager = new EntityManager();
+            _systemManager = new SystemManager();
+
+            _systemManager.AddSystem(new AnimationSystem(spriteBatch));
+            _systemManager.AddSystem(new InputSystem());
+            _systemManager.AddSystem(new MovementSystem());
+        }
+
+        public void AddEntity(Entity entity)
+        {
+            _entityManager.AddEntity(entity);
         }
 
         public void Update(GameTime gameTime)
         {
-            _systemManager.UpdateSystems(gameTime);
+            var entities = _entityManager.GetEntities();
+            _systemManager.UpdateSystems(gameTime, entities);
         }
 
-        public void Render(GameTime gameTime)
+        public void Draw(GameTime gameTime)
         {
-            _systemManager.RenderSystems(gameTime);
-        }
-
-        public void LoadLevel(LevelData levelData)
-        {
-            _levelLoader.LoadLevel(levelData);
+            var entities = _entityManager.GetEntities();
+            _systemManager.DrawSystems(gameTime, entities);
         }
     }
 }
