@@ -1,6 +1,8 @@
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
 using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
 
 namespace SuperMarioBros.Source.Systems
@@ -14,7 +16,7 @@ namespace SuperMarioBros.Source.Systems
             _componentManager = componentManager;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             foreach (var entityId in _componentManager.GetAllEntitiesWithComponent<CameraComponent>())
             {
@@ -27,5 +29,6 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
         }
+
     }
 }

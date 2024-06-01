@@ -40,11 +40,12 @@ namespace SuperMarioBros
             {
                 _sceneManager.ChangeScene("Level1");
             }
+            _sceneManager.UpdateScene(gameTime);
         }
 
-        public void Draw()
+        public void Draw(GameTime gameTime)
         {
-            _sceneManager.DrawScene();
+            _sceneManager.DrawScene(gameTime);
         }
 
         public void Dispose()

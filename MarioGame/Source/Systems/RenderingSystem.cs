@@ -1,8 +1,11 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Managers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -17,9 +20,6 @@ namespace SuperMarioBros.Source.Systems
             _spriteBatch = spriteBatch;
         }
 
-        public override void Update(GameTime gameTime)
-        {
-        }
 
         public void Render(GameTime gameTime)
         {
@@ -31,6 +31,16 @@ namespace SuperMarioBros.Source.Systems
                 _spriteBatch.Draw(sprite.Texture, transform.Position, Color.White);
             }
             _spriteBatch.End();
+        }
+
+        public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

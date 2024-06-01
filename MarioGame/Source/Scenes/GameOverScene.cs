@@ -70,6 +70,22 @@ public class GameOverScene : IScene, IDisposable
 
         spriteData.spriteBatch.End();
     }
+
+    public void Draw(SpriteData spriteData, GameTime gameTime)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(GameTime gameTime, SceneManager sceneManager)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string GetSceneType()
+    {
+        throw new NotImplementedException();
+    }
+
     /*
      * Draws text followed by a number at the specified position.
      *

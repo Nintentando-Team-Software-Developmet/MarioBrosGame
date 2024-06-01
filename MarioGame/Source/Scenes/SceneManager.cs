@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes
@@ -35,11 +37,22 @@ namespace SuperMarioBros.Source.Scenes
             _currentScene.Load(_spriteData);
         }
 
-        public void DrawScene()
+        public void DrawScene(GameTime gameTime)
         {
-            _currentScene?.Draw(_spriteData);
+            if (_currentScene.GetSceneType() == "Menu")
+            {
+                _currentScene.Draw(_spriteData);
+            }
+            else
+            {
+                _currentScene.Draw(_spriteData, gameTime);
+            }
         }
 
+        public void UpdateScene(GameTime gameTime)
+        {
+            _currentScene?.Update(gameTime, this);
+        }
         public void Dispose()
         {
             Dispose(true);
