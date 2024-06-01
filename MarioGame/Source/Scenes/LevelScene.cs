@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using MarioGame.Source.Scenes;
 
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes
 {
-    public class LevelScene: IScene
+    public class LevelScene : IScene
     {
-        private List<Entity> Entities { get;  set; } = new();
+        private List<Entity> Entities { get; set; } = new();
 
 
         public void Load()
@@ -22,9 +23,9 @@ namespace SuperMarioBros.Source.Scenes
             Console.WriteLine(Entities);
         }
 
-        public  void Draw(SpriteData spriteData)
+        public void Draw(SpriteData spriteData)
         {
-            
+
             Console.WriteLine(Entities);
         }
     }

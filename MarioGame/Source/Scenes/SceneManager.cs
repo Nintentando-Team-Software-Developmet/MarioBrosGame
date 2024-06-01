@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using MarioGame.Source.Scenes;
 
+using SuperMarioBros.Utils.DataStructures;
+
 namespace SuperMarioBros.Source.Scenes
 {
     public class SceneManager
@@ -19,7 +21,7 @@ namespace SuperMarioBros.Source.Scenes
         public void AddScene(string name, IScene scene)
         {
             _scenes[name] = scene;
-            
+
         }
 
         public void ChangeScene(string name)
@@ -35,11 +37,13 @@ namespace SuperMarioBros.Source.Scenes
             _currentScene.Load();
         }
 
-        public void DrawScene(){
-             _currentScene.Draw(_spriteData);
+        public void DrawScene()
+        {
+            _currentScene.Draw(_spriteData);
         }
 
-        public void setScene(string name){
+        public void setScene(string name)
+        {
             _currentScene = _scenes[name];
         }
 
