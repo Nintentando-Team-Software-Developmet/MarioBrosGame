@@ -13,12 +13,14 @@ namespace SuperMarioBros.Source.Systems
     {
 
         private KeyboardState _currentKeyboardState;
+        private GamePadState gamePadState ;
 
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
 
             _currentKeyboardState = Keyboard.GetState();
+             gamePadState = GamePad.GetState(PlayerIndex.One);
 
             if (entities != null)
                 foreach (var entity in entities)
@@ -34,23 +36,23 @@ namespace SuperMarioBros.Source.Systems
 
                         velocity.Velocity = Vector2.Zero;
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Left))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Left) || gamePadState.ThumbSticks.Left.X < -0.1f)
                         {
                             velocity.Velocity += new Vector2(-1, 0);
                         }
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Right))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Right) || gamePadState.ThumbSticks.Left.X > 0.1f)
                         {
                             velocity.Velocity += new Vector2(1, 0);
                         }
 
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Up))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Up) || gamePadState.IsButtonDown(Buttons.LeftThumbstickUp))
                         {
                             velocity.Velocity += new Vector2(0, -1);
                         }
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Down))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Down) || gamePadState.IsButtonDown(Buttons.LeftThumbstickDown))
                         {
                             velocity.Velocity += new Vector2(0, 1);
                         }
