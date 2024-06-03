@@ -60,7 +60,8 @@ public class GameOverScene : IScene, IDisposable
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
 
         spriteData.spriteBatch.Begin();
-        DrawTextWithNumber("COINS", $"{_coins}", 70, 10, spriteData);
+        DrawCoin(spriteData);
+        DrawTextWithNumber("", $"{_coins}", 80, 10, spriteData);
         DrawTextWithNumber("WORLD", _world, 550, 10, spriteData);
         DrawTextWithNumber("TIME", $"{_time}", 900, 10, spriteData);
         DrawText("GAME OVER", 500, 300, spriteData);
@@ -117,6 +118,11 @@ public class GameOverScene : IScene, IDisposable
         GC.SuppressFinalize(this);
     }
 
+    private static void DrawCoin(SpriteData spriteData)
+    {
+        Vector2 position = new Vector2(60, 20);
+        spriteData.spriteBatch.Draw(Sprites.CoinIcon, position, null, Color.White, 0f, Vector2.Zero, new Vector2(2f), SpriteEffects.None, 0f);
+    }
     /*
     * Releases managed resources if disposing is true.
     */

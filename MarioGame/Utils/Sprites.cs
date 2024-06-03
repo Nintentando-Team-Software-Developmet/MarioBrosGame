@@ -51,6 +51,8 @@ namespace MarioGame
         // Props
         public static Texture2D CastleBrown { get; set; }
         public static Texture2D CastleBlue { get; set; }
+        public static Texture2D CoinIcon { get; set; }
+
         public static Texture2D WinFlagGreen { get; set; }
         public static Texture2D WinFlagBrown { get; set; }
         public static Texture2D WinFlagWhite { get; set; }
@@ -173,6 +175,7 @@ namespace MarioGame
             // Props
             CastleBrown = content.Load<Texture2D>("sprites/props/castle_1");
             CastleBlue = content.Load<Texture2D>("sprites/props/castle_2");
+            CoinIcon = content.Load<Texture2D>("sprites/props/coin_icon_1");
             WinFlagGreen = content.Load<Texture2D>("sprites/props/win_flag_1");
             WinFlagBrown = content.Load<Texture2D>("sprites/props/win_flag_2");
             WinFlagWhite = content.Load<Texture2D>("sprites/props/win_flag_3");
