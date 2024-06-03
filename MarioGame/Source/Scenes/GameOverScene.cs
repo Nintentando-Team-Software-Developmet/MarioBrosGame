@@ -11,19 +11,19 @@ namespace SuperMarioBros.Source.Scenes;
 
 public class GameOverScene : IScene, IDisposable
 {
-    private bool disposed;
-    private string Screen { get; set; } = "Screen";
-    private int RemainingLives;
-    private int Coins;
-    private string World;
-    private int Time;
+    private bool _disposed;
+    private string _screen { get; set; } = "Screen";
+    private int _remainingLives;
+    private int _coins;
+    private string _world;
+    private int _time;
 
     public GameOverScene(int remainingLives, int coins, string world, int time)
     {
-        RemainingLives = remainingLives;
-        Coins = coins;
-        World = world;
-        Time = time;
+        _remainingLives = remainingLives;
+        _coins = coins;
+        _world = world;
+        _time = time;
     }
 
 
@@ -47,7 +47,7 @@ public class GameOverScene : IScene, IDisposable
      */
     public void Unload()
     {
-        Console.WriteLine(Screen);
+        Console.WriteLine(_screen);
     }
 
     /*
@@ -60,11 +60,11 @@ public class GameOverScene : IScene, IDisposable
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
 
         spriteData.spriteBatch.Begin();
-        DrawTextWithNumber("COINS", $"{Coins}", 70, 10, spriteData);
-        DrawTextWithNumber("WORLD", World, 550, 10, spriteData);
-        DrawTextWithNumber("TIME", $"{Time}", 900, 10, spriteData);
+        DrawTextWithNumber("COINS", $"{_coins}", 70, 10, spriteData);
+        DrawTextWithNumber("WORLD", _world, 550, 10, spriteData);
+        DrawTextWithNumber("TIME", $"{_time}", 900, 10, spriteData);
         DrawText("GAME OVER", 500, 300, spriteData);
-        DrawText($"MARIO x{RemainingLives}", 500, 330, spriteData);
+        DrawText($"MARIO x{_remainingLives}", 500, 330, spriteData);
 
 
         spriteData.spriteBatch.End();
@@ -122,10 +122,10 @@ public class GameOverScene : IScene, IDisposable
     */
     protected virtual void Dispose(bool disposing)
     {
-        if (disposed)
+        if (_disposed)
             return;
 
-        disposed = true;
+        _disposed = true;
     }
 }
 
