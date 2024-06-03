@@ -11,20 +11,27 @@ namespace SuperMarioBros.Source.Systems
 {
     public class InputSystem : BaseSystem
     {
+
         private KeyboardState _currentKeyboardState;
-        private KeyboardState _previousKeyboardState;
+
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
+
             _currentKeyboardState = Keyboard.GetState();
 
             if (entities != null)
                 foreach (var entity in entities)
                 {
                     var velocity = entity.GetComponent<VelocityComponent>();
+                    var position = entity.GetComponent<PositionComponent>();
+                    velocity.Velocity = new Vector2();
 
-                    if (velocity != null)
+
+                    if (position != null && velocity != null)
                     {
+                        position.LastPosition = position.Position;
+
                         velocity.Velocity = Vector2.Zero;
 
                         if (_currentKeyboardState.IsKeyDown(Keys.Left))
@@ -36,6 +43,7 @@ namespace SuperMarioBros.Source.Systems
                         {
                             velocity.Velocity += new Vector2(1, 0);
                         }
+
 
                         if (_currentKeyboardState.IsKeyDown(Keys.Up))
                         {
@@ -51,7 +59,9 @@ namespace SuperMarioBros.Source.Systems
                     }
                 }
 
-            _previousKeyboardState = _currentKeyboardState;
+
         }
+
+
     }
 }

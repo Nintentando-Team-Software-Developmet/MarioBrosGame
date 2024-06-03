@@ -11,7 +11,7 @@ namespace SuperMarioBros.Source.Entities
         {
             AddComponent(new PositionComponent(startPosition));
             AddComponent(new VelocityComponent(Vector2.Zero));
-            AddComponent(new AnimationComponent(textures, 0.1f));
+            AddComponent(new AnimationComponent(textures));
         }
     }
 }

@@ -35,19 +35,23 @@ namespace SuperMarioBros.Source.Scenes
             var playerTextures = new Texture2D[]
             {
                 Utils.Sprites.BigStop,
+                Utils.Sprites.BigRunLeft,
                 Utils.Sprites.BigWalk1,
                 Utils.Sprites.BigWalk2,
+                Utils.Sprites.BigWalk3,
+
+                Utils.Sprites.BigStopLeft,
+                Utils.Sprites.BigRun,
                 Utils.Sprites.BigWalk1Left,
                 Utils.Sprites.BigWalk2Left,
+                Utils.Sprites.BigWalk3Left,
+
                 Utils.Sprites.BigBend,
                 Utils.Sprites.BigBendLeft,
-                Utils.Sprites.BigStopLeft,
+
                 Utils.Sprites.BigJumpBack,
-                Utils.Sprites.BigJumpBackLeft,
-                Utils.Sprites.BigWalk3,
-                Utils.Sprites.BigWalk3Left,
-                Utils.Sprites.BigRun,
-                Utils.Sprites.BigRunLeft
+                Utils.Sprites.BigJumpBackLeft
+
             };
             var player = new PlayerEntity(playerTextures, new Vector2(100, 100));
             Entities.Add(player);
