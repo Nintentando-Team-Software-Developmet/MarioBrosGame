@@ -47,12 +47,12 @@ namespace SuperMarioBros.Source.Systems
                         }
 
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Up) || gamePadState.IsButtonDown(Buttons.LeftThumbstickUp))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Up) || gamePadState.IsButtonDown(Buttons.A))
                         {
                             velocity.Velocity += new Vector2(0, -1);
                         }
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Down) || gamePadState.IsButtonDown(Buttons.LeftThumbstickDown))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Down) || gamePadState.IsButtonDown(Buttons.B))
                         {
                             velocity.Velocity += new Vector2(0, 1);
                         }
