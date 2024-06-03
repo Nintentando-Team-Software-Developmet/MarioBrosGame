@@ -1,6 +1,7 @@
-using SuperMarioBros.Source.Components;
 using System;
 using System.Collections.Generic;
+
+using SuperMarioBros.Source.Components;
 
 namespace SuperMarioBros.Source.Entities
 {

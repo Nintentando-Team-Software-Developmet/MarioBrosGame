@@ -1,9 +1,9 @@
-using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Managers;
+using System;
 
 using Microsoft.Xna.Framework.Graphics;
 
-using System;
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Managers;
 
 namespace SuperMarioBros.Source.Levels
 {

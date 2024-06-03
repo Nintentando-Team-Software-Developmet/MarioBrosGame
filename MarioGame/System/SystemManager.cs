@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace System {
-   public class SystemManager
+namespace System
+{
+    public class SystemManager
     {
         private List<ISystem> systems;
 

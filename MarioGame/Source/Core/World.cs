@@ -1,9 +1,9 @@
-using SuperMarioBros.Source.Managers;
-using SuperMarioBros.Source.Events;
-using SuperMarioBros.Source.Scenes;
-using SuperMarioBros.Source.Levels;
-
 using Microsoft.Xna.Framework;
+
+using SuperMarioBros.Source.Events;
+using SuperMarioBros.Source.Levels;
+using SuperMarioBros.Source.Managers;
+using SuperMarioBros.Source.Scenes;
 
 namespace SuperMarioBros.Source.Core
 {

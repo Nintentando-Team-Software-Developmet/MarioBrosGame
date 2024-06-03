@@ -7,9 +7,9 @@ using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Scenes
 {
-    public class LevelScene: IScene
+    public class LevelScene : IScene
     {
-        private List<Entity> Entities { get;  set; } = new();
+        private List<Entity> Entities { get; set; } = new();
 
         public void Load(SpriteData spriteData)
         {
@@ -21,7 +21,7 @@ namespace SuperMarioBros.Source.Scenes
             Console.WriteLine(Entities);
         }
 
-        public  void Draw(SpriteData spriteData)
+        public void Draw(SpriteData spriteData)
         {
 
             Console.WriteLine(Entities);
