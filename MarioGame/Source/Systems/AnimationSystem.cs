@@ -39,9 +39,7 @@ namespace SuperMarioBros.Source.Systems
         private float jumpVelocity { get; set; }
         private float currentJumpHeight { get; set; }
         private float maxJumpHeight { get; set; }
-        private Vector2 _lastPositionBeforeJump  { get; set; }
-
-
+        private float jumpAnimationFrameTime = 50.2f;
 
         public AnimationSystem(SpriteBatch spriteBatch)
         {
@@ -96,91 +94,72 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
-{
-    if (entities != null)
-    {
-        foreach (var entity in entities)
+        public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            var animation = entity.GetComponent<AnimationComponent>();
-            var position = entity.GetComponent<PositionComponent>();
-
-            if (animation != null && position != null)
+            if (entities != null)
             {
-                spritesheets = new Texture2D[] { animation.Textures[0], animation.Textures[1], animation.Textures[2], animation.Textures[3], animation.Textures[4] };
-                spritesheetsRunLeft = new Texture2D[] { animation.Textures[5], animation.Textures[6], animation.Textures[7], animation.Textures[8], animation.Textures[9] };
-                spritesheetsJump = new Texture2D[] { animation.Textures[12] };
-                spritesheetsJump2 = new Texture2D[] { animation.Textures[13] };
-                spritesheetsBend = new Texture2D[] { animation.Textures[10] };
-                spritesheetsBend2 = new Texture2D[] { animation.Textures[11] };
-
-                 if (isActive || !position.pass)
+                foreach (var entity in entities)
                 {
+                    var playerAnimation = entity.GetComponent<AnimationComponent>();
+                    var position = entity.GetComponent<PositionComponent>();
 
-
-                    if (position.pass == false)
+                    if (playerAnimation != null && position != null)
                     {
+                        spritesheets = new Texture2D[] { playerAnimation.Textures[0], playerAnimation.Textures[1], playerAnimation.Textures[2], playerAnimation.Textures[3], playerAnimation.Textures[4] };
+                        spritesheetsRunLeft = new Texture2D[] { playerAnimation.Textures[5], playerAnimation.Textures[6], playerAnimation.Textures[7], playerAnimation.Textures[8], playerAnimation.Textures[9] };
+                        spritesheetsJump = new Texture2D[] { playerAnimation.Textures[12] };
+                        spritesheetsJump2 = new Texture2D[] { playerAnimation.Textures[13] };
+                        spritesheetsBend = new Texture2D[] { playerAnimation.Textures[10] };
+                        spritesheetsBend2 = new Texture2D[] { playerAnimation.Textures[11] };
 
-                        if (gameTime != null) DrawJumping(_spriteBatch, position.LastPosition, gameTime);
-                    }
-                    else if (position.Position.X != position.LastPosition.X)
-                    {
-                        DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
-                    }
-                    else if (position.Position.Y > position.LastPosition.Y)
-                    {
-                        DrawBed(_spriteBatch, position.Position);
-                    }
+                        if (isActive || !position.pass)
+                        {
+                            if (position.pass == false)
+                            {
+
+                                if (gameTime != null) DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                            }
+                            else if (position.Position.X != position.LastPosition.X)
+                            {
+                                DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
+                            }
+                            else if (position.Position.Y > position.LastPosition.Y)
+                            {
+                                DrawBed(_spriteBatch, position.Position);
+                            }
+                        }
+                        else
+                        {
+                            if (gameTime != null)
+                                DrawStopped(_spriteBatch, position.LastPosition);
+
+                        }
 
 
+                    }
                 }
-                else
-                {
-
-                    if (gameTime != null)
-                    DrawStopped(_spriteBatch, position.LastPosition);
-
-
-                }
-
-
             }
         }
-    }
-}
 
+        private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
+        {
+            const float maxJumpHeight = 50f;
+            const float jumpSpeed = 25f;
 
+            currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            currentJumpHeight = Math.Min(currentJumpHeight, maxJumpHeight);
 
-
-private float jumpAnimationFrameTime = 50.2f;
-
-
-
-private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
-{
-    const float maxJumpHeight = 50f;
-    const float jumpSpeed = 25f;
-
-
-    currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-    currentJumpHeight = Math.Min(currentJumpHeight, maxJumpHeight);
-
-    position = position with { Y = position.Y - currentJumpHeight };
-
-
-    int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
-
-
-    if (isMovingLeft)
-    {
-        spriteBatch.Draw(spritesheetsJump2[currentFrameIndex], position, Color.White);
-    }
-    else
-    {
-        spriteBatch.Draw(spritesheetsJump[currentFrameIndex], position, Color.White);
-    }
-}
-
+            position = position with { Y = position.Y - currentJumpHeight };
+            int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
+            if (isMovingLeft)
+            {
+                spriteBatch.Draw(spritesheetsJump2[currentFrameIndex], position, Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(spritesheetsJump[currentFrameIndex], position, Color.White);
+            }
+        }
         private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition)
         {
             if (position.X > previousPosition.X)
@@ -248,14 +227,12 @@ private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gam
             if (isMovingLeft)
             {
                 spriteBatch.Draw(spritesheetsBend2[0], position, Color.White);
-
             }
             else
             {
                 spriteBatch.Draw(spritesheetsBend[0], position, Color.White);
             }
         }
-
 
         private void UpdateFrameTiming(GameTime gameTime)
         {
@@ -288,7 +265,5 @@ private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gam
 
             }
         }
-
-
     }
 }
