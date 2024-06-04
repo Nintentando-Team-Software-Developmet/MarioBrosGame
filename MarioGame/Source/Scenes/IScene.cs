@@ -11,6 +11,6 @@ namespace SuperMarioBros.Source.Scenes
         void Draw(SpriteData spriteData);
         void Draw(SpriteData spriteData, GameTime gameTime);
         void Update(GameTime gameTime, SceneManager sceneManager);
-        string GetSceneType();
+        SceneType GetSceneType();
     }
 }
