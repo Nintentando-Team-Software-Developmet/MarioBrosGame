@@ -82,12 +82,12 @@ namespace SuperMarioBros.Source.Scenes
          */
         private static void DrawBricks(SpriteData spriteData)
         {
-            int numCols = (int)Math.Ceiling(spriteData.graphics.GraphicsDevice.Viewport.Width / (Sprites.BrickBlockBrown.Width * 3f));
+            int numCols = (int)Math.Ceiling(spriteData.graphics.GraphicsDevice.Viewport.Width / (Sprites.BrickBlockBrown.Width * 1f));
             for (int x = 0; x < numCols; x++)
             {
                 spriteData.spriteBatch.Draw(Sprites.BrickBlockBrown,
-                    new Vector2(x * Sprites.BrickBlockBrown.Width * 3f, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BrickBlockBrown.Height * 3f)),
-                    null, Color.White, 0f, Vector2.Zero, new Vector2(3f),
+                    new Vector2(x * Sprites.BrickBlockBrown.Width * 1f, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BrickBlockBrown.Height * 1f)),
+                    null, Color.White, 0f, Vector2.Zero, new Vector2(1f),
                     SpriteEffects.None, 0f
                 );
             }
@@ -98,10 +98,10 @@ namespace SuperMarioBros.Source.Scenes
          */
         private static void DrawScene(SpriteData spriteData)
         {
-            Vector2 mountainPosition = new Vector2(90, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.MountainMenu.Height * 5.1f));
-            spriteData.spriteBatch.Draw(Sprites.MountainMenu, mountainPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(3.7f), SpriteEffects.None, 0f);
-            Vector2 brushPosition = new Vector2(700, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BushMenu.Height * 7f));
-            spriteData.spriteBatch.Draw(Sprites.BushMenu, brushPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(4f), SpriteEffects.None, 0f);
+            Vector2 mountainPosition = new Vector2(90, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.MountainMenu.Height * 1.45f));
+            spriteData.spriteBatch.Draw(Sprites.MountainMenu, mountainPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(1f), SpriteEffects.None, 0f);
+            Vector2 brushPosition = new Vector2(700, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BushMenu.Height * 2f));
+            spriteData.spriteBatch.Draw(Sprites.BushMenu, brushPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(1f), SpriteEffects.None, 0f);
         }
 
         /*
@@ -109,8 +109,8 @@ namespace SuperMarioBros.Source.Scenes
          */
         private static void DrawMario(SpriteData spriteData)
         {
-            Vector2 marioPosition = new Vector2(200, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BrickBlockBrown.Height * 7f));
-            spriteData.spriteBatch.Draw(Sprites.SmallStop, marioPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(4f), SpriteEffects.None, 0f);
+            Vector2 marioPosition = new Vector2(200, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BrickBlockBrown.Height * 2f));
+            spriteData.spriteBatch.Draw(Sprites.SmallStop, marioPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(1f), SpriteEffects.None, 0f);
         }
 
         /*
