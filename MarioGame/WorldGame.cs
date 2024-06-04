@@ -1,6 +1,7 @@
+using System;
+
 using SuperMarioBros;
 using SuperMarioBros.Source.Scenes;
-using System;
 
 
 namespace MarioGame

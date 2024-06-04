@@ -1,6 +1,7 @@
+using MarioGame;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MarioGame;
 
 namespace SuperMarioBros
 {

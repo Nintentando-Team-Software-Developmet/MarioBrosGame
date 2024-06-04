@@ -1,12 +1,14 @@
-using SuperMarioBros.Source.Systems;
+using MarioGame;
+
 using Microsoft.Xna.Framework.Graphics;
-using SuperMarioBros.Source.Managers;
+
 using SuperMarioBros.Source.Core;
-using SuperMarioBros.Source.Scenes;
+using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Levels;
-using SuperMarioBros.Source.Entities;
-using MarioGame;
+using SuperMarioBros.Source.Managers;
+using SuperMarioBros.Source.Scenes;
+using SuperMarioBros.Source.Systems;
 
 namespace Services
 {

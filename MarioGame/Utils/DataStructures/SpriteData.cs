@@ -8,7 +8,8 @@ namespace SuperMarioBros
     /**
     * This class manage the sprite data.
     */
-    public class SpriteData {
+    public class SpriteData
+    {
         public SpriteBatch spriteBatch { get; set; }
         public SpriteFont spriteFont { get; set; }
         public ContentManager content { get; set; }

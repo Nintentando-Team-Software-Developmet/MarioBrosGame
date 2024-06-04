@@ -1,7 +1,8 @@
-using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Managers;
 
 namespace SuperMarioBros.Source.Systems
 {
