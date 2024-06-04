@@ -3,6 +3,8 @@ using MarioGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SuperMarioBros.Source.Systems;
+
 namespace SuperMarioBros
 {
     public class Game1 : Game
@@ -13,6 +15,7 @@ namespace SuperMarioBros
         private WorldGame _world;
         private SpriteData spriteData;
         private Texture2D _pixelTexture;
+        private GameDataSystem _gameDataSystem;
 
         public Game1()
         {
@@ -34,12 +37,14 @@ namespace SuperMarioBros
             _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             _pixelTexture.SetData(new Color[] { Color.White });
             spriteData = new SpriteData(Batch, Font, Content, Graphics, _pixelTexture);
-            _world = new WorldGame(spriteData);
+            _gameDataSystem = new GameDataSystem(0123, 0, "1-1", 300);
+            _world = new WorldGame(spriteData, _gameDataSystem);
             _world.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
         {
+            if (gameTime != null) _gameDataSystem.Time -= gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime);
         }
 

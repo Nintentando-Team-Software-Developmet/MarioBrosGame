@@ -7,23 +7,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 
+using SuperMarioBros.Source.Systems;
+
 namespace SuperMarioBros.Source.Scenes;
 
 public class GameOverScene : IScene, IDisposable
 {
     private bool _disposed;
     private string _screen { get; set; } = "Screen";
-    private int _score;
-    private int _coins;
-    private string _world;
-    private int _time;
+    private GameDataSystem _gameDataSystem;
 
-    public GameOverScene(int score, int coins, string world, int time)
+    public GameOverScene(GameDataSystem gameDataSystem)
     {
-        _score = score;
-        _coins = coins;
-        _world = world;
-        _time = time;
+        _gameDataSystem = gameDataSystem;
     }
 
 
@@ -61,10 +57,10 @@ public class GameOverScene : IScene, IDisposable
 
         spriteData.spriteBatch.Begin();
         DrawCoin(spriteData);
-        DrawTextWithNumber($"x{_coins}", "", 280, 10, spriteData);
-        DrawTextWithNumber("WORLD", _world, 550, 10, spriteData);
-        DrawTextWithNumber("TIME", $"{_time}", 900, 10, spriteData);
-        DrawTextWithNumber("Mario", $"{_score}", 50, 10, spriteData);
+        DrawTextWithNumber($"x{_gameDataSystem.CoinsCounter}", "", 280, 10, spriteData);
+        DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
+        DrawTextWithNumber("TIME", $"{_gameDataSystem.Time}", 900, 10, spriteData);
+        DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore}", 50, 10, spriteData);
         DrawText("GAME OVER", 330, 300, spriteData);
 
 

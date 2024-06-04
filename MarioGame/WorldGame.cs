@@ -1,7 +1,10 @@
 using System;
 
+using Microsoft.Xna.Framework;
+
 using SuperMarioBros;
 using SuperMarioBros.Source.Scenes;
+using SuperMarioBros.Source.Systems;
 
 
 namespace MarioGame
@@ -13,18 +16,20 @@ namespace MarioGame
     public class WorldGame : IDisposable
     {
         private SystemManager systemManager;
+        private GameDataSystem _gameDataSystem;
         private SceneManager sceneManager;
         private bool disposed;
 
-        public WorldGame(SpriteData spriteData)
+        public WorldGame(SpriteData spriteData, GameDataSystem gameDataSystem)
         {
             systemManager = new SystemManager();
             sceneManager = new SceneManager(spriteData);
+            _gameDataSystem = gameDataSystem;
         }
 
         public void Initialize()
         {
-            using (var menuScene = new MenuScene())
+            using (var menuScene = new GameOverScene(_gameDataSystem))
             {
                 sceneManager.AddScene("Menu", menuScene);
                 sceneManager.setScene("Menu");
