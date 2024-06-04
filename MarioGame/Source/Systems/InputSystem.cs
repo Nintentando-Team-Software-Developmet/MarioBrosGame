@@ -28,33 +28,43 @@ namespace SuperMarioBros.Source.Systems
                     var velocity = entity.GetComponent<VelocityComponent>();
                     var position = entity.GetComponent<PositionComponent>();
                     velocity.Velocity = new Vector2();
-
+                    Console.WriteLine(position.pass);
+                    Console.WriteLine('F');
 
                     if (position != null && velocity != null)
                     {
+                        position.pass = true;
                         position.LastPosition = position.Position;
 
                         velocity.Velocity = Vector2.Zero;
 
                         if (_currentKeyboardState.IsKeyDown(Keys.Left) || gamePadState.ThumbSticks.Left.X < -0.1f)
                         {
+
                             velocity.Velocity += new Vector2(-1, 0);
                         }
 
                         if (_currentKeyboardState.IsKeyDown(Keys.Right) || gamePadState.ThumbSticks.Left.X > 0.1f)
                         {
                             velocity.Velocity += new Vector2(1, 0);
+
+
                         }
 
 
                         if (_currentKeyboardState.IsKeyDown(Keys.Up) || gamePadState.IsButtonDown(Buttons.A))
                         {
-                            velocity.Velocity += new Vector2(0, -1);
+                            position.pass = false;
+                            velocity.Velocity += new Vector2(0, 0);
+                            Console.WriteLine(position.pass);
+                            Console.WriteLine('G');
+
                         }
 
                         if (_currentKeyboardState.IsKeyDown(Keys.Down) || gamePadState.IsButtonDown(Buttons.B))
                         {
                             velocity.Velocity += new Vector2(0, 1);
+
                         }
 
                         //Console.WriteLine("Velocity: " + velocity.Velocity);

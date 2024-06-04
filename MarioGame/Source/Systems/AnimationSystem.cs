@@ -39,6 +39,8 @@ namespace SuperMarioBros.Source.Systems
         private float jumpVelocity { get; set; }
         private float currentJumpHeight { get; set; }
         private float maxJumpHeight { get; set; }
+        private Vector2 _lastPositionBeforeJump  { get; set; }
+
 
 
         public AnimationSystem(SpriteBatch spriteBatch)
@@ -67,6 +69,7 @@ namespace SuperMarioBros.Source.Systems
 
                     if (animation != null && animation.IsAnimating)
                     {
+
                         if (gameTime != null)
                         {
                             animation.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -87,6 +90,8 @@ namespace SuperMarioBros.Source.Systems
 
                         SetActive(velocity.Velocity != Vector2.Zero);
                     }
+
+
                 }
             }
         }
@@ -109,11 +114,16 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
                 spritesheetsBend = new Texture2D[] { animation.Textures[10] };
                 spritesheetsBend2 = new Texture2D[] { animation.Textures[11] };
 
-                 if (isActive)
+                 if (isActive || !position.pass)
                 {
 
 
-                     if (position.Position.X != position.LastPosition.X)
+                    if (position.pass == false)
+                    {
+
+                        if (gameTime != null) DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                    }
+                    else if (position.Position.X != position.LastPosition.X)
                     {
                         DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
                     }
@@ -121,20 +131,19 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
                     {
                         DrawBed(_spriteBatch, position.Position);
                     }
-                    else if (position.Position.Y < position.LastPosition.Y)
-                    {
-                        var positionPosition = position.Position;
-                        if (gameTime != null) DrawJumping(_spriteBatch, positionPosition, gameTime);
-                    }
+
+
                 }
                 else
                 {
-                    if (gameTime != null)
 
-                    DrawStopped(_spriteBatch, position.Position);
+                    if (gameTime != null)
+                    DrawStopped(_spriteBatch, position.LastPosition);
+
+
                 }
 
-                position.LastPosition = position.Position;
+
             }
         }
     }
@@ -219,7 +228,6 @@ private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gam
                 var currentSprite = sprites[currentTextureIndex];
                 if (spriteBatch != null) spriteBatch.Draw(currentSprite, position, Color.White);
             }
-
             if (gameTime != null) UpdateFrameTiming(gameTime);
         }
 
