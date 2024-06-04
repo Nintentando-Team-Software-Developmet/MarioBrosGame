@@ -52,7 +52,7 @@ namespace SuperMarioBros.Source.Systems
                         }
 
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Up) || gamePadState.IsButtonDown(Buttons.A))
+                        if (_currentKeyboardState.IsKeyDown(Keys.Z) || gamePadState.IsButtonDown(Buttons.A))
                         {
                             position.pass = false;
                             velocity.Velocity += new Vector2(0, 0);
@@ -61,7 +61,7 @@ namespace SuperMarioBros.Source.Systems
 
                         }
 
-                        if (_currentKeyboardState.IsKeyDown(Keys.Down) || gamePadState.IsButtonDown(Buttons.B))
+                        if (_currentKeyboardState.IsKeyDown(Keys.X) || gamePadState.IsButtonDown(Buttons.B))
                         {
                             velocity.Velocity += new Vector2(0, 1);
 
