@@ -64,9 +64,9 @@ namespace SuperMarioBros.Source.Scenes
             Draw(spriteData);
         }
 
-        public string GetSceneType()
+        public SceneType GetSceneType()
         {
-            return "Menu";
+            return SceneType.Menu;
         }
 
         private static void DrawBricks(SpriteData spriteData)

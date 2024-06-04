@@ -34,20 +34,20 @@ namespace SuperMarioBros.Source.Scenes
             // Load player entity
             var playerTextures = new Texture2D[]
             {
-                Utils.Sprites.BigStop,
-                Utils.Sprites.BigWalk1,
-                Utils.Sprites.BigWalk2,
-                Utils.Sprites.BigWalk1Left,
-                Utils.Sprites.BigWalk2Left,
-                Utils.Sprites.BigBend,
-                Utils.Sprites.BigBendLeft,
-                Utils.Sprites.BigStopLeft,
-                Utils.Sprites.BigJumpBack,
-                Utils.Sprites.BigJumpBackLeft,
-                Utils.Sprites.BigWalk3,
-                Utils.Sprites.BigWalk3Left,
-                Utils.Sprites.BigRun,
-                Utils.Sprites.BigRunLeft
+                Sprites.BigStop,
+                Sprites.BigWalk1,
+                Sprites.BigWalk2,
+                Sprites.BigWalk1Left,
+                Sprites.BigWalk2Left,
+                Sprites.BigBend,
+                Sprites.BigBendLeft,
+                Sprites.BigStopLeft,
+                Sprites.BigJumpBack,
+                Sprites.BigJumpBackLeft,
+                Sprites.BigWalk3,
+                Sprites.BigWalk3Left,
+                Sprites.BigRun,
+                Sprites.BigRunLeft
             };
             var player = new PlayerEntity(playerTextures, new Vector2(100, 100));
             Entities.Add(player);
@@ -64,7 +64,6 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Unload()
         {
-            Console.WriteLine("Unloading LevelScene. Entities: " + Entities.Count);
             Entities.Clear();
         }
 
@@ -107,9 +106,9 @@ namespace SuperMarioBros.Source.Scenes
 
         }
 
-        public string GetSceneType()
+        public SceneType GetSceneType()
         {
-            return "Level";
+            return SceneType.Level;
         }
 
         public void Draw(SpriteData spriteData)
