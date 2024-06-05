@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
@@ -30,9 +27,12 @@ namespace SuperMarioBros.Source.Systems
                     // If the entity has both a position and velocity component, update its position
                     if (position != null && velocity != null && gameTime != null)
                     {
+                        position.LastPosition = position.Position;
+
                         position.Position +=
-                            velocity.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds *
-                            100;
+                            velocity.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds *0 ;
+
+
                     }
                 }
             }
