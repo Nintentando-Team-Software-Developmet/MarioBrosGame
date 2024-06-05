@@ -1,31 +1,34 @@
 using System.Collections.Generic;
+using System.Linq;
 
+using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Managers
 {
     public class EntityManager
     {
-        private Dictionary<int, Entity> _entities = new();
-        private int _nextId;
+        private List<Entity> _entities = new();
 
-        public Entity CreateEntity(string tag)
+
+        public IEnumerable<Entity> GetEntities()
         {
-            var entity = new Entity(_nextId++) { Tag = tag };
-            _entities[entity.Id] = entity;
-            _nextId = 0;
-            return entity;
+            return _entities.AsReadOnly();
         }
 
-        public void DestroyEntity(int entityId)
+        public IEnumerable<Entity> GetEntitiesWithComponent<T>() where T : BaseComponent
         {
-            _entities.Remove(entityId);
+            return _entities.Where(e => e.GetComponent<T>() != null);
         }
 
-        public Entity GetEntity(int entityId)
+        public void AddEntity(Entity entity)
         {
-            _entities.TryGetValue(entityId, out var entity);
-            return entity;
+            _entities.Add(entity);
+        }
+
+        public void RemoveEntity(Entity entity)
+        {
+            _entities.Remove(entity);
         }
     }
 }

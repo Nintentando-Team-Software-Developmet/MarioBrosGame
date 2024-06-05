@@ -1,41 +1,51 @@
 using System;
 
-using SuperMarioBros;
 using SuperMarioBros.Source.Scenes;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
-namespace MarioGame
+using SuperMarioBros.Utils.DataStructures;
+
+namespace SuperMarioBros
 {
-    /**
-    * This class is responsible for managing the game world.
-    * It contains a SystemManager and a SceneManager.
-    */
     public class WorldGame : IDisposable
     {
-        private SystemManager systemManager;
-        private SceneManager sceneManager;
-        private bool disposed;
+        private SceneManager _sceneManager;
+        private bool _disposed;
+        private MenuScene _menuScene;
+        private LevelScene _levelScene;
 
         public WorldGame(SpriteData spriteData)
         {
-            systemManager = new SystemManager();
-            sceneManager = new SceneManager(spriteData);
+            _sceneManager = new SceneManager(spriteData);
         }
 
         public void Initialize()
         {
-            using (var menuScene = new MenuScene())
-            {
-                sceneManager.AddScene("Menu", menuScene);
-                sceneManager.setScene("Menu");
-                sceneManager.LoadScene("Menu");
-            }
+            _menuScene = new MenuScene();
+            _levelScene = new LevelScene();
+
+            _sceneManager.AddScene("Menu", _menuScene);
+            _sceneManager.AddScene("Level1", _levelScene);
+
+            _sceneManager.LoadScene("Menu");
         }
 
-        public void Draw()
+        public void Update(GameTime gameTime)
         {
-            sceneManager.DrawScene();
-            systemManager.Update();
+            // Here you can add logic to transition from menu to Level1
+            // For example, by checking a key press or a button click
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                _sceneManager.ChangeScene("Level1");
+            }
+            _sceneManager.UpdateScene(gameTime);
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+            _sceneManager.DrawScene(gameTime);
         }
 
         public void Dispose()
@@ -46,16 +56,17 @@ namespace MarioGame
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
             {
-                systemManager?.Dispose();
-                sceneManager?.Dispose();
+                _sceneManager?.Dispose();
+                _menuScene?.Dispose();
+                _levelScene?.Dispose();
             }
 
-            disposed = true;
+            _disposed = true;
         }
     }
 }
