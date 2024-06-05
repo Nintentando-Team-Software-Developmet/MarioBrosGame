@@ -28,8 +28,7 @@ namespace SuperMarioBros.Source.Systems
                     var velocity = entity.GetComponent<VelocityComponent>();
                     var position = entity.GetComponent<PositionComponent>();
                     velocity.Velocity = new Vector2();
-                    Console.WriteLine(position.pass);
-                    Console.WriteLine('F');
+
 
                     if (position != null && velocity != null)
                     {
@@ -56,8 +55,7 @@ namespace SuperMarioBros.Source.Systems
                         {
                             position.pass = false;
                             velocity.Velocity += new Vector2(0, 0);
-                            Console.WriteLine(position.pass);
-                            Console.WriteLine('G');
+
 
                         }
 
