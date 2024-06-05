@@ -15,7 +15,6 @@ namespace SuperMarioBros
         private WorldGame _world;
         private SpriteData spriteData;
         private Texture2D _pixelTexture;
-        private GameDataSystem _gameDataSystem;
 
         public Game1()
         {
@@ -37,14 +36,13 @@ namespace SuperMarioBros
             _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             _pixelTexture.SetData(new Color[] { Color.White });
             spriteData = new SpriteData(Batch, Font, Content, Graphics, _pixelTexture);
-            _gameDataSystem = new GameDataSystem(0123, 0, "1-1", 300);
-            _world = new WorldGame(spriteData, _gameDataSystem);
+            _world = new WorldGame(spriteData);
             _world.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (gameTime != null) _gameDataSystem.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+            _world.Update(gameTime);
             base.Update(gameTime);
         }
 

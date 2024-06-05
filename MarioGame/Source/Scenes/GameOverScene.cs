@@ -59,7 +59,7 @@ public class GameOverScene : IScene, IDisposable
         DrawCoin(spriteData);
         DrawTextWithNumber($"x{_gameDataSystem.CoinsCounter}", "", 280, 10, spriteData);
         DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
-        DrawTextWithNumber("TIME", $"{_gameDataSystem.Time}", 900, 10, spriteData);
+        DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time}", 900, 10, spriteData);
         DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore}", 50, 10, spriteData);
         DrawText("GAME OVER", 330, 300, spriteData);
 

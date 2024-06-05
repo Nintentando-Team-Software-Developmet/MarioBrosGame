@@ -20,11 +20,11 @@ namespace MarioGame
         private SceneManager sceneManager;
         private bool disposed;
 
-        public WorldGame(SpriteData spriteData, GameDataSystem gameDataSystem)
+        public WorldGame(SpriteData spriteData)
         {
             systemManager = new SystemManager();
             sceneManager = new SceneManager(spriteData);
-            _gameDataSystem = gameDataSystem;
+            _gameDataSystem = new GameDataSystem(0123, 0, "1-1", 300);
         }
 
         public void Initialize()
@@ -37,10 +37,15 @@ namespace MarioGame
             }
         }
 
+        public void Update(GameTime gameTime)
+        {
+            if (gameTime != null) _gameDataSystem.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+            systemManager.Update();
+        }
+
         public void Draw()
         {
             sceneManager.DrawScene();
-            systemManager.Update();
         }
 
         public void Dispose()
