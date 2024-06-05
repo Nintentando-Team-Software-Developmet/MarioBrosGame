@@ -12,7 +12,7 @@ using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Systems
 {
-    public class AnimationSystem : BaseSystem, IRenderableSystem
+    public class MarioAnimationSystem : BaseSystem, IRenderableSystem
     {
         private readonly SpriteBatch _spriteBatch;
 
@@ -41,7 +41,7 @@ namespace SuperMarioBros.Source.Systems
         private float maxJumpHeight { get; set; }
         private float jumpAnimationFrameTime = 50.2f;
 
-        public AnimationSystem(SpriteBatch spriteBatch)
+        public MarioAnimationSystem(SpriteBatch spriteBatch)
         {
             isActive = false;
             isBending = false;

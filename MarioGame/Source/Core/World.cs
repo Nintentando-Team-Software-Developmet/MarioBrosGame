@@ -17,7 +17,7 @@ namespace SuperMarioBros.Source.Core
             _entityManager = new EntityManager();
             _systemManager = new SystemManager();
 
-            _systemManager.AddSystem(new AnimationSystem(spriteBatch));
+            _systemManager.AddSystem(new MarioAnimationSystem(spriteBatch));
             _systemManager.AddSystem(new InputSystem());
             _systemManager.AddSystem(new MovementSystem());
         }

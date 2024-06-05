@@ -58,7 +58,7 @@ namespace SuperMarioBros.Source.Scenes
 
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
-            if (spriteData != null) Systems.Add(new AnimationSystem(spriteData.spriteBatch));
+            if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
         }
 
         /*

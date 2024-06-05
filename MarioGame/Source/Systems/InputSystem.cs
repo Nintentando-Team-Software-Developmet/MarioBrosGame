@@ -20,7 +20,7 @@ namespace SuperMarioBros.Source.Systems
         {
 
             _currentKeyboardState = Keyboard.GetState();
-             gamePadState = GamePad.GetState(PlayerIndex.One);
+            gamePadState = GamePad.GetState(PlayerIndex.One);
 
             if (entities != null)
                 foreach (var entity in entities)
@@ -65,13 +65,9 @@ namespace SuperMarioBros.Source.Systems
 
                         }
 
-                        //Console.WriteLine("Velocity: " + velocity.Velocity);
                     }
                 }
-
-
         }
-
 
     }
 }
