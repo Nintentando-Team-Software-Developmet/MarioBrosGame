@@ -81,9 +81,9 @@ public class GameOverScene : IScene, IDisposable
         throw new NotImplementedException();
     }
 
-    public string GetSceneType()
+    public SceneType GetSceneType()
     {
-        throw new NotImplementedException();
+        return SceneType.TransitionScene;
     }
 
     /*
