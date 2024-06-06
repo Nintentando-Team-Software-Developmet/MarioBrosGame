@@ -1,4 +1,14 @@
 {
     "nameLevel": "1-1",
-    "pathMap": "Maps/Level1.tmx"
+    "pathMap": "Content/Maps/level1Map.json",
+    "entities": [
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 110,
+                "y": 110
+            }
+        }
+    ]
 }

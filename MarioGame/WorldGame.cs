@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using SuperMarioBros.Utils.DataStructures;
+using MarioGame;
 
 namespace SuperMarioBros
 {
@@ -24,21 +25,17 @@ namespace SuperMarioBros
         public void Initialize()
         {
             _menuScene = new MenuScene();
-            _levelScene = new LevelScene();
-
-            _sceneManager.AddScene("Menu", _menuScene);
-            _sceneManager.AddScene("Level1", _levelScene);
-
-            _sceneManager.LoadScene("Menu");
+            _levelScene = new LevelScene(LevelPath.Level1);
+            _sceneManager.AddScene(SceneName.MainMenu, _menuScene);
+            _sceneManager.AddScene(SceneName.Level1, _levelScene);
+            _sceneManager.LoadScene(SceneName.MainMenu);
         }
 
         public void Update(GameTime gameTime)
         {
-            // Here you can add logic to transition from menu to Level1
-            // For example, by checking a key press or a button click
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                _sceneManager.ChangeScene("Level1");
+                _sceneManager.ChangeScene(SceneName.Level1);
             }
             _sceneManager.UpdateScene(gameTime);
         }

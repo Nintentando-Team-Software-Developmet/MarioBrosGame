@@ -49,7 +49,6 @@ namespace SuperMarioBros.Source.Systems
             initialMoveDuration = 200f;
             initialMoveElapsedTime = 0f;
             _spriteBatch = spriteBatch;
-
             isJumping = false;
             jumpVelocity = 5f;
             maxJumpHeight = 30f;
@@ -61,13 +60,13 @@ namespace SuperMarioBros.Source.Systems
             {
                 foreach (var entity in entities)
                 {
+                    if(!(entity is PlayerEntity)) continue;
                     var animation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
                     var velocity = entity.GetComponent<VelocityComponent>();
 
                     if (animation != null && animation.IsAnimating)
                     {
-
                         if (gameTime != null)
                         {
                             animation.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -85,11 +84,8 @@ namespace SuperMarioBros.Source.Systems
                         {
                             isMovingLeft = velocity.Velocity.X < 0;
                         }
-
                         SetActive(velocity.Velocity != Vector2.Zero);
                     }
-
-
                 }
             }
         }
@@ -100,6 +96,7 @@ namespace SuperMarioBros.Source.Systems
             {
                 foreach (var entity in entities)
                 {
+                    if(!(entity is PlayerEntity)) continue;
                     var playerAnimation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
 
@@ -132,10 +129,7 @@ namespace SuperMarioBros.Source.Systems
                         {
                             if (gameTime != null)
                                 DrawStopped(_spriteBatch, position.LastPosition);
-
                         }
-
-
                     }
                 }
             }

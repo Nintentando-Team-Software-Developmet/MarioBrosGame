@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json.Serialization;
+using MarioGame;
+using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
@@ -26,56 +30,50 @@ namespace SuperMarioBros.Source.Scenes
         private Camera _camera;
         private Dictionary<int, Texture2D> _spriteMap;
         private int _levelHeight;
+        private LevelData _levelData;
 
         /*
-         * Loads resources and initializes entities for the level scene.
+         * Constructs a new LevelScene object.
+         * This constructor initializes the level scene with the specified path to the scene data.
          *
          * Parameters:
-         *   spriteData: SpriteData object containing content manager for loading resources.
-         *               If null, no resources will be loaded.
+         *   pathScene: A string representing the path to the scene data.
          */
+        public LevelScene(string pathScene)
+        {
+            string json = File.ReadAllText(pathScene);
+            _levelData = JsonConvert.DeserializeObject<LevelData>(json);
+
+        }
         public void Load(SpriteData spriteData)
         {
-            if (spriteData != null)
+            if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
+            _spriteMap = new Dictionary<int, Texture2D>
             {
-                _spriteMap = new Dictionary<int, Texture2D>
-                {
-                    { 1, Sprites.StoneBlockBrown },
-                };
-                _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
-            }
-            // Load player entity
-            var playerTextures = new Texture2D[]
-            {
-                Sprites.BigStop,
-                Sprites.BigRunLeft,
-                Sprites.BigWalk1,
-                Sprites.BigWalk2,
-                Sprites.BigWalk3,
-
-                Sprites.BigStopLeft,
-                Sprites.BigRun,
-                Sprites.BigWalk1Left,
-                Sprites.BigWalk2Left,
-                Sprites.BigWalk3Left,
-
-                Sprites.BigBend,
-                Sprites.BigBendLeft,
-
-                Sprites.BigJumpBack,
-                Sprites.BigJumpBackLeft
-
+                { 1, Sprites.StoneBlockBrown },
             };
-            var player = new PlayerEntity(playerTextures, new Vector2(100, 100));
+            _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
+            var player = new PlayerEntity(Animations.playerTextures, new Vector2(100, 100));
             Entities.Add(player);
-
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
-            if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
+            LoadEntities();
+            _tilemap = LoadMap(_levelData.pathMap);
+            Systems.Add(new CollisionSystem(_tilemap, _levelHeight));
+        }
 
-            _tilemap = LoadMap("Data/level-surface.json");
-            Systems.Add(new CollisionSystem(_tilemap,_levelHeight));
+        private void LoadEntities(){
+            foreach (var entity in _levelData.entities)
+            {
+                if (entity.type == EntityType.ENEMY)
+                {
+                    Entities.Add(EnemyFactory.CreateEnemy(entity.name, entity));
 
+                }
+                // load other entities
+            }
         }
 
         /*
@@ -85,24 +83,23 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Unload()
         {
-            //Console.WriteLine("Unloading LevelScene. Entities: " + Entities.Count);
+
             Entities.Clear();
         }
 
-/*
-         * Updates the level scene.
-         * This method updates all entities in the scene and processes systems.
-         *
-         * Parameters:
-         *   gameTime: GameTime object containing timing information.
-         */
+        /*
+        * Updates the level scene.
+        * This method updates all entities in the scene and processes systems.
+        *
+        * Parameters:
+        *   gameTime: GameTime object containing timing information.
+        */
         public void Update(GameTime gameTime, SceneManager sceneManager)
         {
             foreach (var system in Systems)
             {
                 system.Update(gameTime, Entities);
             }
-
             var player = Entities.Find(e => e is PlayerEntity);
             if (player != null)
             {
@@ -120,12 +117,16 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Draw(SpriteData spriteData, GameTime gameTime)
         {
-            if (spriteData == null) return;
-
+            if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
-
             spriteData.spriteBatch.Begin(transformMatrix: _camera.Transform);
+            DrawMap(spriteData);
+            DrawEntities(gameTime);
+            spriteData.spriteBatch.End();
+        }
 
+        private void DrawMap(SpriteData spriteData)
+        {
             foreach (var item in _tilemap)
             {
                 Rectangle dest = new Rectangle(
@@ -142,17 +143,17 @@ namespace SuperMarioBros.Source.Scenes
                     spriteData.spriteBatch.Draw(texture, dest, Color.White);
                 }
             }
+        }
 
-            // Draw entities using the AnimationSystem
-            foreach (var system in Systems)
+        private void DrawEntities(GameTime gameTime)
+        {
+             foreach (var system in Systems)
             {
                 if (system is IRenderableSystem renderableSystem)
                 {
                     renderableSystem.Draw(gameTime, Entities);
                 }
             }
-            spriteData.spriteBatch.End();
-
         }
 
         public SceneType GetSceneType()

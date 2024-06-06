@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+
+using MarioGame;
+
 using Microsoft.Xna.Framework;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -10,7 +13,7 @@ namespace SuperMarioBros.Source.Scenes
     /// </summary>
     public class SceneManager : IDisposable
     {
-        private Dictionary<string, IScene> _scenes = new();
+        private Dictionary<SceneName, IScene> _scenes = new();
         private IScene _currentScene;
         private SpriteData _spriteData;
         private bool _disposed;
@@ -29,7 +32,7 @@ namespace SuperMarioBros.Source.Scenes
         /// </summary>
         /// <param name="name">The name of the scene.</param>
         /// <param name="scene">The scene to add.</param>
-        public void AddScene(string name, IScene scene)
+        public void AddScene(SceneName name, IScene scene)
         {
             _scenes[name] = scene;
         }
@@ -38,7 +41,7 @@ namespace SuperMarioBros.Source.Scenes
         /// Changes the current scene to the specified scene.
         /// </summary>
         /// <param name="name">The name of the scene to change to.</param>
-        public void ChangeScene(string name)
+        public void ChangeScene(SceneName name)
         {
             _currentScene?.Unload();
             _currentScene = _scenes[name];
@@ -49,7 +52,7 @@ namespace SuperMarioBros.Source.Scenes
         /// Loads the specified scene.
         /// </summary>
         /// <param name="name">The name of the scene to load.</param>
-        public void LoadScene(string name)
+        public void LoadScene(SceneName name)
         {
             _currentScene = _scenes[name];
             _currentScene.Load(_spriteData);

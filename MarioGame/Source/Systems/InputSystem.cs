@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
@@ -13,8 +11,7 @@ namespace SuperMarioBros.Source.Systems
     {
 
         private KeyboardState _currentKeyboardState;
-        private GamePadState gamePadState ;
-
+        private GamePadState gamePadState;
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
@@ -46,8 +43,6 @@ namespace SuperMarioBros.Source.Systems
                         if (_currentKeyboardState.IsKeyDown(Keys.Right) || gamePadState.ThumbSticks.Left.X > 0.1f)
                         {
                             velocity.Velocity += new Vector2(1, 0);
-
-
                         }
 
 
@@ -55,19 +50,14 @@ namespace SuperMarioBros.Source.Systems
                         {
                             position.pass = false;
                             velocity.Velocity += new Vector2(0, 0);
-
-
                         }
 
                         if (_currentKeyboardState.IsKeyDown(Keys.X) || gamePadState.IsButtonDown(Buttons.B))
                         {
                             velocity.Velocity += new Vector2(0, 1);
-
                         }
-
                     }
                 }
         }
-
     }
 }
