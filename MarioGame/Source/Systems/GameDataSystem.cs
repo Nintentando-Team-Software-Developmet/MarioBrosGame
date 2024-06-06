@@ -1,49 +1,54 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
+
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Systems;
 
 public class GameDataSystem : BaseSystem
 {
-    private int totalScore;
-    private int coinsCounter;
-    private string levelName;
-    private double time;
+    private ScoreComponent _totalScore;
+    private CoinsComponent _coinsCounter;
+    private string _levelName;
+    private TimeComponent _time;
+    private const int DEFAULT_TIME = 300;
 
-    public GameDataSystem(int totalScore, int coinsCounter, string levelName, double time)
+    public GameDataSystem(/*int totalScore, int coinsCounter, string levelName, double time*/)
     {
-        this.totalScore = totalScore;
-        this.coinsCounter = coinsCounter;
-        this.levelName = levelName;
-        this.time = time;
+        _totalScore = new ScoreComponent(123);
+        _coinsCounter = new CoinsComponent(546);
+        _levelName = "1-1";
+        _time = new TimeComponent(DEFAULT_TIME);
     }
 
-    public override void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
-        // Todo: The systemManager is not implemented yet in World.cs,
-        // so this system is included into Game1.cs directly until SystemManager is correctly implemented
+        if (gameTime != null) _time.Seconds -= gameTime.ElapsedGameTime.TotalSeconds;
     }
 
-    public int TotalScore
+    public ScoreComponent TotalScore
     {
-        get => totalScore;
-        set => totalScore = value;
+        get => _totalScore;
+        set => _totalScore = value;
     }
 
-    public int CoinsCounter
+    public CoinsComponent CoinsCounter
     {
-        get => coinsCounter;
-        set => coinsCounter = value;
+        get => _coinsCounter;
+        set => _coinsCounter = value;
     }
 
     public string LevelName
     {
-        get => levelName;
-        set => levelName = value;
+        get => _levelName;
+        set => _levelName = value;
     }
 
-    public double Time
+    public TimeComponent Time
     {
-        get => time;
-        set => time = value;
+        get => _time;
+        set => _time = value;
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
+using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Source.Systems;
 
 
@@ -21,6 +22,7 @@ namespace SuperMarioBros.Source.Core
             _systemManager.AddSystem(new MarioAnimationSystem(spriteBatch));
             _systemManager.AddSystem(new InputSystem());
             _systemManager.AddSystem(new MovementSystem());
+            _systemManager.AddSystem(new GameDataSystem());
         }
 
         public void AddEntity(Entity entity)

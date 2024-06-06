@@ -17,9 +17,9 @@ public class GameOverScene : IScene, IDisposable
     private string _screen { get; set; } = "Screen";
     private GameDataSystem _gameDataSystem;
 
-    public GameOverScene(GameDataSystem gameDataSystem)
+    public GameOverScene()
     {
-        _gameDataSystem = gameDataSystem;
+        _gameDataSystem = new GameDataSystem();
     }
 
 
@@ -46,35 +46,35 @@ public class GameOverScene : IScene, IDisposable
         Console.WriteLine(_screen);
     }
 
+    public void Draw(SpriteData spriteData)
+    {
+    }
+
     /*
      * Draws the gameover scene on the screen.
      * This method clears the graphics device, then draws various elements
      * such as information of world, time, etc
      */
-    public void Draw(SpriteData spriteData)
+    public void Draw(SpriteData spriteData, GameTime gameTime)
     {
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
 
         spriteData.spriteBatch.Begin();
         DrawCoin(spriteData);
-        DrawTextWithNumber($"x{_gameDataSystem.CoinsCounter}", "", 280, 10, spriteData);
+        DrawTextWithNumber($"x{_gameDataSystem.CoinsCounter.Coins}", "", 280, 10, spriteData);
         DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
-        DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time}", 900, 10, spriteData);
-        DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore}", 50, 10, spriteData);
+        DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time.Seconds}", 900, 10, spriteData);
+        DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore.Score}", 50, 10, spriteData);
         DrawText("GAME OVER", 330, 300, spriteData);
 
 
         spriteData.spriteBatch.End();
     }
 
-    public void Draw(SpriteData spriteData, GameTime gameTime)
-    {
-        throw new NotImplementedException();
-    }
-
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
-        throw new NotImplementedException();
+        //TODO: Temporal, la verdadera actualizacion esta dentro de SystemManager/GameDataSystem
+        if (gameTime != null) _gameDataSystem.Time.Seconds -= gameTime.ElapsedGameTime.TotalSeconds;
     }
 
     public SceneType GetSceneType()

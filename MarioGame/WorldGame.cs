@@ -15,6 +15,7 @@ namespace SuperMarioBros
         private bool _disposed;
         private MenuScene _menuScene;
         private LevelScene _levelScene;
+        private GameOverScene _gameOverScene;
 
         public WorldGame(SpriteData spriteData)
         {
@@ -25,9 +26,11 @@ namespace SuperMarioBros
         {
             _menuScene = new MenuScene();
             _levelScene = new LevelScene();
+            _gameOverScene = new GameOverScene();
 
             _sceneManager.AddScene("Menu", _menuScene);
             _sceneManager.AddScene("Level1", _levelScene);
+            _sceneManager.AddScene("GameOver", _gameOverScene);
 
             _sceneManager.LoadScene("Menu");
         }
@@ -38,7 +41,7 @@ namespace SuperMarioBros
             // For example, by checking a key press or a button click
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                _sceneManager.ChangeScene("Level1");
+                _sceneManager.ChangeScene("GameOver");
             }
             _sceneManager.UpdateScene(gameTime);
         }
@@ -64,6 +67,7 @@ namespace SuperMarioBros
                 _sceneManager?.Dispose();
                 _menuScene?.Dispose();
                 _levelScene?.Dispose();
+                _gameOverScene?.Dispose();
             }
 
             _disposed = true;
