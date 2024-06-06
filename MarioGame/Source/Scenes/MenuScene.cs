@@ -29,14 +29,17 @@ namespace SuperMarioBros.Source.Scenes
             var gamePadState = GamePad.GetState(PlayerIndex.One);
             var keyboardState = Keyboard.GetState();
 
-            if (gamePadState.Buttons.Start == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Enter))
+            if (gamePadState.Buttons.Start == ButtonState.Pressed ||
+                gamePadState.Buttons.B == ButtonState.Pressed ||
+                keyboardState.IsKeyDown(Keys.Enter))
             {
-                sceneManager?.ChangeScene("Level1"); // Ensure "Level1" matches your level scene identifier
+                sceneManager?.ChangeScene("Level1");
             }
         }
 
         public void Unload()
         {
+            MediaPlayer.Stop();
             //Console.WriteLine(Screen);
         }
 
@@ -71,12 +74,12 @@ namespace SuperMarioBros.Source.Scenes
 
         private static void DrawBricks(SpriteData spriteData)
         {
-            int numCols = (int)Math.Ceiling(spriteData.graphics.GraphicsDevice.Viewport.Width / (Sprites.BrickBlockBrown.Width * 3f));
+            int numCols = (int)Math.Ceiling(spriteData.graphics.GraphicsDevice.Viewport.Width / (float)Sprites.BrickBlockBrown.Width);
             for (int x = 0; x < numCols; x++)
             {
                 spriteData.spriteBatch.Draw(Sprites.BrickBlockBrown,
-                    new Vector2(x * Sprites.BrickBlockBrown.Width * 3f, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BrickBlockBrown.Height * 3f)),
-                    null, Color.White, 0f, Vector2.Zero, new Vector2(3f),
+                    new Vector2(x * Sprites.BrickBlockBrown.Width, spriteData.graphics.GraphicsDevice.Viewport.Height - Sprites.BrickBlockBrown.Height),
+                    null, Color.White, 0f, Vector2.Zero, Vector2.One,
                     SpriteEffects.None, 0f
                 );
             }
@@ -84,16 +87,16 @@ namespace SuperMarioBros.Source.Scenes
 
         private static void DrawSceneElements(SpriteData spriteData)
         {
-            Vector2 mountainPosition = new Vector2(90, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.MountainMenu.Height * 5.1f));
-            spriteData.spriteBatch.Draw(Sprites.MountainMenu, mountainPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(3.7f), SpriteEffects.None, 0f);
-            Vector2 bushPosition = new Vector2(700, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BushMenu.Height * 7f));
-            spriteData.spriteBatch.Draw(Sprites.BushMenu, bushPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(4f), SpriteEffects.None, 0f);
+            Vector2 mountainPosition = new Vector2(90, spriteData.graphics.GraphicsDevice.Viewport.Height - 204);
+            spriteData.spriteBatch.Draw(Sprites.MountainMenu, mountainPosition, null, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+            Vector2 bushPosition = new Vector2(700, spriteData.graphics.GraphicsDevice.Viewport.Height - 128);
+            spriteData.spriteBatch.Draw(Sprites.BushMenu, bushPosition, null, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
         }
 
         private static void DrawMario(SpriteData spriteData)
         {
-            Vector2 marioPosition = new Vector2(200, spriteData.graphics.GraphicsDevice.Viewport.Height - (Sprites.BrickBlockBrown.Height * 7f));
-            spriteData.spriteBatch.Draw(Sprites.SmallStop, marioPosition, null, Color.White, 0f, Vector2.Zero, new Vector2(4f), SpriteEffects.None, 0f);
+            Vector2 marioPosition = new Vector2(200, spriteData.graphics.GraphicsDevice.Viewport.Height - Sprites.BrickBlockBrown.Height * 2);
+            spriteData.spriteBatch.Draw(Sprites.SmallStop, marioPosition, null, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
         }
 
         private static void DrawBackground(SpriteData spriteData)
