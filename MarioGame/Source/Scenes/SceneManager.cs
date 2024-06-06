@@ -63,7 +63,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (_currentScene.GetSceneType() == SceneType.Menu)
             {
-                _currentScene.Draw(_spriteData);
+                _currentScene.Draw(_spriteData, gameTime);
             }
             else
             {
