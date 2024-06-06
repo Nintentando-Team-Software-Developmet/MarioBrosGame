@@ -1,11 +1,11 @@
 using System;
 
-using MarioGame;
-using MarioGame.Source.Scenes;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+
+using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.DataStructures;
 
 using SuperMarioBros.Source.Systems;
 
@@ -66,6 +66,22 @@ public class GameOverScene : IScene, IDisposable
 
         spriteData.spriteBatch.End();
     }
+
+    public void Draw(SpriteData spriteData, GameTime gameTime)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(GameTime gameTime, SceneManager sceneManager)
+    {
+        throw new NotImplementedException();
+    }
+
+    public SceneType GetSceneType()
+    {
+        return SceneType.TransitionScene;
+    }
+
     /*
      * Draws text followed by a number at the specified position.
      *

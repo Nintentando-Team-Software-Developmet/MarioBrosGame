@@ -1,53 +1,117 @@
 using System;
 using System.Collections.Generic;
-
-using MarioGame.Source.Scenes;
+using Microsoft.Xna.Framework;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes
 {
-    public class SceneManager
+    /// <summary>
+    /// Manages the game scenes.
+    /// </summary>
+    public class SceneManager : IDisposable
     {
         private Dictionary<string, IScene> _scenes = new();
         private IScene _currentScene;
         private SpriteData _spriteData;
+        private bool _disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the SceneManager class.
+        /// </summary>
+        /// <param name="spriteData">The sprite data.</param>
         public SceneManager(SpriteData spriteData)
         {
-            this._spriteData = spriteData;
+            _spriteData = spriteData;
         }
 
+        /// <summary>
+        /// Adds a new scene to the manager.
+        /// </summary>
+        /// <param name="name">The name of the scene.</param>
+        /// <param name="scene">The scene to add.</param>
         public void AddScene(string name, IScene scene)
         {
             _scenes[name] = scene;
-
         }
 
+        /// <summary>
+        /// Changes the current scene to the specified scene.
+        /// </summary>
+        /// <param name="name">The name of the scene to change to.</param>
         public void ChangeScene(string name)
         {
             _currentScene?.Unload();
             _currentScene = _scenes[name];
-            _currentScene.Load(this._spriteData);
+            _currentScene.Load(_spriteData);
         }
 
+        /// <summary>
+        /// Loads the specified scene.
+        /// </summary>
+        /// <param name="name">The name of the scene to load.</param>
         public void LoadScene(string name)
         {
             _currentScene = _scenes[name];
-            _currentScene.Load(this._spriteData);
+            _currentScene.Load(_spriteData);
         }
 
-        public void DrawScene()
+        /// <summary>
+        /// Draws the current scene.
+        /// </summary>
+        /// <param name="gameTime">The current game time.</param>
+        public void DrawScene(GameTime gameTime)
         {
-            _currentScene.Draw(_spriteData);
+            if (_currentScene.GetSceneType() == SceneType.Menu)
+            {
+                _currentScene.Draw(_spriteData);
+            }
+            else
+            {
+                _currentScene.Draw(_spriteData, gameTime);
+            }
         }
 
-        public void setScene(string name)
+        /// <summary>
+        /// Updates the current scene.
+        /// </summary>
+        /// <param name="gameTime">The current game time.</param>
+        public void UpdateScene(GameTime gameTime)
         {
-            _currentScene = _scenes[name];
+            _currentScene?.Update(gameTime, this);
         }
 
+        /// <summary>
+        /// Releases all resource used by the SceneManager object.
+        /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the SceneManager and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed && disposing)
+            {
+                foreach (var scene in _scenes.Values)
+                {
+                    (scene as IDisposable)?.Dispose();
+                }
+            }
+
+            _disposed = true;
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the SceneManager class.
+        /// </summary>
+        ~SceneManager()
+        {
+            Dispose(false);
         }
     }
 }
