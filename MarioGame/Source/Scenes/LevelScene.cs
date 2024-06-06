@@ -59,6 +59,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new MovementSystem());
             Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new GravitySystem());
             LoadEntities();
             _tilemap = LoadMap(_levelData.pathMap);
             Systems.Add(new CollisionSystem(_tilemap, _levelHeight));

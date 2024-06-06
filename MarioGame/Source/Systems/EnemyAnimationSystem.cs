@@ -27,7 +27,7 @@ namespace SuperMarioBros.Source.Systems
                     if(!(entity is EnemyEntity)) continue;
                     var position = entity.GetComponent<PositionComponent>();
                     var animation = entity.GetComponent<AnimationComponent>();
-                    animation.FrameTime = 1.0f;
+                    animation.FrameTime = 0.8f;
                     if (position != null && animation != null)
                     {
                         _spriteBatch.Draw(animation.Textures[animation.CurrentFrame], position.Position, Color.White);
