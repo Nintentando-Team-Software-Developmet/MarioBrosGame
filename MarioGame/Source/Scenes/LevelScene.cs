@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Newtonsoft.Json.Linq;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Systems;
@@ -25,9 +22,10 @@ namespace SuperMarioBros.Source.Scenes
         private List<Entity> Entities { get; set; } = new();
         private List<BaseSystem> Systems { get; set; } = new();
         private bool _disposed;
-        private Dictionary<Vector2, int> tilemap;
+        private Dictionary<Vector2, int> _tilemap;
         private Camera _camera;
         private Dictionary<int, Texture2D> _spriteMap;
+        private int _levelHeight;
 
         /*
          * Loads resources and initializes entities for the level scene.
@@ -44,7 +42,7 @@ namespace SuperMarioBros.Source.Scenes
                 {
                     { 1, Sprites.StoneBlockBrown },
                 };
-                _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 768);
+                _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
             }
             // Load player entity
             var playerTextures = new Texture2D[]
@@ -75,7 +73,9 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new MovementSystem());
             if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
 
-            tilemap = LoadMap("../../../Data/level-surface.json");
+            _tilemap = LoadMap("../../../Data/level-surface.json");
+            Systems.Add(new CollisionSystem(_tilemap,_levelHeight));
+
         }
 
         /*
@@ -126,7 +126,7 @@ namespace SuperMarioBros.Source.Scenes
 
             spriteData.spriteBatch.Begin(transformMatrix: _camera.Transform);
 
-            foreach (var item in tilemap)
+            foreach (var item in _tilemap)
             {
                 Rectangle dest = new Rectangle(
                     (int)item.Key.X * 64,
@@ -192,7 +192,7 @@ namespace SuperMarioBros.Source.Scenes
             _disposed = true;
         }
 
-        private static Dictionary<Vector2, int> LoadMap(string filepath)
+        private Dictionary<Vector2, int> LoadMap(string filepath)
         {
             Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
 
@@ -207,6 +207,7 @@ namespace SuperMarioBros.Source.Scenes
 
                 int width = (int)jsonObject["width"];
                 int height = (int)jsonObject["height"];
+                _levelHeight = height;
 
                 for (int y = 0; y < height; y++)
                 {
