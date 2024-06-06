@@ -1,0 +1,14 @@
+{ "columns":21,
+ "image":"spritesImage.png",
+ "imageheight":764,
+ "imagewidth":680,
+ "margin":0,
+ "name":"NES - Super Mario Bros - Tileset",
+ "spacing":0,
+ "tilecount":483,
+ "tiledversion":"1.10.2",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.10"
+}
