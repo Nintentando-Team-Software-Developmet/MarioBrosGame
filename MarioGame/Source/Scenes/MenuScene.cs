@@ -45,7 +45,7 @@ namespace SuperMarioBros.Source.Scenes
             //Console.WriteLine(Screen);
         }
 
-        public void Draw(SpriteData spriteData)
+        public void Draw(SpriteData spriteData, GameTime gameTime)
         {
             if (spriteData == null) return;
 
@@ -62,11 +62,6 @@ namespace SuperMarioBros.Source.Scenes
             DrawStartButton(spriteData);
 
             spriteData.spriteBatch.End();
-        }
-
-        public void Draw(SpriteData spriteData, GameTime gameTime)
-        {
-            Draw(spriteData);
         }
 
         public SceneType GetSceneType()

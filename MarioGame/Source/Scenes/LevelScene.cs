@@ -31,6 +31,7 @@ namespace SuperMarioBros.Source.Scenes
         private Dictionary<int, Texture2D> _spriteMap;
         private int _levelHeight;
         private LevelData _levelData;
+        private const int TileSize = 64;
 
         /*
          * Constructs a new LevelScene object.
@@ -131,10 +132,10 @@ namespace SuperMarioBros.Source.Scenes
             foreach (var item in _tilemap)
             {
                 Rectangle dest = new Rectangle(
-                    (int)item.Key.X * 64,
-                    (int)item.Key.Y * 64,
-                    64,
-                    64
+                    (int)item.Key.X * TileSize,
+                    (int)item.Key.Y * TileSize,
+                    TileSize,
+                    TileSize
                 );
 
                 int index = item.Value;
