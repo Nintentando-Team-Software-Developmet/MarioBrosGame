@@ -8,7 +8,6 @@ namespace SuperMarioBros.Source.Scenes
     {
         void Load(SpriteData spriteData);
         void Unload();
-        void Draw(SpriteData spriteData);
         void Draw(SpriteData spriteData, GameTime gameTime);
         void Update(GameTime gameTime, SceneManager sceneManager);
         SceneType GetSceneType();

@@ -26,6 +26,7 @@ namespace SuperMarioBros.Source.Scenes
         private Camera _camera;
         private Dictionary<int, Texture2D> _spriteMap;
         private int _levelHeight;
+        private const int TileSize = 64;
 
         /*
          * Loads resources and initializes entities for the level scene.
@@ -129,10 +130,10 @@ namespace SuperMarioBros.Source.Scenes
             foreach (var item in _tilemap)
             {
                 Rectangle dest = new Rectangle(
-                    (int)item.Key.X * 64,
-                    (int)item.Key.Y * 64,
-                    64,
-                    64
+                    (int)item.Key.X * TileSize,
+                    (int)item.Key.Y * TileSize,
+                    TileSize,
+                    TileSize
                 );
 
                 int index = item.Value;
@@ -152,7 +153,6 @@ namespace SuperMarioBros.Source.Scenes
                 }
             }
             spriteData.spriteBatch.End();
-
         }
 
         public SceneType GetSceneType()
