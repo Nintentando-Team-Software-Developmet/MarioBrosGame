@@ -67,7 +67,7 @@ namespace SuperMarioBros.Source.Scenes
                 Sprites.BigJumpBackLeft
 
             };
-            var player = new PlayerEntity(playerTextures, new Vector2(100, 100));
+            var player = new PlayerEntity(playerTextures, new Vector2(100, 517));
             Entities.Add(player);
 
             Systems.Add(new InputSystem());
