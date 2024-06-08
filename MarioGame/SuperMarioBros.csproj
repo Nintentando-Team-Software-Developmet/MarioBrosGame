@@ -34,4 +34,14 @@
   <ItemGroup>
     <EditorConfig Condition="Exists('$(MSBuildThisFileDirectory).editorconfig')" Include="$(MSBuildThisFileDirectory).editorconfig" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Content\Levels\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Content\Maps\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
