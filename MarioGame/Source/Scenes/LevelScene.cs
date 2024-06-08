@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json.Serialization;
+
 using MarioGame;
 using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
@@ -25,13 +25,9 @@ namespace SuperMarioBros.Source.Scenes
     {
         private List<Entity> Entities { get; set; } = new();
         private List<BaseSystem> Systems { get; set; } = new();
-        private bool _disposed;
-        private Dictionary<Vector2, int> _tilemap;
-        private Camera _camera;
-        private Dictionary<int, Texture2D> _spriteMap;
-        private int _levelHeight;
+        private MapGame map;
         private LevelData _levelData;
-        private const int TileSize = 64;
+        private bool _disposed;
 
         /*
          * Constructs a new LevelScene object.
@@ -46,35 +42,36 @@ namespace SuperMarioBros.Source.Scenes
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
 
         }
+        
+        /*
+         * Loads resources and initializes the level scene.
+         * This method is called when the scene is being loaded or switched.
+         * It creates the map and systems for the level scene.
+         */
         public void Load(SpriteData spriteData)
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
-            _spriteMap = new Dictionary<int, Texture2D>
-            {
-                { 1, Sprites.StoneBlockBrown },
-            };
-            _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
-            var player = new PlayerEntity(Animations.playerTextures, new Vector2(100, 100));
-            Entities.Add(player);
+            map = new MapGame(_levelData.pathMap, spriteData);
+            LoadEntities();
+            //TODO: Refactor
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
             Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new GravitySystem());
-            LoadEntities();
-            _tilemap = LoadMap(_levelData.pathMap);
-            Systems.Add(new CollisionSystem(_tilemap, _levelHeight));
+            Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
+            
         }
 
-        private void LoadEntities(){
+        /*
+         * Loads entities from the level data.
+         * This method creates entities based on the level data and adds them to the scene.
+         */
+        private void LoadEntities()
+        {
             foreach (var entity in _levelData.entities)
             {
-                if (entity.type == EntityType.ENEMY)
-                {
-                    Entities.Add(EnemyFactory.CreateEnemy(entity.name, entity));
-
-                }
-                // load other entities
+                Entities.Add(EntityFactory.CreateEntity(entity));
             }
         }
 
@@ -85,7 +82,6 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Unload()
         {
-
             Entities.Clear();
         }
 
@@ -102,15 +98,8 @@ namespace SuperMarioBros.Source.Scenes
             {
                 system.Update(gameTime, Entities);
             }
-            var player = Entities.Find(e => e is PlayerEntity);
-            if (player != null)
-            {
-                var positionComponent = player.GetComponent<PositionComponent>();
-                if (positionComponent != null)
-                {
-                    _camera.Follow(positionComponent.Position);
-                }
-            }
+            var player = Entities.Find(e => e.HasComponent<PlayerComponent>());
+            map.Follow(player);
         }
 
         /*
@@ -121,35 +110,22 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
-            spriteData.spriteBatch.Begin(transformMatrix: _camera.Transform);
-            DrawMap(spriteData);
+            spriteData.spriteBatch.Begin(transformMatrix:map.Camera.Transform);
+            map.Draw(spriteData);
             DrawEntities(gameTime);
             spriteData.spriteBatch.End();
         }
 
-        private void DrawMap(SpriteData spriteData)
-        {
-            foreach (var item in _tilemap)
-            {
-                Rectangle dest = new Rectangle(
-                    (int)item.Key.X * TileSize,
-                    (int)item.Key.Y * TileSize,
-                    TileSize,
-                    TileSize
-                );
-
-                int index = item.Value;
-                if (_spriteMap.ContainsKey(index))
-                {
-                    Texture2D texture = _spriteMap[index];
-                    spriteData.spriteBatch.Draw(texture, dest, Color.White);
-                }
-            }
-        }
-
+        /*
+         * Draws all entities in the level scene.
+         * This method calls the Draw method of all renderable systems in the scene.
+         *
+         * Parameters:
+         *   gameTime: GameTime object containing timing information.
+         */
         private void DrawEntities(GameTime gameTime)
         {
-             foreach (var system in Systems)
+            foreach (var system in Systems)
             {
                 if (system is IRenderableSystem renderableSystem)
                 {
@@ -158,14 +134,13 @@ namespace SuperMarioBros.Source.Scenes
             }
         }
 
+        /*
+         * Gets the type of the scene.
+         * This method returns the SceneType.Level enum value.
+         */
         public SceneType GetSceneType()
         {
             return SceneType.Level;
-        }
-
-        public void Draw(SpriteData spriteData)
-        {
-            throw new NotImplementedException();
         }
 
         /*
@@ -185,47 +160,12 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (_disposed)
                 return;
-
             if (disposing)
             {
-                // Dispose of any disposable objects here
                 Entities.Clear();
             }
-
             _disposed = true;
         }
 
-        private Dictionary<Vector2, int> LoadMap(string filepath)
-        {
-            Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
-
-            using (StreamReader reader = new StreamReader(filepath))
-            {
-                string jsonContent = reader.ReadToEnd();
-                JObject jsonObject = JObject.Parse(jsonContent);
-
-                JArray layers = (JArray)jsonObject["layers"];
-                JObject layer = (JObject)layers[0];
-                JArray data = (JArray)layer["data"];
-
-                int width = (int)jsonObject["width"];
-                int height = (int)jsonObject["height"];
-                _levelHeight = height;
-
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        int value = (int)data[y * width + x];
-                        if (value > 0)
-                        {
-                            result[new Vector2(x, y)] = value;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
     }
 }

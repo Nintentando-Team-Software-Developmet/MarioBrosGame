@@ -58,9 +58,14 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
+                entities = entities.Where(e => 
+                    e.HasComponent<AnimationComponent>() &&
+                    e.HasComponent<PositionComponent>() &&
+                    e.HasComponent<VelocityComponent>() &&
+                    e.HasComponent<PlayerComponent>());
+
                 foreach (var entity in entities)
                 {
-                    if(!(entity is PlayerEntity)) continue;
                     var animation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
                     var velocity = entity.GetComponent<VelocityComponent>();
@@ -94,9 +99,13 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
+                entities = entities.Where(e => 
+                    e.HasComponent<AnimationComponent>() && 
+                    e.HasComponent<PositionComponent>() &&
+                    e.HasComponent<PlayerComponent>()
+                    );
                 foreach (var entity in entities)
                 {
-                    if(!(entity is PlayerEntity)) continue;
                     var playerAnimation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
 

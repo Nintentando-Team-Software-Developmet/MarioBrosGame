@@ -13,9 +13,9 @@ namespace SuperMarioBros
     public class WorldGame : IDisposable
     {
         private SceneManager _sceneManager;
-        private bool _disposed;
         private MenuScene _menuScene;
         private LevelScene _levelScene;
+        private bool _disposed;
 
         public WorldGame(SpriteData spriteData)
         {

@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+
 using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace MarioGame
 {
@@ -30,6 +33,17 @@ namespace MarioGame
         {
             Sprites.Goomba1,
             Sprites.Goomba2,
+        };
+
+        public static readonly Dictionary<int,Texture2D> mapTextures = new Dictionary<int, Texture2D>
+        {
+            { 1, Sprites.StoneBlockBrown },
+        };
+
+        public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>
+        {
+            { EntitiesName.MARIO, playerTextures },
+            { EntitiesName.GOOMBA, goombaTextures }
         };
     }
 }

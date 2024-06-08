@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,9 +23,12 @@ namespace SuperMarioBros.Source.Systems
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
             if (entities != null) {
+                entities = entities.Where(e => 
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<EnemyComponent>());
                 foreach (var entity in entities)
                 {
-                    if(!(entity is EnemyEntity)) continue;
                     var position = entity.GetComponent<PositionComponent>();
                     var animation = entity.GetComponent<AnimationComponent>();
                     animation.FrameTime = 0.8f;

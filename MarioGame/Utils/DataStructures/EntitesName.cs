@@ -12,6 +12,6 @@ namespace SuperMarioBros.Utils.DataStructures
         PIPE,
         FLAG,
         CASTLE,
-        PLAYER
+        MARIO,
     }
 }
