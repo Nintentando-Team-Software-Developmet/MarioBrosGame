@@ -7,6 +7,9 @@ public class HighScoreManager
 {
     private string _highScorePath = "resources/HighScores";
 
+    /*
+     * GetHighScoreAtLevel returns the int value of the highScore saved on resources
+     */
     public int GetHighScoreAtLevel(int level)
     {
         int integer = -1;
@@ -34,6 +37,9 @@ public class HighScoreManager
         Console.WriteLine($"el highsScore es: {integer}");
         return integer;
     }
+    /*
+     * UpdateHighScoreAtLevel updates the HighScore if the new one is greater than that one
+     */
     public void UpdateHighScoreAtLevel(int level, int newScore)
     {
         if (IsValidLevel(level))
@@ -53,6 +59,9 @@ public class HighScoreManager
         }
     }
 
+    /*
+     * IsValidLevel is a predicate which check if the level requested exist and is valid
+     */
     private bool IsValidLevel(int level)
     {
         if (level < 0)
