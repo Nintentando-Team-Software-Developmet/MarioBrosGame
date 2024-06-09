@@ -46,15 +46,14 @@ namespace SuperMarioBros.Source.Systems
             isActive = false;
             _spriteBatch = spriteBatch;
             isJumping = false;
-
-
         }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             if (entities != null)
             {
-                foreach (var entity in entities)
+                var playerEntities = entities.Where(e => e is PlayerEntity);
+                foreach (var entity in playerEntities)
                 {
                     var animation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
@@ -93,10 +92,32 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
 {
     if (entities != null)
     {
-        foreach (var entity in entities)
+        var playerEntities = entities.Where(e => e is PlayerEntity);
+
+
+        foreach (var entity in playerEntities)
         {
+
+
             var playerAnimation = entity.GetComponent<AnimationComponent>();
             var position = entity.GetComponent<PositionComponent>();
+
+
+            if (entity is PlayerEntity)
+            {
+                // La entidad es un PlayerEntity, por lo tanto, obtenemos su AnimationComponent
+                var playerAnimation2 = entity.GetComponent<AnimationComponent>();
+                Console.WriteLine(playerAnimation2.Textures.Count);
+                // Resto del código para la animación del jugador...
+            }
+            else if (entity is WinFlagEntity)
+            {
+                var winAnimation = entity.GetComponent<AnimationComponent>();
+                Console.WriteLine(winAnimation.Textures.Count);
+                // Resto del código para la animación de la bandera de victoria...
+            }
+
+
 
             if (playerAnimation != null && position != null)
             {
@@ -109,50 +130,50 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
 
                 bool hasDrawn = false;
 
-                if (isJumping || isDescending)
-                {
-                    if (gameTime != null)
+                    if (isJumping || isDescending)
                     {
-                        DrawJumping(_spriteBatch, position.LastPosition, gameTime);
-                        hasDrawn = true;
+                        if (gameTime != null)
+                        {
+                            DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                            hasDrawn = true;
+                        }
                     }
-                }
-                else if (position.pass == false)
-                {
-                    if (gameTime != null)
+                    else if (position.pass == false)
                     {
-                        DrawJumping(_spriteBatch, position.LastPosition, gameTime);
-                        isJumping = true;
-                        hasDrawn = true;
+                        if (gameTime != null)
+                        {
+                            DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                            isJumping = true;
+                            hasDrawn = true;
+                        }
                     }
-                }
-                else if (position.passR == false)
-                {
-                    if (gameTime != null)
+                    else if (position.passR == false)
                     {
-                        DrawJumping(_spriteBatch, position.LastPosition, gameTime);
-                        isJumping = true;
-                        hasDrawn = true;
+                        if (gameTime != null)
+                        {
+                            DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                            isJumping = true;
+                            hasDrawn = true;
+                        }
                     }
-                }
-                else if (position.passBed == false)
-                {
-                    positionBed = positionBed with { X = position.Position.X };
-                    positionBed = positionBed with { Y = position.Position.Y + 33 };
+                    else if (position.passBed == false)
+                    {
+                        positionBed = positionBed with { X = position.Position.X };
+                        positionBed = positionBed with { Y = position.Position.Y + 33 };
 
-                    DrawBed(_spriteBatch, positionBed);
-                    hasDrawn = true;
-                }
-                else if (position.Position.X != position.LastPosition.X)
-                {
-                    DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
-                    hasDrawn = true;
-                }
+                        DrawBed(_spriteBatch, positionBed);
+                        hasDrawn = true;
+                    }
+                    else if (position.Position.X != position.LastPosition.X)
+                    {
+                        DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
+                        hasDrawn = true;
+                    }
 
-                if (!hasDrawn)
-                {
-                    DrawStopped(_spriteBatch, position.LastPosition);
-                }
+                    if (!hasDrawn)
+                    {
+                        DrawStopped(_spriteBatch, position.LastPosition);
+                    }
             }
         }
     }
@@ -180,7 +201,7 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
             {
                 currentJumpHeight = 0;
                 isDescending = false;
-                isJumping = false; // Terminar el estado de salto
+                isJumping = false;
             }
         }
 
@@ -236,6 +257,7 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
             frames = spritesheetsRunLeft.Length;
         }
 
+
         public void DrawMovement(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, Texture2D[] sprites)
         {
             if (sprites != null)
@@ -245,7 +267,26 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
             }
             if (gameTime != null) UpdateFrameTiming(gameTime);
         }
+        private void UpdateFrameTiming(GameTime gameTime)
+        {
+            timeSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            float frameTime = (currentTextureIndex == 1) ? 200f : 100f;
+
+            if (timeSinceLastFrame >= frameTime)
+            {
+                timeSinceLastFrame -= frameTime;
+                currentTextureIndex++;
+                if (currentTextureIndex >= frames)
+                {
+                    if (!hasLoopedOnce)
+                    {
+                        hasLoopedOnce = true;
+                    }
+                    currentTextureIndex = 2;
+                }
+            }
+        }
         private void DrawStopped(SpriteBatch spriteBatch, Vector2 position)
         {
             if (isMovingLeft)
@@ -267,27 +308,6 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
             else
             {
                 spriteBatch.Draw(spritesheetsBend[0], position, Color.White);
-            }
-        }
-
-        private void UpdateFrameTiming(GameTime gameTime)
-        {
-            timeSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            float frameTime = (currentTextureIndex == 1) ? 200f : 100f;
-
-            if (timeSinceLastFrame >= frameTime)
-            {
-                timeSinceLastFrame -= frameTime;
-                currentTextureIndex++;
-                if (currentTextureIndex >= frames)
-                {
-                    if (!hasLoopedOnce)
-                    {
-                        hasLoopedOnce = true;
-                    }
-                    currentTextureIndex = 2;
-                }
             }
         }
 

@@ -20,6 +20,7 @@ namespace SuperMarioBros.Source.Scenes
     public class LevelScene : IScene, IDisposable
     {
         private List<Entity> Entities { get; set; } = new();
+        private List<Entity> Entities2 { get; set; } = new();
         private List<BaseSystem> Systems { get; set; } = new();
         private bool _disposed;
         private Dictionary<Vector2, int> _tilemap;
@@ -67,12 +68,21 @@ namespace SuperMarioBros.Source.Scenes
                 Sprites.BigJumpBackLeft
 
             };
+
+            var playerWin = new Texture2D[]
+            {
+                Sprites.WinFlagBrown
+
+            };
             var player = new PlayerEntity(playerTextures, new Vector2(100, 517));
             Entities.Add(player);
+            var winGame = new WinFlagEntity(playerWin, new Vector2(800, 50));
+            Entities.Add(winGame);
 
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
             if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
+            if (spriteData != null) Systems.Add(new WinGame(spriteData.spriteBatch));
 
             _tilemap = LoadMap("../../../Data/level-surface.json");
             Systems.Add(new CollisionSystem(_tilemap,_levelHeight));
@@ -88,6 +98,8 @@ namespace SuperMarioBros.Source.Scenes
         {
             //Console.WriteLine("Unloading LevelScene. Entities: " + Entities.Count);
             Entities.Clear();
+
+
         }
 
 /*
@@ -102,6 +114,7 @@ namespace SuperMarioBros.Source.Scenes
             foreach (var system in Systems)
             {
                 system.Update(gameTime, Entities);
+
             }
 
             var player = Entities.Find(e => e is PlayerEntity);
@@ -152,6 +165,7 @@ namespace SuperMarioBros.Source.Scenes
                     renderableSystem.Draw(gameTime, Entities);
                 }
             }
+
             spriteData.spriteBatch.End();
         }
 
