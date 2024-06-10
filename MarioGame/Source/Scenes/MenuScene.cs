@@ -1,5 +1,7 @@
 using System;
 
+using MarioGame;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -33,7 +35,7 @@ namespace SuperMarioBros.Source.Scenes
                 gamePadState.Buttons.B == ButtonState.Pressed ||
                 keyboardState.IsKeyDown(Keys.Enter))
             {
-                sceneManager?.ChangeScene("Level1");
+                sceneManager?.ChangeScene(SceneName.Level1);
             }
         }
 

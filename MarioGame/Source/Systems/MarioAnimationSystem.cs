@@ -49,7 +49,6 @@ namespace SuperMarioBros.Source.Systems
             initialMoveDuration = 200f;
             initialMoveElapsedTime = 0f;
             _spriteBatch = spriteBatch;
-
             isJumping = false;
             jumpVelocity = 5f;
             maxJumpHeight = 30f;
@@ -59,6 +58,12 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
+                entities = entities.Where(e => 
+                    e.HasComponent<AnimationComponent>() &&
+                    e.HasComponent<PositionComponent>() &&
+                    e.HasComponent<VelocityComponent>() &&
+                    e.HasComponent<PlayerComponent>());
+
                 foreach (var entity in entities)
                 {
                     var animation = entity.GetComponent<AnimationComponent>();
@@ -67,7 +72,6 @@ namespace SuperMarioBros.Source.Systems
 
                     if (animation != null && animation.IsAnimating)
                     {
-
                         if (gameTime != null)
                         {
                             animation.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -85,11 +89,8 @@ namespace SuperMarioBros.Source.Systems
                         {
                             isMovingLeft = velocity.Velocity.X < 0;
                         }
-
                         SetActive(velocity.Velocity != Vector2.Zero);
                     }
-
-
                 }
             }
         }
@@ -98,6 +99,11 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
+                entities = entities.Where(e => 
+                    e.HasComponent<AnimationComponent>() && 
+                    e.HasComponent<PositionComponent>() &&
+                    e.HasComponent<PlayerComponent>()
+                    );
                 foreach (var entity in entities)
                 {
                     var playerAnimation = entity.GetComponent<AnimationComponent>();
@@ -132,10 +138,7 @@ namespace SuperMarioBros.Source.Systems
                         {
                             if (gameTime != null)
                                 DrawStopped(_spriteBatch, position.LastPosition);
-
                         }
-
-
                     }
                 }
             }

@@ -1,21 +1,18 @@
 using System;
-
-using SuperMarioBros.Source.Scenes;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
+using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
+using MarioGame;
 
 namespace SuperMarioBros
 {
     public class WorldGame : IDisposable
     {
         private SceneManager _sceneManager;
-        private bool _disposed;
         private MenuScene _menuScene;
         private LevelScene _levelScene;
-        private GameOverScene _gameOverScene;
+        private bool _disposed;
 
         public WorldGame(SpriteData spriteData)
         {
@@ -25,23 +22,17 @@ namespace SuperMarioBros
         public void Initialize()
         {
             _menuScene = new MenuScene();
-            _levelScene = new LevelScene();
-            _gameOverScene = new GameOverScene();
-
-            _sceneManager.AddScene("Menu", _menuScene);
-            _sceneManager.AddScene("Level1", _levelScene);
-            _sceneManager.AddScene("GameOver", _gameOverScene);
-
-            _sceneManager.LoadScene("Menu");
+            _levelScene = new LevelScene(LevelPath.Level1);
+            _sceneManager.AddScene(SceneName.MainMenu, _menuScene);
+            _sceneManager.AddScene(SceneName.Level1, _levelScene);
+            _sceneManager.LoadScene(SceneName.MainMenu);
         }
 
         public void Update(GameTime gameTime)
         {
-            // Here you can add logic to transition from menu to Level1
-            // For example, by checking a key press or a button click
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                _sceneManager.ChangeScene("GameOver");
+                _sceneManager.ChangeScene(SceneName.Level1);
             }
             _sceneManager.UpdateScene(gameTime);
         }
@@ -67,7 +58,6 @@ namespace SuperMarioBros
                 _sceneManager?.Dispose();
                 _menuScene?.Dispose();
                 _levelScene?.Dispose();
-                _gameOverScene?.Dispose();
             }
 
             _disposed = true;

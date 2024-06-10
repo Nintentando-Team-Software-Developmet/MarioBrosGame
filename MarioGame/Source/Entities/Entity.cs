@@ -29,7 +29,5 @@ namespace SuperMarioBros.Source.Entities
         {
             return _components.ContainsKey(typeof(T).Name);
         }
-
-
     }
 }

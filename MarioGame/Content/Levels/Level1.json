@@ -1,0 +1,39 @@
+{
+    "nameLevel": "1-1",
+    "pathMap": "Content/Maps/level1Map.json",
+    "entities": [
+        {
+            "type": "PLAYER",
+            "name": "MARIO",
+            "position": {
+                "x": 90,
+                "y": 90
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 110,
+                "y": 110
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 250,
+                "y": 250
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 400,
+                "y": 250
+            }
+        }
+
+    ]
+}
