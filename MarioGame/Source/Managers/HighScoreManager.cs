@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System;
 using System.IO;
+
 namespace SuperMarioBros.Source.Managers;
 
 public class HighScoreManager

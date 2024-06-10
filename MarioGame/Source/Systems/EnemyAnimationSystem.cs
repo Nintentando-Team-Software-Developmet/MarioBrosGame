@@ -10,21 +10,24 @@ using SuperMarioBros.Source.Extensions;
 
 namespace SuperMarioBros.Source.Systems
 {
-   public class EnemyAnimationSystem : BaseSystem, IRenderableSystem
-   {
+    public class EnemyAnimationSystem : BaseSystem, IRenderableSystem
+    {
         private readonly SpriteBatch _spriteBatch;
+
         public EnemyAnimationSystem(SpriteBatch spriteBatch)
         {
             _spriteBatch = spriteBatch;
         }
+
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
 
         }
+
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
-
-            if (entities != null) {
+            if (entities != null)
+            {
                 var enemies = entities.WithComponents<PositionComponent, AnimationComponent, EnemyComponent>();
                 foreach (var entity in enemies)
                 {
@@ -34,13 +37,13 @@ namespace SuperMarioBros.Source.Systems
                     if (position != null && animation != null)
                     {
                         _spriteBatch.Draw(animation.Textures[animation.CurrentFrame], position.Position, Color.White);
-                        if(animation.IsAnimating)
+                        if (animation.IsAnimating)
                         {
                             animation.TimeElapsed += (float)gameTime?.ElapsedGameTime.TotalSeconds;
-                            if(animation.TimeElapsed > animation.FrameTime)
+                            if (animation.TimeElapsed > animation.FrameTime)
                             {
                                 animation.CurrentFrame++;
-                                if(animation.CurrentFrame >= animation.Textures.Count)
+                                if (animation.CurrentFrame >= animation.Textures.Count)
                                 {
                                     animation.CurrentFrame = 0;
                                 }
@@ -51,5 +54,5 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
         }
-   }
+    }
 }

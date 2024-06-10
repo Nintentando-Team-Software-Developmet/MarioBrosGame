@@ -16,7 +16,7 @@ namespace SuperMarioBros.Utils
 {
     /*
      * Represents a game map.
-     */   
+     */
     public class MapGame
     {
         private Dictionary<Vector2, int> _tilemap;
@@ -25,12 +25,12 @@ namespace SuperMarioBros.Utils
         private const int TileSize = 64;
 
         public MapGame(string pathMap, SpriteData spriteData)
-        {   
-            if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));  
-             _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
+        {
+            if (spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
+            _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
             LoadMap(pathMap);
         }
-        
+
         /*
         * Loads the map from the specified path.
         *
@@ -39,7 +39,7 @@ namespace SuperMarioBros.Utils
         */
         private void LoadMap(string pathMap)
         {
-           _tilemap = new Dictionary<Vector2, int>();
+            _tilemap = new Dictionary<Vector2, int>();
 
             using (StreamReader reader = new StreamReader(pathMap))
             {
@@ -74,7 +74,7 @@ namespace SuperMarioBros.Utils
         * Parameters:
         *   player: The player entity to follow.
         */
-        public void Follow (Entity player)
+        public void Follow(Entity player)
         {
             if (player != null)
             {
@@ -114,25 +114,25 @@ namespace SuperMarioBros.Utils
         /*
         * Gets the camera of the map.
         */
-        public Camera Camera 
-        { 
-            get { return _camera; } 
+        public Camera Camera
+        {
+            get { return _camera; }
         }
 
         /*
         * Gets the height of the map.
         */
-        public int LevelHeight 
-        { 
-            get { return _levelHeight; } 
+        public int LevelHeight
+        {
+            get { return _levelHeight; }
         }
 
         /*
         * Gets the tilemap of the map.
         */
-        public Dictionary<Vector2, int> Tilemap 
-        { 
-            get { return _tilemap; } 
+        public Dictionary<Vector2, int> Tilemap
+        {
+            get { return _tilemap; }
         }
     }
 }

@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+
+
 using Microsoft.Xna.Framework;
+
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
@@ -30,11 +34,7 @@ namespace SuperMarioBros.Source.Systems
                     if (position != null && velocity != null && gameTime != null)
                     {
                         position.LastPosition = position.Position;
-
-                        position.Position +=
-                            velocity.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds *0 ;
-
-
+                        position.Position += velocity.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 0;
                     }
                 }
             }

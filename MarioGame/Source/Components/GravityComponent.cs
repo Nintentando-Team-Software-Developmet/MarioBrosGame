@@ -1,6 +1,7 @@
 namespace SuperMarioBros.Source.Components
 {
-    public class GravityComponent: BaseComponent
+
+    public class GravityComponent : BaseComponent
     {
         public float gravity { get; set; }
 

@@ -2,9 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+
 using MarioGame.Utils.DataStructures;
+
+
 using Microsoft.Xna.Framework;
+
+
 using Newtonsoft.Json;
+
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
@@ -112,7 +119,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
-            spriteData.spriteBatch.Begin(transformMatrix:map.Camera.Transform);
+            spriteData.spriteBatch.Begin(transformMatrix: map.Camera.Transform);
             map.Draw(spriteData);
             DrawEntities(gameTime);
             spriteData.spriteBatch.End();
