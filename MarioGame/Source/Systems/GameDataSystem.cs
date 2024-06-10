@@ -15,7 +15,7 @@ public class GameDataSystem : BaseSystem
     private TimeComponent _time;
     private const int DEFAULT_TIME = 300;
 
-    public GameDataSystem(/*int totalScore, int coinsCounter, string levelName, double time*/)
+    public GameDataSystem()
     {
         _totalScore = new ScoreComponent(123);
         _coinsCounter = new CoinsComponent(546);

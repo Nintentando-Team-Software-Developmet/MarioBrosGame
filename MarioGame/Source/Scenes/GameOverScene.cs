@@ -17,9 +17,9 @@ public class GameOverScene : IScene, IDisposable
     private string _screen { get; set; } = "Screen";
     private GameDataSystem _gameDataSystem;
 
-    public GameOverScene()
+    public GameOverScene(/*GameDataSystem gameDataSystem*/)
     {
-        _gameDataSystem = new GameDataSystem();
+        _gameDataSystem = WorldGame.DataSystem;
     }
 
 
@@ -44,10 +44,6 @@ public class GameOverScene : IScene, IDisposable
     public void Unload()
     {
         Console.WriteLine(_screen);
-    }
-
-    public void Draw(SpriteData spriteData)
-    {
     }
 
     /*

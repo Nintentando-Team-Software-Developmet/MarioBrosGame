@@ -42,7 +42,7 @@ namespace SuperMarioBros.Source.Scenes
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
 
         }
-        
+
         /*
          * Loads resources and initializes the level scene.
          * This method is called when the scene is being loaded or switched.
@@ -60,7 +60,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new GravitySystem());
             Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
-            
+
         }
 
         /*
@@ -166,6 +166,8 @@ namespace SuperMarioBros.Source.Scenes
             }
             _disposed = true;
         }
+
+
 
     }
 }

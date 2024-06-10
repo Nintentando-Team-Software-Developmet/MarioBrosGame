@@ -5,6 +5,8 @@ using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
 using MarioGame;
 
+using SuperMarioBros.Source.Systems;
+
 namespace SuperMarioBros
 {
     public class WorldGame : IDisposable
@@ -12,7 +14,9 @@ namespace SuperMarioBros
         private SceneManager _sceneManager;
         private MenuScene _menuScene;
         private LevelScene _levelScene;
+        private GameOverScene _gameOverScene;
         private bool _disposed;
+        public static GameDataSystem DataSystem { get; } = new GameDataSystem();
 
         public WorldGame(SpriteData spriteData)
         {
@@ -23,16 +27,20 @@ namespace SuperMarioBros
         {
             _menuScene = new MenuScene();
             _levelScene = new LevelScene(LevelPath.Level1);
+            _gameOverScene = new GameOverScene();
+
             _sceneManager.AddScene(SceneName.MainMenu, _menuScene);
             _sceneManager.AddScene(SceneName.Level1, _levelScene);
-            _sceneManager.LoadScene(SceneName.MainMenu);
+            _sceneManager.AddScene(SceneName.GameOver, _gameOverScene);
+
+            _sceneManager.LoadScene(SceneName.Level1);
         }
 
         public void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                _sceneManager.ChangeScene(SceneName.Level1);
+                _sceneManager.ChangeScene(SceneName.GameOver);
             }
             _sceneManager.UpdateScene(gameTime);
         }
@@ -58,6 +66,7 @@ namespace SuperMarioBros
                 _sceneManager?.Dispose();
                 _menuScene?.Dispose();
                 _levelScene?.Dispose();
+                _gameOverScene?.Dispose();
             }
 
             _disposed = true;
