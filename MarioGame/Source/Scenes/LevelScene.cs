@@ -208,12 +208,12 @@ namespace SuperMarioBros.Source.Scenes
         public void UpdateHighScore()
         {
             scoreComponent.Score = 2222;
-            _highScoreManager.UpdateHighScoreAtLevel(1, scoreComponent.Score);
+            _highScoreManager.UpdateHighScore(scoreComponent.Score);
         }
 
         public int GetHighScore()
         {
-            return _highScoreManager.GetHighScoreAtLevel(1);
+            return _highScoreManager.GetHighScore();
         }
 
     }

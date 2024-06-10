@@ -5,75 +5,35 @@ namespace SuperMarioBros.Source.Managers;
 
 public class HighScoreManager
 {
-    private string _highScorePath = "resources/HighScores";
+    private string _highScorePath = "resources/HighScore";
 
     /*
-     * GetHighScoreAtLevel returns the int value of the highScore saved on resources
+     * GetHighScore returns the int value of the highScore saved on resources
      */
-    public int GetHighScoreAtLevel(int level)
+    public int GetHighScore()
     {
         int integer = -1;
-        if (IsValidLevel(level))
-        {
-            Console.WriteLine($"el highsScore es: {integer}");
-            return integer;
-        }
         string[] lines = File.ReadAllLines(_highScorePath);
 
-        foreach (string line in lines)
+        if (int.TryParse(lines[0], out int number))
         {
-            if (level == 0)
-            {
-                break;
-            }
-            if (int.TryParse(line, out int number))
-            {
-                level--;
-                integer = number;
-            }
-
-
+            integer = number;
         }
-        Console.WriteLine($"el highsScore es: {integer}");
         return integer;
     }
     /*
-     * UpdateHighScoreAtLevel updates the HighScore if the new one is greater than that one
+     * UpdateHighScore updates the HighScore if the new one is greater than that one
      */
-    public void UpdateHighScoreAtLevel(int level, int newScore)
+    public void UpdateHighScore(int newScore)
     {
-        if (IsValidLevel(level))
-        {
-            Console.WriteLine($"se rechazó el nivel{level}");
-            return;
-        }
         string[] lines = File.ReadAllLines(_highScorePath);
-        if (int.TryParse(lines[level - 1], out int oldScore))
+        if (int.TryParse(lines[0], out int oldScore))
         {
             if (newScore > oldScore)
             {
-                lines[level - 1] = $"{newScore}";
+                lines[0] = $"{newScore}";
                 File.WriteAllLines(_highScorePath, lines);
-                Console.WriteLine($"el nuevo highsScore es: {newScore}");
             }
         }
-    }
-
-    /*
-     * IsValidLevel is a predicate which check if the level requested exist and is valid
-     */
-    private bool IsValidLevel(int level)
-    {
-        if (level < 0)
-        {
-            return false;
-        }
-        string[] levelsHighScores = File.ReadAllLines(_highScorePath);
-
-        if (level >= levelsHighScores.Length)
-        {
-            return false;
-        }
-        return true;
     }
 }
