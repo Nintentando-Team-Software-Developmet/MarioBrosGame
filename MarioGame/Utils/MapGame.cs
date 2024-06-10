@@ -8,8 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Newtonsoft.Json.Linq;
 
-using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Utils
