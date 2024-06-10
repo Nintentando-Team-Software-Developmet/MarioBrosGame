@@ -12,6 +12,7 @@ namespace SuperMarioBros.Source.Components
         public float FrameTime { get; set; }
         public float TimeElapsed { get; set; }
         public bool IsAnimating { get; set; }
+        public bool colition { get; set; }
 
         public AnimationComponent(Texture2D[] textures, float frameTime = 0.0f)
         {

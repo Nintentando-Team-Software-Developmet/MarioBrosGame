@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
@@ -14,6 +19,7 @@ namespace SuperMarioBros.Source.Systems
         private readonly Dictionary<Vector2, int> _tilemap;
         private readonly int _levelHeight;
 
+
         /*
         * Initializes a new instance of the CollisionSystem class.
         *
@@ -24,6 +30,7 @@ namespace SuperMarioBros.Source.Systems
         {
             _tilemap = tilemap;
             _levelHeight = levelHeight;
+
         }
 
         /*
@@ -37,22 +44,26 @@ namespace SuperMarioBros.Source.Systems
             if (entities == null)
                 return;
 
-            foreach (var entity in entities)
-            {
-                var positionComponent = entity.GetComponent<PositionComponent>();
-                var velocityComponent = entity.GetComponent<VelocityComponent>();
+            var playerEntities = entities.Where(e => e is PlayerEntity);
+            var winFlagEntities = entities.Where(e => e is WinFlagEntity);
 
-                if (positionComponent != null && velocityComponent != null)
+            foreach (var playerEntity in playerEntities)
+            {
+                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position;
+                var playerAnimation = playerEntity.GetComponent<AnimationComponent>();
+
+
+                foreach (var winFlagEntity in winFlagEntities)
                 {
-                    Vector2 futurePosition = positionComponent.Position + velocityComponent.Velocity;
-                    if (IsColliding(futurePosition))
+                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position;
+                    var position = winFlagEntity.GetComponent<PositionComponent>();
+
+                    if (playerPosition.X ==  winFlagPosition.X)
                     {
-                        positionComponent.Position = AdjustPosition(positionComponent.Position, velocityComponent.Velocity);
-                        velocityComponent.Velocity = Vector2.Zero;
-                    }
-                    else
-                    {
-                        positionComponent.Position = futurePosition;
+                        // Realizar la acción deseada al colisionar
+                        Console.WriteLine('A');
+                        playerAnimation.colition = true;
+
                     }
                 }
             }
@@ -79,6 +90,13 @@ namespace SuperMarioBros.Source.Systems
 
             return false;
         }
+        private static void HandleCollision(Entity playerEntity)
+        {
+            // Elimina la entidad del jugador al colisionar
+            playerEntity.GetComponent<PositionComponent>().Position = new Vector2(-9999, -9999); // Coloca al jugador fuera del área visible
+            Console.WriteLine('o');
+        }
+
 
         /*
         * Adjusts the position of an entity to resolve a collision based on its velocity.

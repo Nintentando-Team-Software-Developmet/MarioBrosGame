@@ -22,6 +22,7 @@ namespace SuperMarioBros.Source.Systems
         private Texture2D[] spritesheetsJump2 { get; set; }
         private Texture2D[] spritesheetsBend { get; set; }
         private Texture2D[] spritesheetsBend2 { get; set; }
+        private Texture2D[] spritesheetsWin { get; set; }
 
         private int currentTextureIndex { get; set; }
         private int frames { get; set; }
@@ -40,6 +41,15 @@ namespace SuperMarioBros.Source.Systems
         private float jumpAnimationFrameTime = 50.2f;
         private  Vector2 positionBed { get; set; }
         private bool isDescending { get; set; } = true;
+
+        const float maxJumpHeight = 200f;
+        const float jumpSpeed = 400f;
+        const float thenJumpSpeed = 400f;
+
+        private Vector2 jumpEndY { get; set; }
+        private Vector2 lastJumpingPosition { get; set; }
+        private bool wasJumping { get; set; }
+        private WinGame WinGame { get; set; } = new WinGame();
 
         public MarioAnimationSystem(SpriteBatch spriteBatch)
         {
@@ -94,30 +104,11 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
     {
         var playerEntities = entities.Where(e => e is PlayerEntity);
 
-
         foreach (var entity in playerEntities)
         {
 
-
             var playerAnimation = entity.GetComponent<AnimationComponent>();
             var position = entity.GetComponent<PositionComponent>();
-
-
-            if (entity is PlayerEntity)
-            {
-                // La entidad es un PlayerEntity, por lo tanto, obtenemos su AnimationComponent
-                var playerAnimation2 = entity.GetComponent<AnimationComponent>();
-                Console.WriteLine(playerAnimation2.Textures.Count);
-                // Resto del código para la animación del jugador...
-            }
-            else if (entity is WinFlagEntity)
-            {
-                var winAnimation = entity.GetComponent<AnimationComponent>();
-                Console.WriteLine(winAnimation.Textures.Count);
-                // Resto del código para la animación de la bandera de victoria...
-            }
-
-
 
             if (playerAnimation != null && position != null)
             {
@@ -127,8 +118,18 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
                 spritesheetsJump2 = new Texture2D[] { playerAnimation.Textures[13] };
                 spritesheetsBend = new Texture2D[] { playerAnimation.Textures[10] };
                 spritesheetsBend2 = new Texture2D[] { playerAnimation.Textures[11] };
+                spritesheetsWin = new Texture2D[] { playerAnimation.Textures[15],playerAnimation.Textures[14] };
 
                 bool hasDrawn = false;
+
+                if (playerAnimation.colition == true)
+                {
+                    if (gameTime != null) DrawWin(_spriteBatch, position.Position, gameTime);
+
+
+                }
+                else
+                {
 
                     if (isJumping || isDescending)
                     {
@@ -174,17 +175,18 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
                     {
                         DrawStopped(_spriteBatch, position.LastPosition);
                     }
+                }
             }
+            WinGame.DrawWinGame(gameTime,entities,_spriteBatch,playerAnimation.colition,jumpEndY,currentYPosition);
         }
+
     }
 }
 
     private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
     {
-        const float maxJumpHeight = 200f;
-        const float jumpSpeed = 400f;
-        const float thenJumpSpeed = 400f;
 
+        lastJumpingPosition = position;
         if (!isDescending)
         {
             currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -205,7 +207,10 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
             }
         }
 
+
         position = position with { Y = position.Y - currentJumpHeight };
+        jumpEndY = jumpEndY with { Y = position.Y };
+        Console.WriteLine(jumpEndY);
         int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
         if (isMovingLeft)
         {
@@ -215,7 +220,70 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
             spriteBatch.Draw(spritesheetsJump[currentFrameIndex], position, Color.White);
         }
+
+        wasJumping = true;
     }
+
+private const float movementSpeed = 20f;
+private const float distanceToTravel = 200f;
+
+
+private float currentXPosition { get; set; }
+private float currentYPosition { get; set; }
+private float currentMoreYPosition { get; set; }
+private float distanceTraveled { get; set; }
+private bool isDescendingToOriginalY { get; set; }
+private bool end { get; set; } = true;
+private void DrawWin(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
+{
+    const float frameDuration = 1f;
+    int numSprites = spritesheetsWin.Length;
+
+    if (currentXPosition == 0f || currentYPosition == 0f)
+    {
+        currentXPosition = WinGame.initialPosition.X;
+        currentYPosition = jumpEndY.Y;
+        currentMoreYPosition = jumpEndY.Y;  // Inicializar currentMoreYPosition
+    }
+
+    float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+    float yMovement = movementSpeed * deltaTime;
+    float xMovement = movementSpeed * deltaTime;
+
+    if (currentYPosition < position.Y - 120)
+    {
+        currentYPosition += yMovement;
+        currentMoreYPosition = currentYPosition;  // Actualizar currentMoreYPosition
+    }
+    else
+    {
+        if (distanceTraveled == 0)
+        {
+            currentXPosition = WinGame.initialPosition.X + 60;
+        }
+
+        if (currentMoreYPosition < position.Y)
+        {
+            currentMoreYPosition += yMovement;
+        }
+        else
+        {
+            if (distanceTraveled < distanceToTravel)
+            {
+                currentXPosition += xMovement;
+                distanceTraveled += xMovement;
+            }
+        }
+    }
+
+    float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
+    int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSprites;
+
+    spriteBatch.Draw(spritesheetsWin[currentFrameIndex], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+}
+
+
+
 
         private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition)
         {
@@ -321,5 +389,6 @@ public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
 
             }
         }
+
     }
 }

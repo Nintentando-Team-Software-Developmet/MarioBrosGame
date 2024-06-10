@@ -10,21 +10,21 @@ using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Systems;
 
-public class WinGame: BaseSystem, IRenderableSystem
+public class WinGame
 {
-    private readonly SpriteBatch _spriteBatch;
+
     private bool isActive { get; set; }
     private Texture2D[] spritesheets { get; set; }
 
     private int currentTextureIndex { get; set; }
     private bool hasLoopedOnce { get; set; }
-    public WinGame(SpriteBatch spriteBatch)
-    {
-        isActive = false;
-        _spriteBatch = spriteBatch;
+    private MarioAnimationSystem marioAnimationSystem{ get; set; }
+    public Vector2 initialPosition { get; set; }
+    private Vector2 spritePosition { get; set; }
+    private Vector2 targetPosition { get; set; }
+    private float lerpAmount { get; set; }
 
-    }
-    public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
+    public void DrawWinGame(GameTime gameTime, IEnumerable<Entity> entities, SpriteBatch spriteBatch, bool colition, Vector2 jumpEndY, float currentYPosition)
     {
         if (entities != null)
         {
@@ -32,56 +32,46 @@ public class WinGame: BaseSystem, IRenderableSystem
 
             foreach (var entity in playerEntities)
             {
-                var animation = entity.GetComponent<AnimationComponent>();
-
-                if (animation != null && animation.IsAnimating)
-                {
-                    if (gameTime != null)
-                    {
-                        animation.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    }
-                    if (animation.TimeElapsed >= animation.FrameTime)
-                    {
-                        animation.CurrentFrame = (animation.CurrentFrame + 1) % animation.Textures.Count;
-                        animation.TimeElapsed = 0f;
-                    }
-                }
-            }
-        }
-    }
-
-    public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
-    {
-        if (entities != null)
-        {
-            var playerEntities = entities.Where(e => e is WinFlagEntity);
-
-
-            foreach (var entity in playerEntities)
-            {
-
-                if (entity is PlayerEntity)
-                {
-                    // La entidad es un PlayerEntity, por lo tanto, obtenemos su AnimationComponent
-                    var playerAnimation2 = entity.GetComponent<AnimationComponent>();
-                    Console.WriteLine(playerAnimation2.Textures.Count);
-                    // Resto del código para la animación del jugador...
-                }
-                else if (entity is WinFlagEntity)
-                {
-                    var winAnimation = entity.GetComponent<AnimationComponent>();
-                    Console.WriteLine(winAnimation.Textures.Count);
-                    // Resto del código para la animación de la bandera de victoria...
-                }
-
                 var playerAnimation = entity.GetComponent<AnimationComponent>();
                 var position = entity.GetComponent<PositionComponent>();
+                initialPosition = position.Position;
 
-                spritesheets = new Texture2D[] { playerAnimation.Textures[0]};
-                _spriteBatch.Draw(spritesheets[0], position.Position, Color.White);
+                spritesheets = new Texture2D[] { playerAnimation.Textures[0], playerAnimation.Textures[1] };
 
+
+                if (spritePosition == Vector2.Zero)
+                {
+                    spritePosition = new Vector2(300, 70);
+                    targetPosition = spritePosition;
+                }
+
+
+                if (colition)
+                {
+                    targetPosition = new Vector2(300, currentYPosition + 130);
+                }
+
+                // Interpola gradualmente hacia la nueva posición
+                if (gameTime != null)
+                {
+                    float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    lerpAmount += deltaTime * 1;
+                }
+
+                spritePosition = Vector2.Lerp(spritePosition, targetPosition, lerpAmount);
+
+
+                if (spriteBatch != null)
+                {
+                    spriteBatch.Draw(spritesheets[1], spritePosition, Color.White);
+                    spriteBatch.Draw(spritesheets[0], position.Position, Color.White);
+                }
+
+                if (lerpAmount >= 1.0f)
+                {
+                    lerpAmount = 0.0f;
+                }
             }
         }
     }
-
 }

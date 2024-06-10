@@ -65,24 +65,28 @@ namespace SuperMarioBros.Source.Scenes
                 Sprites.BigBendLeft,
 
                 Sprites.BigJumpBack,
-                Sprites.BigJumpBackLeft
+                Sprites.BigJumpBackLeft,
+
+                Sprites.PowerStop,
+                Sprites.PowerWalk1
 
             };
 
             var playerWin = new Texture2D[]
             {
-                Sprites.WinFlagBrown
-
+                Sprites.WinFlagGreen,
+                Sprites.WinFlag
             };
             var player = new PlayerEntity(playerTextures, new Vector2(100, 517));
             Entities.Add(player);
-            var winGame = new WinFlagEntity(playerWin, new Vector2(800, 50));
+            var winGame = new WinFlagEntity(playerWin, new Vector2(300, 50));
+            //X 2800 , Y
             Entities.Add(winGame);
 
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
             if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
-            if (spriteData != null) Systems.Add(new WinGame(spriteData.spriteBatch));
+         //   if (spriteData != null) Systems.Add(new WinGame(spriteData.spriteBatch));
 
             _tilemap = LoadMap("../../../Data/level-surface.json");
             Systems.Add(new CollisionSystem(_tilemap,_levelHeight));

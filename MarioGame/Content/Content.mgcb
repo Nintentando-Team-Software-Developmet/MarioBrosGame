@@ -1185,6 +1185,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/powerups/super_star_3.png
 
+#begin sprites/props/Bandera.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/Bandera.png
+
 #begin sprites/props/bush.png
 /importer:TextureImporter
 /processor:TextureProcessor

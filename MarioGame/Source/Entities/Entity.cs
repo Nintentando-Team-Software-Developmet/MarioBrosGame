@@ -8,6 +8,7 @@ namespace SuperMarioBros.Source.Entities
     public class Entity
     {
         private Dictionary<string, BaseComponent> _components = new();
+        public bool Sliding { get; set; }
 
         public void AddComponent<T>(T component) where T : BaseComponent
         {

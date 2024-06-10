@@ -7,6 +7,7 @@ namespace SuperMarioBros.Source.Entities
 {
     public class PlayerEntity : Entity
     {
+
         public PlayerEntity(Texture2D[] textures, Vector2 startPosition)
         {
             AddComponent(new PositionComponent(startPosition));
