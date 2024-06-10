@@ -171,17 +171,18 @@ namespace SuperMarioBros.Source.Scenes
         private static void DrawHighScore(SpriteData spriteData)
         {
             float fontSize = 30f;
-            float scale = fontSize / spriteData.spriteFont.MeasureString("HIGHSCORE").Y;
+            int highScore = new HighScoreManager().GetHighScore();
+            float scale = fontSize / spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").Y;
             Vector2 startPosition = new Vector2(
-                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString("HIGHSCORE").X * scale) / 2,
+                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 250
             );
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "HIGH SCORE", startPosition, Color.White);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "HIGHSCORE", startPosition, Color.White);
             Vector2 highScorePosition = new Vector2(
                 (spriteData.graphics.GraphicsDevice.Viewport.Width + spriteData.spriteFont.MeasureString("HIGHSCORE").X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 250
             );
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{new HighScoreManager().GetHighScore()}", highScorePosition, Color.White);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont,$"{highScore}" , highScorePosition, Color.White);
         }
 
         public void Dispose()
