@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-
+using Newtonsoft.Json.Linq;
+using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
@@ -21,6 +22,11 @@ namespace SuperMarioBros.Source.Scenes
         private List<Entity> Entities { get; set; } = new();
         private List<BaseSystem> Systems { get; set; } = new();
         private bool _disposed;
+        private Dictionary<Vector2, int> _tilemap;
+        private Camera _camera;
+        private Dictionary<int, Texture2D> _spriteMap;
+        private int _levelHeight;
+        private const int TileSize = 64;
 
         /*
          * Loads resources and initializes entities for the level scene.
@@ -31,6 +37,14 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Load(SpriteData spriteData)
         {
+            if (spriteData != null)
+            {
+                _spriteMap = new Dictionary<int, Texture2D>
+                {
+                    { 1, Sprites.StoneBlockBrown },
+                };
+                _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
+            }
             // Load player entity
             var playerTextures = new Texture2D[]
             {
@@ -60,6 +74,10 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new MovementSystem());
 
             if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
+
+            _tilemap = LoadMap("../../../Data/level-surface.json");
+            Systems.Add(new CollisionSystem(_tilemap,_levelHeight));
+
         }
 
         /*
@@ -86,6 +104,16 @@ namespace SuperMarioBros.Source.Scenes
             {
                 system.Update(gameTime, Entities);
             }
+
+            var player = Entities.Find(e => e is PlayerEntity);
+            if (player != null)
+            {
+                var positionComponent = player.GetComponent<PositionComponent>();
+                if (positionComponent != null)
+                {
+                    _camera.Follow(positionComponent.Position);
+                }
+            }
         }
 
         /*
@@ -96,9 +124,26 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) return;
 
-            spriteData.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
 
-            spriteData.spriteBatch.Begin();
+            spriteData.spriteBatch.Begin(transformMatrix: _camera.Transform);
+
+            foreach (var item in _tilemap)
+            {
+                Rectangle dest = new Rectangle(
+                    (int)item.Key.X * TileSize,
+                    (int)item.Key.Y * TileSize,
+                    TileSize,
+                    TileSize
+                );
+
+                int index = item.Value;
+                if (_spriteMap.ContainsKey(index))
+                {
+                    Texture2D texture = _spriteMap[index];
+                    spriteData.spriteBatch.Draw(texture, dest, Color.White);
+                }
+            }
 
             // Draw entities using the AnimationSystem
             foreach (var system in Systems)
@@ -109,7 +154,6 @@ namespace SuperMarioBros.Source.Scenes
                 }
             }
             spriteData.spriteBatch.End();
-
         }
 
         public SceneType GetSceneType()
@@ -147,6 +191,39 @@ namespace SuperMarioBros.Source.Scenes
             }
 
             _disposed = true;
+        }
+
+        private Dictionary<Vector2, int> LoadMap(string filepath)
+        {
+            Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
+
+            using (StreamReader reader = new StreamReader(filepath))
+            {
+                string jsonContent = reader.ReadToEnd();
+                JObject jsonObject = JObject.Parse(jsonContent);
+
+                JArray layers = (JArray)jsonObject["layers"];
+                JObject layer = (JObject)layers[0];
+                JArray data = (JArray)layer["data"];
+
+                int width = (int)jsonObject["width"];
+                int height = (int)jsonObject["height"];
+                _levelHeight = height;
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        int value = (int)data[y * width + x];
+                        if (value > 0)
+                        {
+                            result[new Vector2(x, y)] = value;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }
