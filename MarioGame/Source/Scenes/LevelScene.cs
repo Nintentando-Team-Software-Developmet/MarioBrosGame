@@ -207,7 +207,6 @@ namespace SuperMarioBros.Source.Scenes
 
         public void UpdateHighScore()
         {
-            scoreComponent.Score = 2222;
             _highScoreManager.UpdateHighScore(scoreComponent.Score);
         }
 
