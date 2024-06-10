@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Extensions;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -19,7 +20,8 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
-                foreach (var entity in entities)
+                var movableEntities = entities.WithComponents<PositionComponent, VelocityComponent>();
+                foreach (var entity in movableEntities)
                 {
                     var position = entity.GetComponent<PositionComponent>();
                     var velocity = entity.GetComponent<VelocityComponent>();

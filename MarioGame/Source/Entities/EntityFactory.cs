@@ -33,6 +33,7 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new VelocityComponent(Vector2.Zero));
                     entity.AddComponent(new GravityComponent(9.8f));
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new InputComponent());
                     break;
                 //TODO: Implement other entity types
             }

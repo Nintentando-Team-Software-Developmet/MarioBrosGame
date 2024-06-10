@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Extensions;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -18,16 +19,14 @@ namespace SuperMarioBros.Source.Systems
         }
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-          
+
         }
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
+
             if (entities != null) {
-                entities = entities.Where(e => 
-                e.HasComponent<PositionComponent>() &&
-                e.HasComponent<AnimationComponent>() &&
-                e.HasComponent<EnemyComponent>());
-                foreach (var entity in entities)
+                var enemies = entities.WithComponents<PositionComponent, AnimationComponent, EnemyComponent>();
+                foreach (var entity in enemies)
                 {
                     var position = entity.GetComponent<PositionComponent>();
                     var animation = entity.GetComponent<AnimationComponent>();

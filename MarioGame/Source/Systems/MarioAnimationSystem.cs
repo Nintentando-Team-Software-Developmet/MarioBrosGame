@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Extensions;
 
 
 namespace SuperMarioBros.Source.Systems
@@ -58,13 +59,10 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
-                entities = entities.Where(e => 
-                    e.HasComponent<AnimationComponent>() &&
-                    e.HasComponent<PositionComponent>() &&
-                    e.HasComponent<VelocityComponent>() &&
-                    e.HasComponent<PlayerComponent>());
+                var playerEntities = entities
+                    .WithComponents<AnimationComponent, PositionComponent, VelocityComponent, PlayerComponent>();
 
-                foreach (var entity in entities)
+                foreach (var entity in playerEntities)
                 {
                     var animation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
@@ -99,12 +97,8 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
-                entities = entities.Where(e => 
-                    e.HasComponent<AnimationComponent>() && 
-                    e.HasComponent<PositionComponent>() &&
-                    e.HasComponent<PlayerComponent>()
-                    );
-                foreach (var entity in entities)
+                var drawEntities = entities.WithComponents<AnimationComponent, PositionComponent, PlayerComponent>();
+                foreach (var entity in drawEntities)
                 {
                     var playerAnimation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
