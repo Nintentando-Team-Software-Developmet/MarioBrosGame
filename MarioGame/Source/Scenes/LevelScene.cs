@@ -74,7 +74,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new MovementSystem());
             if (spriteData != null) Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
 
-            _tilemap = LoadMap("../../../Data/level-surface.json");
+            _tilemap = LoadMap("Data/level-surface.json");
             Systems.Add(new CollisionSystem(_tilemap,_levelHeight));
 
         }
