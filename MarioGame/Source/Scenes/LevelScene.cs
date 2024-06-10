@@ -30,7 +30,7 @@ namespace SuperMarioBros.Source.Scenes
         private LevelData _levelData;
         private bool _disposed;
 
-        private ScoreComponent scoreComponent = new ScoreComponent();
+        private int _score;
         private HighScoreManager _highScoreManager = new HighScoreManager();
 
         /*
@@ -42,6 +42,7 @@ namespace SuperMarioBros.Source.Scenes
          */
         public LevelScene(string pathScene)
         {
+            _score = 0;
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
 
@@ -170,44 +171,9 @@ namespace SuperMarioBros.Source.Scenes
             }
             _disposed = true;
         }
-
-
-        private Dictionary<Vector2, int> LoadMap(string filepath)
-        {
-            Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
-
-            using (StreamReader reader = new StreamReader(filepath))
-            {
-                string jsonContent = reader.ReadToEnd();
-                JObject jsonObject = JObject.Parse(jsonContent);
-
-                JArray layers = (JArray)jsonObject["layers"];
-                JObject layer = (JObject)layers[0];
-                JArray data = (JArray)layer["data"];
-
-                int width = (int)jsonObject["width"];
-                int height = (int)jsonObject["height"];
-                _levelHeight = height;
-
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        int value = (int)data[y * width + x];
-                        if (value > 0)
-                        {
-                            result[new Vector2(x, y)] = value;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
         public void UpdateHighScore()
         {
-            _highScoreManager.UpdateHighScore(scoreComponent.Score);
+            _highScoreManager.UpdateHighScore(_score);
         }
 
         public int GetHighScore()
