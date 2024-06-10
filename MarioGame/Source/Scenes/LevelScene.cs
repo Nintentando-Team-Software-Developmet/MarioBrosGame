@@ -2,12 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using MarioGame;
 using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
