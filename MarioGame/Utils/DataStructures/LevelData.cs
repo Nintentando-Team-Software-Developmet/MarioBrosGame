@@ -1,7 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using SuperMarioBros.Utils.DataStructures;
 using System.Collections.Generic;
+using SuperMarioBros.Utils.DataStructures;
+
 #pragma warning disable CA1002, CA2227
 
 namespace MarioGame.Utils.DataStructures

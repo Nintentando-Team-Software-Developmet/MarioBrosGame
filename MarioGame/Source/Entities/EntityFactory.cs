@@ -1,7 +1,9 @@
 using MarioGame;
 using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SuperMarioBros.Source.Components;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Entities
@@ -39,6 +41,11 @@ namespace SuperMarioBros.Source.Entities
                    // entity.AddComponent(new VelocityComponent(Vector2.Zero));
                     //   entity.AddComponent(new GravityComponent(9.8f));
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new CameraComponent(
+                        new Viewport(0, 0, ConstantsSizeWindow.CameraViewportWidth,
+                            ConstantsSizeWindow.CameraViewportHeight),
+                        ConstantsSizeWindow.CameraWorldWidth,
+                        ConstantsSizeWindow.CameraViewportHeight));
                     break;
                 //TODO: Implement other entity types
             }
