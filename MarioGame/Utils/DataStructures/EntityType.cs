@@ -6,5 +6,6 @@ namespace SuperMarioBros.Utils.DataStructures
         ENEMY,
         BLOCK,
         ITEM,
+        WINGAME
     }
 }

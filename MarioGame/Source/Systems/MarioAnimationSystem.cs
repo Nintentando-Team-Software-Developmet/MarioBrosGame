@@ -23,6 +23,7 @@ namespace SuperMarioBros.Source.Systems
         private Texture2D[] spritesheetsJump2 { get; set; }
         private Texture2D[] spritesheetsBend { get; set; }
         private Texture2D[] spritesheetsBend2 { get; set; }
+        private Texture2D[] spritesheets2 { get; set; }
 
         private int currentTextureIndex { get; set; }
         private int frames { get; set; }
@@ -43,6 +44,9 @@ namespace SuperMarioBros.Source.Systems
         private Vector2 jumpEndY { get; set; }
         private Vector2 lastJumpingPosition { get; set; }
         private bool wasJumping { get; set; }
+
+        private WinGameSystem WinGame { get; set; } = new WinGameSystem();
+
         public MarioAnimationSystem(SpriteBatch spriteBatch)
         {
             isActive = false;
@@ -88,22 +92,27 @@ namespace SuperMarioBros.Source.Systems
                         SetActive(velocity.Velocity != Vector2.Zero);
                     }
                 }
+
             }
+
         }
 
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
             if (entities != null)
             {
-                entities = entities.Where(e =>
+                var playerEntities = entities.Where(e =>
                     e.HasComponent<AnimationComponent>() &&
                     e.HasComponent<PositionComponent>() &&
                     e.HasComponent<PlayerComponent>()
                     );
-                foreach (var entity in entities)
+
+
+                foreach (var entity in playerEntities)
                 {
                     var playerAnimation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
+
 
                     if (playerAnimation != null && position != null)
                     {
@@ -166,9 +175,10 @@ namespace SuperMarioBros.Source.Systems
                         {
                             DrawStopped(_spriteBatch, position.LastPosition);
                         }
-
                     }
+
                 }
+                WinGame.DrawWinGame(gameTime,entities,_spriteBatch);
             }
         }
 
