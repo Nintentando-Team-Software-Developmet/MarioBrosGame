@@ -34,6 +34,12 @@ namespace SuperMarioBros.Source.Entities
                  //   entity.AddComponent(new GravityComponent(9.8f));
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
                     break;
+                case EntityType.WINGAME:
+                    entity.AddComponent(new WinGameComponent());
+                   // entity.AddComponent(new VelocityComponent(Vector2.Zero));
+                    //   entity.AddComponent(new GravityComponent(9.8f));
+                    entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    break;
                 //TODO: Implement other entity types
             }
 
