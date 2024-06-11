@@ -15,7 +15,6 @@ namespace SuperMarioBros.Source.Systems
     public class MarioAnimationSystem : BaseSystem, IRenderableSystem
     {
         private readonly SpriteBatch _spriteBatch;
-
         private Texture2D[] spritesheets { get; set; }
         private Texture2D[] spritesheetsRunLeft { get; set; }
         private Texture2D[] spritesheetsJump { get; set; }
@@ -23,6 +22,8 @@ namespace SuperMarioBros.Source.Systems
         private Texture2D[] spritesheetsBend { get; set; }
         private Texture2D[] spritesheetsBend2 { get; set; }
         private Texture2D[] spritesheetsWin { get; set; }
+        private Texture2D[] spritesheetsWinLeft { get; set; }
+        private Texture2D[] spritesheetsWinRun{ get; set; }
 
         private int currentTextureIndex { get; set; }
         private int frames { get; set; }
@@ -39,18 +40,16 @@ namespace SuperMarioBros.Source.Systems
         const float maxJumpHeight = 200f;
         const float jumpSpeed = 400f;
         const float thenJumpSpeed = 400f;
-
         private Vector2 jumpEndY { get; set; }
         private Vector2 lastJumpingPosition { get; set; }
         private bool wasJumping { get; set; }
-
         private WinGameSystem WinGame { get; set; } = new WinGameSystem();
-
         public MarioAnimationSystem(SpriteBatch spriteBatch)
         {
             isActive = false;
             _spriteBatch = spriteBatch;
             isJumping = false;
+            wasJumping = false;
         }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
@@ -130,16 +129,18 @@ namespace SuperMarioBros.Source.Systems
                         spritesheetsJump2 = new Texture2D[] { playerAnimation.Textures[13] };
                         spritesheetsBend = new Texture2D[] { playerAnimation.Textures[10] };
                         spritesheetsBend2 = new Texture2D[] { playerAnimation.Textures[11] };
-                        spritesheetsWin = new Texture2D[]
-                            { playerAnimation.Textures[15], playerAnimation.Textures[14] };
-                        if (playerComponent.colition == true)
+                        spritesheetsWin = new Texture2D[] { playerAnimation.Textures[15], playerAnimation.Textures[14] };
+                        spritesheetsWinLeft = new Texture2D[] {playerAnimation.Textures[16],playerAnimation.Textures[8] };
+                        spritesheetsWinRun = new Texture2D[] { playerAnimation.Textures[2], playerAnimation.Textures[3], playerAnimation.Textures[4]};
+
+                        if (playerComponent.colition && wasJumping)
                         {
-                            if (gameTime != null) DrawWin(_spriteBatch, position.Position, gameTime);
 
-
+                            if (gameTime != null) WinGame.DrawWinMario(_spriteBatch, position.Position, gameTime,spritesheetsWin, jumpEndY,spritesheetsWinLeft,spritesheetsWinRun);
                         }
                         else
                         {
+                            playerComponent.colition = false;
                             bool hasDrawn = false;
                             if (isJumping || isDescending)
                             {
@@ -147,6 +148,7 @@ namespace SuperMarioBros.Source.Systems
                                 {
                                     DrawJumping(_spriteBatch, position.LastPosition, gameTime);
                                     hasDrawn = true;
+
                                 }
                             }
                             else if (position.pass == false)
@@ -184,12 +186,13 @@ namespace SuperMarioBros.Source.Systems
                             if (!hasDrawn)
                             {
                                 DrawStopped(_spriteBatch, position.LastPosition);
+                                wasJumping = false;
                             }
                         }
 
                     }
 
-                    WinGame.DrawWinGame(gameTime, entities, _spriteBatch, playerComponent.colition, jumpEndY, currentYPosition);
+                    WinGame.DrawWinGame(gameTime, entities, _spriteBatch, playerComponent.colition);
                 }
             }
         }
@@ -197,7 +200,6 @@ namespace SuperMarioBros.Source.Systems
 
         private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
         {
-
             lastJumpingPosition = position;
             if (!isDescending)
             {
@@ -218,8 +220,6 @@ namespace SuperMarioBros.Source.Systems
                     isJumping = false;
                 }
             }
-
-
             position = position with { Y = position.Y - currentJumpHeight };
             jumpEndY = jumpEndY with { Y = position.Y };
             int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
@@ -231,70 +231,12 @@ namespace SuperMarioBros.Source.Systems
             {
                 spriteBatch.Draw(spritesheetsJump[currentFrameIndex], position, Color.White);
             }
-
             wasJumping = true;
-        }
-
-        private const float movementSpeed = 20f;
-        private const float distanceToTravel = 200f;
-
-
-        private float currentXPosition { get; set; }
-        private float currentYPosition { get; set; }
-        private float currentMoreYPosition { get; set; }
-        private float distanceTraveled { get; set; }
-        private bool isDescendingToOriginalY { get; set; }
-        private bool end { get; set; } = true;
-        private void DrawWin(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
-        {
-            const float frameDuration = 1f;
-            int numSprites = spritesheetsWin.Length;
-
-            if (currentXPosition == 0f || currentYPosition == 0f)
-            {
-                currentXPosition = WinGame.initialPosition.X;
-                currentYPosition = jumpEndY.Y;
-                currentMoreYPosition = jumpEndY.Y;  // Inicializar currentMoreYPosition
-            }
-
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float yMovement = movementSpeed * deltaTime;
-            float xMovement = movementSpeed * deltaTime;
-
-            if (currentYPosition < position.Y - 120)
-            {
-                currentYPosition += yMovement;
-                currentMoreYPosition = currentYPosition;  // Actualizar currentMoreYPosition
-            }
-            else
-            {
-                if (distanceTraveled == 0)
-                {
-                    currentXPosition = WinGame.initialPosition.X + 60;
-                }
-
-                if (currentMoreYPosition < position.Y)
-                {
-                    currentMoreYPosition += yMovement;
-                }
-                else
-                {
-                    if (distanceTraveled < distanceToTravel)
-                    {
-                        currentXPosition += xMovement;
-                        distanceTraveled += xMovement;
-                    }
-                }
-            }
-
-            float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
-            int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSprites;
-
-            spriteBatch.Draw(spritesheetsWin[currentFrameIndex], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
         }
 
         private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition)
         {
+            wasJumping = false;
             if (position.X > previousPosition.X)
             {
                 RunRight(spriteBatch, position, gameTime);
@@ -306,8 +248,6 @@ namespace SuperMarioBros.Source.Systems
                 isMovingLeft = true;
             }
         }
-
-
         public void RunRight(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
         {
             if (!hasLoopedOnce)
@@ -345,6 +285,7 @@ namespace SuperMarioBros.Source.Systems
 
         private void DrawStopped(SpriteBatch spriteBatch, Vector2 position)
         {
+            wasJumping = false;
             if (isMovingLeft)
             {
                 spriteBatch.Draw(spritesheetsRunLeft[0], position, Color.White);
@@ -354,9 +295,9 @@ namespace SuperMarioBros.Source.Systems
                 spriteBatch.Draw(spritesheets[0], position, Color.White);
             }
         }
-
         private void DrawBed(SpriteBatch spriteBatch, Vector2 position)
         {
+            wasJumping = false;
             if (isMovingLeft)
             {
                 spriteBatch.Draw(spritesheetsBend2[0], position, Color.White);
