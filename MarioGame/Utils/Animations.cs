@@ -13,8 +13,8 @@ namespace MarioGame
             Sprites.BigStop,
             Sprites.BigRunLeft,
             Sprites.BigWalk1,
-            Sprites.BigWalk2,
             Sprites.BigWalk3,
+            Sprites.BigWalk2,
 
             Sprites.BigStopLeft,
             Sprites.BigRun,
@@ -44,7 +44,15 @@ namespace MarioGame
         {
             { "BUSH", Sprites.BushMenu },
             { "DUCT", Sprites.DuctSquareGreen},
-            { "DUCT_1", Sprites.DuctVerticalGreen}
+            { "DUCT_1", Sprites.DuctVerticalGreen},
+            { "CASTLE" , Sprites.CastleBrown},
+            { "SIMPLE_BUSH", Sprites.SimpleBush},
+            { "DOUBLE_BUSH", Sprites.DoubleBush},
+            { "BIG_BUSH_1", Sprites.BigBush1},
+            { "BIG_BUSH_2", Sprites.BigBush2},
+            { "SIMPLE_CLOUD", Sprites.SimpleCloud},
+            { "DOUBLE_CLOUD", Sprites.DoubleCloud},
+            { "TRIPLE_CLOUD", Sprites.TripleCloud}
         };
 
         public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>

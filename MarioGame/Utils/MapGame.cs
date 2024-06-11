@@ -27,13 +27,14 @@ namespace SuperMarioBros.Utils
         private int _levelHeight;
         private const int TileSize = 64;
 
-        public MapGame(string pathMap,  string backgroundJsonPath, SpriteData spriteData)
+        public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData)
         {
             if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
             _backgroundEntities = new List<(string type, Position position)>();
             LoadMap(pathMap);
             LoadBackground(backgroundJsonPath);
+            LoadBackground(backgroundEntitiesPath);
         }
 
         /*

@@ -32,6 +32,7 @@ namespace MarioGame.Utils.DataStructures
         public string nameLevel { get; set; }
         public string pathMap { get; set; }
         public string backgroundJsonPath { get; set; }
+        public string backgroundEntitiesPath { get; set; }
         public  List<EntityData> entities { get; set; }
     }
 }

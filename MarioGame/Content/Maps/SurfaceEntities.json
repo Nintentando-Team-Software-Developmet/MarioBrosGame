@@ -1,0 +1,48 @@
+{
+    "entities": [
+        {
+            "type": "DUCT",
+            "position": { "x": 1792, "y": 512 }
+        },
+        {
+            "type": "DUCT",
+            "position": { "x": 2432, "y": 448 }
+        },
+        {
+            "type": "DUCT_1",
+            "position": { "x": 2432, "y": 576 }
+        },
+        {
+            "type": "DUCT",
+            "position": { "x": 2944, "y": 384 }
+        },
+        {
+            "type": "DUCT_1",
+            "position": { "x": 2944, "y": 512 }
+        },
+        {
+            "type": "DUCT_1",
+            "position": { "x": 2944, "y": 576 }
+        },
+        {
+            "type": "DUCT",
+            "position": { "x": 3648, "y": 384 }
+        },
+        {
+            "type": "DUCT_1",
+            "position": { "x": 3648, "y": 512 }
+        },
+        {
+            "type": "DUCT_1",
+            "position": { "x": 3648, "y": 576 }
+        },
+        {
+            "type": "DUCT",
+            "position": { "x": 10432, "y": 512 }
+        },
+        {
+            "type": "DUCT",
+            "position": { "x": 11520, "y": 512 }
+        }
+    ]
+}
