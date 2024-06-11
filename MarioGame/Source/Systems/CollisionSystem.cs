@@ -20,6 +20,7 @@ namespace SuperMarioBros.Source.Systems
         private readonly Dictionary<Vector2, int> _tilemap;
         private readonly int _levelHeight;
 
+        private static double TOLERANCE { get; set; } =  1.01f;
         /*
         * Initializes a new instance of the CollisionSystem class.
         *
@@ -85,16 +86,13 @@ namespace SuperMarioBros.Source.Systems
 
             foreach (var playerEntity in playerEntities)
             {
-                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position;
+                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position.X;
                 var playerComponent = playerEntity.GetComponent<PlayerComponent>();
                 foreach (var winFlagEntity in winFlagEntities)
                 {
-                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position;
-                    var winMario = winFlagEntity.GetComponent<WinGameComponent>();
-
-                    if (playerPosition.X >=  winFlagPosition.X)
+                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position.X;
+                    if (Math.Abs(playerPosition - winFlagPosition) < TOLERANCE)
                     {
-                        Console.WriteLine('A');
                         playerComponent.colition = true;
                     }
                 }

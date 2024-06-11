@@ -31,8 +31,9 @@ namespace MarioGame
             Sprites.BigJumpBack,
             Sprites.BigJumpBackLeft,
 
-            Sprites.PowerStop,
-            Sprites.PowerWalk1
+            Sprites.LowerThePost1,
+            Sprites.LowerThePost2,
+            Sprites.LowerThePostLeft
         };
 
         public static readonly Texture2D[] goombaTextures = new Texture2D[]
