@@ -5,33 +5,36 @@ using Microsoft.Xna.Framework;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
-namespace SuperMarioBros.Source.Systems;
-
-public class CameraSystem : BaseSystem
+namespace SuperMarioBros.Source.Systems
 {
-    public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
+    public class CameraSystem : BaseSystem
     {
-        var cameraEntity = entities.FirstOrDefault(e => e.HasComponent<CameraComponent>());
-        var playerEntity = entities.FirstOrDefault(e => e.HasComponent<PositionComponent>());
-
-        if (cameraEntity != null && playerEntity != null)
+        public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            var camera = cameraEntity.GetComponent<CameraComponent>();
-            var playerPosition = playerEntity.GetComponent<PositionComponent>();
+            var playerEntities = entities
+                .Where(e => e.HasComponent<PlayerComponent>()
+                            && e.HasComponent<PositionComponent>()
+                            && e.HasComponent<CameraComponent>());
 
-            if (playerPosition != null && camera != null)
+            foreach (var playerEntity in playerEntities)
             {
-                if (playerPosition.Position.X > camera.LastXPosition)
+                var camera = playerEntity.GetComponent<CameraComponent>();
+                var playerPosition = playerEntity.GetComponent<PositionComponent>();
+
+                if (playerPosition != null && camera != null)
                 {
-                    camera.Position = new Vector2(
-                        MathHelper.Clamp(playerPosition.Position.X - camera.Viewport.Width / 2, 0, camera.WorldWidth - camera.Viewport.Width),
-                        MathHelper.Clamp(playerPosition.Position.Y - camera.Viewport.Height / 2, 0, camera.WorldHeight - camera.Viewport.Height)
-                    );
+                    if (playerPosition.Position.X > camera.LastXPosition)
+                    {
+                        camera.Position = new Vector2(
+                            MathHelper.Clamp(playerPosition.Position.X - camera.Viewport.Width / 2, 0, camera.WorldWidth - camera.Viewport.Width),
+                            MathHelper.Clamp(playerPosition.Position.Y - camera.Viewport.Height / 2, 0, camera.WorldHeight - camera.Viewport.Height)
+                        );
 
-                    camera.LastXPosition = playerPosition.Position.X;
+                        camera.LastXPosition = playerPosition.Position.X;
+                    }
+
+                    camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
                 }
-
-                camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
             }
         }
     }

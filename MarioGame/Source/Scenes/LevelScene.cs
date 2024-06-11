@@ -33,7 +33,8 @@ namespace SuperMarioBros.Source.Scenes
 
         private int _score;
         private HighScoreManager _highScoreManager = new HighScoreManager();
-        public CameraComponent Camera => Entities.FirstOrDefault(e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>();
+        public Matrix Camera => (Matrix)Entities.FirstOrDefault(
+            e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
 
         /*
          * Constructs a new LevelScene object.
@@ -116,7 +117,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
-            spriteData.spriteBatch.Begin(transformMatrix: Camera.Transform);
+            spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
             spriteData.spriteBatch.End();
