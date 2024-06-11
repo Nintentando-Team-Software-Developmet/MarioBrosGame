@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using SuperMarioBros.Source.Systems;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -71,6 +72,7 @@ namespace SuperMarioBros.Source.Scenes
             DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
             DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time.Seconds}", 900, 10, spriteData);
             DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore.Score}", 50, 10, spriteData);
+            DrawHighScore(spriteData);
             DrawStartButton(spriteData);
 
             spriteData.spriteBatch.End();
@@ -176,6 +178,23 @@ namespace SuperMarioBros.Source.Scenes
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 200
             );
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, "START", startPosition, Color.Yellow, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+        }
+
+        private static void DrawHighScore(SpriteData spriteData)
+        {
+            float fontSize = 30f;
+            int highScore = new HighScoreManager().GetHighScore();
+            float scale = fontSize / spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").Y;
+            Vector2 startPosition = new Vector2(
+                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").X * scale) / 2,
+                spriteData.graphics.GraphicsDevice.Viewport.Height - 250
+            );
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "HIGHSCORE", startPosition, Color.White);
+            Vector2 highScorePosition = new Vector2(
+                (spriteData.graphics.GraphicsDevice.Viewport.Width + spriteData.spriteFont.MeasureString("HIGHSCORE").X * scale) / 2,
+                spriteData.graphics.GraphicsDevice.Viewport.Height - 250
+            );
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont,$"{highScore}" , highScorePosition, Color.White);
         }
 
         public void Dispose()

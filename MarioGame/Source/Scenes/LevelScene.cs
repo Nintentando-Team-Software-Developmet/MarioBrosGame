@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -29,6 +30,9 @@ namespace SuperMarioBros.Source.Scenes
         private LevelData _levelData;
         private bool _disposed;
 
+        private int _score;
+        private HighScoreManager _highScoreManager = new HighScoreManager();
+
         /*
          * Constructs a new LevelScene object.
          * This constructor initializes the level scene with the specified path to the scene data.
@@ -38,6 +42,7 @@ namespace SuperMarioBros.Source.Scenes
          */
         public LevelScene(string pathScene)
         {
+            _score = 0;
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
 
@@ -165,6 +170,15 @@ namespace SuperMarioBros.Source.Scenes
                 Entities.Clear();
             }
             _disposed = true;
+        }
+        public void UpdateHighScore()
+        {
+            _highScoreManager.UpdateHighScore(_score);
+        }
+
+        public int GetHighScore()
+        {
+            return _highScoreManager.GetHighScore();
         }
 
 
