@@ -6,8 +6,8 @@
             "type": "PLAYER",
             "name": "MARIO",
             "position": {
-                "x": 90,
-                "y": 90
+                "x": 100,
+                "y": 517
             }
         },
         {
