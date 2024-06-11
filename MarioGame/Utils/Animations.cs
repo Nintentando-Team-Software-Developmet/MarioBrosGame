@@ -40,6 +40,13 @@ namespace MarioGame
             { 1, Sprites.StoneBlockBrown },
         };
 
+        public static readonly Dictionary<string,Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
+        {
+            { "BUSH", Sprites.BushMenu },
+            { "DUCT", Sprites.DuctSquareGreen},
+            { "DUCT_1", Sprites.DuctVerticalGreen}
+        };
+
         public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>
         {
             { EntitiesName.MARIO, playerTextures },

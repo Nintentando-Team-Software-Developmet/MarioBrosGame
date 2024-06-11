@@ -1,6 +1,7 @@
 {
     "nameLevel": "1-1",
     "pathMap": "Content/Maps/level1Map.json",
+    "backgroundJsonPath": "Content/Maps/background.json",
     "entities": [
         {
             "type": "PLAYER",

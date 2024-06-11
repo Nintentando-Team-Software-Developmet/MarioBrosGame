@@ -56,7 +56,8 @@ namespace SuperMarioBros.Source.Scenes
         public void Load(SpriteData spriteData)
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
-            map = new MapGame(_levelData.pathMap, spriteData);
+            map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, spriteData);
+
             LoadEntities();
             //TODO: Refactor
             Systems.Add(new InputSystem());

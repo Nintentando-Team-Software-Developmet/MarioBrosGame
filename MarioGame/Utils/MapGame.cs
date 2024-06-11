@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 using MarioGame;
+using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,21 +18,24 @@ namespace SuperMarioBros.Utils
 {
     /*
      * Represents a game map.
-     */   
+     */
     public class MapGame
     {
         private Dictionary<Vector2, int> _tilemap;
+        private List<(string type, Position position)> _backgroundEntities;
         private Camera _camera;
         private int _levelHeight;
         private const int TileSize = 64;
 
-        public MapGame(string pathMap, SpriteData spriteData)
-        {   
-            if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));  
-             _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
+        public MapGame(string pathMap,  string backgroundJsonPath, SpriteData spriteData)
+        {
+            if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
+            _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
+            _backgroundEntities = new List<(string type, Position position)>();
             LoadMap(pathMap);
+            LoadBackground(backgroundJsonPath);
         }
-        
+
         /*
         * Loads the map from the specified path.
         *
@@ -109,30 +114,61 @@ namespace SuperMarioBros.Utils
                     spriteData?.spriteBatch.Draw(texture, dest, Color.White);
                 }
             }
+
+            foreach (var (type, position) in _backgroundEntities)
+            {
+                if (Animations.mapTexturesBackground.ContainsKey(type))
+                {
+                    Texture2D texture = Animations.mapTexturesBackground[type];
+                    Rectangle dest = new Rectangle(position.x, position.y, texture.Width, texture.Height);
+                    spriteData?.spriteBatch.Draw(texture, dest, Color.White);
+                }
+            }
         }
 
         /*
         * Gets the camera of the map.
         */
-        public Camera Camera 
-        { 
-            get { return _camera; } 
+        public Camera Camera
+        {
+            get { return _camera; }
         }
 
         /*
         * Gets the height of the map.
         */
-        public int LevelHeight 
-        { 
-            get { return _levelHeight; } 
+        public int LevelHeight
+        {
+            get { return _levelHeight; }
         }
 
         /*
         * Gets the tilemap of the map.
         */
-        public Dictionary<Vector2, int> Tilemap 
-        { 
-            get { return _tilemap; } 
+        public Dictionary<Vector2, int> Tilemap
+        {
+            get { return _tilemap; }
+        }
+
+        private void LoadBackground(string backgroundJsonPath)
+        {
+            using (StreamReader reader = new StreamReader(backgroundJsonPath))
+            {
+                string jsonContent = reader.ReadToEnd();
+                JObject jsonObject = JObject.Parse(jsonContent);
+
+                JArray entities = (JArray)jsonObject["entities"];
+                foreach (var entity in entities)
+                {
+                    string type = entity["type"].ToString();
+                    Position position = new Position
+                    {
+                        x = (int)entity["position"]["x"],
+                        y = (int)entity["position"]["y"]
+                    };
+                    _backgroundEntities.Add((type, position));
+                }
+            }
         }
     }
 }
