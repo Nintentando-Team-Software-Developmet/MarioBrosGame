@@ -27,38 +27,33 @@ namespace SuperMarioBros.Source.Systems
         private int frames { get; set; }
         private float timeSinceLastFrame { get; set; }
         private bool isActive { get; set; }
-        private bool isInitialMove { get; set; }
-        private float initialMoveDuration { get; set; }
-        private float initialMoveElapsedTime { get; set; }
         private bool isMovingLeft { get; set; }
-        private bool isBending { get; set; }
         private readonly float movementSpeedScale = 0.5f;
         private bool hasLoopedOnce { get; set; }
-
         private bool isJumping { get; set; }
-        private float jumpVelocity { get; set; }
         private float currentJumpHeight { get; set; }
-        private float maxJumpHeight { get; set; }
         private float jumpAnimationFrameTime = 50.2f;
+        private  Vector2 positionBed { get; set; }
+        private bool isDescending { get; set; } = true;
+        const float maxJumpHeight = 200f;
+        const float jumpSpeed = 400f;
+        const float thenJumpSpeed = 400f;
 
+        private Vector2 jumpEndY { get; set; }
+        private Vector2 lastJumpingPosition { get; set; }
+        private bool wasJumping { get; set; }
         public MarioAnimationSystem(SpriteBatch spriteBatch)
         {
             isActive = false;
-            isBending = false;
-            isInitialMove = true;
-            initialMoveDuration = 200f;
-            initialMoveElapsedTime = 0f;
             _spriteBatch = spriteBatch;
             isJumping = false;
-            jumpVelocity = 5f;
-            maxJumpHeight = 30f;
         }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             if (entities != null)
             {
-                entities = entities.Where(e => 
+                entities = entities.Where(e =>
                     e.HasComponent<AnimationComponent>() &&
                     e.HasComponent<PositionComponent>() &&
                     e.HasComponent<VelocityComponent>() &&
@@ -99,8 +94,8 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
-                entities = entities.Where(e => 
-                    e.HasComponent<AnimationComponent>() && 
+                entities = entities.Where(e =>
+                    e.HasComponent<AnimationComponent>() &&
                     e.HasComponent<PositionComponent>() &&
                     e.HasComponent<PlayerComponent>()
                     );
@@ -111,48 +106,99 @@ namespace SuperMarioBros.Source.Systems
 
                     if (playerAnimation != null && position != null)
                     {
-                        spritesheets = new Texture2D[] { playerAnimation.Textures[0], playerAnimation.Textures[1], playerAnimation.Textures[2], playerAnimation.Textures[3], playerAnimation.Textures[4] };
-                        spritesheetsRunLeft = new Texture2D[] { playerAnimation.Textures[5], playerAnimation.Textures[6], playerAnimation.Textures[7], playerAnimation.Textures[8], playerAnimation.Textures[9] };
+                        spritesheets = new Texture2D[]
+                        {
+                            playerAnimation.Textures[0], playerAnimation.Textures[1], playerAnimation.Textures[2],
+                            playerAnimation.Textures[3], playerAnimation.Textures[4]
+                        };
+                        spritesheetsRunLeft = new Texture2D[]
+                        {
+                            playerAnimation.Textures[5], playerAnimation.Textures[6], playerAnimation.Textures[7],
+                            playerAnimation.Textures[8], playerAnimation.Textures[9]
+                        };
                         spritesheetsJump = new Texture2D[] { playerAnimation.Textures[12] };
                         spritesheetsJump2 = new Texture2D[] { playerAnimation.Textures[13] };
                         spritesheetsBend = new Texture2D[] { playerAnimation.Textures[10] };
                         spritesheetsBend2 = new Texture2D[] { playerAnimation.Textures[11] };
 
-                        if (isActive || !position.pass)
-                        {
-                            if (position.pass == false)
-                            {
-
-                                if (gameTime != null) DrawJumping(_spriteBatch, position.LastPosition, gameTime);
-                            }
-                            else if (position.Position.X != position.LastPosition.X)
-                            {
-                                DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
-                            }
-                            else if (position.Position.Y > position.LastPosition.Y)
-                            {
-                                DrawBed(_spriteBatch, position.Position);
-                            }
-                        }
-                        else
+                        bool hasDrawn = false;
+                        if (isJumping || isDescending)
                         {
                             if (gameTime != null)
-                                DrawStopped(_spriteBatch, position.LastPosition);
+                            {
+                                DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                                hasDrawn = true;
+                            }
                         }
+                        else if (position.pass == false)
+                        {
+                            if (gameTime != null)
+                            {
+                                DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                                isJumping = true;
+                                hasDrawn = true;
+                            }
+                        }
+                        else if (position.passR == false)
+                        {
+                            if (gameTime != null)
+                            {
+                                DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                                isJumping = true;
+                                hasDrawn = true;
+                            }
+                        }
+                        else if (position.passBed == false)
+                        {
+                            positionBed = positionBed with { X = position.Position.X };
+                            positionBed = positionBed with { Y = position.Position.Y + 33 };
+
+                            DrawBed(_spriteBatch, positionBed);
+                            hasDrawn = true;
+                        }
+                        else if (position.Position.X != position.LastPosition.X)
+                        {
+                            DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
+                            hasDrawn = true;
+                        }
+                        if (!hasDrawn)
+                        {
+                            DrawStopped(_spriteBatch, position.LastPosition);
+                        }
+
                     }
                 }
             }
         }
 
+
         private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
         {
-            const float maxJumpHeight = 50f;
-            const float jumpSpeed = 25f;
 
-            currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            currentJumpHeight = Math.Min(currentJumpHeight, maxJumpHeight);
+            lastJumpingPosition = position;
+            if (!isDescending)
+            {
+                currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentJumpHeight >= maxJumpHeight)
+                {
+                    currentJumpHeight = maxJumpHeight;
+                    isDescending = true;
+                }
+            }
+            else
+            {
+                currentJumpHeight -= thenJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentJumpHeight <= 0)
+                {
+                    currentJumpHeight = 0;
+                    isDescending = false;
+                    isJumping = false;
+                }
+            }
+
 
             position = position with { Y = position.Y - currentJumpHeight };
+            jumpEndY = jumpEndY with { Y = position.Y };
             int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
             if (isMovingLeft)
             {
@@ -162,6 +208,8 @@ namespace SuperMarioBros.Source.Systems
             {
                 spriteBatch.Draw(spritesheetsJump[currentFrameIndex], position, Color.White);
             }
+
+            wasJumping = true;
         }
         private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition)
         {

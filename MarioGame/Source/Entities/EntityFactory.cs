@@ -31,7 +31,7 @@ namespace SuperMarioBros.Source.Entities
                 case EntityType.PLAYER:
                     entity.AddComponent(new PlayerComponent());
                     entity.AddComponent(new VelocityComponent(Vector2.Zero));
-                    entity.AddComponent(new GravityComponent(9.8f));
+                 //   entity.AddComponent(new GravityComponent(9.8f));
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
                     break;
                 //TODO: Implement other entity types
