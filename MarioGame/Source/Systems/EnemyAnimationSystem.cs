@@ -28,7 +28,8 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
-                var enemies = entities.WithComponents<PositionComponent, AnimationComponent, EnemyComponent>();
+                var enemies = entities.WithComponents(typeof(PositionComponent), typeof(AnimationComponent),
+                    typeof(EnemyComponent));
                 foreach (var entity in enemies)
                 {
                     var position = entity.GetComponent<PositionComponent>();

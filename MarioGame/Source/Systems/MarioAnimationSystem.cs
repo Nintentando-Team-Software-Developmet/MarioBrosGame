@@ -60,7 +60,8 @@ namespace SuperMarioBros.Source.Systems
             if (entities != null)
             {
                 var playerEntities = entities
-                    .WithComponents<AnimationComponent, PositionComponent, VelocityComponent, PlayerComponent>();
+                    .WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(PositionComponent),
+                        typeof(VelocityComponent));
 
                 foreach (var entity in playerEntities)
                 {
@@ -97,7 +98,8 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities != null)
             {
-                var drawEntities = entities.WithComponents<AnimationComponent, PositionComponent, PlayerComponent>();
+                var drawEntities = entities.WithComponents(typeof(AnimationComponent), typeof(PlayerComponent),
+                    typeof(PlayerComponent));
                 foreach (var entity in drawEntities)
                 {
                     var playerAnimation = entity.GetComponent<AnimationComponent>();

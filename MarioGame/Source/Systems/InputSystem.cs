@@ -17,8 +17,9 @@ namespace SuperMarioBros.Source.Systems
         {
             var keyboardState = Keyboard.GetState();
             var gamePadState = GamePad.GetState(PlayerIndex.One);
-
-            foreach (var entity in entities.WithComponents<InputComponent, PositionComponent, VelocityComponent>())
+            var entitiesInput = entities.WithComponents(typeof(InputComponent), typeof(PositionComponent),
+                typeof(VelocityComponent));
+            foreach (var entity in entitiesInput)
             {
                 var velocity = entity.GetComponent<VelocityComponent>();
                 var position = entity.GetComponent<PositionComponent>();

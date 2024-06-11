@@ -17,8 +17,7 @@ namespace SuperMarioBros.Source.Systems
             if (gameTime == null || entities == null)
                 return;
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            var gravityEntities = entities.WithComponents<VelocityComponent, PositionComponent, GravityComponent>();
-
+            var gravityEntities = entities.WithComponents(typeof(VelocityComponent), typeof(PositionComponent), typeof(GravityComponent));
             foreach (var entity in gravityEntities)
             {
                 var velocity = entity.GetComponent<VelocityComponent>();
