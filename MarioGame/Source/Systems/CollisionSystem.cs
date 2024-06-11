@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using System;
+using System.Linq;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -53,6 +55,43 @@ namespace SuperMarioBros.Source.Systems
                     else
                     {
                         positionComponent.Position = futurePosition;
+                    }
+                }
+
+                ColitionWinGame(entities);
+            }
+        }
+
+        private static void ColitionWinGame(IEnumerable<Entity> entities)
+        {
+            if (entities == null)
+                return;
+
+            var playerEntities = entities.Where(e =>
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<PlayerComponent>()
+            );
+
+            var winFlagEntities = entities.Where(e =>
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<WinGameComponent>()
+            );
+
+            foreach (var playerEntity in playerEntities)
+            {
+                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position;
+                var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+                foreach (var winFlagEntity in winFlagEntities)
+                {
+                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position;
+                    var winMario = winFlagEntity.GetComponent<WinGameComponent>();
+
+                    if (playerPosition.X >=  winFlagPosition.X)
+                    {
+                        Console.WriteLine('A');
+                        playerComponent.colition = true;
                     }
                 }
             }
