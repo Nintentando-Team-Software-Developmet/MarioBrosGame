@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,8 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Newtonsoft.Json.Linq;
 
-using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Utils
@@ -23,14 +20,12 @@ namespace SuperMarioBros.Utils
     {
         private Dictionary<Vector2, int> _tilemap;
         private List<(string type, Position position)> _backgroundEntities;
-        private Camera _camera;
         private int _levelHeight;
         private const int TileSize = 64;
 
         public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData)
         {
             if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
-            _camera = new Camera(spriteData.graphics.GraphicsDevice.Viewport, 13824, 720);
             _backgroundEntities = new List<(string type, Position position)>();
             LoadMap(pathMap);
             LoadBackground(backgroundJsonPath);
@@ -75,24 +70,6 @@ namespace SuperMarioBros.Utils
         }
 
         /*
-        * Makes the camera follow the player entity.
-        *
-        * Parameters:
-        *   player: The player entity to follow.
-        */
-        public void Follow (Entity player)
-        {
-            if (player != null)
-            {
-                var positionComponent = player.GetComponent<PositionComponent>();
-                if (positionComponent != null)
-                {
-                    _camera.Follow(positionComponent.Position);
-                }
-            }
-        }
-
-        /*
         * Draws the map.
         *
         * Parameters:
@@ -125,14 +102,6 @@ namespace SuperMarioBros.Utils
                     spriteData?.spriteBatch.Draw(texture, dest, Color.White);
                 }
             }
-        }
-
-        /*
-        * Gets the camera of the map.
-        */
-        public Camera Camera
-        {
-            get { return _camera; }
         }
 
         /*
