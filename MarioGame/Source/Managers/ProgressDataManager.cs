@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
+using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils;
 
 namespace SuperMarioBros.Source.Managers;

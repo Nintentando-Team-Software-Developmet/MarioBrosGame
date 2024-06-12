@@ -123,7 +123,8 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
-            CommonRenders.DrawProgressData(spriteData, _progressDataManager.Score,
+            CommonRenders.DrawProgressData( Entities,
+                                            spriteData, _progressDataManager.Score,
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);

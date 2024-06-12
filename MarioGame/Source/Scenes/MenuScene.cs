@@ -63,7 +63,8 @@ namespace SuperMarioBros.Source.Scenes
             DrawSceneElements(spriteData);
             DrawMario(spriteData);
             DrawTitle(spriteData);
-            CommonRenders.DrawProgressData(spriteData, 0,
+            CommonRenders.DrawProgressData(
+                                            spriteData, 0,
                                             0,
                                             "1-1",
                                             0);
