@@ -19,7 +19,7 @@ public class ProgressDataManager
 
     public ProgressDataManager()
     {
-        _data = new ProgressData(DefaultTime, 1, 123);
+        _data = new ProgressData(DefaultTime, 1, 123, 3);
         _highScoreManager = new HighScoreManager();
     }
 
@@ -50,6 +50,12 @@ public class ProgressDataManager
     {
         get => _data.Score;
         set => _data.Score = value;
+    }
+
+    public int Lives
+    {
+        get => _data.Lives;
+        set => _data.Lives = value;
     }
 
     public void UpdateHighScore()

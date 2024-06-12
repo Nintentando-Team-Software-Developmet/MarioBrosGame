@@ -90,11 +90,40 @@ public static class CommonRenders
     }
 
     /*
+     * Draws text  at the specified position.
+     *
+     * Parameters:
+     *   text: The text to display.
+     *   x: The X-coordinate of the text position.
+     *   y: The Y-coordinate of the text position.
+     *   spriteData: SpriteData object containing graphics device, sprite batch, and font for drawing.
+     *               If null, no drawing will occur.
+     */
+    public static void DrawText(string text, float x, float y, SpriteData spriteData)
+    {
+        Vector2 textPosition = new Vector2(x, y);
+        if (spriteData != null)
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, textPosition, Color.White, 0f, Vector2.Zero,
+                2f, SpriteEffects.None, 0f);
+    }
+
+    /*
      * Help to convert integer values to string with specific length format.
      * Fill with zeros the remaining string length.
      */
     private static string FillZeros(this int number, int totalLength)
     {
         return number.ToString(CultureInfo.InvariantCulture).PadLeft(totalLength, '0');
+    }
+
+    /*
+     * Draws a sprite on the screen in the specific position.
+     */
+    public static void DrawIcon(SpriteData spriteData, float positionX, float positionY, Texture2D sprite)
+    {
+        Vector2 position = new Vector2(positionX, positionY);
+        if (spriteData != null)
+            spriteData.spriteBatch.Draw(sprite, position, null, Color.White, 0f, Vector2.Zero,
+                new Vector2(1f), SpriteEffects.None, 0f);
     }
 }

@@ -11,13 +11,13 @@ using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes;
 
-public class GameOverScene : IScene, IDisposable
+public class LivesScene : IScene, IDisposable
 {
     private bool _disposed;
     private string _screen { get; set; } = "Screen";
     private ProgressDataManager _progressDataManager;
 
-    public GameOverScene(ProgressDataManager progressDataManager)
+    public LivesScene(ProgressDataManager progressDataManager)
     {
         _progressDataManager = progressDataManager;
     }
@@ -59,7 +59,9 @@ public class GameOverScene : IScene, IDisposable
                                         _progressDataManager.Coins,
                                         "1-1",
                                         0);
-        CommonRenders.DrawText("GAME OVER", 330, 300, spriteData);
+        CommonRenders.DrawText("WORLD 1-1", 330, 200, spriteData);
+        CommonRenders.DrawIcon(spriteData, 400, 300, Sprites.BigStop);
+        CommonRenders.DrawText($"x {_progressDataManager.Lives}", 550, 350, spriteData);
         spriteData.spriteBatch.End();
     }
 
