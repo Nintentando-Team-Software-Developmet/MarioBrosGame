@@ -5,11 +5,9 @@ using MarioGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
-
-using SuperMarioBros.Source.Managers;
 
 namespace SuperMarioBros
 {
