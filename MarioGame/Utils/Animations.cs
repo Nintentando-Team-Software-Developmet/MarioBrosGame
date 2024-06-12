@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 
+
 using Microsoft.Xna.Framework.Graphics;
+
 
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace MarioGame
 {
-    public static class Animations {
+    public static class Animations
+    {
         public static readonly Texture2D[] playerTextures = new Texture2D[]
         {
             Sprites.BigStop,
@@ -35,7 +38,7 @@ namespace MarioGame
             Sprites.Goomba2,
         };
 
-        public static readonly Dictionary<int,Texture2D> mapTextures = new Dictionary<int, Texture2D>
+        public static readonly Dictionary<int, Texture2D> mapTextures = new Dictionary<int, Texture2D>
         {
             { 1, Sprites.StoneBlockBrown },
         };
