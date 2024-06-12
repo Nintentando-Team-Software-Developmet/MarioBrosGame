@@ -2,7 +2,6 @@ using System;
 
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -67,7 +66,7 @@ public class LivesScene : IScene, IDisposable
 
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
-        _progressDataManager.UpdateHighScore();
+        _progressDataManager.ResetTime();
     }
 
     public SceneType GetSceneType()

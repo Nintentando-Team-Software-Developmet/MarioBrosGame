@@ -58,6 +58,11 @@ public class ProgressDataManager
         set => _data.Lives = value;
     }
 
+    public void ResetTime()
+    {
+        _data.Time = DefaultTime;
+    }
+
     public void UpdateHighScore()
     {
         _highScoreManager.UpdateHighScore(_data.Score);
