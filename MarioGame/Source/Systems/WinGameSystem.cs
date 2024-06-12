@@ -64,10 +64,10 @@ public class WinGameSystem
             {
                 if (!hasFinishedDescending && currentYPosition2 <= 500)
                 {
-                    if (elapsedTime <= 1f)
+                    if (elapsedTime <= 2f)
                     {
-                        currentYPosition2 += 1;
-                        elapsedTime = 1f;
+                        currentYPosition2 += 2;
+                        elapsedTime = 2f;
                     }
                 }
                 else
@@ -86,7 +86,7 @@ public class WinGameSystem
     public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, Texture2D[] spritesheetsWin,
         Vector2 jumpEndY, Texture2D[] spritesheetsWinLeft, Texture2D[] spritesheetsWinRun)
     {
-        const float frameDuration = 1f;
+        const float frameDuration = 0.1f;
         const float waitBeforeJump = 0.2f;
 
         if (spritesheetsWin == null || spritesheetsWinLeft == null || spritesheetsWinRun == null || spriteBatch == null)
