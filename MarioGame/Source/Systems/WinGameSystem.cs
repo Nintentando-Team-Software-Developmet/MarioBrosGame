@@ -55,12 +55,12 @@ public class WinGameSystem
                 {
                     spritePosition = new Vector2(2800, 80);
                     targetPosition = spritePosition;
-                    currentYPosition2 = position.Position.Y - 313;
+                    currentYPosition2 = position.Position.Y - 360;
                 }
 
                 if (!hasFinishedDescending && currentYPosition2 <= 370)
                 {
-                    if (elapsedTime < 3f)
+                    if (elapsedTime <= 1f)
                     {
                         currentYPosition2 += 1;
                         elapsedTime = 1f;
@@ -95,95 +95,98 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
     int numSpritesWinRun = spritesheetsWinRun.Length;
     int numSpritesWin = spritesheetsWin.Length;
 
-
-    if (currentXPosition == 0f || currentYPosition == 0f)
+    if (gameTime != null)
     {
-        currentXPosition = initialPosition.X;
-        currentYPosition = jumpEndY.Y;
-        currentMoreYPosition = jumpEndY.Y;
-        isDrawing = true;
-    }
+        float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
+        int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSpritesWin;
 
-    if (gameTime != null && isDrawing)
-    {
-        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        float yMovement = movementSpeed * deltaTime;
-        float xMovement = movementSpeed * deltaTime;
-
-        if (!hasFinishedDescending)
+        if (currentXPosition == 0f || currentYPosition == 0f)
         {
-            if (currentYPosition < position.Y - 120 )
-            {
-                currentYPosition += yMovement;
-                currentMoreYPosition = currentYPosition;
-
-            }
-            float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
-            int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSpritesWin;
-
-            if (spriteBatch != null)
-            {
-                spriteBatch.Draw(spritesheetsWin[currentFrameIndex], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
-            }
+            currentXPosition = initialPosition.X;
+            currentYPosition = jumpEndY.Y;
+            currentMoreYPosition = jumpEndY.Y;
+            isDrawing = true;
         }
-        else
+
+        if (isDrawing)
         {
-            if (distanceTraveled == 0)
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float yMovement = movementSpeed * deltaTime;
+            float xMovement = movementSpeed * deltaTime;
+
+
+            if (!hasFinishedDescending)
             {
+                if (currentYPosition < position.Y - 120 )
+                {
+                    currentYPosition += yMovement;
+                    currentMoreYPosition = currentYPosition;
+
+                }
+
+
                 if (spriteBatch != null)
                 {
-                    spriteBatch.Draw(spritesheetsWinLeft[0], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
-                }
-                currentXPosition = initialPosition.X + 60;
-                timeSinceLanding += deltaTime;
-            }
-
-
-            if (timeSinceLanding >= waitBeforeJump && !hasJumped)
-            {
-
-                const float jumpHeight = 50f;
-                const float jumpDistance = 30f;
-
-                float jumpProgress = Math.Min(distanceTraveled / jumpDistance, 1.0f);
-
-                currentXPosition = initialPosition.X + 100 + jumpDistance * jumpProgress;
-
-                float startY = currentYPosition;
-                float endY = position.Y;
-                currentMoreYPosition = startY + (jumpHeight * 7 * (jumpProgress - 0.4f) * (jumpProgress - 0.4f) - jumpHeight);
-
-                if (jumpProgress >= 1.0f)
-                {
-                    currentMoreYPosition = endY;
-                    hasJumped = true;
-                    distanceTraveled = 0;
-                }
-
-                distanceTraveled += xMovement;
-                if (spriteBatch != null)
-                {
-                    spriteBatch.Draw(spritesheetsWinLeft[1], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                    spriteBatch.Draw(spritesheetsWin[currentFrameIndex], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
                 }
             }
-            else if (hasJumped)
+            else
             {
-                float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
-                int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSpritesWinRun;
-
-                if (distanceTraveled < distanceToTravel)
+                if (distanceTraveled == 0)
                 {
-                    currentXPosition += xMovement;
+                    if (spriteBatch != null)
+                    {
+                        spriteBatch.Draw(spritesheetsWinLeft[0], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                    }
+                    currentXPosition = initialPosition.X + 60;
+                    timeSinceLanding += deltaTime;
+                }
+
+
+                if (timeSinceLanding >= waitBeforeJump && !hasJumped)
+                {
+
+                    const float jumpHeight = 50f;
+                    const float jumpDistance = 30f;
+
+                    float jumpProgress = Math.Min(distanceTraveled / jumpDistance, 1.0f);
+
+                    currentXPosition = initialPosition.X + 100 + jumpDistance * jumpProgress;
+
+                    float startY = currentYPosition;
+                    float endY = position.Y;
+                    currentMoreYPosition = startY + (jumpHeight * 7 * (jumpProgress - 0.4f) * (jumpProgress - 0.4f) - jumpHeight);
+
+                    if (jumpProgress >= 1.0f)
+                    {
+                        currentMoreYPosition = endY;
+                        hasJumped = true;
+                        distanceTraveled = 0;
+                    }
+
                     distanceTraveled += xMovement;
+                    if (spriteBatch != null)
+                    {
+                        spriteBatch.Draw(spritesheetsWinLeft[1], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                    }
                 }
-                else
+                else if (hasJumped)
                 {
-                    isDrawing = false;
-                }
 
-                if (spriteBatch != null && isDrawing)
-                {
-                    spriteBatch.Draw(spritesheetsWinRun[currentFrameIndex], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                    if (distanceTraveled < distanceToTravel)
+                    {
+                        currentXPosition += xMovement;
+                        distanceTraveled += xMovement;
+                    }
+                    else
+                    {
+                        isDrawing = false;
+                    }
+
+                    if (spriteBatch != null && isDrawing)
+                    {
+                        spriteBatch.Draw(spritesheetsWinRun[currentFrameIndex], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                    }
                 }
             }
         }
