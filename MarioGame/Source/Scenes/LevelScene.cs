@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 
 using MarioGame.Utils.DataStructures;
@@ -36,6 +37,8 @@ namespace SuperMarioBros.Source.Scenes
 
         private int _score;
         private HighScoreManager _highScoreManager = new HighScoreManager();
+        public Matrix Camera => (Matrix)Entities.FirstOrDefault(
+            e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
 
         /*
          * Constructs a new LevelScene object.
@@ -69,6 +72,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new GravitySystem());
             Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
+            Systems.Add(new CameraSystem());
 
         }
 
@@ -107,8 +111,6 @@ namespace SuperMarioBros.Source.Scenes
             {
                 system.Update(gameTime, Entities);
             }
-            var player = Entities.Find(e => e.HasComponent<PlayerComponent>());
-            map.Follow(player);
         }
 
         /*
@@ -119,7 +121,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
-            spriteData.spriteBatch.Begin(transformMatrix: map.Camera.Transform);
+            spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
             spriteData.spriteBatch.End();
@@ -184,6 +186,5 @@ namespace SuperMarioBros.Source.Scenes
         {
             return _highScoreManager.GetHighScore();
         }
-
     }
 }
