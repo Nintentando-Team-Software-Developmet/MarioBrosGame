@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,8 +25,8 @@ public static class CommonRenders
     public static void DrawProgressData(SpriteData spriteData, int score, int coins, string level, double time)
     {
         DrawCoin(spriteData);
-        DrawTextWithNumber("Mario", $"{score}", 50, 10, spriteData);
-        DrawTextWithNumber($"x{coins}", "", 280, 10, spriteData);
+        DrawTextWithNumber("Mario", FillZeros(score,6), 50, 10, spriteData);
+        DrawTextWithNumber($"x"+FillZeros(coins,2), "", 330, 40, spriteData);
         DrawTextWithNumber("WORLD", level, 550, 10, spriteData);
         DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, 900, 10, spriteData);
     }
@@ -58,9 +59,18 @@ public static class CommonRenders
      */
     private static void DrawCoin(SpriteData spriteData)
     {
-        Vector2 position = new Vector2(250, 10);
+        Vector2 position = new Vector2(300, 40);
         if (spriteData != null)
             spriteData.spriteBatch.Draw(Sprites.CoinIcon, position, null, Color.White, 0f, Vector2.Zero,
                 new Vector2(2f), SpriteEffects.None, 0f);
+    }
+
+    /*
+     * Help to convert integer values to string with specific length format.
+     * Fill with zeros the remaining string length.
+     */
+    private static string FillZeros(this int number, int totalLength)
+    {
+        return number.ToString(CultureInfo.InvariantCulture).PadLeft(totalLength, '0');
     }
 }

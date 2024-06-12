@@ -16,7 +16,7 @@ public class ProgressDataManager
 
     public ProgressDataManager()
     {
-        _data = new ProgressData(DefaultTime, 456, 987654);
+        _data = new ProgressData(DefaultTime, 1, 123);
         _highScoreManager = new HighScoreManager();
     }
 
