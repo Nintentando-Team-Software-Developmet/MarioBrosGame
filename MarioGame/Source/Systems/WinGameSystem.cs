@@ -22,69 +22,79 @@ public class WinGameSystem
     private const float distanceToTravel = 200f;
     private float currentXPosition { get; set; }
     private float currentYPosition { get; set; }
+    private float currentYPosition2 { get; set; }
     private float currentMoreYPosition { get; set; }
     private float distanceTraveled { get; set; }
     private bool isDrawing { get; set; }
     private bool hasJumped;
     private float timeSinceLanding { get; set; }
+    private bool checkFlaw { get; set; }
+    float elapsedTime { get; set; }
+
+    bool hasFinishedDescending { get; set; }
+
     public void DrawWinGame(GameTime gameTime, IEnumerable<Entity> entities, SpriteBatch spriteBatch, bool colition)
     {
         if (entities != null)
         {
-            var playerEntities = entities.Where(e =>
+            var playerEntitiesWin = entities.Where(e =>
                 e.HasComponent<AnimationComponent>() &&
                 e.HasComponent<PositionComponent>() &&
                 e.HasComponent<WinGameComponent>()
             );
 
-            foreach (var entity in playerEntities)
+            foreach (var entity in playerEntitiesWin)
             {
                 var playerAnimation = entity.GetComponent<AnimationComponent>();
                 var position = entity.GetComponent<PositionComponent>();
+
                 initialPosition = position.Position;
                 spritesheets = new Texture2D[] { playerAnimation.Textures[0], playerAnimation.Textures[1] };
+
                 if (spritePosition == Vector2.Zero)
                 {
                     spritePosition = new Vector2(2800, 80);
                     targetPosition = spritePosition;
+                    currentYPosition2 = position.Position.Y - 313;
+                }
+
+                if (!hasFinishedDescending && currentYPosition2 <= 370)
+                {
+                    if (elapsedTime < 3f)
+                    {
+                        currentYPosition2 += 1;
+                        elapsedTime = 1f;
+                    }
+                }
+                else
+                {
+                    hasFinishedDescending = true;
                 }
                 if (colition)
                 {
-                    targetPosition = new Vector2(2800, currentYPosition + 130);
+                    targetPosition = new Vector2(2800, currentYPosition2 + 130);
                 }
-                if (gameTime != null)
-                {
-                    float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    lerpAmount += deltaTime * 10;
-                }
-                spritePosition = Vector2.Lerp(spritePosition, targetPosition, lerpAmount);
+
                 if (spriteBatch != null)
                 {
-                    spriteBatch.Draw(spritesheets[1], spritePosition, Color.White);
+                    spriteBatch.Draw(spritesheets[1], targetPosition, Color.White);
                     spriteBatch.Draw(spritesheets[0], position.Position, Color.White);
                 }
-
-                if (lerpAmount >= 1.0f)
-                {
-                    lerpAmount = 0.0f;
-                }
-
             }
         }
     }
-
 public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, Texture2D[] spritesheetsWin,
     Vector2 jumpEndY, Texture2D[] spritesheetsWinLeft, Texture2D[] spritesheetsWinRun)
 {
     const float frameDuration = 1f;
-    const float frameDuration2 = 1f;
+
     const float waitBeforeJump = 0.2f;
 
     if (spritesheetsWin == null || spritesheetsWinLeft == null || spritesheetsWinRun == null) return;
 
     int numSpritesWinRun = spritesheetsWinRun.Length;
     int numSpritesWin = spritesheetsWin.Length;
-    int numSpritesWinLeft = spritesheetsWinLeft.Length;
+
 
     if (currentXPosition == 0f || currentYPosition == 0f)
     {
@@ -100,10 +110,14 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
         float yMovement = movementSpeed * deltaTime;
         float xMovement = movementSpeed * deltaTime;
 
-        if (currentYPosition < position.Y - 120)
+        if (!hasFinishedDescending)
         {
-            currentYPosition += yMovement;
-            currentMoreYPosition = currentYPosition;
+            if (currentYPosition < position.Y - 120 )
+            {
+                currentYPosition += yMovement;
+                currentMoreYPosition = currentYPosition;
+
+            }
             float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
             int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSpritesWin;
 
@@ -127,8 +141,6 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
 
             if (timeSinceLanding >= waitBeforeJump && !hasJumped)
             {
-                float timeElapsed2 = (float)gameTime.TotalGameTime.TotalSeconds;
-                int currentFrameIndex2 = Math.Min((int)(timeElapsed2 / frameDuration2), numSpritesWinLeft - 1);
 
                 const float jumpHeight = 50f;
                 const float jumpDistance = 30f;
@@ -151,7 +163,7 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
                 distanceTraveled += xMovement;
                 if (spriteBatch != null)
                 {
-                    spriteBatch.Draw(spritesheetsWinLeft[currentFrameIndex2], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                    spriteBatch.Draw(spritesheetsWinLeft[1], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
                 }
             }
             else if (hasJumped)
