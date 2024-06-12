@@ -190,10 +190,8 @@ namespace SuperMarioBros.Source.Systems
                                 wasJumping = false;
                             }
                         }
-
                     }
-
-                    WinGame.DrawWinGame(gameTime, entities, _spriteBatch, playerComponent.colition);
+                    WinGame.DrawWinGame(entities, _spriteBatch, playerComponent.colition);
                 }
             }
         }
@@ -237,7 +235,7 @@ namespace SuperMarioBros.Source.Systems
 
         private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition)
         {
-            wasJumping = false;
+
             if (position.X > previousPosition.X)
             {
                 RunRight(spriteBatch, position, gameTime);
@@ -286,7 +284,7 @@ namespace SuperMarioBros.Source.Systems
 
         private void DrawStopped(SpriteBatch spriteBatch, Vector2 position)
         {
-            wasJumping = false;
+
             if (isMovingLeft)
             {
                 spriteBatch.Draw(spritesheetsRunLeft[0], position, Color.White);
@@ -298,7 +296,7 @@ namespace SuperMarioBros.Source.Systems
         }
         private void DrawBed(SpriteBatch spriteBatch, Vector2 position)
         {
-            wasJumping = false;
+
             if (isMovingLeft)
             {
                 spriteBatch.Draw(spritesheetsBend2[0], position, Color.White);

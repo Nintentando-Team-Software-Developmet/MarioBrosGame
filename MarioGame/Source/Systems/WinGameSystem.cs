@@ -16,9 +16,8 @@ public class WinGameSystem
    public Vector2 initialPosition { get; set; }
     private Vector2 spritePosition { get; set; }
     private Vector2 targetPosition { get; set; }
-    private float lerpAmount { get; set; }
 
-    private const float movementSpeed = 60f;
+    private const float movementSpeed = 90f;
     private const float distanceToTravel = 200f;
     private float currentXPosition { get; set; }
     private float currentYPosition { get; set; }
@@ -28,12 +27,10 @@ public class WinGameSystem
     private bool isDrawing { get; set; }
     private bool hasJumped;
     private float timeSinceLanding { get; set; }
-    private bool checkFlaw { get; set; }
     float elapsedTime { get; set; }
-
     bool hasFinishedDescending { get; set; }
 
-    public void DrawWinGame(GameTime gameTime, IEnumerable<Entity> entities, SpriteBatch spriteBatch, bool colition)
+    public void DrawWinGame(IEnumerable<Entity> entities, SpriteBatch spriteBatch, bool colition)
     {
         if (entities != null)
         {
@@ -57,7 +54,6 @@ public class WinGameSystem
                     targetPosition = spritePosition;
                     currentYPosition2 = position.Position.Y - 360;
                 }
-
                 if (!hasFinishedDescending && currentYPosition2 <= 370)
                 {
                     if (elapsedTime <= 1f)
