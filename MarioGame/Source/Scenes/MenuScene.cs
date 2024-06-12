@@ -18,12 +18,6 @@ namespace SuperMarioBros.Source.Scenes
     {
         private bool _disposed;
         private string Screen { get; set; } = "Screen";
-        private GameDataSystem _gameDataSystem;
-
-        public MenuScene(/*GameDataSystem gameDataSystem*/)
-        {
-            _gameDataSystem = WorldGame.DataSystem;
-        }
 
         public void Load(SpriteData spriteData)
         {
@@ -64,14 +58,12 @@ namespace SuperMarioBros.Source.Scenes
             DrawSceneElements(spriteData);
             DrawMario(spriteData);
             DrawTitle(spriteData);
-            /*
             DrawTextWithNumber("MONEDAS", "000000", 70, 10, spriteData);
             DrawTextWithNumber("WORLD", "1 - 1", 550, 10, spriteData);
             DrawTextWithNumber("TIME", "-", 900, 10, spriteData);
-            */
-            DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
+            /*DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
             DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time.Seconds}", 900, 10, spriteData);
-            DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore.Score}", 50, 10, spriteData);
+            DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore.Score}", 50, 10, spriteData);*/
             DrawHighScore(spriteData);
             DrawStartButton(spriteData);
 

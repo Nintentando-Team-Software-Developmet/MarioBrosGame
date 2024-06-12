@@ -7,20 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
-using SuperMarioBros.Source.Systems;
-
 namespace SuperMarioBros.Source.Scenes;
 
 public class GameOverScene : IScene, IDisposable
 {
     private bool _disposed;
     private string _screen { get; set; } = "Screen";
-    private GameDataSystem _gameDataSystem;
-
-    public GameOverScene(/*GameDataSystem gameDataSystem*/)
-    {
-        _gameDataSystem = WorldGame.DataSystem;
-    }
 
 
     /*
@@ -57,10 +49,10 @@ public class GameOverScene : IScene, IDisposable
 
         spriteData.spriteBatch.Begin();
         DrawCoin(spriteData);
-        DrawTextWithNumber($"x{_gameDataSystem.CoinsCounter.Coins}", "", 280, 10, spriteData);
-        DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
-        DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time.Seconds}", 900, 10, spriteData);
-        DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore.Score}", 50, 10, spriteData);
+        DrawTextWithNumber($"x{WorldGame.ProgressDataManager.Data.Coins}", "", 280, 10, spriteData);
+        DrawTextWithNumber("WORLD", "1-1", 550, 10, spriteData);
+        DrawTextWithNumber("TIME", String.Empty, 900, 10, spriteData);
+        DrawTextWithNumber("Mario", $"{WorldGame.ProgressDataManager.Data.Score}", 50, 10, spriteData);
         DrawText("GAME OVER", 330, 300, spriteData);
 
 
@@ -70,7 +62,7 @@ public class GameOverScene : IScene, IDisposable
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
         //TODO: Temporal, la verdadera actualizacion esta dentro de SystemManager/GameDataSystem
-        if (gameTime != null) _gameDataSystem.Time.Seconds -= gameTime.ElapsedGameTime.TotalSeconds;
+        WorldGame.ProgressDataManager.Update(gameTime);
     }
 
     public SceneType GetSceneType()

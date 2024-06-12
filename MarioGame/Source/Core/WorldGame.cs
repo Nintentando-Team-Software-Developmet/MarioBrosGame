@@ -5,7 +5,9 @@ using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
 using MarioGame;
 
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
+using SuperMarioBros.Utils;
 
 namespace SuperMarioBros
 {
@@ -16,7 +18,7 @@ namespace SuperMarioBros
         private LevelScene _levelScene;
         private GameOverScene _gameOverScene;
         private bool _disposed;
-        public static GameDataSystem DataSystem { get; } = new GameDataSystem();
+        public static ProgressDataManager ProgressDataManager { get; } = new ProgressDataManager();
 
         public WorldGame(SpriteData spriteData)
         {
@@ -33,14 +35,14 @@ namespace SuperMarioBros
             _sceneManager.AddScene(SceneName.Level1, _levelScene);
             _sceneManager.AddScene(SceneName.GameOver, _gameOverScene);
 
-            _sceneManager.LoadScene(SceneName.Level1);
+            _sceneManager.LoadScene(SceneName.MainMenu);
         }
 
         public void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                _sceneManager.ChangeScene(SceneName.GameOver);
+                _sceneManager.ChangeScene(SceneName.Level1);
             }
             _sceneManager.UpdateScene(gameTime);
         }
