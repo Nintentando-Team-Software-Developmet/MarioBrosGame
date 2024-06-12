@@ -18,7 +18,7 @@ public class WinGameSystem
     private Vector2 targetPosition { get; set; }
     private float lerpAmount { get; set; }
 
-    private const float movementSpeed = 50f;
+    private const float movementSpeed = 60f;
     private const float distanceToTravel = 200f;
     private float currentXPosition { get; set; }
     private float currentYPosition { get; set; }

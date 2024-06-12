@@ -55,6 +55,8 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
                     break;
                 //TODO: Implement other entity types
+                default:
+                    break;
             }
 
             return entity;
