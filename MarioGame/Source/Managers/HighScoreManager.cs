@@ -1,4 +1,5 @@
 using System.IO;
+
 namespace SuperMarioBros.Source.Managers;
 
 public class HighScoreManager

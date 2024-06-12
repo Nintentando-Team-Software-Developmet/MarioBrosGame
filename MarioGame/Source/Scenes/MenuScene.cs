@@ -181,7 +181,7 @@ namespace SuperMarioBros.Source.Scenes
                 (spriteData.graphics.GraphicsDevice.Viewport.Width + spriteData.spriteFont.MeasureString("HIGHSCORE").X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 250
             );
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont,$"{highScore}" , highScorePosition, Color.White);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{highScore}", highScorePosition, Color.White);
         }
 
         public void Dispose()

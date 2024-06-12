@@ -1,9 +1,13 @@
 using System;
+
+using MarioGame;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+
+
 using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
-using MarioGame;
 
 using SuperMarioBros.Source.Managers;
 

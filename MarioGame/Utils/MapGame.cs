@@ -23,7 +23,7 @@ namespace SuperMarioBros.Utils
 
         public MapGame(string pathMap, SpriteData spriteData)
         {
-            if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
+            if (spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             LoadMap(pathMap);
         }
 
@@ -35,7 +35,7 @@ namespace SuperMarioBros.Utils
         */
         private void LoadMap(string pathMap)
         {
-           _tilemap = new Dictionary<Vector2, int>();
+            _tilemap = new Dictionary<Vector2, int>();
 
             using (StreamReader reader = new StreamReader(pathMap))
             {
@@ -63,6 +63,7 @@ namespace SuperMarioBros.Utils
                 }
             }
         }
+
 
         /*
         * Draws the map.
