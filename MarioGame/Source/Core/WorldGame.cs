@@ -49,7 +49,7 @@ namespace SuperMarioBros
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                _sceneManager.ChangeScene(SceneName.Lives);
+                _sceneManager.ChangeScene(SceneName.Level1);
             }
             _sceneManager.UpdateScene(gameTime);
         }
