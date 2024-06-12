@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 
@@ -13,10 +14,23 @@ namespace SuperMarioBros.Source.Systems
 {
     public class InputSystem : BaseSystem
     {
+        private KeyboardState _currentKeyboardState;
+        private GamePadState _gamePadState;
+        private bool wasZPressed { get; set; }
+        private bool wasZPressedPlay { get; set; }
+        private bool wasLeftPressed{ get; set; }
+        private bool wasRightPressed{ get; set; }
+        private bool wasLeftPressedPlay{ get; set; }
+        private bool wasRightPressedPlay{ get; set; }
+
+
+
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            var keyboardState = Keyboard.GetState();
-            var gamePadState = GamePad.GetState(PlayerIndex.One);
+            _currentKeyboardState = Keyboard.GetState();
+            _gamePadState = GamePad.GetState(PlayerIndex.One);
+
+            if (entities == null) return;
             var entitiesInput = entities.WithComponents(typeof(InputComponent), typeof(PositionComponent),
                 typeof(VelocityComponent));
             foreach (var entity in entitiesInput)
@@ -24,31 +38,71 @@ namespace SuperMarioBros.Source.Systems
                 var velocity = entity.GetComponent<VelocityComponent>();
                 var position = entity.GetComponent<PositionComponent>();
 
+                if (position == null || velocity == null) continue;
+
                 position.pass = true;
+                position.passR = true;
+                position.passBed = true;
                 position.LastPosition = position.Position;
 
                 velocity.Velocity = Vector2.Zero;
 
-                if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.ThumbSticks.Left.X < -0.1f)
-                {
-                    velocity.Velocity += new Vector2(-1, 0);
-                }
+                ProcessKeyboardInput(velocity, position);
 
-                if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.ThumbSticks.Left.X > 0.1f)
-                {
-                    velocity.Velocity += new Vector2(1, 0);
-                }
-
-                if (keyboardState.IsKeyDown(Keys.Z) || gamePadState.IsButtonDown(Buttons.A))
-                {
-                    position.pass = false;
-                }
-
-                if (keyboardState.IsKeyDown(Keys.X) || gamePadState.IsButtonDown(Buttons.B))
-                {
-                    velocity.Velocity += new Vector2(0, 1);
-                }
             }
         }
+
+        private void ProcessKeyboardInput(VelocityComponent velocity, PositionComponent position)
+        {
+            bool isZPressed = _currentKeyboardState.IsKeyDown(Keys.Z);
+            bool isLeftPressed = _currentKeyboardState.IsKeyDown(Keys.Left);
+            bool isRightPressed = _currentKeyboardState.IsKeyDown(Keys.Right);
+
+            bool isAPressed = _gamePadState.IsButtonDown(Buttons.A);
+            bool isLeftPressedPlay = _gamePadState.ThumbSticks.Left.X < -0.1f;
+            bool isRightPressedPlay = _gamePadState.ThumbSticks.Left.X > 0.1f;
+
+            if (isZPressed && !wasZPressed || isAPressed && !wasZPressedPlay )
+            {
+                position.pass = false;
+            }
+            if (isZPressed && isLeftPressed && !wasLeftPressed || isLeftPressedPlay && isAPressed && !wasLeftPressedPlay)
+            {
+                position.passR = false;
+                velocity.Velocity += new Vector2(-1, 0);
+            }
+            else if (isZPressed && isRightPressed && !wasRightPressed || isRightPressedPlay && isAPressed && !wasRightPressedPlay)
+            {
+                position.passR = false;
+                velocity.Velocity += new Vector2(1, 0);
+            }
+            else if (_currentKeyboardState.IsKeyDown(Keys.Left) || _gamePadState.ThumbSticks.Left.X < -0.1f)
+            {
+                velocity.Velocity += new Vector2(-1, 0);
+            }
+            else if (_currentKeyboardState.IsKeyDown(Keys.Right) || _gamePadState.ThumbSticks.Left.X > 0.1f)
+            {
+                velocity.Velocity += new Vector2(1, 0);
+            }
+
+            else if (_currentKeyboardState.IsKeyDown(Keys.X) || _gamePadState.IsButtonDown(Buttons.X))
+            {
+                position.passBed = false;
+            }
+            else
+            {
+                wasZPressed = false;
+            }
+
+            wasZPressed = isZPressed;
+            wasLeftPressed = isLeftPressed;
+            wasRightPressed = isRightPressed;
+
+            wasZPressedPlay = isAPressed;
+            wasLeftPressedPlay = isLeftPressedPlay;
+            wasRightPressedPlay = isRightPressedPlay;
+        }
+
+
     }
 }

@@ -29,13 +29,22 @@ namespace MarioGame
             Sprites.BigBendLeft,
 
             Sprites.BigJumpBack,
-            Sprites.BigJumpBackLeft
+            Sprites.BigJumpBackLeft,
+
+            Sprites.LowerThePost1,
+            Sprites.LowerThePost2,
+            Sprites.LowerThePostLeft
         };
 
         public static readonly Texture2D[] goombaTextures = new Texture2D[]
         {
             Sprites.Goomba1,
             Sprites.Goomba2,
+        };
+        public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
+        {
+            Sprites.WinFlagGreen,
+            Sprites.WinFlag
         };
 
         public static readonly Dictionary<int, Texture2D> mapTextures = new Dictionary<int, Texture2D>
@@ -46,7 +55,8 @@ namespace MarioGame
         public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>
         {
             { EntitiesName.MARIO, playerTextures },
-            { EntitiesName.GOOMBA, goombaTextures }
+            { EntitiesName.GOOMBA, goombaTextures },
+            { EntitiesName.FLAG, FlagWinTextures }
         };
     }
 }

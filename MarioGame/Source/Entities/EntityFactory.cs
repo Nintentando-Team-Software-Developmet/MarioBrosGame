@@ -48,6 +48,11 @@ namespace SuperMarioBros.Source.Entities
                         ConstantsSizeWindow.CameraWorldWidth,
                         ConstantsSizeWindow.CameraViewportHeight));
                     break;
+                case EntityType.WINGAME:
+                    entity.AddComponent(new WinGameComponent());
+                    entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    break;
+                //TODO: Implement other entity types
                 default:
                     break;
             }
