@@ -58,8 +58,8 @@ namespace SuperMarioBros.Source.Scenes
             DrawSceneElements(spriteData);
             DrawMario(spriteData);
             DrawTitle(spriteData);
-            CommonRenders.DrawProgressData(spriteData, WorldGame.ProgressDataManager.Data.Score,
-                                            WorldGame.ProgressDataManager.Data.Coins,
+            CommonRenders.DrawProgressData(spriteData, 0,
+                                            0,
                                             "1-1",
                                             0);
             DrawHighScore(spriteData);

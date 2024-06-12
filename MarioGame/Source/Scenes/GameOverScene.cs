@@ -4,6 +4,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -14,7 +15,12 @@ public class GameOverScene : IScene, IDisposable
 {
     private bool _disposed;
     private string _screen { get; set; } = "Screen";
+    private ProgressDataManager _progressDataManager;
 
+    public GameOverScene(ProgressDataManager progressDataManager)
+    {
+        _progressDataManager = progressDataManager;
+    }
 
     /*
      * Loads resources needed for the game over scene.
@@ -49,8 +55,8 @@ public class GameOverScene : IScene, IDisposable
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
 
         spriteData.spriteBatch.Begin();
-        CommonRenders.DrawProgressData(spriteData, WorldGame.ProgressDataManager.Data.Score,
-                                        WorldGame.ProgressDataManager.Data.Coins,
+        CommonRenders.DrawProgressData(spriteData, _progressDataManager.Score,
+                                        _progressDataManager.Coins,
                                         "1-1",
                                         0);
         DrawText("GAME OVER", 330, 300, spriteData);
@@ -61,8 +67,6 @@ public class GameOverScene : IScene, IDisposable
 
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
-        //TODO: Temporal, la verdadera actualizacion esta dentro de SystemManager/GameDataSystem
-        WorldGame.ProgressDataManager.Update(gameTime);
     }
 
     public SceneType GetSceneType()

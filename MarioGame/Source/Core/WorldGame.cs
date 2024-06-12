@@ -18,18 +18,19 @@ namespace SuperMarioBros
         private LevelScene _levelScene;
         private GameOverScene _gameOverScene;
         private bool _disposed;
-        public static ProgressDataManager ProgressDataManager { get; } = new ProgressDataManager();
+        private ProgressDataManager _progressDataManager { get; }
 
         public WorldGame(SpriteData spriteData)
         {
             _sceneManager = new SceneManager(spriteData);
+            _progressDataManager = new ProgressDataManager();
         }
 
         public void Initialize()
         {
             _menuScene = new MenuScene();
-            _levelScene = new LevelScene(LevelPath.Level1);
-            _gameOverScene = new GameOverScene();
+            _levelScene = new LevelScene(LevelPath.Level1, _progressDataManager);
+            _gameOverScene = new GameOverScene(_progressDataManager);
 
             _sceneManager.AddScene(SceneName.MainMenu, _menuScene);
             _sceneManager.AddScene(SceneName.Level1, _levelScene);

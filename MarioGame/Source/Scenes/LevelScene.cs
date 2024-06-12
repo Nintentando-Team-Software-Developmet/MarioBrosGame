@@ -31,8 +31,8 @@ namespace SuperMarioBros.Source.Scenes
         private MapGame map;
         private LevelData _levelData;
         private bool _disposed;
-
         private int _score;
+        private ProgressDataManager _progressDataManager;
         private HighScoreManager _highScoreManager = new HighScoreManager();
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
@@ -44,12 +44,12 @@ namespace SuperMarioBros.Source.Scenes
          * Parameters:
          *   pathScene: A string representing the path to the scene data.
          */
-        public LevelScene(string pathScene)
+        public LevelScene(string pathScene, ProgressDataManager progressDataManager)
         {
             _score = 0;
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
-
+            _progressDataManager = progressDataManager;
         }
 
         /*
@@ -103,7 +103,7 @@ namespace SuperMarioBros.Source.Scenes
         */
         public void Update(GameTime gameTime, SceneManager sceneManager)
         {
-            WorldGame.ProgressDataManager.Update(gameTime);
+            _progressDataManager.Update(gameTime);
             foreach (var system in Systems)
             {
                 system.Update(gameTime, Entities);
@@ -121,10 +121,10 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
-            CommonRenders.DrawProgressData(spriteData, WorldGame.ProgressDataManager.Data.Score,
-                                            WorldGame.ProgressDataManager.Data.Coins,
+            CommonRenders.DrawProgressData(spriteData, _progressDataManager.Score,
+                                            _progressDataManager.Coins,
                                             "1-1",
-                                            WorldGame.ProgressDataManager.Data.Time);
+                                            _progressDataManager.Time);
             spriteData.spriteBatch.End();
         }
 
