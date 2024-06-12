@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes;
 
@@ -48,11 +49,10 @@ public class GameOverScene : IScene, IDisposable
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
 
         spriteData.spriteBatch.Begin();
-        DrawCoin(spriteData);
-        DrawTextWithNumber($"x{WorldGame.ProgressDataManager.Data.Coins}", "", 280, 10, spriteData);
-        DrawTextWithNumber("WORLD", "1-1", 550, 10, spriteData);
-        DrawTextWithNumber("TIME", String.Empty, 900, 10, spriteData);
-        DrawTextWithNumber("Mario", $"{WorldGame.ProgressDataManager.Data.Score}", 50, 10, spriteData);
+        CommonRenders.DrawProgressData(spriteData, WorldGame.ProgressDataManager.Data.Score,
+                                        WorldGame.ProgressDataManager.Data.Coins,
+                                        "1-1",
+                                        0);
         DrawText("GAME OVER", 330, 300, spriteData);
 
 
@@ -68,26 +68,6 @@ public class GameOverScene : IScene, IDisposable
     public SceneType GetSceneType()
     {
         return SceneType.TransitionScene;
-    }
-
-    /*
-     * Draws text followed by a number at the specified position.
-     *
-     * Parameters:
-     *   text: The text to display.
-     *   number: The number to display.
-     *   x: The X-coordinate of the text position.
-     *   y: The Y-coordinate of the text position.
-     *   spriteData: SpriteData object containing graphics device, sprite batch, and font for drawing.
-     *               If null, no drawing will occur.
-     */
-    private static void DrawTextWithNumber(string text, string number, float x, float y, SpriteData spriteData)
-    {
-        Vector2 textPosition = new Vector2(x, y);
-        Vector2 numberPosition = new Vector2(x, y + spriteData.spriteFont.LineSpacing * 1.5f);
-
-        spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, textPosition, Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
-        spriteData.spriteBatch.DrawString(spriteData.spriteFont, number, numberPosition, Color.White, 0f, Vector2.Zero, 1.6f, SpriteEffects.None, 0f);
     }
 
     /*
@@ -119,11 +99,6 @@ public class GameOverScene : IScene, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    private static void DrawCoin(SpriteData spriteData)
-    {
-        Vector2 position = new Vector2(250, 10);
-        spriteData.spriteBatch.Draw(Sprites.CoinIcon, position, null, Color.White, 0f, Vector2.Zero, new Vector2(2f), SpriteEffects.None, 0f);
-    }
     /*
     * Releases managed resources if disposing is true.
     */

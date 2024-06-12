@@ -11,6 +11,7 @@ using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes
 {
@@ -44,7 +45,6 @@ namespace SuperMarioBros.Source.Scenes
         public void Unload()
         {
             MediaPlayer.Stop();
-            //Console.WriteLine(Screen);
         }
 
         public void Draw(SpriteData spriteData, GameTime gameTime)
@@ -58,12 +58,10 @@ namespace SuperMarioBros.Source.Scenes
             DrawSceneElements(spriteData);
             DrawMario(spriteData);
             DrawTitle(spriteData);
-            DrawTextWithNumber("MONEDAS", "000000", 70, 10, spriteData);
-            DrawTextWithNumber("WORLD", "1 - 1", 550, 10, spriteData);
-            DrawTextWithNumber("TIME", "-", 900, 10, spriteData);
-            /*DrawTextWithNumber("WORLD", _gameDataSystem.LevelName, 550, 10, spriteData);
-            DrawTextWithNumber("TIME", $"{(int)_gameDataSystem.Time.Seconds}", 900, 10, spriteData);
-            DrawTextWithNumber("Mario", $"{_gameDataSystem.TotalScore.Score}", 50, 10, spriteData);*/
+            CommonRenders.DrawProgressData(spriteData, WorldGame.ProgressDataManager.Data.Score,
+                                            WorldGame.ProgressDataManager.Data.Coins,
+                                            "1-1",
+                                            0);
             DrawHighScore(spriteData);
             DrawStartButton(spriteData);
 
@@ -152,14 +150,6 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, "MARIO BROS", titlePosition, new Color(235, 211, 170), 0f, Vector2.Zero, fontSize / spriteData.spriteFont.LineSpacing, SpriteEffects.None, 0f);
         }
 
-        private static void DrawTextWithNumber(string text, string number, float x, float y, SpriteData spriteData)
-        {
-            Vector2 textPosition = new Vector2(x, y);
-            Vector2 numberPosition = new Vector2(x, y + spriteData.spriteFont.LineSpacing);
-
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, textPosition, Color.White);
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, number, numberPosition, Color.White);
-        }
 
         private static void DrawStartButton(SpriteData spriteData)
         {
