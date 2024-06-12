@@ -23,7 +23,7 @@ namespace SuperMarioBros.Utils
 
         public MapGame(string pathMap, SpriteData spriteData)
         {
-            if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
+            if (spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             LoadMap(pathMap);
         }
 
