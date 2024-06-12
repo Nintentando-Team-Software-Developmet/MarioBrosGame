@@ -18,7 +18,7 @@ public class WinGameSystem
     private Vector2 targetPosition { get; set; }
     private float lerpAmount { get; set; }
 
-    private const float movementSpeed = 30f;
+    private const float movementSpeed = 50f;
     private const float distanceToTravel = 200f;
     private float currentXPosition { get; set; }
     private float currentYPosition { get; set; }
@@ -26,6 +26,7 @@ public class WinGameSystem
     private float distanceTraveled { get; set; }
     private bool isDrawing { get; set; }
     private bool hasJumped;
+    private float timeSinceLanding { get; set; }
     public void DrawWinGame(GameTime gameTime, IEnumerable<Entity> entities, SpriteBatch spriteBatch, bool colition)
     {
         if (entities != null)
@@ -54,7 +55,7 @@ public class WinGameSystem
                 if (gameTime != null)
                 {
                     float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    lerpAmount += deltaTime * 1;
+                    lerpAmount += deltaTime * 10;
                 }
                 spritePosition = Vector2.Lerp(spritePosition, targetPosition, lerpAmount);
                 if (spriteBatch != null)
@@ -62,10 +63,12 @@ public class WinGameSystem
                     spriteBatch.Draw(spritesheets[1], spritePosition, Color.White);
                     spriteBatch.Draw(spritesheets[0], position.Position, Color.White);
                 }
+
                 if (lerpAmount >= 1.0f)
                 {
                     lerpAmount = 0.0f;
                 }
+
             }
         }
     }
@@ -74,6 +77,8 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
     Vector2 jumpEndY, Texture2D[] spritesheetsWinLeft, Texture2D[] spritesheetsWinRun)
 {
     const float frameDuration = 1f;
+    const float frameDuration2 = 1f;
+    const float waitBeforeJump = 0.2f;
 
     if (spritesheetsWin == null || spritesheetsWinLeft == null || spritesheetsWinRun == null) return;
 
@@ -86,7 +91,7 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
         currentXPosition = initialPosition.X;
         currentYPosition = jumpEndY.Y;
         currentMoreYPosition = jumpEndY.Y;
-        isDrawing = true; // Inicializamos el control de dibujo
+        isDrawing = true;
     }
 
     if (gameTime != null && isDrawing)
@@ -111,12 +116,19 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
         {
             if (distanceTraveled == 0)
             {
+                if (spriteBatch != null)
+                {
+                    spriteBatch.Draw(spritesheetsWinLeft[0], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
+                }
                 currentXPosition = initialPosition.X + 60;
+                timeSinceLanding += deltaTime;
             }
-            if (!hasJumped)
+
+
+            if (timeSinceLanding >= waitBeforeJump && !hasJumped)
             {
                 float timeElapsed2 = (float)gameTime.TotalGameTime.TotalSeconds;
-                int currentFrameIndex2 = (int)(timeElapsed2 / frameDuration) % numSpritesWinLeft;
+                int currentFrameIndex2 = Math.Min((int)(timeElapsed2 / frameDuration2), numSpritesWinLeft - 1);
 
                 const float jumpHeight = 50f;
                 const float jumpDistance = 30f;
@@ -142,7 +154,7 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
                     spriteBatch.Draw(spritesheetsWinLeft[currentFrameIndex2], new Vector2(currentXPosition, currentMoreYPosition), Color.White);
                 }
             }
-            else
+            else if (hasJumped)
             {
                 float timeElapsed = (float)gameTime.TotalGameTime.TotalSeconds;
                 int currentFrameIndex = (int)(timeElapsed / frameDuration) % numSpritesWinRun;
@@ -154,7 +166,7 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
                 }
                 else
                 {
-                    isDrawing = false; // Detenemos el dibujo una vez que se completa el movimiento en X
+                    isDrawing = false;
                 }
 
                 if (spriteBatch != null && isDrawing)
@@ -165,6 +177,5 @@ public void DrawWinMario(SpriteBatch spriteBatch, Vector2 position, GameTime gam
         }
     }
 }
-
 
 }
