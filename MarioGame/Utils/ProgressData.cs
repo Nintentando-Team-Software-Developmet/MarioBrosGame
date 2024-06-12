@@ -1,5 +1,9 @@
 ﻿namespace SuperMarioBros.Utils;
 
+/*
+ * Represents the accumulative data that is modified during all game.
+ * Contains the time, coins and score values.
+ */
 public class ProgressData
 {
     private double _time;

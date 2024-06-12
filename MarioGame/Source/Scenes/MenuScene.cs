@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -19,6 +18,12 @@ namespace SuperMarioBros.Source.Scenes
     {
         private bool _disposed;
         private string Screen { get; set; } = "Screen";
+        private ProgressDataManager _progressDataManager;
+
+        public MenuScene(ProgressDataManager progressDataManager)
+        {
+            _progressDataManager = progressDataManager;
+        }
 
         public void Load(SpriteData spriteData)
         {
@@ -162,10 +167,10 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, "START", startPosition, Color.Yellow, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
 
-        private static void DrawHighScore(SpriteData spriteData)
+        private void DrawHighScore(SpriteData spriteData)
         {
             float fontSize = 30f;
-            int highScore = new HighScoreManager().GetHighScore();
+            int highScore = _progressDataManager.GetHighScore();
             float scale = fontSize / spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").Y;
             Vector2 startPosition = new Vector2(
                 (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").X * scale) / 2,

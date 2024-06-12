@@ -31,9 +31,8 @@ namespace SuperMarioBros.Source.Scenes
         private MapGame map;
         private LevelData _levelData;
         private bool _disposed;
-        private int _score;
         private ProgressDataManager _progressDataManager;
-        private HighScoreManager _highScoreManager = new HighScoreManager();
+
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
 
@@ -46,7 +45,6 @@ namespace SuperMarioBros.Source.Scenes
          */
         public LevelScene(string pathScene, ProgressDataManager progressDataManager)
         {
-            _score = 0;
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
@@ -177,15 +175,6 @@ namespace SuperMarioBros.Source.Scenes
                 Entities.Clear();
             }
             _disposed = true;
-        }
-        public void UpdateHighScore()
-        {
-            _highScoreManager.UpdateHighScore(_score);
-        }
-
-        public int GetHighScore()
-        {
-            return _highScoreManager.GetHighScore();
         }
     }
 }

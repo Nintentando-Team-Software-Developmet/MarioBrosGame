@@ -6,8 +6,6 @@ using SuperMarioBros.Utils.DataStructures;
 using MarioGame;
 
 using SuperMarioBros.Source.Managers;
-using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Utils;
 
 namespace SuperMarioBros
 {
@@ -17,8 +15,9 @@ namespace SuperMarioBros
         private MenuScene _menuScene;
         private LevelScene _levelScene;
         private GameOverScene _gameOverScene;
-        private bool _disposed;
         private ProgressDataManager _progressDataManager { get; }
+        private bool _disposed;
+
 
         public WorldGame(SpriteData spriteData)
         {
@@ -28,7 +27,7 @@ namespace SuperMarioBros
 
         public void Initialize()
         {
-            _menuScene = new MenuScene();
+            _menuScene = new MenuScene(_progressDataManager);
             _levelScene = new LevelScene(LevelPath.Level1, _progressDataManager);
             _gameOverScene = new GameOverScene(_progressDataManager);
 

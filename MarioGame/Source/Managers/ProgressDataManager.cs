@@ -4,14 +4,20 @@ using SuperMarioBros.Utils;
 
 namespace SuperMarioBros.Source.Managers;
 
+/*
+ * Manages the Progress Data globally by modifying in real time according to events.
+ * Values modified are: time, coins and score.
+ */
 public class ProgressDataManager
 {
     private ProgressData _data;
     private const int DefaultTime = 300;
+    private HighScoreManager _highScoreManager;
 
     public ProgressDataManager()
     {
         _data = new ProgressData(DefaultTime, 456, 987654);
+        _highScoreManager = new HighScoreManager();
     }
 
     public void Update(GameTime gameTime)
@@ -41,5 +47,15 @@ public class ProgressDataManager
     {
         get => _data.Score;
         set => _data.Score = value;
+    }
+
+    public void UpdateHighScore()
+    {
+        _highScoreManager.UpdateHighScore(_data.Score);
+    }
+
+    public int GetHighScore()
+    {
+        return _highScoreManager.GetHighScore();
     }
 }

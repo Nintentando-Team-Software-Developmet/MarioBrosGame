@@ -10,6 +10,17 @@ namespace SuperMarioBros.Utils.SceneCommonData;
 public static class CommonRenders
 {
 
+    /*
+     * Draw all progress data of the game.
+     * This includes: score, coins, level name and time.
+     *
+     * Parameters:
+     *      spriteData: the SpriteData used to render all game.
+     *      score: integer value representing the actual score
+     *      coins: integer value representing the coins counter
+     *      level: string that represents the current level name
+     *      time: double value representing the current temporizer value
+     */
     public static void DrawProgressData(SpriteData spriteData, int score, int coins, string level, double time)
     {
         DrawCoin(spriteData);
@@ -42,6 +53,9 @@ public static class CommonRenders
         }
     }
 
+    /*
+     * Draws the coin icon on the screen to allow the coins counter render.
+     */
     private static void DrawCoin(SpriteData spriteData)
     {
         Vector2 position = new Vector2(250, 10);

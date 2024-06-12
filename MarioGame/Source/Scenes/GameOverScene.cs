@@ -60,13 +60,12 @@ public class GameOverScene : IScene, IDisposable
                                         "1-1",
                                         0);
         DrawText("GAME OVER", 330, 300, spriteData);
-
-
         spriteData.spriteBatch.End();
     }
 
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
+        _progressDataManager.UpdateHighScore();
     }
 
     public SceneType GetSceneType()
