@@ -3,6 +3,7 @@
     "pathMap": "Content/Maps/level1Map.json",
     "backgroundJsonPath": "Content/Maps/background.json",
     "backgroundEntitiesPath": "Content/Maps/SurfaceEntities.json",
+    "floatingBlocksEntities": "Content/Maps/floatingBlocks_level1.json",
     "entities": [
         {
             "type": "PLAYER",
