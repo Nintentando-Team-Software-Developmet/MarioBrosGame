@@ -25,7 +25,6 @@ using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Scenes
 {
-
     /*
      * Represents a scene of a game level.
      * Implements the IScene interface for managing game scenes.
@@ -41,17 +40,16 @@ namespace SuperMarioBros.Source.Scenes
         private bool _disposed;
         private ProgressDataManager _progressDataManager;
 
-       public Matrix Camera => (Matrix)Entities.FirstOrDefault(
-           e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
+        public Matrix Camera => (Matrix)Entities.FirstOrDefault(
+            e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
 
-
-       /*
-        * Constructs a new LevelScene object.
-        * This constructor initializes the level scene with the specified path to the scene data.
-        *
-        * Parameters:
-        *   pathScene: A string representing the path to the scene data.
-        */
+        /*
+         * Constructs a new LevelScene object.
+         * This constructor initializes the level scene with the specified path to the scene data.
+         *
+         * Parameters:
+         *   pathScene: A string representing the path to the scene data.
+         */
         public LevelScene(string pathScene, ProgressDataManager progressDataManager)
         {
             string json = File.ReadAllText(pathScene);
@@ -59,7 +57,6 @@ namespace SuperMarioBros.Source.Scenes
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
         }
-
 
         /*
          * Loads resources and initializes the level scene.

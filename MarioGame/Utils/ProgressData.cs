@@ -1,4 +1,5 @@
-﻿namespace SuperMarioBros.Utils;
+
+namespace SuperMarioBros.Utils;
 
 /*
  * Represents the accumulative data that is modified during all game.
