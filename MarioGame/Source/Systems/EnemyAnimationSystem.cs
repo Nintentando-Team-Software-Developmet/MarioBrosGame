@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
-
+using SuperMarioBros.Utils.SceneCommonData;
 namespace SuperMarioBros.Source.Systems
 {
     public class EnemyAnimationSystem : BaseSystem, IRenderableSystem
@@ -21,23 +18,22 @@ namespace SuperMarioBros.Source.Systems
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-
+            
         }
 
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
             if (entities != null)
             {
-                var enemies = entities.WithComponents(typeof(PositionComponent), typeof(AnimationComponent),
-                    typeof(EnemyComponent));
+                var enemies = entities.WithComponents(typeof(AnimationComponent), typeof(ColliderComponent), typeof(EnemyComponent));
                 foreach (var entity in enemies)
                 {
-                    var position = entity.GetComponent<PositionComponent>();
+                    var colliderComponent = entity.GetComponent<ColliderComponent>();
                     var animation = entity.GetComponent<AnimationComponent>();
                     animation.FrameTime = 0.8f;
-                    if (position != null && animation != null)
+                    if (colliderComponent != null && animation != null)
                     {
-                        _spriteBatch.Draw(animation.Textures[animation.CurrentFrame], position.Position, Color.White);
+                        CommonRenders.DrawEntity(_spriteBatch, animation, colliderComponent);
                         if (animation.IsAnimating)
                         {
                             animation.TimeElapsed += (float)gameTime?.ElapsedGameTime.TotalSeconds;

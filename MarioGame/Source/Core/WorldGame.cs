@@ -5,6 +5,8 @@ using MarioGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
