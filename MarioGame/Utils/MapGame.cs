@@ -34,6 +34,7 @@ namespace SuperMarioBros.Utils
             this.physicsWorld = physicsWorld;
             LoadBackground(backgroundJsonPath);
             LoadBackground(backgroundEntitiesPath);
+            LoadBackground(floatingBlocksEntitiesPath);
         }
 
         /*
