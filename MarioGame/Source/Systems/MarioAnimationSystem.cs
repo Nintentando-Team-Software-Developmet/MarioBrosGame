@@ -133,7 +133,6 @@ namespace SuperMarioBros.Source.Systems
                         spritesheetsWin = new Texture2D[] { playerAnimation.Textures[15], playerAnimation.Textures[14] };
                         spritesheetsWinLeft = new Texture2D[] { playerAnimation.Textures[16], playerAnimation.Textures[8] };
                         spritesheetsWinRun = new Texture2D[] { playerAnimation.Textures[2], playerAnimation.Textures[3], playerAnimation.Textures[4] };
-
                         if (playerComponent.colition && wasJumping)
                         {
 

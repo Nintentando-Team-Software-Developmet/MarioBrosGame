@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using MarioGame;
 
@@ -7,51 +8,63 @@ using Microsoft.Xna.Framework.Input;
 
 using nkast.Aether.Physics2D.Dynamics;
 
+
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Scenes;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros
 {
+    [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope")]
     public class WorldGame : IDisposable
     {
         private SceneManager _sceneManager;
-        private MenuScene _menuScene;
-        private LevelScene _levelScene;
-        private GameOverScene _gameOverScene;
-        private LivesScene _livesScene;
-        private ProgressDataManager _progressDataManager { get; }
+        private EventDispatcher _eventDispatcher;
+        private ProgressDataManager _progressDataManager;
         private bool _disposed;
-
+        private bool _enterPressed;
 
         public WorldGame(SpriteData spriteData)
         {
+            _eventDispatcher = EventDispatcher.Instance;
             _sceneManager = new SceneManager(spriteData);
             _progressDataManager = new ProgressDataManager();
-        }
 
-        public void Initialize()
-        {
-            _menuScene = new MenuScene(_progressDataManager);
-            _levelScene = new LevelScene(LevelPath.Level1, _progressDataManager);
-            _gameOverScene = new GameOverScene(_progressDataManager);
-            _livesScene = new LivesScene(_progressDataManager);
-
-            _sceneManager.AddScene(SceneName.MainMenu, _menuScene);
-            _sceneManager.AddScene(SceneName.Level1, _levelScene);
-            _sceneManager.AddScene(SceneName.GameOver, _gameOverScene);
-            _sceneManager.AddScene(SceneName.Lives, _livesScene);
+            _sceneManager.AddScene(SceneName.MainMenu, new MenuScene(_progressDataManager));
+            _sceneManager.AddScene(SceneName.Level1, new LevelScene(LevelPath.Level1, _progressDataManager));
+            _sceneManager.AddScene(SceneName.GameOver, new GameOverScene(_progressDataManager));
+            _sceneManager.AddScene(SceneName.Lives, new LivesScene(_progressDataManager));
 
             _sceneManager.LoadScene(SceneName.MainMenu);
         }
 
+
         public void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {
-                _sceneManager.ChangeScene(SceneName.Level1);
-            }
+            HandleInput();
             _sceneManager.UpdateScene(gameTime);
+        }
+
+        private void HandleInput()
+        {
+            var keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Enter))
+            {
+                if (!_enterPressed)
+                {
+                    _enterPressed = true;
+                    if (_sceneManager.CurrentSceneName == SceneName.MainMenu)
+                    {
+                        _sceneManager.ChangeScene(SceneName.Level1);
+                    }
+                }
+            }
+            else
+            {
+                _enterPressed = false;
+            }
         }
 
         public void Draw(GameTime gameTime)
@@ -67,18 +80,11 @@ namespace SuperMarioBros
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
-                return;
-
+            if (_disposed) return;
             if (disposing)
             {
                 _sceneManager?.Dispose();
-                _menuScene?.Dispose();
-                _levelScene?.Dispose();
-                _gameOverScene?.Dispose();
-                _livesScene?.Dispose();
             }
-
             _disposed = true;
         }
     }

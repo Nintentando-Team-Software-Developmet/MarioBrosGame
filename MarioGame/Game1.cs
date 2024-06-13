@@ -40,7 +40,6 @@ namespace SuperMarioBros
             _pixelTexture.SetData(new Color[] { Color.White });
             _spriteData = new SpriteData(_batch, _font, Content, _graphics, _pixelTexture);
             _world = new WorldGame(_spriteData);
-            _world.Initialize();
         }
 
         protected override void Update(GameTime gameTime)

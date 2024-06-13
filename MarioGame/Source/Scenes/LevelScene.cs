@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 
 using nkast.Aether.Physics2D.Dynamics;
 
+using MarioGame;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
@@ -20,8 +22,10 @@ using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
+
 namespace SuperMarioBros.Source.Scenes
 {
+
     /*
      * Represents a scene of a game level.
      * Implements the IScene interface for managing game scenes.
@@ -37,16 +41,17 @@ namespace SuperMarioBros.Source.Scenes
         private bool _disposed;
         private ProgressDataManager _progressDataManager;
 
-        public Matrix Camera => (Matrix)Entities.FirstOrDefault(
-            e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
+       public Matrix Camera => (Matrix)Entities.FirstOrDefault(
+           e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
 
-        /*
-         * Constructs a new LevelScene object.
-         * This constructor initializes the level scene with the specified path to the scene data.
-         *
-         * Parameters:
-         *   pathScene: A string representing the path to the scene data.
-         */
+
+       /*
+        * Constructs a new LevelScene object.
+        * This constructor initializes the level scene with the specified path to the scene data.
+        *
+        * Parameters:
+        *   pathScene: A string representing the path to the scene data.
+        */
         public LevelScene(string pathScene, ProgressDataManager progressDataManager)
         {
             string json = File.ReadAllText(pathScene);
@@ -54,6 +59,7 @@ namespace SuperMarioBros.Source.Scenes
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
         }
+
 
         /*
          * Loads resources and initializes the level scene.
@@ -66,11 +72,16 @@ namespace SuperMarioBros.Source.Scenes
             map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
 
             LoadEntities();
-            //TODO: Refactor
+            InitializeSystems(spriteData);
+        }
+
+        private void InitializeSystems(SpriteData spriteData)
+        {
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
             Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
-            Systems.Add(new CollisionSystem());
+            Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
+            Systems.Add(new PlayerSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
         }
@@ -103,19 +114,83 @@ namespace SuperMarioBros.Source.Scenes
         }
 
         /*
-        * Updates the level scene.
-        * This method updates all entities in the scene and processes systems.
-        *
-        * Parameters:
-        *   gameTime: GameTime object containing timing information.
-        */
+         * Updates the level scene.
+         * This method updates all entities in the scene and processes systems.
+         *
+         * Parameters:
+         *   gameTime: GameTime object containing timing information.
+         */
         public void Update(GameTime gameTime, SceneManager sceneManager)
         {
-            physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
+            if (sceneManager == null) throw new ArgumentNullException(nameof(sceneManager));
+            if (gameTime?.ElapsedGameTime.TotalSeconds != null)
+                physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
+            UpdateProgressData(gameTime);
+            CheckGameOverConditions(sceneManager);
+            UpdateSystems(gameTime);
+            CheckPlayerState(sceneManager);
+        }
+
+        private void UpdateProgressData(GameTime gameTime)
+        {
             _progressDataManager.Update(gameTime);
+        }
+
+        private void CheckGameOverConditions(SceneManager sceneManager)
+        {
+            if (_progressDataManager.Time <= 0)
+            {
+                HandleTimeOver(sceneManager);
+            }
+            else if (_progressDataManager.Lives <= 0)
+            {
+                sceneManager.ChangeScene(SceneName.GameOver);
+            }
+        }
+
+        private void HandleTimeOver(SceneManager sceneManager)
+        {
+            _progressDataManager.Lives--;
+            if (_progressDataManager.Lives > 0)
+            {
+                sceneManager.ChangeScene(SceneName.Lives);
+            }
+            else
+            {
+                sceneManager.ChangeScene(SceneName.GameOver);
+            }
+        }
+
+        private void UpdateSystems(GameTime gameTime)
+        {
             foreach (var system in Systems)
             {
                 system.Update(gameTime, Entities);
+            }
+        }
+
+        private void CheckPlayerState(SceneManager sceneManager)
+        {
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity == null) return;
+
+            var player = playerEntity.GetComponent<PlayerComponent>();
+            if (player != null && !player.IsAlive)
+            {
+                HandlePlayerDeath(sceneManager);
+            }
+        }
+
+        private void HandlePlayerDeath(SceneManager sceneManager)
+        {
+            _progressDataManager.Lives--;
+            if (_progressDataManager.Lives > 0)
+            {
+                sceneManager.ChangeScene(SceneName.Lives);
+            }
+            else
+            {
+                sceneManager.ChangeScene(SceneName.GameOver);
             }
         }
 

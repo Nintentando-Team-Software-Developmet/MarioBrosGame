@@ -38,7 +38,7 @@ public static class CommonRenders
         DrawTextWithNumber("Mario", FillZeros(score, 6), camera.Position.X + 50, camera.Position.Y + 10, spriteData);
         DrawTextWithNumber($"x" + FillZeros(coins, 2), "", camera.Position.X + 330, camera.Position.Y + 40, spriteData);
         DrawTextWithNumber("WORLD", level, camera.Position.X + 550, camera.Position.Y + 10, spriteData);
-        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, camera.Position.X + 900, camera.Position.Y + 10, spriteData);
+        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : string.Empty, camera.Position.X + 900, camera.Position.Y + 10, spriteData);
     }
 
     /*
@@ -131,7 +131,7 @@ public static class CommonRenders
      */
     public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
     {
-        if (spriteBatch == null || animation == null || collider == null)
+        if(spriteBatch == null || animation == null || collider == null)
             return;
 
         float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
