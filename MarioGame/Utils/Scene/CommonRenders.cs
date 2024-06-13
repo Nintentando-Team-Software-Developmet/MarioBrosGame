@@ -104,7 +104,7 @@ public static class CommonRenders
         Vector2 textPosition = new Vector2(x, y);
         if (spriteData != null)
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, textPosition, Color.White, 0f, Vector2.Zero,
-                2f, SpriteEffects.None, 0f);
+                1f, SpriteEffects.None, 0f);
     }
 
     /*

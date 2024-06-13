@@ -58,8 +58,8 @@ public class LivesScene : IScene, IDisposable
                                         _progressDataManager.Coins,
                                         "1-1",
                                         0);
-        CommonRenders.DrawText("WORLD 1-1", 330, 200, spriteData);
-        CommonRenders.DrawIcon(spriteData, 400, 300, Sprites.BigStop);
+        CommonRenders.DrawText("WORLD 1-1", 420, 200, spriteData);
+        CommonRenders.DrawIcon(spriteData, 430, 320, Sprites.SmallStop);
         CommonRenders.DrawText($"x {_progressDataManager.Lives}", 550, 350, spriteData);
         spriteData.spriteBatch.End();
     }
