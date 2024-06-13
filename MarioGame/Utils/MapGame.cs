@@ -26,7 +26,7 @@ namespace SuperMarioBros.Utils
         private const int TileSize = 64;
         private World physicsWorld;
 
-        public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData, World physicsWorld)
+        public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, string floatingBlocksEntitiesPath, SpriteData spriteData, World physicsWorld)
         {
             if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             _backgroundEntities = new List<(string type, Position position)>();
