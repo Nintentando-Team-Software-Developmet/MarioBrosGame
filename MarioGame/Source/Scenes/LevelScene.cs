@@ -129,6 +129,7 @@ namespace SuperMarioBros.Source.Scenes
                                             "1-1",
                                             _progressDataManager.Time);
 
+            //TODO Borrar - Debugger Colliders
             using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
             {
                 debuuger.DrawColliders();
