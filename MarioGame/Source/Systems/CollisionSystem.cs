@@ -1,13 +1,9 @@
+using System;
 using System.Collections.Generic;
-
-
+using System.Linq;
 using Microsoft.Xna.Framework;
-
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
-using System;
-using System.Linq;
 
 namespace SuperMarioBros.Source.Systems
 {

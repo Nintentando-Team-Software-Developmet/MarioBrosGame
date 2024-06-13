@@ -33,7 +33,6 @@ namespace SuperMarioBros.Source.Components
             else
             {
                 textureRectangle = new Rectangle(0, 0, width, height);
-                Console.WriteLine("==== Width: " + width + " Height: " + height);
             }
             this.width = textureRectangle.Width;
             this.height = textureRectangle.Height;
