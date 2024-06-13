@@ -2,7 +2,6 @@ using System;
 
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -11,13 +10,13 @@ using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes;
 
-public class GameOverScene : IScene, IDisposable
+public class LivesScene : IScene, IDisposable
 {
     private bool _disposed;
     private string _screen { get; set; } = "Screen";
     private ProgressDataManager _progressDataManager;
 
-    public GameOverScene(ProgressDataManager progressDataManager)
+    public LivesScene(ProgressDataManager progressDataManager)
     {
         _progressDataManager = progressDataManager;
     }
@@ -59,13 +58,15 @@ public class GameOverScene : IScene, IDisposable
                                         _progressDataManager.Coins,
                                         "1-1",
                                         0);
-        CommonRenders.DrawText("GAME OVER", 420, 330, spriteData);
+        CommonRenders.DrawText("WORLD 1-1", 420, 200, spriteData);
+        CommonRenders.DrawIcon(spriteData, 430, 320, Sprites.SmallStop);
+        CommonRenders.DrawText($"x {_progressDataManager.Lives}", 550, 350, spriteData);
         spriteData.spriteBatch.End();
     }
 
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
-        _progressDataManager.UpdateHighScore();
+        _progressDataManager.ResetTime();
     }
 
     public SceneType GetSceneType()

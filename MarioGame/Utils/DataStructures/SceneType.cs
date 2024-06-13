@@ -5,6 +5,7 @@ namespace MarioGame
         MainMenu,
         GameOver,
         Level1,
+        Lives
     }
 
 }
