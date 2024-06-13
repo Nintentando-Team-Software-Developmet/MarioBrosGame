@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
-
 namespace SuperMarioBros.Utils.SceneCommonData;
 
 public static class CommonRenders
@@ -36,10 +35,10 @@ public static class CommonRenders
         CameraComponent camera = enumerator.Current.GetComponent<CameraComponent>();
 
         DrawCoin(spriteData, camera.Position.X, camera.Position.Y);
-        DrawTextWithNumber("Mario", FillZeros(score,6), camera.Position.X+ 50, camera.Position.Y+10, spriteData);
-        DrawTextWithNumber($"x"+FillZeros(coins,2), "", camera.Position.X+330, camera.Position.Y+40, spriteData);
-        DrawTextWithNumber("WORLD", level, camera.Position.X+550, camera.Position.Y+10, spriteData);
-        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, camera.Position.X+900, camera.Position.Y+10, spriteData);
+        DrawTextWithNumber("Mario", FillZeros(score, 6), camera.Position.X + 50, camera.Position.Y + 10, spriteData);
+        DrawTextWithNumber($"x" + FillZeros(coins, 2), "", camera.Position.X + 330, camera.Position.Y + 40, spriteData);
+        DrawTextWithNumber("WORLD", level, camera.Position.X + 550, camera.Position.Y + 10, spriteData);
+        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, camera.Position.X + 900, camera.Position.Y + 10, spriteData);
     }
 
     /*
@@ -49,8 +48,8 @@ public static class CommonRenders
         int score, int coins, string level, double time)
     {
         DrawCoin(spriteData, 0, 0);
-        DrawTextWithNumber("Mario", FillZeros(score,6), 50, 10, spriteData);
-        DrawTextWithNumber($"x"+FillZeros(coins,2), "", 330, 40, spriteData);
+        DrawTextWithNumber("Mario", FillZeros(score, 6), 50, 10, spriteData);
+        DrawTextWithNumber($"x" + FillZeros(coins, 2), "", 330, 40, spriteData);
         DrawTextWithNumber("WORLD", level, 550, 10, spriteData);
         DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, 900, 10, spriteData);
     }
@@ -83,7 +82,7 @@ public static class CommonRenders
      */
     private static void DrawCoin(SpriteData spriteData, float positionX, float positionY)
     {
-        Vector2 position = new Vector2(positionX+300, positionY+40);
+        Vector2 position = new Vector2(positionX + 300, positionY + 40);
         if (spriteData != null)
             spriteData.spriteBatch.Draw(Sprites.CoinIcon, position, null, Color.White, 0f, Vector2.Zero,
                 new Vector2(2f), SpriteEffects.None, 0f);
@@ -125,5 +124,25 @@ public static class CommonRenders
         if (spriteData != null)
             spriteData.spriteBatch.Draw(sprite, position, null, Color.White, 0f, Vector2.Zero,
                 new Vector2(1f), SpriteEffects.None, 0f);
+    }
+
+    /*
+     * Draws an entity on the screen.
+     */
+    public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
+    {
+        if(spriteBatch == null || animation == null || collider == null) 
+            return;
+
+        float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
+        float entityPosY = collider.collider.Position.Y * Constants.pixelPerMeter;
+        Vector2 entityPosition = new Vector2(entityPosX, entityPosY);
+
+        int textureRectX = (int)entityPosition.X - animation.width / 2;
+        int textureRectY = (int)entityPosition.Y - animation.height / 2;
+        animation.textureRectangle = new Rectangle(textureRectX, textureRectY, animation.width, animation.height);
+
+        Texture2D currentTexture = animation.Textures[animation.CurrentFrame];
+        spriteBatch.Draw(currentTexture, animation.textureRectangle, Color.White);
     }
 }

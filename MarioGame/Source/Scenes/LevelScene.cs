@@ -2,17 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-
 using MarioGame.Utils.DataStructures;
-
-
 using Microsoft.Xna.Framework;
-
-
 using Newtonsoft.Json;
-
-
+using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
@@ -20,7 +13,7 @@ using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
-
+using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 namespace SuperMarioBros.Source.Scenes
 {
     /*
@@ -33,6 +26,7 @@ namespace SuperMarioBros.Source.Scenes
         private List<Entity> Entities { get; set; } = new();
         private List<BaseSystem> Systems { get; set; } = new();
         private MapGame map;
+        private World physicsWorld;
         private LevelData _levelData;
         private bool _disposed;
         private ProgressDataManager _progressDataManager;
@@ -52,6 +46,12 @@ namespace SuperMarioBros.Source.Scenes
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
+            physicsWorld = new World(new AetherVector2(0, 9.8f));
+
+            //TODO: Borrar - Piso provisional
+            AetherVector2 groundPosition = new AetherVector2(3, 6.95f);
+            Body groundCollider = physicsWorld.CreateBody(groundPosition, 0, BodyType.Static);
+            groundCollider.CreateRectangle(5f, 1f, 1f, AetherVector2.Zero);
         }
 
         /*
@@ -62,14 +62,13 @@ namespace SuperMarioBros.Source.Scenes
         public void Load(SpriteData spriteData)
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
-            map = new MapGame(_levelData.pathMap, spriteData);
+            map = new MapGame(_levelData.pathMap, spriteData, physicsWorld);
             LoadEntities();
             //TODO: Refactor
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
             Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
-            Systems.Add(new GravitySystem());
             Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
             Systems.Add(new CameraSystem());
         }
@@ -82,7 +81,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             foreach (var entity in _levelData.entities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entity));
+                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
             }
         }
 
@@ -105,6 +104,7 @@ namespace SuperMarioBros.Source.Scenes
         */
         public void Update(GameTime gameTime, SceneManager sceneManager)
         {
+            physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
             _progressDataManager.Update(gameTime);
             foreach (var system in Systems)
             {
@@ -128,7 +128,14 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+
+            //TODO Borrar - Debugger Colliders
+            using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
+            {
+                debuuger.DrawColliders();
+            }
             spriteData.spriteBatch.End();
+            
         }
 
         /*
