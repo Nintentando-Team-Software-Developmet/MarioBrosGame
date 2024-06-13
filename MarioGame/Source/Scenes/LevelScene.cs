@@ -48,11 +48,10 @@ namespace SuperMarioBros.Source.Scenes
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
 
-            //TOdo: BOrrar
-            AetherVector2 groundPosition = new AetherVector2(3, 5);
+            //TODO: Borrar - Piso provisional
+            AetherVector2 groundPosition = new AetherVector2(3, 6.95f);
             Body groundCollider = physicsWorld.CreateBody(groundPosition, 0, BodyType.Static);
             groundCollider.CreateRectangle(5f, 1f, 1f, AetherVector2.Zero);
-
         }
 
         /*
@@ -63,7 +62,7 @@ namespace SuperMarioBros.Source.Scenes
         public void Load(SpriteData spriteData)
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
-            map = new MapGame(_levelData.pathMap, spriteData);
+            map = new MapGame(_levelData.pathMap, spriteData, physicsWorld);
             LoadEntities();
             //TODO: Refactor
             Systems.Add(new InputSystem());

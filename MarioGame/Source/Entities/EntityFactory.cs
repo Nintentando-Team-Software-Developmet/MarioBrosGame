@@ -29,11 +29,10 @@ namespace SuperMarioBros.Source.Entities
 
             Entity entity = new Entity();
             entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
-            
             switch (entityData.type)
             {
                 case EntityType.ENEMY:
-                    AnimationComponent animationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64,0 );
+                    AnimationComponent animationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(animationComponent);
                     entity.AddComponent(new EnemyComponent());
                     entity.AddComponent(new VelocityComponent(Vector2.Zero));
@@ -52,7 +51,7 @@ namespace SuperMarioBros.Source.Entities
                     break;
                 case EntityType.WINGAME:
                     entity.AddComponent(new WinGameComponent());
-                    //entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
                     break;
                 //TODO: Implement other entity types
                 default:

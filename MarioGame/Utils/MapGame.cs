@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Newtonsoft.Json.Linq;
 
+using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Utils
@@ -20,11 +22,13 @@ namespace SuperMarioBros.Utils
         private Dictionary<Vector2, int> _tilemap;
         private int _levelHeight;
         private const int TileSize = 64;
+        private World physicsWorld;
 
-        public MapGame(string pathMap, SpriteData spriteData)
+        public MapGame(string pathMap, SpriteData spriteData, World physicsWorld)
         {
             if (spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             LoadMap(pathMap);
+            this.physicsWorld = physicsWorld;
         }
 
         /*
