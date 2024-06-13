@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Newtonsoft.Json.Linq;
 
+using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Utils
@@ -22,12 +24,14 @@ namespace SuperMarioBros.Utils
         private List<(string type, Position position)> _backgroundEntities;
         private int _levelHeight;
         private const int TileSize = 64;
+        private World physicsWorld;
 
-        public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData)
+        public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData, World physicsWorld)
         {
             if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             _backgroundEntities = new List<(string type, Position position)>();
             LoadMap(pathMap);
+            this.physicsWorld = physicsWorld;
             LoadBackground(backgroundJsonPath);
             LoadBackground(backgroundEntitiesPath);
         }
