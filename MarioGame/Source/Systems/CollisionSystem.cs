@@ -1,7 +1,13 @@
 using System.Collections.Generic;
+
+
 using Microsoft.Xna.Framework;
+
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using System;
+using System.Linq;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -14,6 +20,7 @@ namespace SuperMarioBros.Source.Systems
         private readonly Dictionary<Vector2, int> _tilemap;
         private readonly int _levelHeight;
 
+        private static double TOLERANCE { get; set; } =  1.01f;
         /*
         * Initializes a new instance of the CollisionSystem class.
         *
@@ -53,6 +60,40 @@ namespace SuperMarioBros.Source.Systems
                     else
                     {
                         positionComponent.Position = futurePosition;
+                    }
+                }
+
+                ColitionWinGame(entities);
+            }
+        }
+
+        private static void ColitionWinGame(IEnumerable<Entity> entities)
+        {
+            if (entities == null)
+                return;
+
+            var playerEntities = entities.Where(e =>
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<PlayerComponent>()
+            );
+
+            var winFlagEntities = entities.Where(e =>
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<WinGameComponent>()
+            );
+
+            foreach (var playerEntity in playerEntities)
+            {
+                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position.X;
+                var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+                foreach (var winFlagEntity in winFlagEntities)
+                {
+                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position.X;
+                    if (Math.Abs(playerPosition - winFlagPosition) < TOLERANCE)
+                    {
+                        playerComponent.colition = true;
                     }
                 }
             }

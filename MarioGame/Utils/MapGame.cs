@@ -40,7 +40,7 @@ namespace SuperMarioBros.Utils
         */
         private void LoadMap(string pathMap)
         {
-           _tilemap = new Dictionary<Vector2, int>();
+            _tilemap = new Dictionary<Vector2, int>();
 
             using (StreamReader reader = new StreamReader(pathMap))
             {
@@ -68,6 +68,7 @@ namespace SuperMarioBros.Utils
                 }
             }
         }
+
 
         /*
         * Draws the map.

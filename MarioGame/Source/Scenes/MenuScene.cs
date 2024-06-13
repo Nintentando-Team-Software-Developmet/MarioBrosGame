@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Media;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes
 {
@@ -17,6 +18,12 @@ namespace SuperMarioBros.Source.Scenes
     {
         private bool _disposed;
         private string Screen { get; set; } = "Screen";
+        private ProgressDataManager _progressDataManager;
+
+        public MenuScene(ProgressDataManager progressDataManager)
+        {
+            _progressDataManager = progressDataManager;
+        }
 
         public void Load(SpriteData spriteData)
         {
@@ -43,7 +50,6 @@ namespace SuperMarioBros.Source.Scenes
         public void Unload()
         {
             MediaPlayer.Stop();
-            //Console.WriteLine(Screen);
         }
 
         public void Draw(SpriteData spriteData, GameTime gameTime)
@@ -57,9 +63,11 @@ namespace SuperMarioBros.Source.Scenes
             DrawSceneElements(spriteData);
             DrawMario(spriteData);
             DrawTitle(spriteData);
-            DrawTextWithNumber("MONEDAS", "000000", 70, 10, spriteData);
-            DrawTextWithNumber("WORLD", "1 - 1", 550, 10, spriteData);
-            DrawTextWithNumber("TIME", "-", 900, 10, spriteData);
+            CommonRenders.DrawProgressData(
+                                            spriteData, 0,
+                                            0,
+                                            "1-1",
+                                            0);
             DrawHighScore(spriteData);
             DrawStartButton(spriteData);
 
@@ -148,14 +156,6 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, "MARIO BROS", titlePosition, new Color(235, 211, 170), 0f, Vector2.Zero, fontSize / spriteData.spriteFont.LineSpacing, SpriteEffects.None, 0f);
         }
 
-        private static void DrawTextWithNumber(string text, string number, float x, float y, SpriteData spriteData)
-        {
-            Vector2 textPosition = new Vector2(x, y);
-            Vector2 numberPosition = new Vector2(x, y + spriteData.spriteFont.LineSpacing);
-
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, textPosition, Color.White);
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, number, numberPosition, Color.White);
-        }
 
         private static void DrawStartButton(SpriteData spriteData)
         {
@@ -168,10 +168,10 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, "START", startPosition, Color.Yellow, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
 
-        private static void DrawHighScore(SpriteData spriteData)
+        private void DrawHighScore(SpriteData spriteData)
         {
             float fontSize = 30f;
-            int highScore = new HighScoreManager().GetHighScore();
+            int highScore = _progressDataManager.GetHighScore();
             float scale = fontSize / spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").Y;
             Vector2 startPosition = new Vector2(
                 (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").X * scale) / 2,
@@ -182,7 +182,7 @@ namespace SuperMarioBros.Source.Scenes
                 (spriteData.graphics.GraphicsDevice.Viewport.Width + spriteData.spriteFont.MeasureString("HIGHSCORE").X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 250
             );
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont,$"{highScore}" , highScorePosition, Color.White);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{highScore}", highScorePosition, Color.White);
         }
 
         public void Dispose()

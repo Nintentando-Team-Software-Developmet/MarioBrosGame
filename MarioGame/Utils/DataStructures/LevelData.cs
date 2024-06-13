@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Collections.Generic;
+
+
 using SuperMarioBros.Utils.DataStructures;
 
 #pragma warning disable CA1002, CA2227
@@ -34,6 +37,6 @@ namespace MarioGame.Utils.DataStructures
         public string pathMap { get; set; }
         public string backgroundJsonPath { get; set; }
         public string backgroundEntitiesPath { get; set; }
-        public  List<EntityData> entities { get; set; }
+        public List<EntityData> entities { get; set; }
     }
 }

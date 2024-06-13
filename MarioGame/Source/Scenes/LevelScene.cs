@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using MarioGame;
+
 using MarioGame.Utils.DataStructures;
+
+
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes
 {
@@ -30,9 +35,8 @@ namespace SuperMarioBros.Source.Scenes
         private MapGame map;
         private LevelData _levelData;
         private bool _disposed;
+        private ProgressDataManager _progressDataManager;
 
-        private int _score;
-        private HighScoreManager _highScoreManager = new HighScoreManager();
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
 
@@ -43,12 +47,11 @@ namespace SuperMarioBros.Source.Scenes
          * Parameters:
          *   pathScene: A string representing the path to the scene data.
          */
-        public LevelScene(string pathScene)
+        public LevelScene(string pathScene, ProgressDataManager progressDataManager)
         {
-            _score = 0;
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
-
+            _progressDataManager = progressDataManager;
         }
 
         /*
@@ -70,7 +73,6 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new GravitySystem());
             Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
             Systems.Add(new CameraSystem());
-
         }
 
         /*
@@ -104,6 +106,7 @@ namespace SuperMarioBros.Source.Scenes
         */
         public void Update(GameTime gameTime, SceneManager sceneManager)
         {
+            _progressDataManager.Update(gameTime);
             foreach (var system in Systems)
             {
                 system.Update(gameTime, Entities);
@@ -121,6 +124,11 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
+            CommonRenders.DrawProgressData( Entities,
+                                            spriteData, _progressDataManager.Score,
+                                            _progressDataManager.Coins,
+                                            "1-1",
+                                            _progressDataManager.Time);
             spriteData.spriteBatch.End();
         }
 
@@ -173,15 +181,6 @@ namespace SuperMarioBros.Source.Scenes
                 Entities.Clear();
             }
             _disposed = true;
-        }
-        public void UpdateHighScore()
-        {
-            _highScoreManager.UpdateHighScore(_score);
-        }
-
-        public int GetHighScore()
-        {
-            return _highScoreManager.GetHighScore();
         }
     }
 }

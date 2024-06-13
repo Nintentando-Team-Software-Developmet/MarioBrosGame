@@ -52,7 +52,7 @@ namespace SuperMarioBros.Utils
         public static Texture2D CastleBrown { get; set; }
         public static Texture2D CastleBlue { get; set; }
         public static Texture2D CoinIcon { get; set; }
-
+        public static Texture2D WinFlag{ get; set; }
         public static Texture2D WinFlagGreen { get; set; }
         public static Texture2D WinFlagBrown { get; set; }
         public static Texture2D WinFlagWhite { get; set; }
@@ -103,6 +103,9 @@ namespace SuperMarioBros.Utils
         public static Texture2D BigWalk2 { get; set; }
         public static Texture2D BigWalk3Left { get; set; }
         public static Texture2D BigWalk3 { get; set; }
+        public static Texture2D LowerThePost1 { get; set; }
+        public static Texture2D LowerThePost2 { get; set; }
+        public static Texture2D LowerThePostLeft { get; set; }
 
         // Mario Small
         public static Texture2D SmallDie { get; set; }
@@ -192,6 +195,7 @@ namespace SuperMarioBros.Utils
             WinFlagGreen = content.Load<Texture2D>("sprites/props/win_flag_1");
             WinFlagBrown = content.Load<Texture2D>("sprites/props/win_flag_2");
             WinFlagWhite = content.Load<Texture2D>("sprites/props/win_flag_3");
+            WinFlag = content.Load<Texture2D>("sprites/props/flag");
             BigBush1 = content.Load<Texture2D>("sprites/props/big_bush_1");
             BigBush2 = content.Load<Texture2D>("sprites/props/big_bush_2");
             SimpleBush = content.Load<Texture2D>("sprites/props/simple_bush");
@@ -233,6 +237,9 @@ namespace SuperMarioBros.Utils
             BigWalk2 = content.Load<Texture2D>("sprites/Mario/Big/Walk_2");
             BigWalk3Left = content.Load<Texture2D>("sprites/Mario/Big/Walk_3_l");
             BigWalk3 = content.Load<Texture2D>("sprites/Mario/Big/Walk_3");
+            LowerThePost1 = content.Load<Texture2D>("sprites/Mario/Big/LowerThePost_1");
+            LowerThePost2 = content.Load<Texture2D>("sprites/Mario/Big/LowerThePost_2");
+            LowerThePostLeft = content.Load<Texture2D>("sprites/Mario/Big/LowerThePost_l");
 
             // Mario Small
             SmallDie = content.Load<Texture2D>("sprites/Mario/Small/Die");
