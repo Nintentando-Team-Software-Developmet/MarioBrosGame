@@ -18,7 +18,7 @@ public class WinGameSystem
     private Vector2 targetPosition;
 
     private const float movementSpeed = 90f;
-    private const float distanceToTravel = 200f;
+    private const float distanceToTravel = 328f;
     private float currentXPosition;
     private float currentYPosition;
     private float currentYPosition2;

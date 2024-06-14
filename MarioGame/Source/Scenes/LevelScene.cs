@@ -130,12 +130,6 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
-
-            //TODO Borrar - Debugger Colliders
-            using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
-            {
-                debuuger.DrawColliders();
-            }
             spriteData.spriteBatch.End();
 
         }

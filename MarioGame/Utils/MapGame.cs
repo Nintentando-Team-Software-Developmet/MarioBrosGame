@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 
 using nkast.Aether.Physics2D.Dynamics;
 
-using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -37,9 +36,7 @@ namespace SuperMarioBros.Utils
             LoadMap(pathMap);
             this.physicsWorld = physicsWorld;
             LoadBackground(backgroundJsonPath);
-            //LoadBackground(backgroundEntitiesPath);
             LoadStaticEntities(backgroundEntitiesPath);
-            LoadBackground(backgroundEntitiesPath);
             CreateCollisionBodies();
         }
 
