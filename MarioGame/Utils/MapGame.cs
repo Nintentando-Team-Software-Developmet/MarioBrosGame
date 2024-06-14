@@ -7,10 +7,12 @@ using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using nkast.Aether.Physics2D.Dynamics;
 
+using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -23,6 +25,7 @@ namespace SuperMarioBros.Utils
     {
         private Dictionary<Vector2, int> _tilemap;
         private List<(string type, Position position)> _backgroundEntities;
+        public StaticEntitiesData staticEntities { get; set; }
         private int _levelHeight;
         private const int TileSize = 64;
         private World physicsWorld;
@@ -34,6 +37,8 @@ namespace SuperMarioBros.Utils
             LoadMap(pathMap);
             this.physicsWorld = physicsWorld;
             LoadBackground(backgroundJsonPath);
+            //LoadBackground(backgroundEntitiesPath);
+            LoadStaticEntities(backgroundEntitiesPath);
             LoadBackground(backgroundEntitiesPath);
             CreateCollisionBodies();
         }
@@ -169,6 +174,13 @@ namespace SuperMarioBros.Utils
                     _backgroundEntities.Add((type, position));
                 }
             }
+        }
+
+        private void LoadStaticEntities(string staticEntitiesPath)
+        {
+            string json = File.ReadAllText(staticEntitiesPath);
+            staticEntities = JsonConvert.DeserializeObject<StaticEntitiesData>(json);
+
         }
     }
 }

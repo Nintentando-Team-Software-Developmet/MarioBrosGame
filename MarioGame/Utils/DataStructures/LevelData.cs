@@ -16,6 +16,10 @@ namespace MarioGame.Utils.DataStructures
         public int y { get; set; }
     }
 
+    public class StaticEntitiesData
+    {
+        public  List<EntityData> entities { get; set; }
+    }
     public class EntityData
     {
         [JsonConverter(typeof(StringEnumConverter))]
@@ -37,6 +41,6 @@ namespace MarioGame.Utils.DataStructures
         public string pathMap { get; set; }
         public string backgroundJsonPath { get; set; }
         public string backgroundEntitiesPath { get; set; }
-        public List<EntityData> entities { get; set; }
+        public  List<EntityData> entities { get; set; }
     }
 }

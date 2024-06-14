@@ -13,5 +13,9 @@ namespace SuperMarioBros.Utils.DataStructures
         FLAG,
         CASTLE,
         MARIO,
+        QUESTIONBLOCK,
+        COINBLOCK,
+        DUCT,
+        DUCTEXTENSION
     }
 }

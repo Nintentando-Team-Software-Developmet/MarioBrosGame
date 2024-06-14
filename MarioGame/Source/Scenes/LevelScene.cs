@@ -67,6 +67,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
             Systems.Add(new CameraSystem());
+            Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
         }
 
         /*
@@ -76,6 +77,11 @@ namespace SuperMarioBros.Source.Scenes
         private void LoadEntities()
         {
             foreach (var entity in _levelData.entities)
+            {
+                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+            }
+
+            foreach (var entity in map.staticEntities.entities)
             {
                 Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
             }
