@@ -33,11 +33,11 @@
 /processorParam:Quality=Best
 /build:Sounds/game_over.mp3
 
-#begin Sounds/level1.mp3
+#begin Sounds/level1_naruto.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Sounds/level1.mp3
+/build:Sounds/level1_naruto.mp3
 
 #begin Sounds/lost_life.mp3
 /importer:Mp3Importer

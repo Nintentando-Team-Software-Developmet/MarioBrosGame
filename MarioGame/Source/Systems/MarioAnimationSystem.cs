@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils.DataStructures;
 
 
 namespace SuperMarioBros.Source.Systems
@@ -68,6 +69,7 @@ namespace SuperMarioBros.Source.Systems
                     var animation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
                     var velocity = entity.GetComponent<VelocityComponent>();
+                    var player = entity.GetComponent<PlayerComponent>();
 
                     if (animation != null && animation.IsAnimating)
                     {
@@ -90,6 +92,11 @@ namespace SuperMarioBros.Source.Systems
                         }
                         SetActive(velocity.Velocity != Vector2.Zero);
                     }
+                    if (player.colition && wasJumping)
+                    {
+                        player.HasReachedEnd = true;
+                    }
+
                 }
 
             }

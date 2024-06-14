@@ -7,6 +7,8 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
@@ -40,7 +42,9 @@ namespace SuperMarioBros.Source.Scenes
         private World physicsWorld;
         private LevelData _levelData;
         private bool _disposed;
+        private Song _flagSoundEffect { get; set; }
         private ProgressDataManager _progressDataManager;
+        private bool _isFlagEventPlayed { get; set; }
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
@@ -58,6 +62,8 @@ namespace SuperMarioBros.Source.Scenes
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
+            _flagSoundEffect = null;
+            _isFlagEventPlayed = false;
         }
 
         /*
@@ -72,10 +78,10 @@ namespace SuperMarioBros.Source.Scenes
 
             LoadEntities();
             InitializeSystems(spriteData);
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1"));
-            MediaPlayer.IsRepeating = true;
-
+            _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
         }
+
 
         private void InitializeSystems(SpriteData spriteData)
         {
@@ -102,6 +108,15 @@ namespace SuperMarioBros.Source.Scenes
             foreach (var entity in map.staticEntities.entities)
             {
                 Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+            }
+        }
+
+        public void PlayFlagSound()
+        {
+            if (_isFlagEventPlayed)
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.Play(_flagSoundEffect);
             }
         }
 
@@ -138,6 +153,22 @@ namespace SuperMarioBros.Source.Scenes
             CheckGameOverConditions(sceneManager);
             UpdateSystems(gameTime);
             CheckPlayerState(sceneManager);
+            if (!_isFlagEventPlayed)
+                CheckFlagEvent();
+        }
+
+        private void CheckFlagEvent()
+        {
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity == null) return;
+
+            var player = playerEntity.GetComponent<PlayerComponent>();
+            if (player != null && player.HasReachedEnd)
+            {
+                player.HasReachedEnd = false;
+                _isFlagEventPlayed = true;
+                PlayFlagSound();
+            }
         }
 
         private void UpdateProgressData(GameTime gameTime)
