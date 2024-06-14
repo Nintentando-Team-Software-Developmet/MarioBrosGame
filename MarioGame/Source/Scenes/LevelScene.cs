@@ -7,6 +7,7 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
 
@@ -71,6 +72,9 @@ namespace SuperMarioBros.Source.Scenes
 
             LoadEntities();
             InitializeSystems(spriteData);
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1"));
+            MediaPlayer.IsRepeating = true;
+
         }
 
         private void InitializeSystems(SpriteData spriteData)
@@ -115,6 +119,7 @@ namespace SuperMarioBros.Source.Scenes
             {
                 physicsWorld.Remove(body);
             }
+            MediaPlayer.Stop();
         }
 
         /*
