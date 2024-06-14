@@ -9,8 +9,11 @@ using Microsoft.Xna.Framework.Graphics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils.SceneCommonData;
 using SuperMarioBros.Utils.DataStructures;
 
+using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
+using SuperMarioBros.Utils;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -39,7 +42,7 @@ namespace SuperMarioBros.Source.Systems
         private float jumpAnimationFrameTime = 50.2f;
         private Vector2 positionBed { get; set; }
         private bool isDescending { get; set; } = true;
-        const float maxJumpHeight = 200f;
+        const float maxJumpHeight = 400f;
         const float jumpSpeed = 400f;
         const float thenJumpSpeed = 400f;
         private Vector2 jumpEndY { get; set; }
@@ -119,6 +122,7 @@ namespace SuperMarioBros.Source.Systems
                     var playerAnimation = entity.GetComponent<AnimationComponent>();
                     var position = entity.GetComponent<PositionComponent>();
                     var playerComponent = entity.GetComponent<PlayerComponent>();
+                    var collider= entity.GetComponent<ColliderComponent>();
 
 
                     if (playerAnimation != null && position != null)
@@ -153,7 +157,7 @@ namespace SuperMarioBros.Source.Systems
                             {
                                 if (gameTime != null)
                                 {
-                                    DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                                    DrawJumping2(_spriteBatch, position.LastPosition, gameTime,collider,playerAnimation);
                                     hasDrawn = true;
 
                                 }
@@ -162,7 +166,7 @@ namespace SuperMarioBros.Source.Systems
                             {
                                 if (gameTime != null)
                                 {
-                                    DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                                    DrawJumping2(_spriteBatch, position.LastPosition, gameTime,collider,playerAnimation);
                                     isJumping = true;
                                     hasDrawn = true;
                                 }
@@ -171,7 +175,7 @@ namespace SuperMarioBros.Source.Systems
                             {
                                 if (gameTime != null)
                                 {
-                                    DrawJumping(_spriteBatch, position.LastPosition, gameTime);
+                                    DrawJumping(_spriteBatch, position.LastPosition, gameTime,collider,playerAnimation);
                                     isJumping = true;
                                     hasDrawn = true;
                                 }
@@ -186,13 +190,14 @@ namespace SuperMarioBros.Source.Systems
                             }
                             else if (position.Position.X != position.LastPosition.X)
                             {
-                                DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition);
+                                DrawRunning(_spriteBatch, gameTime, position.Position, position.LastPosition,collider,playerAnimation);
                                 hasDrawn = true;
+
                             }
 
                             if (!hasDrawn)
                             {
-                                DrawStopped(_spriteBatch, position.LastPosition);
+                                DrawStopped(_spriteBatch, position.LastPosition,collider,playerAnimation);
                                 wasJumping = false;
                             }
                         }
@@ -203,11 +208,18 @@ namespace SuperMarioBros.Source.Systems
         }
 
 
-        private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
+        private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, ColliderComponent collider, AnimationComponent animationComponent)
         {
-            lastJumpingPosition = position;
+            if (collider == null || collider.collider == null)
+                return;
+
             if (!isDescending)
             {
+
+                float jumpForceMagnitude = -12f;
+                AetherVector2 jumpForce = new AetherVector2((float)1.8, jumpForceMagnitude);
+                collider.collider.ApplyForce(jumpForce);
+
                 currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (currentJumpHeight >= maxJumpHeight)
                 {
@@ -217,6 +229,11 @@ namespace SuperMarioBros.Source.Systems
             }
             else
             {
+
+                float fallForceMagnitude = 10f;
+                AetherVector2 fallForce = new AetherVector2(0, fallForceMagnitude);
+                collider.collider.ApplyForce(fallForce);
+
                 currentJumpHeight -= thenJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (currentJumpHeight <= 0)
                 {
@@ -225,79 +242,154 @@ namespace SuperMarioBros.Source.Systems
                     isJumping = false;
                 }
             }
-            position = position with { Y = position.Y - currentJumpHeight };
-            jumpEndY = jumpEndY with { Y = position.Y };
+
             int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
             if (isMovingLeft)
             {
-                spriteBatch.Draw(spritesheetsJump2[currentFrameIndex], position, Color.White);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump2[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height);
             }
             else
             {
-                spriteBatch.Draw(spritesheetsJump[currentFrameIndex], position, Color.White);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height);
             }
+
             wasJumping = true;
         }
 
-        private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition)
+        private void DrawJumping2(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, ColliderComponent collider, AnimationComponent animationComponent)
+        {
+            if (collider == null || collider.collider == null)
+                return;
+
+            if (!isDescending)
+            {
+
+                float jumpForceMagnitude = -12f;
+                AetherVector2 jumpForce = new AetherVector2(0, jumpForceMagnitude);
+                collider.collider.ApplyForce(jumpForce);
+
+                currentJumpHeight += jumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentJumpHeight >= maxJumpHeight)
+                {
+                    currentJumpHeight = maxJumpHeight;
+                    isDescending = true;
+                }
+            }
+            else
+            {
+
+                float fallForceMagnitude = 0f;
+                AetherVector2 fallForce = new AetherVector2(0, fallForceMagnitude);
+                collider.collider.ApplyForce(fallForce);
+
+                currentJumpHeight -= thenJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (currentJumpHeight <= 0)
+                {
+                    currentJumpHeight = 0;
+                    isDescending = false;
+                    isJumping = false;
+                }
+            }
+
+            int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
+            if (isMovingLeft)
+            {
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump2[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height);
+            }
+            else
+            {
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height);
+            }
+
+            wasJumping = true;
+        }
+
+
+        private void DrawRunning(SpriteBatch spriteBatch, GameTime gameTime, Vector2 position, Vector2 previousPosition,ColliderComponent collider, AnimationComponent animationComponent)
         {
 
             if (position.X > previousPosition.X)
             {
-                RunRight(spriteBatch, position, gameTime);
+                RunRight(spriteBatch, position, gameTime,collider,animationComponent);
                 isMovingLeft = false;
             }
             else
             {
-                RunLeft(spriteBatch, position, gameTime);
+                RunLeft(spriteBatch, position, gameTime,collider,animationComponent);
                 isMovingLeft = true;
             }
         }
-        public void RunRight(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
+        public void RunRight(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime,ColliderComponent collider, AnimationComponent animationComponent)
         {
             if (!hasLoopedOnce)
             {
-                DrawMovement(spriteBatch, position, gameTime, spritesheets);
+                DrawMovement(spriteBatch, position, gameTime, spritesheets,collider,animationComponent);
             }
             else
             {
-                DrawMovement(spriteBatch, position, gameTime, spritesheets.Skip(2).Concat(spritesheets.Skip(2)).ToArray());
+                DrawMovement(spriteBatch, position, gameTime, spritesheets.Skip(2).Concat(spritesheets.Skip(2)).ToArray(),collider,animationComponent);
             }
             frames = spritesheets.Length;
+            if (collider != null && collider.collider != null)
+            {
+                float forceMagnitude = 8f;
+                AetherVector2 force = new AetherVector2(forceMagnitude, 0);
+                collider.collider.ApplyForce(force);
+            }
+
+            if (gameTime != null)
+            {
+                UpdateFrameTiming(gameTime);
+            }
         }
-        public void RunLeft(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime)
+        public void RunLeft(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime,ColliderComponent collider, AnimationComponent animationComponent)
         {
             if (!hasLoopedOnce)
             {
-                DrawMovement(spriteBatch, position, gameTime, spritesheetsRunLeft);
+                DrawMovement(spriteBatch, position, gameTime, spritesheetsRunLeft,collider,animationComponent);
             }
             else
             {
-                DrawMovement(spriteBatch, position, gameTime, spritesheetsRunLeft.Skip(2).Concat(spritesheetsRunLeft.Skip(2)).ToArray());
+                DrawMovement(spriteBatch, position, gameTime, spritesheetsRunLeft.Skip(2).Concat(spritesheetsRunLeft.Skip(2)).ToArray(),collider,animationComponent);
             }
             frames = spritesheetsRunLeft.Length;
+            if (collider != null && collider.collider != null)
+            {
+                float forceMagnitude = -10f;
+                AetherVector2 force = new AetherVector2(forceMagnitude, 5);
+                collider.collider.ApplyForce(force);
+            }
+
+            if (gameTime != null)
+            {
+                UpdateFrameTiming(gameTime);
+            }
         }
 
-        public void DrawMovement(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, Texture2D[] sprites)
+        public void DrawMovement(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, Texture2D[] sprites,ColliderComponent collider, AnimationComponent animationComponent)
         {
-            if (sprites != null)
+            if (sprites != null && sprites.Length > 0)
             {
                 var currentSprite = sprites[currentTextureIndex];
-                if (spriteBatch != null) spriteBatch.Draw(currentSprite, position, Color.White);
+
+                if (animationComponent != null && collider != null && collider.collider != null)
+                {
+                    CommonRenders.DrawEntity(spriteBatch, currentSprite, collider, currentTextureIndex,
+                        animationComponent.width, animationComponent.height);
+                }
             }
-            if (gameTime != null) UpdateFrameTiming(gameTime);
         }
 
-        private void DrawStopped(SpriteBatch spriteBatch, Vector2 position)
+        private void DrawStopped(SpriteBatch spriteBatch, Vector2 position,ColliderComponent collider,AnimationComponent animationComponent)
         {
 
             if (isMovingLeft)
             {
-                spriteBatch.Draw(spritesheetsRunLeft[0], position, Color.White);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsRunLeft[0], collider,spritesheets.Length,animationComponent.width,animationComponent.height);
             }
             else
             {
-                spriteBatch.Draw(spritesheets[0], position, Color.White);
+                CommonRenders.DrawEntity(spriteBatch, spritesheets[0], collider,spritesheets.Length,animationComponent.width,animationComponent.height);
             }
         }
         private void DrawBed(SpriteBatch spriteBatch, Vector2 position)
