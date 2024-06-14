@@ -52,10 +52,23 @@ namespace SuperMarioBros.Utils
         public static Texture2D CastleBrown { get; set; }
         public static Texture2D CastleBlue { get; set; }
         public static Texture2D CoinIcon { get; set; }
-        public static Texture2D WinFlag{ get; set; }
+        public static Texture2D WinFlag { get; set; }
         public static Texture2D WinFlagGreen { get; set; }
         public static Texture2D WinFlagBrown { get; set; }
         public static Texture2D WinFlagWhite { get; set; }
+
+        public static Texture2D BigBush1 { get; set; }
+        public static Texture2D BigBush2 { get; set; }
+
+        public static Texture2D SimpleBush { get; set; }
+
+        public static Texture2D DoubleBush { get; set; }
+
+        public static Texture2D SimpleCloud { get; set; }
+
+        public static Texture2D DoubleCloud { get; set; }
+
+        public static Texture2D TripleCloud { get; set; }
 
         // Powerups
         public static Texture2D FireBallDown { get; set; }
@@ -183,6 +196,13 @@ namespace SuperMarioBros.Utils
             WinFlagBrown = content.Load<Texture2D>("sprites/props/win_flag_2");
             WinFlagWhite = content.Load<Texture2D>("sprites/props/win_flag_3");
             WinFlag = content.Load<Texture2D>("sprites/props/flag");
+            BigBush1 = content.Load<Texture2D>("sprites/props/big_bush_1");
+            BigBush2 = content.Load<Texture2D>("sprites/props/big_bush_2");
+            SimpleBush = content.Load<Texture2D>("sprites/props/simple_bush");
+            DoubleBush = content.Load<Texture2D>("sprites/props/double_bush");
+            SimpleCloud = content.Load<Texture2D>("sprites/props/simple_cloud");
+            DoubleCloud = content.Load<Texture2D>("sprites/props/double_cloud");
+            TripleCloud = content.Load<Texture2D>("sprites/props/triple_cloud");
 
             // Powerups
             FireBallDown = content.Load<Texture2D>("sprites/powerups/fire_ball_down");

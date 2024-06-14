@@ -18,10 +18,10 @@ namespace SuperMarioBros.Source.Systems
         private GamePadState _gamePadState;
         private bool wasZPressed { get; set; }
         private bool wasZPressedPlay { get; set; }
-        private bool wasLeftPressed{ get; set; }
-        private bool wasRightPressed{ get; set; }
-        private bool wasLeftPressedPlay{ get; set; }
-        private bool wasRightPressedPlay{ get; set; }
+        private bool wasLeftPressed { get; set; }
+        private bool wasRightPressed { get; set; }
+        private bool wasLeftPressedPlay { get; set; }
+        private bool wasRightPressedPlay { get; set; }
 
 
 
@@ -62,7 +62,7 @@ namespace SuperMarioBros.Source.Systems
             bool isLeftPressedPlay = _gamePadState.ThumbSticks.Left.X < -0.1f;
             bool isRightPressedPlay = _gamePadState.ThumbSticks.Left.X > 0.1f;
 
-            if (isZPressed && !wasZPressed || isAPressed && !wasZPressedPlay )
+            if (isZPressed && !wasZPressed || isAPressed && !wasZPressedPlay)
             {
                 position.pass = false;
             }

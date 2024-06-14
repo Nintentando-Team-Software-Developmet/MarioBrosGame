@@ -1,6 +1,8 @@
 {
     "nameLevel": "1-1",
     "pathMap": "Content/Maps/level1Map.json",
+    "backgroundJsonPath": "Content/Maps/background.json",
+    "backgroundEntitiesPath": "Content/Maps/SurfaceEntities.json",
     "entities": [
         {
             "type": "PLAYER",
@@ -14,8 +16,8 @@
             "type": "WINGAME",
             "name": "FLAG",
             "position": {
-                "x": 2800,
-                "y": 50
+                "x": 12640,
+                "y": 34
             }
         },
         {
@@ -42,6 +44,5 @@
                 "y": 250
             }
         }
-
     ]
 }

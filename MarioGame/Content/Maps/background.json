@@ -1,0 +1,148 @@
+{
+    "entities": [
+        {
+            "type": "BUSH",
+            "position": { "x": 736, "y": 576 }
+        },
+        {
+            "type": "BUSH",
+            "position": { "x": 3808, "y": 576 }
+        },
+        {
+            "type": "BUSH",
+            "position": { "x": 6880, "y": 576 }
+        },
+        {
+            "type": "SIMPLE_BUSH",
+            "position": { "x": 1504, "y": 576 }
+        },
+        {
+            "type": "SIMPLE_BUSH",
+            "position": { "x": 4576, "y": 576 }
+        },
+        {
+            "type": "SIMPLE_BUSH",
+            "position": { "x": 7648, "y": 576 }
+        },
+        {
+            "type": "SIMPLE_BUSH",
+            "position": { "x": 10080, "y": 576 }
+        },
+        {
+            "type": "SIMPLE_BUSH",
+            "position": { "x": 10720, "y": 576 }
+        },
+        {
+            "type": "DOUBLE_BUSH",
+            "position": { "x": 2656, "y": 576 }
+        },
+        {
+            "type": "DOUBLE_BUSH",
+            "position": { "x": 5728, "y": 576 }
+        },
+        {
+            "type": "CASTLE",
+            "position": { "x": 12992, "y": 320 }
+        },
+        {
+            "type": "BIG_BUSH_2",
+            "position": { "x": 0, "y": 500 }
+        },
+        {
+            "type": "BIG_BUSH_2",
+            "position": { "x": 3072, "y": 500 }
+        },
+        {
+            "type": "BIG_BUSH_2",
+            "position": { "x": 6208, "y": 500 }
+        },
+        {
+            "type": "BIG_BUSH_2",
+            "position": { "x": 9216, "y": 500 }
+        },
+        {
+            "type": "BIG_BUSH_2",
+            "position": { "x": 12352, "y": 500 }
+        },
+        {
+            "type": "BIG_BUSH_1",
+            "position": { "x": 1024, "y": 565 }
+        },
+        {
+            "type": "BIG_BUSH_1",
+            "position": { "x": 4096, "y": 565 }
+        },
+        {
+            "type": "BIG_BUSH_1",
+            "position": { "x": 7168, "y": 565 }
+        },
+        {
+            "type": "BIG_BUSH_1",
+            "position": { "x": 10240, "y": 565 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 1216, "y": 64 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 3584, "y": 128 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 4352, "y": 64 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 7424, "y": 64 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 6656, "y": 120 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 9792, "y": 64 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 10452, "y": 60 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 11616, "y": 60 }
+        },
+        {
+            "type": "SIMPLE_CLOUD",
+            "position": { "x": 12864, "y": 60 }
+        },
+        {
+            "type": "TRIPLE_CLOUD",
+            "position": { "x": 1728, "y": 128 }
+        },
+        {
+            "type": "TRIPLE_CLOUD",
+            "position": { "x": 4875, "y": 115 }
+        },
+        {
+            "type": "TRIPLE_CLOUD",
+            "position": { "x": 7936, "y": 118 }
+        },
+        {
+            "type": "TRIPLE_CLOUD",
+            "position": { "x": 11008, "y": 118 }
+        },
+        {
+            "type": "DOUBLE_CLOUD",
+            "position": { "x": 2304, "y": 64 }
+        },
+        {
+            "type": "DOUBLE_CLOUD",
+            "position": { "x": 5376, "y": 64 }
+        },
+        {
+            "type": "DOUBLE_CLOUD",
+            "position": { "x": 8448, "y": 64 }
+        }
+    ]
+}
