@@ -133,7 +133,7 @@ public static class CommonRenders
      */
     public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
     {
-        if(spriteBatch == null || animation == null || collider == null)
+        if (spriteBatch == null || animation == null || collider == null)
             return;
 
         float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
