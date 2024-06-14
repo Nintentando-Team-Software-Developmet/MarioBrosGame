@@ -47,11 +47,6 @@ namespace SuperMarioBros.Source.Scenes
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
-
-            //TODO: Borrar - Piso provisional
-            AetherVector2 groundPosition = new AetherVector2(3, 6.95f);
-            Body groundCollider = physicsWorld.CreateBody(groundPosition, 0, BodyType.Static);
-            groundCollider.CreateRectangle(5f, 1f, 1f, AetherVector2.Zero);
         }
 
         /*

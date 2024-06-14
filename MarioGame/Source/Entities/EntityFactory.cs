@@ -39,16 +39,18 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
                     break;
                 case EntityType.PLAYER:
-                    entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name]);
+                    entity.AddComponent(playerAnimationComponent);
                     entity.AddComponent(new PlayerComponent());
                     entity.AddComponent(new VelocityComponent(Vector2.Zero));
                     entity.AddComponent(new InputComponent());
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new CameraComponent(
-                        new Viewport(0, 0, Constants.CameraViewportWidth,
-                            Constants.CameraViewportHeight),
+                        new Viewport(0, 0, Constants.CameraViewportWidth, Constants.CameraViewportHeight),
                         Constants.CameraWorldWidth,
                         Constants.CameraViewportHeight));
                     break;
+
                 case EntityType.WINGAME:
                     entity.AddComponent(new WinGameComponent());
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));

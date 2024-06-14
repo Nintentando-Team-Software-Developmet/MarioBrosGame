@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Utils.DataStructures;
+using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Utils
 {
@@ -34,6 +35,7 @@ namespace SuperMarioBros.Utils
             this.physicsWorld = physicsWorld;
             LoadBackground(backgroundJsonPath);
             LoadBackground(backgroundEntitiesPath);
+            CreateCollisionBodies();
         }
 
         /*
@@ -73,6 +75,29 @@ namespace SuperMarioBros.Utils
             }
         }
 
+        /*
+         * Creates collision bodies for each tile in the tilemap that has a value greater than 0.
+         */
+        private void CreateCollisionBodies()
+        {
+            foreach (var tilePosition in _tilemap.Keys)
+            {
+                int tileValue = _tilemap[tilePosition];
+
+                if (tileValue > 0)
+                {
+                    AetherVector2 worldPosition = new AetherVector2(
+                        (tilePosition.X + 0.5f) * TileSize / Constants.pixelPerMeter,
+                        (tilePosition.Y + 0.5f) * TileSize / Constants.pixelPerMeter
+                    );
+
+                    Body tileBody = physicsWorld.CreateBody(worldPosition, 0f, BodyType.Static);
+
+                    tileBody.CreateRectangle(TileSize / Constants.pixelPerMeter, TileSize / Constants.pixelPerMeter, 1f, AetherVector2.Zero);
+                    tileBody.Tag = tileValue;
+                }
+            }
+        }
 
         /*
         * Draws the map.

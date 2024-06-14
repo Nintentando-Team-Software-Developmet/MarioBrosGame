@@ -18,7 +18,7 @@ namespace SuperMarioBros.Source.Systems
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            
+
         }
 
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)

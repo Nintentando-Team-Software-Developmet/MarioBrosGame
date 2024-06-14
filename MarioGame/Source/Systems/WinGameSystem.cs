@@ -76,7 +76,7 @@ public class WinGameSystem
                 }
 
             }
-            targetPosition = new Vector2(2800, currentYPosition2 );
+            targetPosition = new Vector2(12640, currentYPosition2 );
 
             spriteBatch.Draw(spritesheets[1], targetPosition, Color.White);
             spriteBatch.Draw(spritesheets[0], position.Position, Color.White);

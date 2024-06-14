@@ -13,9 +13,6 @@ namespace SuperMarioBros.Source.Systems
     */
     public class CollisionSystem : BaseSystem
     {
-        private readonly Dictionary<Vector2, int> _tilemap;
-        private readonly int _levelHeight;
-
         private static double TOLERANCE { get; set; } =  1.01f;
         /*
         * Initializes a new instance of the CollisionSystem class.
@@ -25,8 +22,6 @@ namespace SuperMarioBros.Source.Systems
         */
         public CollisionSystem(Dictionary<Vector2, int> tilemap, int levelHeight)
         {
-            _tilemap = tilemap;
-            _levelHeight = levelHeight;
         }
 
         /*
@@ -42,23 +37,6 @@ namespace SuperMarioBros.Source.Systems
 
             foreach (var entity in entities)
             {
-                var positionComponent = entity.GetComponent<PositionComponent>();
-                var velocityComponent = entity.GetComponent<VelocityComponent>();
-
-                if (positionComponent != null && velocityComponent != null)
-                {
-                    Vector2 futurePosition = positionComponent.Position + velocityComponent.Velocity;
-                    if (IsColliding(futurePosition))
-                    {
-                        positionComponent.Position = AdjustPosition(positionComponent.Position, velocityComponent.Velocity);
-                        velocityComponent.Velocity = Vector2.Zero;
-                    }
-                    else
-                    {
-                        positionComponent.Position = futurePosition;
-                    }
-                }
-
                 ColitionWinGame(entities);
             }
         }
@@ -93,53 +71,6 @@ namespace SuperMarioBros.Source.Systems
                     }
                 }
             }
-        }
-
-        /*
-        * Determines if a given position is colliding with a tile in the tilemap.
-        *
-        * @param position The position to check for collisions.
-        * @returns True if the position is colliding with a tile; otherwise, false.
-        */
-        private bool IsColliding(Vector2 position)
-        {
-            if (_tilemap == null)
-                return false;
-
-            int tileX = (int)position.X / 64;
-            int tileY = (int)position.Y / 55;
-
-            if (tileY == _levelHeight - 2)
-            {
-                return _tilemap.ContainsKey(new Vector2(tileX, tileY));
-            }
-
-            return false;
-        }
-
-        /*
-        * Adjusts the position of an entity to resolve a collision based on its velocity.
-        *
-        * @param position The current position of the entity.
-        * @param velocity The current velocity of the entity.
-        * @returns The adjusted position to resolve the collision.
-        */
-        private static Vector2 AdjustPosition(Vector2 position, Vector2 velocity)
-        {
-            int tileX = (int)position.X / 64;
-            int tileY = (int)position.Y / 64;
-
-            if (velocity.X > 0)
-                position.X = tileX * 64 - 1;
-            else if (velocity.X < 0)
-                position.X = (tileX + 1) * 64;
-
-            if (velocity.Y > 0)
-                position.Y = tileY * 64 - 1;
-            else if (velocity.Y < 0)
-                position.Y = (tileY + 1) * 64;
-
-            return position;
         }
     }
 }
