@@ -1,5 +1,3 @@
-using System.Reflection.Metadata;
-
 using Microsoft.Xna.Framework;
 
 using nkast.Aether.Physics2D.Dynamics;

@@ -1,8 +1,9 @@
 using System;
 
+using MarioGame;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
 
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -14,12 +15,14 @@ namespace SuperMarioBros.Source.Scenes;
 public class GameOverScene : IScene, IDisposable
 {
     private bool _disposed;
-    private string _screen { get; set; } = "Screen";
     private ProgressDataManager _progressDataManager;
+    private double _displayTime;
+    public const double MaxDisplayTime = 3.0;
 
     public GameOverScene(ProgressDataManager progressDataManager)
     {
         _progressDataManager = progressDataManager;
+        _displayTime = 0;
     }
 
     /*
@@ -42,7 +45,7 @@ public class GameOverScene : IScene, IDisposable
      */
     public void Unload()
     {
-        Console.WriteLine(_screen);
+        _displayTime = 0;
     }
 
     /*
@@ -54,18 +57,32 @@ public class GameOverScene : IScene, IDisposable
     {
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
 
-        spriteData.spriteBatch.Begin();
-        CommonRenders.DrawProgressData(spriteData, _progressDataManager.Score,
-                                        _progressDataManager.Coins,
-                                        "1-1",
-                                        0);
-        CommonRenders.DrawText("GAME OVER", 420, 330, spriteData);
-        spriteData.spriteBatch.End();
+        if (spriteData != null)
+        {
+            spriteData.spriteBatch.Begin();
+            CommonRenders.DrawProgressData(spriteData, _progressDataManager.Score,
+                _progressDataManager.Coins,
+                "1-1",
+                0);
+            CommonRenders.DrawText("GAME OVER", 420, 330, spriteData);
+            spriteData.spriteBatch.End();
+        }
     }
+
 
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
+        if (sceneManager == null) throw new ArgumentNullException(nameof(sceneManager));
         _progressDataManager.UpdateHighScore();
+
+        if (gameTime != null) _displayTime += gameTime.ElapsedGameTime.TotalSeconds;
+        if (_displayTime >= MaxDisplayTime)
+        {
+            _displayTime = 0;
+            sceneManager.ChangeScene(SceneName.MainMenu);
+            _progressDataManager.ResetTime();
+            _progressDataManager.Lives = 3;
+        }
     }
 
     public SceneType GetSceneType()
@@ -84,8 +101,8 @@ public class GameOverScene : IScene, IDisposable
     }
 
     /*
-    * Releases managed resources if disposing is true.
-    */
+     * Releases managed resources if disposing is true.
+     */
     protected virtual void Dispose(bool disposing)
     {
         if (_disposed)
@@ -94,4 +111,3 @@ public class GameOverScene : IScene, IDisposable
         _disposed = true;
     }
 }
-

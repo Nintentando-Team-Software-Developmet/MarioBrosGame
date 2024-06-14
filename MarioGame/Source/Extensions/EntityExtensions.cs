@@ -19,5 +19,15 @@ namespace SuperMarioBros.Source.Extensions
             var method = typeof(Entity).GetMethod("HasComponent", Type.EmptyTypes)?.MakeGenericMethod(componentType);
             return method != null && (bool)method.Invoke(entity, null)!;
         }
+
+        public static void ClearAll(this List<Entity> entities)
+        {
+            if (entities != null)
+            {
+                entities.ForEach(e => e.ClearComponents());
+                entities.Clear();
+            }
+        }
+
     }
 }

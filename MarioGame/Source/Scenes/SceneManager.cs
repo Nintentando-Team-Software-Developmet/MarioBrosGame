@@ -5,7 +5,6 @@ using MarioGame;
 
 using Microsoft.Xna.Framework;
 
-
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes
@@ -19,6 +18,8 @@ namespace SuperMarioBros.Source.Scenes
         private IScene _currentScene;
         private SpriteData _spriteData;
         private bool _disposed;
+
+        public SceneName CurrentSceneName { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the SceneManager class.
@@ -47,6 +48,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             _currentScene?.Unload();
             _currentScene = _scenes[name];
+            CurrentSceneName = name;
             _currentScene.Load(_spriteData);
         }
 
@@ -57,6 +59,7 @@ namespace SuperMarioBros.Source.Scenes
         public void LoadScene(SceneName name)
         {
             _currentScene = _scenes[name];
+            CurrentSceneName = name;
             _currentScene.Load(_spriteData);
         }
 
@@ -66,14 +69,7 @@ namespace SuperMarioBros.Source.Scenes
         /// <param name="gameTime">The current game time.</param>
         public void DrawScene(GameTime gameTime)
         {
-            if (_currentScene.GetSceneType() == SceneType.Menu)
-            {
-                _currentScene.Draw(_spriteData, gameTime);
-            }
-            else
-            {
-                _currentScene.Draw(_spriteData, gameTime);
-            }
+            _currentScene?.Draw(_spriteData, gameTime);
         }
 
         /// <summary>
@@ -104,10 +100,10 @@ namespace SuperMarioBros.Source.Scenes
             {
                 foreach (var scene in _scenes.Values)
                 {
+                    scene.Unload();
                     (scene as IDisposable)?.Dispose();
                 }
             }
-
             _disposed = true;
         }
 
