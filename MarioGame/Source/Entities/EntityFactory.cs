@@ -35,6 +35,7 @@ namespace SuperMarioBros.Source.Entities
                     AnimationComponent animationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(animationComponent);
                     entity.AddComponent(new EnemyComponent());
+                    entity.AddComponent(new StaticEntityComponent());
                     entity.AddComponent(new VelocityComponent(Vector2.Zero));
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
                     break;

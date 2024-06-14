@@ -70,7 +70,6 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new InputSystem());
             Systems.Add(new MovementSystem());
             Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
-            Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CollisionSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
