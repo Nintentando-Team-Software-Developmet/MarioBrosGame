@@ -77,7 +77,7 @@ namespace MarioGame
             Sprites.DuctVerticalGreen
         };
 
-        public static readonly Dictionary<string,Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
+        public static readonly Dictionary<string, Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
         {
             { "BUSH", Sprites.BushMenu },
             { "DUCT", Sprites.DuctSquareGreen},

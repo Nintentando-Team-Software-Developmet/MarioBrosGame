@@ -52,7 +52,7 @@ namespace SuperMarioBros.Utils
         public static Texture2D CastleBrown { get; set; }
         public static Texture2D CastleBlue { get; set; }
         public static Texture2D CoinIcon { get; set; }
-        public static Texture2D WinFlag{ get; set; }
+        public static Texture2D WinFlag { get; set; }
         public static Texture2D WinFlagGreen { get; set; }
         public static Texture2D WinFlagBrown { get; set; }
         public static Texture2D WinFlagWhite { get; set; }

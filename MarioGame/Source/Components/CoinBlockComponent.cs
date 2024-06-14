@@ -1,6 +1,6 @@
 namespace SuperMarioBros.Source.Components;
 
-public class CoinBlockComponent: BaseComponent
+public class CoinBlockComponent : BaseComponent
 {
 
 }

@@ -1,11 +1,15 @@
 
 using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using nkast.Aether.Physics2D.Collision.Shapes;
 using nkast.Aether.Physics2D.Common;
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 using MonoVector2 = Microsoft.Xna.Framework.Vector2;
 

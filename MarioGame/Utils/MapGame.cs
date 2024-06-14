@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Utils
@@ -29,9 +30,9 @@ namespace SuperMarioBros.Utils
         private const int TileSize = 64;
         private World physicsWorld;
 
-        public MapGame(string pathMap,  string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData, World physicsWorld)
+        public MapGame(string pathMap, string backgroundJsonPath, string backgroundEntitiesPath, SpriteData spriteData, World physicsWorld)
         {
-            if(spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
+            if (spriteData == null) throw new System.ArgumentNullException(nameof(spriteData));
             _backgroundEntities = new List<(string type, Position position)>();
             LoadMap(pathMap);
             this.physicsWorld = physicsWorld;

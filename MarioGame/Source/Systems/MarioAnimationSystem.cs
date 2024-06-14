@@ -24,7 +24,7 @@ namespace SuperMarioBros.Source.Systems
         private Texture2D[] spritesheetsBend2 { get; set; }
         private Texture2D[] spritesheetsWin { get; set; }
         private Texture2D[] spritesheetsWinLeft { get; set; }
-        private Texture2D[] spritesheetsWinRun{ get; set; }
+        private Texture2D[] spritesheetsWinRun { get; set; }
 
         private int currentTextureIndex { get; set; }
         private int frames { get; set; }
@@ -36,7 +36,7 @@ namespace SuperMarioBros.Source.Systems
         private bool isJumping { get; set; }
         private float currentJumpHeight { get; set; }
         private float jumpAnimationFrameTime = 50.2f;
-        private  Vector2 positionBed { get; set; }
+        private Vector2 positionBed { get; set; }
         private bool isDescending { get; set; } = true;
         const float maxJumpHeight = 200f;
         const float jumpSpeed = 400f;
@@ -131,13 +131,13 @@ namespace SuperMarioBros.Source.Systems
                         spritesheetsBend = new Texture2D[] { playerAnimation.Textures[10] };
                         spritesheetsBend2 = new Texture2D[] { playerAnimation.Textures[11] };
                         spritesheetsWin = new Texture2D[] { playerAnimation.Textures[15], playerAnimation.Textures[14] };
-                        spritesheetsWinLeft = new Texture2D[] {playerAnimation.Textures[16],playerAnimation.Textures[8] };
-                        spritesheetsWinRun = new Texture2D[] { playerAnimation.Textures[2], playerAnimation.Textures[3], playerAnimation.Textures[4]};
+                        spritesheetsWinLeft = new Texture2D[] { playerAnimation.Textures[16], playerAnimation.Textures[8] };
+                        spritesheetsWinRun = new Texture2D[] { playerAnimation.Textures[2], playerAnimation.Textures[3], playerAnimation.Textures[4] };
 
                         if (playerComponent.colition && wasJumping)
                         {
 
-                            if (gameTime != null) WinGame.DrawWinMario(_spriteBatch, position.Position, gameTime,spritesheetsWin, jumpEndY,spritesheetsWinLeft,spritesheetsWinRun);
+                            if (gameTime != null) WinGame.DrawWinMario(_spriteBatch, position.Position, gameTime, spritesheetsWin, jumpEndY, spritesheetsWinLeft, spritesheetsWinRun);
                         }
                         else
                         {

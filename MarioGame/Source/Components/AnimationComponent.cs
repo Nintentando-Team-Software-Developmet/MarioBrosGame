@@ -17,7 +17,7 @@ namespace SuperMarioBros.Source.Components
         public Rectangle textureRectangle { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-    
+
 
         public AnimationComponent(Texture2D[] textures, int width = 0, int height = 0, float frameTime = 0.0f)
         {

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros

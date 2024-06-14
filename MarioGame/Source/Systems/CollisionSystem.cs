@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
@@ -13,16 +15,7 @@ namespace SuperMarioBros.Source.Systems
     */
     public class CollisionSystem : BaseSystem
     {
-        private static double TOLERANCE { get; set; } =  1.01f;
-        /*
-        * Initializes a new instance of the CollisionSystem class.
-        *
-        * @param tilemap A dictionary representing the tilemap where keys are tile positions and values are tile types.
-        * @param levelHeight The height of the level in tiles.
-        */
-        public CollisionSystem(Dictionary<Vector2, int> tilemap, int levelHeight)
-        {
-        }
+        private static double TOLERANCE { get; set; } = 1.01f;
 
         /*
         * Updates the collision system, checking for and responding to collisions for each entity.

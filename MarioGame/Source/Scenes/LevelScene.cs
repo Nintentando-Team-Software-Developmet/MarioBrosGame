@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using MarioGame.Utils.DataStructures;
+
 using Microsoft.Xna.Framework;
+
 using Newtonsoft.Json;
+
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Managers;
@@ -13,6 +18,7 @@ using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 namespace SuperMarioBros.Source.Scenes
 {
@@ -65,7 +71,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new MovementSystem());
             Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
-            Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
+            Systems.Add(new CollisionSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
         }
@@ -125,7 +131,7 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
-            CommonRenders.DrawProgressData( Entities,
+            CommonRenders.DrawProgressData(Entities,
                                             spriteData, _progressDataManager.Score,
                                             _progressDataManager.Coins,
                                             "1-1",
