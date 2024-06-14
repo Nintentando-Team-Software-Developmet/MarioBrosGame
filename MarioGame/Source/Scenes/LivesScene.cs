@@ -15,7 +15,6 @@ namespace SuperMarioBros.Source.Scenes;
 public class LivesScene : IScene, IDisposable
 {
     private bool _disposed;
-    private string _screen = "Screen";
     private ProgressDataManager _progressDataManager;
     private double _displayTime;
     public const double MaxDisplayTime = 3.0;
@@ -46,7 +45,7 @@ public class LivesScene : IScene, IDisposable
      */
     public void Unload()
     {
-        Console.WriteLine(_screen);
+        _displayTime = 0;
     }
 
     /*

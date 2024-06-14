@@ -15,6 +15,7 @@ using MarioGame;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
@@ -107,7 +108,13 @@ namespace SuperMarioBros.Source.Scenes
          */
         public void Unload()
         {
-            Entities.Clear();
+            Entities.ClearAll();
+            Systems.Clear();
+
+            foreach (var body in physicsWorld.BodyList.ToList())
+            {
+                physicsWorld.Remove(body);
+            }
         }
 
         /*

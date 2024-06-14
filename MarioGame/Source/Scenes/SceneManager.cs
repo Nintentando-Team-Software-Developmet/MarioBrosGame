@@ -100,6 +100,7 @@ namespace SuperMarioBros.Source.Scenes
             {
                 foreach (var scene in _scenes.Values)
                 {
+                    scene.Unload();
                     (scene as IDisposable)?.Dispose();
                 }
             }
