@@ -90,7 +90,9 @@ namespace MarioGame
             { "SIMPLE_CLOUD", Sprites.SimpleCloud},
             { "DOUBLE_CLOUD", Sprites.DoubleCloud},
             { "TRIPLE_CLOUD", Sprites.TripleCloud},
-            { "BLOCK" , Sprites.PolishedStoneBlockBrown}
+            { "BLOCK" , Sprites.PolishedStoneBlockBrown},
+            {"COIN_BLOCK", Sprites.BrickBlockBrown},
+            { "QUESTION_BLOCK", Sprites.QuestionBlockBrown}
         };
 
         public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>
