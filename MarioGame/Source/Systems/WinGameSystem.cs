@@ -56,7 +56,7 @@ public class WinGameSystem
             {
                 spritePosition = new Vector2(2800, 10);
                 targetPosition = spritePosition;
-                currentYPosition2 = position.Position.Y +20 ;
+                currentYPosition2 = position.Position.Y + 20;
             }
 
 

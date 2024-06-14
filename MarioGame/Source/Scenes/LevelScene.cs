@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using MarioGame;
+using MarioGame.Utils.DataStructures;
+
 using Microsoft.Xna.Framework;
 
 using Newtonsoft.Json;
 
 using nkast.Aether.Physics2D.Dynamics;
-
-using MarioGame;
-using MarioGame.Utils.DataStructures;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
