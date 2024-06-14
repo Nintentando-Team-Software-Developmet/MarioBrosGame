@@ -147,17 +147,17 @@ public static class CommonRenders
         Texture2D currentTexture = animation.Textures[animation.CurrentFrame];
         spriteBatch.Draw(currentTexture, animation.textureRectangle, Color.White);
     }
-    public static void DrawEntity(SpriteBatch spriteBatch, Texture2D spritesheets, ColliderComponent collider, int currentFrame, int width, int height)
+    public static void DrawEntity(SpriteBatch spriteBatch, Texture2D spritesheets, ColliderComponent collider, int currentFrame, int width, int height,int disminution)
     {
         if(spriteBatch == null || spritesheets == null || collider == null)
             return;
 
         float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
-        float entityPosY = collider.collider.Position.Y * Constants.pixelPerMeter;
-        Vector2 entityPosition = new Vector2(entityPosX, entityPosY);
+        float entityPosY = collider.collider.Position.Y  * Constants.pixelPerMeter;
+        Vector2 entityPosition = new Vector2(entityPosX, entityPosY +disminution);
 
         int textureRectX = (int)entityPosition.X - width / 2;
-        int textureRectY = (int)entityPosition.Y - height / 2;
+        int textureRectY = (int)entityPosition.Y - height / 2 ;
         Rectangle textureRectangle = new Rectangle(textureRectX, textureRectY, width, height);
 
         Texture2D currentTexture = spritesheets;

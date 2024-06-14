@@ -265,11 +265,6 @@ namespace SuperMarioBros.Source.Scenes
             map.Draw(spriteData);
             DrawEntities(gameTime);
 
-            //TODO Borrar - Debugger Colliders
-            using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
-            {
-                debuuger.DrawColliders();
-            }
             CommonRenders.DrawProgressData(Entities,
                                             spriteData, _progressDataManager.Score,
                                             _progressDataManager.Coins,
