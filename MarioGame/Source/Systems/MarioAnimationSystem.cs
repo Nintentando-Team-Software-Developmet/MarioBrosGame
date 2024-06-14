@@ -82,7 +82,7 @@ namespace SuperMarioBros.Source.Systems
                             animation.TimeElapsed = 0f;
                         }
 
-                        position.Position += velocity.Velocity * movementSpeedScale;
+                        position.Position += velocity.Velocity * movementSpeedScale * 5;
 
                         if (velocity.Velocity.X != 0)
                         {
