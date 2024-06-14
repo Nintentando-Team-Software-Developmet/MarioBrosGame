@@ -52,6 +52,31 @@ namespace MarioGame
             { 1, Sprites.StoneBlockBrown },
         };
 
+        public static readonly Texture2D[] questionBlockTextures = new Texture2D[]
+        {
+            Sprites.QuestionBlockBrown,
+            Sprites.QuestionBlockAny
+        };
+
+        public static readonly Texture2D[] coinBlockTextures = new Texture2D[]
+        {
+            Sprites.BrickBlockBrown
+        };
+        public static readonly Texture2D[] blockTextures = new Texture2D[]
+        {
+            Sprites.PolishedStoneBlockBrown
+        };
+
+        public static readonly Texture2D[] ductTextures = new Texture2D[]
+        {
+            Sprites.DuctSquareGreen
+        };
+
+        public static readonly Texture2D[] ductExtensionTextures = new Texture2D[]
+        {
+            Sprites.DuctVerticalGreen
+        };
+
         public static readonly Dictionary<string,Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
         {
             { "BUSH", Sprites.BushMenu },
@@ -65,16 +90,21 @@ namespace MarioGame
             { "SIMPLE_CLOUD", Sprites.SimpleCloud},
             { "DOUBLE_CLOUD", Sprites.DoubleCloud},
             { "TRIPLE_CLOUD", Sprites.TripleCloud},
-            { "BLOCK" , Sprites.PolishedStoneBlockBrown},
-            {"COIN_BLOCK", Sprites.BrickBlockBrown},
-            { "QUESTION_BLOCK", Sprites.QuestionBlockBrown}
+            { "BLOCK" , Sprites.PolishedStoneBlockBrown}
         };
 
         public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>
         {
             { EntitiesName.MARIO, playerTextures },
             { EntitiesName.GOOMBA, goombaTextures },
-            { EntitiesName.FLAG, FlagWinTextures }
+            { EntitiesName.FLAG, FlagWinTextures },
+            { EntitiesName.QUESTIONBLOCK,  questionBlockTextures },
+            { EntitiesName.COINBLOCK,  coinBlockTextures},
+            { EntitiesName.BLOCK,  blockTextures},
+            { EntitiesName.DUCTEXTENSION,  ductExtensionTextures},
+            { EntitiesName.DUCT,  ductTextures},
+
+
         };
     }
 }

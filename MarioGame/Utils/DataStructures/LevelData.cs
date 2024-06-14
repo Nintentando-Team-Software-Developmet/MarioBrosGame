@@ -16,6 +16,10 @@ namespace MarioGame.Utils.DataStructures
         public int y { get; set; }
     }
 
+    public class StaticEntitiesData
+    {
+        public  List<EntityData> entities { get; set; }
+    }
     public class EntityData
     {
         [JsonConverter(typeof(StringEnumConverter))]

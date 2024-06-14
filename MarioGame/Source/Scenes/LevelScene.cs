@@ -48,10 +48,6 @@ namespace SuperMarioBros.Source.Scenes
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
 
-            //TODO: Borrar - Piso provisional
-            AetherVector2 groundPosition = new AetherVector2(3, 6.95f);
-            Body groundCollider = physicsWorld.CreateBody(groundPosition, 0, BodyType.Static);
-            groundCollider.CreateRectangle(5f, 1f, 1f, AetherVector2.Zero);
         }
 
         /*
@@ -62,7 +58,7 @@ namespace SuperMarioBros.Source.Scenes
         public void Load(SpriteData spriteData)
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
-            map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, _levelData.floatingBlocksEntities, spriteData, physicsWorld);
+            map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
 
             LoadEntities();
             //TODO: Refactor
@@ -72,6 +68,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new EnemyAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
             Systems.Add(new CameraSystem());
+            Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
         }
 
         /*
@@ -81,6 +78,11 @@ namespace SuperMarioBros.Source.Scenes
         private void LoadEntities()
         {
             foreach (var entity in _levelData.entities)
+            {
+                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+            }
+
+            foreach (var entity in map.staticEntities.entities)
             {
                 Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
             }
