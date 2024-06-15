@@ -27,6 +27,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Title.spritefont
 
+#begin Sounds/end.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/end.mp3
+
 #begin Sounds/game_over.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
