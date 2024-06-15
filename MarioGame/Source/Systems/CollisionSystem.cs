@@ -90,13 +90,10 @@ namespace SuperMarioBros.Source.Systems
                 {
                     var winFlagPosition = winFlagEntity.GetComponent<ColliderComponent>().collider.Position.X;
 
-                    Console.WriteLine(playerPositionCollider);
-                    Console.WriteLine(winFlagPosition);
                     if (Math.Abs(playerPositionCollider - winFlagPosition) < TOLERANCE)
                     {
                         playerComponent.colition = true;
                     }
-                    Console.WriteLine(playerComponent.colition);
                 }
             }
         }
