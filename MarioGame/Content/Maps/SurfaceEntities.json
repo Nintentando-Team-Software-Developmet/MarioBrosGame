@@ -503,32 +503,32 @@
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 1024, "y": 448 }
+            "position": { "x": 1024, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 1280, "y": 448 }
+            "position": { "x": 1280, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 1344, "y": 448 }
+            "position": { "x": 1344, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 1408, "y": 448 }
+            "position": { "x": 1408, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 1472, "y": 448 }
+            "position": { "x": 1472, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 1536, "y": 448 }
+            "position": { "x": 1536, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
@@ -538,17 +538,17 @@
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 4928, "y": 448 }
+            "position": { "x": 4928, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 4992, "y": 448 }
+            "position": { "x": 4992, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 5056, "y": 448 }
+            "position": { "x": 5056, "y": 480 }
         },
         {
             "type": "COINBLOCK",
@@ -613,32 +613,32 @@
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 6016, "y": 448 }
+            "position": { "x": 6016, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 6336, "y": 448 }
+            "position": { "x": 6336, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 6400, "y": 448 }
+            "position": { "x": 6400, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 6720, "y": 448 }
+            "position": { "x": 6720, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 6912, "y": 448 }
+            "position": { "x": 6912, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 7104, "y": 448 }
+            "position": { "x": 7104, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
@@ -648,7 +648,7 @@
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 7488, "y": 448 }
+            "position": { "x": 7488, "y": 480 }
         },
         {
             "type": "COINBLOCK",
@@ -688,32 +688,32 @@
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 8256, "y": 448 }
+            "position": { "x": 8256, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 8320, "y": 448 }
+            "position": { "x": 8320, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 10752, "y": 448 }
+            "position": { "x": 10752, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 10816, "y": 448 }
+            "position": { "x": 10816, "y": 480 }
         },
         {
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
-            "position": { "x": 10880, "y": 448 }
+            "position": { "x": 10880, "y": 480 }
         },
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 10944, "y": 448 }
+            "position": { "x": 10944, "y": 480 }
         }
     ]
 }
