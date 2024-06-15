@@ -18,7 +18,7 @@ namespace SuperMarioBros.Source.Systems
         private readonly Dictionary<Vector2, int> _tilemap;
         private readonly int _levelHeight;
 
-        private static double TOLERANCE { get; set; } = 1.01f;
+        private static double TOLERANCE { get; set; } = 0.5f;
         /*
         * Initializes a new instance of the CollisionSystem class.
         *
@@ -84,18 +84,23 @@ namespace SuperMarioBros.Source.Systems
 
             foreach (var playerEntity in playerEntities)
             {
-                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position.X;
+                var playerPositionCollider = playerEntity.GetComponent<ColliderComponent>().collider.Position.X;
                 var playerComponent = playerEntity.GetComponent<PlayerComponent>();
                 foreach (var winFlagEntity in winFlagEntities)
                 {
-                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position.X;
-                    if (Math.Abs(playerPosition - winFlagPosition) < TOLERANCE)
+                    var winFlagPosition = winFlagEntity.GetComponent<ColliderComponent>().collider.Position.X;
+
+                    Console.WriteLine(playerPositionCollider);
+                    Console.WriteLine(winFlagPosition);
+                    if (Math.Abs(playerPositionCollider - winFlagPosition) < TOLERANCE)
                     {
                         playerComponent.colition = true;
                     }
+                    Console.WriteLine(playerComponent.colition);
                 }
             }
         }
+
 
         /*
         * Determines if a given position is colliding with a tile in the tilemap.

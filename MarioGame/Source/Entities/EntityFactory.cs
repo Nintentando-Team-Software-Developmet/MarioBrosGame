@@ -53,8 +53,11 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.WINGAME:
+                    AnimationComponent winAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 4,1500);
+                    entity.AddComponent(winAnimationComponent);
                     entity.AddComponent(new WinGameComponent());
-                    entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x+53, entityData.position.y, winAnimationComponent.textureRectangle, BodyType.Static));
+
                     break;
                 case EntityType.QUESTIONBLOCK:
                     AnimationComponent questionBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
