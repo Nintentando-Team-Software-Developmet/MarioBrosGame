@@ -25,23 +25,7 @@
             "name": "GOOMBA",
             "position": {
                 "x": 110,
-                "y": 110
-            }
-        },
-        {
-            "type": "ENEMY",
-            "name": "GOOMBA",
-            "position": {
-                "x": 250,
-                "y": 250
-            }
-        },
-        {
-            "type": "ENEMY",
-            "name": "GOOMBA",
-            "position": {
-                "x": 400,
-                "y": 250
+                "y": 517
             }
         }
     ]

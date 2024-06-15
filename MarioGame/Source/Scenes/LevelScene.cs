@@ -68,7 +68,6 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
-
             LoadEntities();
             InitializeSystems(spriteData);
         }
@@ -82,6 +81,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new EnemyMovementSystem());
         }
 
         /*
@@ -214,6 +214,11 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+
+            using(var Debuug = new DebuggerColliders(physicsWorld, spriteData))
+            {
+                Debuug.DrawColliders();
+            }
             spriteData.spriteBatch.End();
 
         }
