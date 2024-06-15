@@ -215,11 +215,11 @@ namespace SuperMarioBros.Source.Systems
             int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
             if (isMovingLeft)
             {
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump2[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height,0);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump2[currentFrameIndex], collider, animationComponent.width, animationComponent.height,0);
             }
             else
             {
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height,0);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump[currentFrameIndex], collider,  animationComponent.width, animationComponent.height,0);
             }
             wasJumping = true;
         }
@@ -232,11 +232,11 @@ namespace SuperMarioBros.Source.Systems
             int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
             if (isMovingLeft)
             {
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump2[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height,0);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump2[currentFrameIndex], collider,  animationComponent.width, animationComponent.height,0);
             }
             else
             {
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump[currentFrameIndex], collider, spritesheets.Length, animationComponent.width, animationComponent.height,0);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsJump[currentFrameIndex], collider,  animationComponent.width, animationComponent.height,0);
             }
 
             wasJumping = true;
@@ -346,7 +346,7 @@ namespace SuperMarioBros.Source.Systems
 
                 if (animationComponent != null && collider != null && collider.collider != null)
                 {
-                    CommonRenders.DrawEntity(spriteBatch, currentSprite, collider, currentTextureIndex,
+                    CommonRenders.DrawEntity(spriteBatch, currentSprite, collider,
                         animationComponent.width, animationComponent.height,0);
                 }
             }
@@ -357,11 +357,11 @@ namespace SuperMarioBros.Source.Systems
 
             if (isMovingLeft)
             {
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsRunLeft[0], collider,spritesheets.Length,animationComponent.width,animationComponent.height,0);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsRunLeft[0], collider,animationComponent.width,animationComponent.height,0);
             }
             else
             {
-                CommonRenders.DrawEntity(spriteBatch, spritesheets[0], collider,spritesheets.Length,animationComponent.width,animationComponent.height,0);
+                CommonRenders.DrawEntity(spriteBatch, spritesheets[0], collider,animationComponent.width,animationComponent.height,0);
             }
         }
         private void DrawBed(SpriteBatch spriteBatch, Vector2 position,ColliderComponent collider,AnimationComponent animationComponent)
@@ -369,17 +369,12 @@ namespace SuperMarioBros.Source.Systems
 
             if (isMovingLeft)
             {
-                Console.WriteLine(animationComponent.height);
-                Console.WriteLine(animationComponent.width);
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsBend2[0], collider,spritesheetsBend2.Length,animationComponent.width,animationComponent.height-27,20);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsBend2[0], collider,animationComponent.width,animationComponent.height-27,20);
 
             }
             else
             {
-
-                Console.WriteLine(collider.collider.Position.X);
-                Console.WriteLine(animationComponent.textureRectangle.Height);
-                CommonRenders.DrawEntity(spriteBatch, spritesheetsBend[0], collider,spritesheetsBend2.Length,animationComponent.width,animationComponent.height-27,20);
+                CommonRenders.DrawEntity(spriteBatch, spritesheetsBend[0], collider,animationComponent.width,animationComponent.height-27,20);
 
             }
         }

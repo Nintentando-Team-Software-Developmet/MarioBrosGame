@@ -136,31 +136,30 @@ public static class CommonRenders
         if (spriteBatch == null || animation == null || collider == null)
             return;
 
-        float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
-        float entityPosY = collider.collider.Position.Y * Constants.pixelPerMeter;
-        Vector2 entityPosition = new Vector2(entityPosX, entityPosY);
-
-        int textureRectX = (int)entityPosition.X - animation.width / 2;
-        int textureRectY = (int)entityPosition.Y - animation.height / 2;
-        animation.textureRectangle = new Rectangle(textureRectX, textureRectY, animation.width, animation.height);
+        Rectangle textureRectangle = CalculateTextureRectangle(collider, animation.width, animation.height);
 
         Texture2D currentTexture = animation.Textures[animation.CurrentFrame];
-        spriteBatch.Draw(currentTexture, animation.textureRectangle, Color.White);
+        spriteBatch.Draw(currentTexture, textureRectangle, Color.White);
     }
-    public static void DrawEntity(SpriteBatch spriteBatch, Texture2D spritesheets, ColliderComponent collider, int currentFrame, int width, int height,int disminution)
+
+    public static void DrawEntity(SpriteBatch spriteBatch, Texture2D spritesheets, ColliderComponent collider, int width, int height, int disminution)
     {
-        if(spriteBatch == null || spritesheets == null || collider == null)
+        if (spriteBatch == null || spritesheets == null || collider == null)
             return;
 
+        Rectangle textureRectangle = CalculateTextureRectangle(collider, width, height, disminution);
+
+        spriteBatch.Draw(spritesheets, textureRectangle, Color.White);
+    }
+
+    private static Rectangle CalculateTextureRectangle(ColliderComponent collider, int width, int height, int disminution = 0)
+    {
         float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
-        float entityPosY = collider.collider.Position.Y  * Constants.pixelPerMeter;
-        Vector2 entityPosition = new Vector2(entityPosX, entityPosY +disminution);
+        float entityPosY = collider.collider.Position.Y * Constants.pixelPerMeter + disminution;
+        Vector2 entityPosition = new Vector2(entityPosX, entityPosY);
 
         int textureRectX = (int)entityPosition.X - width / 2;
-        int textureRectY = (int)entityPosition.Y - height / 2 ;
-        Rectangle textureRectangle = new Rectangle(textureRectX, textureRectY, width, height);
-
-        Texture2D currentTexture = spritesheets;
-        spriteBatch.Draw(currentTexture, textureRectangle, Color.White);
+        int textureRectY = (int)entityPosition.Y - height / 2;
+        return new Rectangle(textureRectX, textureRectY, width, height);
     }
 }
