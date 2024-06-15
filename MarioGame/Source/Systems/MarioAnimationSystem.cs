@@ -227,7 +227,7 @@ namespace SuperMarioBros.Source.Systems
         private void DrawJumping(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, ColliderComponent collider, AnimationComponent animationComponent)
         {
 
-            SetForceJump(gameTime, collider, 12f, 0);
+            SetForceJump(gameTime, collider, 12f, (float)0.5);
 
             int currentFrameIndex = (int)(gameTime.TotalGameTime.TotalSeconds / jumpAnimationFrameTime) % spritesheetsJump.Length;
             if (isMovingLeft)
