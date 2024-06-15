@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -59,7 +60,6 @@ namespace SuperMarioBros.Utils
                 JArray layers = (JArray)jsonObject["layers"];
                 JObject layer = (JObject)layers[0];
                 JArray data = (JArray)layer["data"];
-
                 int width = (int)jsonObject["width"];
                 int height = (int)jsonObject["height"];
                 _levelHeight = height;

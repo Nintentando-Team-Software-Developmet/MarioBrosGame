@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
-
-using nkast.Aether.Physics2D.Dynamics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils.DataStructures;
-
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
@@ -55,17 +50,13 @@ namespace SuperMarioBros.Source.Systems
                     if (movement.direcction == MovementType.LEFT)
                     {
                         movement.direcction = MovementType.RIGHT;
-                       
-                        Console.WriteLine("Change direction to right");
                     }
                     else if (movement.direcction == MovementType.RIGHT)
                     {
                         movement.direcction = MovementType.LEFT;
-                        Console.WriteLine("Change direction to left");
                     }
                      collider.collider.ApplyLinearImpulse(new AetherVector2(0, 10f));
                 }
-
                 return true;
             };
         }
