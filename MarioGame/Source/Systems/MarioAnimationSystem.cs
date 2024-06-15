@@ -207,7 +207,6 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-
         private void DrawJumpingWhitRun(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, ColliderComponent collider, AnimationComponent animationComponent)
         {
             SetForceJump(gameTime, collider, 20f, 3);
