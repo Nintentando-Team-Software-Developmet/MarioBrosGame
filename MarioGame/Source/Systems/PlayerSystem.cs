@@ -18,13 +18,13 @@ namespace SuperMarioBros.Source.Systems
         {
             if (entities == null) return;
 
-            var players = entities.WithComponents(typeof(PlayerComponent), typeof(PositionComponent));
+            var players = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent));
             foreach (var entity in players)
             {
-                var position = entity.GetComponent<PositionComponent>();
                 var player = entity.GetComponent<PlayerComponent>();
+                var collider = entity.GetComponent<ColliderComponent>();
 
-                if (position.Position.Y > FallThreshold && player.IsAlive)
+                if (collider.collider.Position.Y * 100 > FallThreshold && player.IsAlive)
                 {
                     Console.WriteLine(new StringBuilder().Append("Player fell off the map!").ToString());
                     player.IsAlive = false;
