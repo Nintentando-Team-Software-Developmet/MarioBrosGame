@@ -45,10 +45,10 @@ public class WinScene : IScene, IDisposable
         if (spriteData != null)
         {
             spriteData.spriteBatch.Begin();
-            CommonRenders.DrawText("Thank you for playing!", 250, 150, spriteData);
-            CommonRenders.DrawText("Developed by: NINTENTANDO", 180, 300, spriteData);
-            CommonRenders.DrawText("Please insert your credit ", 130, 400, spriteData);
-            CommonRenders.DrawText("to play again", 250, 430, spriteData);
+            CommonRenders.DrawText("Thank you for playing!", 310, 180, spriteData);
+            CommonRenders.DrawText("Developed by: NINTENTANDO", 270, 330, spriteData);
+            CommonRenders.DrawText("Please insert your credit ", 270, 430, spriteData);
+            CommonRenders.DrawText("to play again", 400, 480, spriteData);
             spriteData.spriteBatch.End();
         }
     }

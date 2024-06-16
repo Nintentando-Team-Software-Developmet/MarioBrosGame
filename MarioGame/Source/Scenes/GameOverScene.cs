@@ -68,7 +68,7 @@ public class GameOverScene : IScene, IDisposable
                 _progressDataManager.Coins,
                 "1-1",
                 0);
-            CommonRenders.DrawText("GAME OVER", 420, 330, spriteData);
+            CommonRenders.DrawText("GAME OVER", 480, 390, spriteData);
             spriteData.spriteBatch.End();
         }
     }
