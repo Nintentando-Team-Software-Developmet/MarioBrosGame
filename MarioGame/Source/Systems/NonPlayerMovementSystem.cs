@@ -9,25 +9,25 @@ using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
 {
-    public class EnemyMovementSystem : BaseSystem
+    public class NonPlayerMovementSystem : BaseSystem
     {
         private HashSet<Entity> registeredEntities = new HashSet<Entity>();
     
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> enemies = entities.WithComponents(typeof(ColliderComponent), typeof(EnemyComponent));
-            foreach (var enemy in enemies)
+            IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent));
+            foreach (var entity in movementEntities)
             {
-                var collider = enemy.GetComponent<ColliderComponent>();
-                var movement = enemy.GetComponent<MovementComponent>();
+                var collider = entity.GetComponent<ColliderComponent>();
+                var movement = entity.GetComponent<MovementComponent>();
+                if(entity.HasComponent<PlayerComponent>()) continue;
                 if (collider != null && movement != null)
                 {
-                    if (!registeredEntities.Contains(enemy))
+                    if (!registeredEntities.Contains(entity))
                     {
-                        RegisterEvents(collider, movement);
-                        registeredEntities.Add(enemy);
+                        RegisterChangePositionEvent(collider, movement);
+                        registeredEntities.Add(entity);
                     }
-
                     if (movement.direcction == MovementType.LEFT)
                     {
                         collider.collider.LinearVelocity = new AetherVector2(-1.1f, collider.collider.LinearVelocity.Y);
@@ -40,7 +40,7 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-        private static void RegisterEvents(ColliderComponent collider, MovementComponent movement)
+        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {

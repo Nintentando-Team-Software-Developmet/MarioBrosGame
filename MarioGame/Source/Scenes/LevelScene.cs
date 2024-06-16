@@ -2,16 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using MarioGame;
 using MarioGame.Utils.DataStructures;
-
 using Microsoft.Xna.Framework;
-
 using Newtonsoft.Json;
-
 using nkast.Aether.Physics2D.Dynamics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
@@ -81,7 +76,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
-            Systems.Add(new EnemyMovementSystem());
+            Systems.Add(new NonPlayerMovementSystem());
         }
 
         /*
