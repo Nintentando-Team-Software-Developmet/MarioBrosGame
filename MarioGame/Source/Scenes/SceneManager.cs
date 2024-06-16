@@ -66,7 +66,7 @@ namespace SuperMarioBros.Source.Scenes
         /// <summary>
         /// Draws the current scene.
         /// </summary>
-        /// <param name="gameTime">The current game time.</param>
+        /// <param name="gameTime"> The cyrrent game time</param>
         public void DrawScene(GameTime gameTime)
         {
             _currentScene?.Draw(_spriteData, gameTime);
@@ -75,14 +75,14 @@ namespace SuperMarioBros.Source.Scenes
         /// <summary>
         /// Updates the current scene.
         /// </summary>
-        /// <param name="gameTime">The current game time.</param>
+        /// <param name="gameTime"> The cyrrent game time</param>
         public void UpdateScene(GameTime gameTime)
         {
             _currentScene?.Update(gameTime, this);
         }
 
         /// <summary>
-        /// Releases all resource used by the SceneManager object.
+        /// Releases all resources used by the SceneManager object.
         /// </summary>
         public void Dispose()
         {

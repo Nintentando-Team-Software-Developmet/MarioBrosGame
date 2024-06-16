@@ -5,6 +5,7 @@ using System.Linq;
 using MarioGame;
 using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 using Newtonsoft.Json;
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
@@ -15,9 +16,7 @@ using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
-
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
-
 
 namespace SuperMarioBros.Source.Scenes
 {
@@ -34,7 +33,12 @@ namespace SuperMarioBros.Source.Scenes
         private World physicsWorld;
         private LevelData _levelData;
         private bool _disposed;
+        private Song _flagSoundEffect { get; set; }
         private ProgressDataManager _progressDataManager;
+        private bool _isFlagEventPlayed { get; set; }
+        private bool _isLevelCompleted { get; set; }
+        private double _levelCompleteDisplayTime;
+        private const double LevelCompleteMaxDisplayTime = 10.0;
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
@@ -52,6 +56,10 @@ namespace SuperMarioBros.Source.Scenes
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
             physicsWorld = new World(new AetherVector2(0, 9.8f));
+            _flagSoundEffect = null;
+            _isFlagEventPlayed = false;
+            _isLevelCompleted = false;
+            _levelCompleteDisplayTime = 0;
         }
 
         /*
@@ -65,6 +73,9 @@ namespace SuperMarioBros.Source.Scenes
             map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
             LoadEntities();
             InitializeSystems(spriteData);
+            _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            MediaPlayer.IsRepeating = true;
         }
 
         private void InitializeSystems(SpriteData spriteData)
@@ -96,6 +107,15 @@ namespace SuperMarioBros.Source.Scenes
             }
         }
 
+        public void PlayFlagSound()
+        {
+            if (_isFlagEventPlayed)
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.Play(_flagSoundEffect);
+            }
+        }
+
         /*
          * Unloads resources and performs cleanup operations for the level scene.
          * This method is called when the scene is being unloaded or switched.
@@ -110,6 +130,11 @@ namespace SuperMarioBros.Source.Scenes
             {
                 physicsWorld.Remove(body);
             }
+            MediaPlayer.Stop();
+            _progressDataManager.ResetTime();
+            _isLevelCompleted = false;
+            _isFlagEventPlayed = false;
+            _levelCompleteDisplayTime = 0;
         }
 
         /*
@@ -124,10 +149,39 @@ namespace SuperMarioBros.Source.Scenes
             if (sceneManager == null) throw new ArgumentNullException(nameof(sceneManager));
             if (gameTime?.ElapsedGameTime.TotalSeconds != null)
                 physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
-            UpdateProgressData(gameTime);
-            CheckGameOverConditions(sceneManager);
+
+            if (!_isFlagEventPlayed)
+            {
+                CheckFlagEvent();
+                UpdateProgressData(gameTime);
+                CheckGameOverConditions(sceneManager);
+            }
+            else if (!_isLevelCompleted)
+            {
+                _levelCompleteDisplayTime += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_levelCompleteDisplayTime >= LevelCompleteMaxDisplayTime)
+                {
+                    _isLevelCompleted = true;
+                    sceneManager.ChangeScene(SceneName.Win);
+                }
+            }
+
             UpdateSystems(gameTime);
             CheckPlayerState(sceneManager);
+        }
+
+        private void CheckFlagEvent()
+        {
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity == null) return;
+
+            var player = playerEntity.GetComponent<PlayerComponent>();
+            if (player != null && player.HasReachedEnd)
+            {
+                player.HasReachedEnd = false;
+                _isFlagEventPlayed = true;
+                PlayFlagSound();
+            }
         }
 
         private void UpdateProgressData(GameTime gameTime)
@@ -210,7 +264,6 @@ namespace SuperMarioBros.Source.Scenes
                                             "1-1",
                                             _progressDataManager.Time);
             spriteData.spriteBatch.End();
-
         }
 
         /*

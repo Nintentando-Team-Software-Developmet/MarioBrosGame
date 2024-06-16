@@ -6,7 +6,6 @@ using MarioGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-using nkast.Aether.Physics2D.Dynamics;
 
 
 using SuperMarioBros.Source.Events;
@@ -31,12 +30,17 @@ namespace SuperMarioBros
             _sceneManager = new SceneManager(spriteData);
             _progressDataManager = new ProgressDataManager();
 
+            InitializeScenes();
+            _sceneManager.LoadScene(SceneName.MainMenu);
+        }
+
+        private void InitializeScenes()
+        {
             _sceneManager.AddScene(SceneName.MainMenu, new MenuScene(_progressDataManager));
             _sceneManager.AddScene(SceneName.Level1, new LevelScene(LevelPath.Level1, _progressDataManager));
             _sceneManager.AddScene(SceneName.GameOver, new GameOverScene(_progressDataManager));
             _sceneManager.AddScene(SceneName.Lives, new LivesScene(_progressDataManager));
-
-            _sceneManager.LoadScene(SceneName.MainMenu);
+            _sceneManager.AddScene(SceneName.Win, new WinScene(_progressDataManager));
         }
 
 

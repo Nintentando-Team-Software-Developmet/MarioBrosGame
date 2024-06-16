@@ -3,7 +3,7 @@ using System;
 using MarioGame;
 
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Media;
 
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -17,7 +17,7 @@ public class GameOverScene : IScene, IDisposable
     private bool _disposed;
     private ProgressDataManager _progressDataManager;
     private double _displayTime;
-    public const double MaxDisplayTime = 3.0;
+    public const double MaxDisplayTime = 6.0;
 
     public GameOverScene(ProgressDataManager progressDataManager)
     {
@@ -36,6 +36,9 @@ public class GameOverScene : IScene, IDisposable
     public void Load(SpriteData spriteData)
     {
         Sprites.Load(spriteData?.content);
+        MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/game_over"));
+        MediaPlayer.IsRepeating = true;
+
     }
 
     /*
@@ -46,6 +49,7 @@ public class GameOverScene : IScene, IDisposable
     public void Unload()
     {
         _displayTime = 0;
+        MediaPlayer.Stop();
     }
 
     /*
