@@ -55,7 +55,6 @@ namespace SuperMarioBros.Source.Systems
                     {
                         movement.direcction = MovementType.LEFT;
                     }
-                     collider.collider.ApplyLinearImpulse(new AetherVector2(0, 10f));
                 }
                 return true;
             };
