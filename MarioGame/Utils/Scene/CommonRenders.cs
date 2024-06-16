@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -38,9 +38,9 @@ public static class CommonRenders
 
         DrawCoin(spriteData, camera.Position.X, camera.Position.Y);
         DrawTextWithNumber("Mario", FillZeros(score, 6), camera.Position.X + 50, camera.Position.Y + 10, spriteData);
-        DrawTextWithNumber($"x" + FillZeros(coins, 2), "", camera.Position.X + 330, camera.Position.Y + 40, spriteData);
-        DrawTextWithNumber("WORLD", level, camera.Position.X + 550, camera.Position.Y + 10, spriteData);
-        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : string.Empty, camera.Position.X + 900, camera.Position.Y + 10, spriteData);
+        DrawTextWithNumber($"x" + FillZeros(coins, 2), "", camera.Position.X + 435, camera.Position.Y + 40, spriteData);
+        DrawTextWithNumber("WORLD", level, camera.Position.X + 678, camera.Position.Y + 10, spriteData);
+        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : string.Empty, camera.Position.X + 1028, camera.Position.Y + 10, spriteData);
     }
 
     /*
@@ -51,9 +51,9 @@ public static class CommonRenders
     {
         DrawCoin(spriteData, 0, 0);
         DrawTextWithNumber("Mario", FillZeros(score, 6), 50, 10, spriteData);
-        DrawTextWithNumber($"x" + FillZeros(coins, 2), "", 330, 40, spriteData);
-        DrawTextWithNumber("WORLD", level, 550, 10, spriteData);
-        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, 900, 10, spriteData);
+        DrawTextWithNumber($"x" + FillZeros(coins, 2), "", 435, 40, spriteData);
+        DrawTextWithNumber("WORLD", level, 678, 10, spriteData);
+        DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : String.Empty, 1028, 10, spriteData);
     }
 
     /*
@@ -84,7 +84,7 @@ public static class CommonRenders
      */
     private static void DrawCoin(SpriteData spriteData, float positionX, float positionY)
     {
-        Vector2 position = new Vector2(positionX + 300, positionY + 40);
+        Vector2 position = new Vector2(positionX + 405, positionY + 40);
         if (spriteData != null)
             spriteData.spriteBatch.Draw(Sprites.CoinIcon, position, null, Color.White, 0f, Vector2.Zero,
                 new Vector2(2f), SpriteEffects.None, 0f);
