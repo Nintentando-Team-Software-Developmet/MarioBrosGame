@@ -2,17 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using MarioGame;
 using MarioGame.Utils.DataStructures;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
-
 using Newtonsoft.Json;
-
 using nkast.Aether.Physics2D.Dynamics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
@@ -21,7 +16,6 @@ using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
-
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Scenes
@@ -77,7 +71,6 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
-
             LoadEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
@@ -94,6 +87,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new NonPlayerMovementSystem());
         }
 
         /*

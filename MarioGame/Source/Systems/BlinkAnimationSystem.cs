@@ -29,9 +29,10 @@ public class BlinkAnimationSystem : BaseSystem, IRenderableSystem
     {
         if (entities != null)
         {
-            var enemies = entities.WithComponents(typeof(AnimationComponent), typeof(ColliderComponent), typeof(StaticEntityComponent));
+            var enemies = entities.WithComponents(typeof(AnimationComponent), typeof(ColliderComponent));
             foreach (var entity in enemies)
             {
+                if(entity.HasComponent<PlayerComponent>()) continue;
                 var colliderComponent = entity.GetComponent<ColliderComponent>();
                 var animation = entity.GetComponent<AnimationComponent>();
                 animation.FrameTime = 0.8f;
