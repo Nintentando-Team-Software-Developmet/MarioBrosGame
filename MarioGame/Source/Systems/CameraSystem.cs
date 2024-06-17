@@ -5,11 +5,18 @@ using Microsoft.Xna.Framework;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using nkast.Aether.Physics2D.Dynamics;
+
+using SuperMarioBros.Utils;
+
+using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
+
 
 namespace SuperMarioBros.Source.Systems
 {
     public class CameraSystem : BaseSystem
     {
+        private ColliderComponent colliderCamera { get; set; }
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             var playerEntities = entities
@@ -21,6 +28,7 @@ namespace SuperMarioBros.Source.Systems
             {
                 var camera = playerEntity.GetComponent<CameraComponent>();
                 var playerPosition = playerEntity.GetComponent<PositionComponent>();
+                var colliderComponent = playerEntity.GetComponent<ColliderComponent>();
 
                 if (playerPosition != null && camera != null)
                 {
@@ -32,6 +40,14 @@ namespace SuperMarioBros.Source.Systems
                         );
 
                         camera.LastXPosition = playerPosition.Position.X;
+                        if (colliderCamera != null)
+                        {
+                            colliderCamera.collider.Position = new AetherVector2(camera.Position.X / Constants.pixelPerMeter, colliderCamera.collider.Position.Y);
+                        }
+                        else
+                        {
+                            colliderCamera = new ColliderComponent(colliderComponent.collider.World, camera.Position.X , 100, new Rectangle(100, 100, 5, 1500), BodyType.Static);
+                        }
                     }
 
                     camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
