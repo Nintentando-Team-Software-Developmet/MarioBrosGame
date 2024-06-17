@@ -48,6 +48,7 @@ namespace SuperMarioBros.Source.Systems
                             colliderCamera = new ColliderComponent(colliderComponent.collider.World, camera.Position.X , 100, new Rectangle(100, 100, 5, 1500), BodyType.Static);
                         }
                     }
+
                     camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
                 }
             }
