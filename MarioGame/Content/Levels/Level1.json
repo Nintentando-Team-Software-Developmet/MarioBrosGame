@@ -9,15 +9,15 @@
             "name": "MARIO",
             "position": {
                 "x": 100,
-                "y": 517
+                "y": 645
             }
         },
         {
             "type": "WINGAME",
             "name": "FLAG",
             "position": {
-                "x": 12640,
-                "y": 34
+                "x": 12700,
+                "y": 95
             }
         },
         {

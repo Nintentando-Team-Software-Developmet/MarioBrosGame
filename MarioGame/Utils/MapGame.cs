@@ -79,26 +79,35 @@ namespace SuperMarioBros.Utils
         }
 
         /*
-         * Creates collision bodies for each tile in the tilemap that has a value greater than 0.
+         * Creates large collision bodies with specified sizes at the current positions.
          */
         private void CreateCollisionBodies()
         {
-            foreach (var tilePosition in _tilemap.Keys)
+            var sizes = new List<AetherVector2>
             {
-                int tileValue = _tilemap[tilePosition];
+                new AetherVector2(44.16f, 0.6f),
+                new AetherVector2(9.60f, 0.6f),
+                new AetherVector2(40.96f, 0.6f),
+                new AetherVector2(40.32f, 0.6f)
+            };
 
-                if (tileValue > 0)
-                {
-                    AetherVector2 worldPosition = new AetherVector2(
-                        (tilePosition.X + 0.5f) * TileSize / Constants.pixelPerMeter,
-                        (tilePosition.Y + 0.5f) * TileSize / Constants.pixelPerMeter
-                    );
+            var positions = new List<AetherVector2>
+            {
+                new AetherVector2(22.08f, 8f),
+                new AetherVector2(50.25f, 8f),
+                new AetherVector2(77.43f, 8f),
+                new AetherVector2(119.36f,8f)
+            };
 
-                    Body tileBody = physicsWorld.CreateBody(worldPosition, 0f, BodyType.Static);
+            for (int i = 0; i < sizes.Count; i++)
+            {
+                AetherVector2 size = sizes[i];
+                AetherVector2 position = positions[i];
 
-                    tileBody.CreateRectangle(TileSize / Constants.pixelPerMeter, TileSize / Constants.pixelPerMeter, 1f, AetherVector2.Zero);
-                    tileBody.Tag = tileValue;
-                }
+                Body largeBody = physicsWorld.CreateBody(position, 0f, BodyType.Static);
+
+                largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
+                largeBody.Tag = i + 1;
             }
         }
 

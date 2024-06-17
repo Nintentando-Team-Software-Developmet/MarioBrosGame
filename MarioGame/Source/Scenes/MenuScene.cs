@@ -108,7 +108,7 @@ namespace SuperMarioBros.Source.Scenes
 
         private static void DrawBackground(SpriteData spriteData)
         {
-            Rectangle titleBackground = new Rectangle(260, 90, 600, 300);
+            Rectangle titleBackground = new Rectangle(320, 150, 600, 300);
             Color backgroundColor = new Color(124, 64, 20);
 
             Rectangle shadowDown = new Rectangle(titleBackground.X + 3, titleBackground.Y + 3, titleBackground.Width, titleBackground.Height);
@@ -143,7 +143,7 @@ namespace SuperMarioBros.Source.Scenes
             float fontSize = 60f;
             Vector2 textSize = spriteData.spriteFont.MeasureString("MARIO BROS") * (fontSize / spriteData.spriteFont.LineSpacing);
 
-            Rectangle textRectangle = new Rectangle(260, 90, 600, 300);
+            Rectangle textRectangle = new Rectangle(320, 150, 600, 300);
 
             Vector2 titlePosition = new Vector2(
                 textRectangle.X + (textRectangle.Width - textSize.X) / 2,

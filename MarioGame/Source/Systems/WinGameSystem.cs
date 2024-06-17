@@ -18,7 +18,7 @@ public class WinGameSystem
     private Vector2 targetPosition;
 
     private const float movementSpeed = 90f;
-    private const float distanceToTravel = 328f;
+    private const float distanceToTravel = 250f;
     private float currentXPosition;
     private float currentYPosition;
     private float currentYPosition2;
@@ -56,13 +56,13 @@ public class WinGameSystem
             {
                 spritePosition = new Vector2(2800, 10);
                 targetPosition = spritePosition;
-                currentYPosition2 = position.Position.Y + 20;
+                currentYPosition2 = position.Position.Y + 40;
             }
 
 
             if (collision)
             {
-                if (!hasFinishedDescending && currentYPosition2 <= 500)
+                if (!hasFinishedDescending && currentYPosition2 <= 628)
                 {
                     if (elapsedTime <= 2f)
                     {
@@ -76,7 +76,7 @@ public class WinGameSystem
                 }
 
             }
-            targetPosition = new Vector2(12640, currentYPosition2);
+            targetPosition = new Vector2(12700, currentYPosition2);
 
             spriteBatch.Draw(spritesheets[1], targetPosition, Color.White);
             spriteBatch.Draw(spritesheets[0], position.Position, Color.White);
