@@ -18,8 +18,8 @@ namespace SuperMarioBros
         {
             _graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = 1080,
-                PreferredBackBufferHeight = 720
+                PreferredBackBufferWidth = 1200,
+                PreferredBackBufferHeight = 850
             };
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
