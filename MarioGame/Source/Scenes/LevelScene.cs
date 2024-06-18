@@ -88,7 +88,8 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new NonPlayerMovementSystem());
-            Systems.Add(new FacingEntityAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new KoopaAnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new KoopaMovementSystem());
         }
 
         /*
