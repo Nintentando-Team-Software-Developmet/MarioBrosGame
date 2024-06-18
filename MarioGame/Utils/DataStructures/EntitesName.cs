@@ -3,7 +3,8 @@ namespace SuperMarioBros.Utils.DataStructures
     public enum EntitiesName
     {
         GOOMBA,
-        KOOPA,
+        KOOPALEFT,
+        KOOPARIGTH,
         BLOCK,
         COIN,
         MUSHROOM,

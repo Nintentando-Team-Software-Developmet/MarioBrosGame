@@ -34,6 +34,11 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new EnemyComponent());
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new MovementComponent(MovementType.LEFT));
+                    if (entityData.name == EntitiesName.KOOPARIGTH)
+                    {
+                        entity.AddComponent(new KoopaComponent(false));
+                        entity.AddComponent(new FacingComponent(EntitiesName.KOOPALEFT, EntitiesName.KOOPARIGTH));
+                    }
                     break;
                 case EntityType.POWERUP:
                     if (entityData.name == EntitiesName.MUSHROOM)

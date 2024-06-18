@@ -147,6 +147,14 @@
                 "x": 11284,
                 "y": 768
             }
+        },
+        {
+            "type": "ENEMY",
+            "name": "KOOPARIGTH",
+            "position": {
+                "x": 210,
+                "y": 517
+            }
         }
     ]
 }
