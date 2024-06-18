@@ -41,6 +41,16 @@ namespace MarioGame
             Sprites.Goomba1,
             Sprites.Goomba2,
         };
+        public static readonly Texture2D[] koopaLeftTextures = new Texture2D[]
+        {
+            Sprites.Koopa1,
+            Sprites.Koopa2
+        };
+        public static readonly Texture2D[] koopaRigthTextures = new Texture2D[]
+        {
+            Sprites.Koopa3,
+            Sprites.Koopa4
+        };
         public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
         {
             Sprites.WinFlagGreen,
@@ -105,6 +115,8 @@ namespace MarioGame
             { EntitiesName.BLOCK,  blockTextures},
             { EntitiesName.DUCTEXTENSION,  ductExtensionTextures},
             { EntitiesName.DUCT,  ductTextures},
+            { EntitiesName.KOOPARIGTH,  koopaRigthTextures},
+            { EntitiesName.KOOPALEFT,  koopaLeftTextures},
 
 
         };

@@ -31,6 +31,11 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new EnemyComponent());
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    if (entityData.name == EntitiesName.KOOPARIGTH)
+                    {
+                        entity.AddComponent(new KoopaComponent(false));
+                        entity.AddComponent(new FacingComponent(EntitiesName.KOOPALEFT, EntitiesName.KOOPARIGTH));
+                    }
                     break;
                 case EntityType.PLAYER:
                     entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
