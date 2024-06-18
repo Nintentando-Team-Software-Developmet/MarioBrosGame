@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-
-
 using Microsoft.Xna.Framework.Graphics;
-
-
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -105,8 +101,22 @@ namespace MarioGame
             { EntitiesName.BLOCK,  blockTextures},
             { EntitiesName.DUCTEXTENSION,  ductExtensionTextures},
             { EntitiesName.DUCT,  ductTextures},
-
-
         };
+
+        public static Dictionary<AnimationState,Texture2D[]> MarioSmallAnimation()
+        {
+            Dictionary<AnimationState, Texture2D[]> animations = new Dictionary<AnimationState, Texture2D[]>();
+            animations.Add(AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk2, Sprites.SmallWalk3 });
+            animations.Add(AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk2Left, Sprites.SmallWalk3Left });
+            animations.Add(AnimationState.JUMPLEFT, new Texture2D[] { Sprites.SmallJumpLeft });
+            animations.Add(AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.SmallJump });
+            animations.Add(AnimationState.RUNLEFT, new Texture2D[] { Sprites.SmallRunLeft });
+            animations.Add(AnimationState.RUNRIGHT, new Texture2D[] { Sprites.SmallRun });
+            animations.Add(AnimationState.STOP, new Texture2D[] { Sprites.SmallStop });
+            animations.Add(AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeft });
+            animations.Add(AnimationState.DIE, new Texture2D[] { Sprites.SmallDie });
+            return animations;
+        }  
+
     }
 }

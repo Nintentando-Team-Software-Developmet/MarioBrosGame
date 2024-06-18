@@ -80,14 +80,11 @@ namespace SuperMarioBros.Source.Scenes
 
         private void InitializeSystems(SpriteData spriteData)
         {
-            Systems.Add(new InputSystem());
-            Systems.Add(new MovementSystem());
-            Systems.Add(new MarioAnimationSystem(spriteData.spriteBatch));
-            Systems.Add(new CollisionSystem(map.Tilemap, map.LevelHeight));
-            Systems.Add(new PlayerSystem());
+            Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CameraSystem());
             Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new NonPlayerMovementSystem());
+            Systems.Add(new PlayerMovementSystem());
         }
 
         /*
@@ -263,6 +260,9 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+            using(var db = new DebuggerColliders(physicsWorld, spriteData)){
+                db.DrawColliders();
+            }
             spriteData.spriteBatch.End();
         }
 

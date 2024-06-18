@@ -1,8 +1,11 @@
 using MarioGame;
 using MarioGame.Utils.DataStructures;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -33,17 +36,16 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     break;
                 case EntityType.PLAYER:
-                    entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
-                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name]);
+                    AnimationComponen playerAnimationComponent = new AnimationComponen(Animations.MarioSmallAnimation(), 64, 64, 0.09f);
                     entity.AddComponent(playerAnimationComponent);
                     entity.AddComponent(new PlayerComponent());
-                    entity.AddComponent(new VelocityComponent(Vector2.Zero));
                     entity.AddComponent(new InputComponent());
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new CameraComponent(
                         new Viewport(0, 0, Constants.CameraViewportWidth, Constants.CameraViewportHeight),
                         Constants.CameraWorldWidth,
                         Constants.CameraViewportHeight));
+                    entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     break;
                 case EntityType.WINGAME:
                     entity.AddComponent(new WinGameComponent());
