@@ -150,10 +150,10 @@
         },
         {
             "type": "ENEMY",
-            "name": "KOOPARIGTH",
+            "name": "KOOPALEFT",
             "position": {
-                "x": 210,
-                "y": 517
+                "x": 6816,
+                "y": 720
             }
         }
     ]

@@ -51,6 +51,16 @@ namespace MarioGame
             Sprites.Koopa3,
             Sprites.Koopa4
         };
+
+        public static readonly Texture2D[] koopaKnockedTextures = new Texture2D[]
+        {
+            Sprites.Koopa6
+        };
+
+        public static readonly Texture2D[] koopaReviveTextures = new Texture2D[]
+        {
+            Sprites.Koopa5
+        };
         public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
         {
             Sprites.WinFlagGreen,

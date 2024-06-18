@@ -36,8 +36,12 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new MovementComponent(MovementType.LEFT));
                     if (entityData.name == EntitiesName.KOOPARIGTH)
                     {
-                        entity.AddComponent(new KoopaComponent(false));
-                        entity.AddComponent(new FacingComponent(EntitiesName.KOOPALEFT, EntitiesName.KOOPARIGTH));
+                        entity.AddComponent(new KoopaComponent());
+                        entity.AddComponent(new FacingComponent(EntitiesName.KOOPALEFT, EntitiesName.KOOPARIGTH, EntitiesName.KOOPAKNOCKED, EntitiesName.KOOPAREVIVE));
+                    }
+                    else if (entityData.name == EntitiesName.GOOMBA)
+                    {
+                        entity.AddComponent(new GoombaComponent());
                     }
                     break;
                 case EntityType.POWERUP:
@@ -73,9 +77,9 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new InputComponent());
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new CameraComponent(
-                        new Viewport(0, 0, Constants.CameraViewportWidth, Constants.CameraViewportHeight),
-                        Constants.CameraWorldWidth,
-                        Constants.CameraViewportHeight));
+                        new Viewport(0, 0, GameConstants.CameraViewportWidth, GameConstants.CameraViewportHeight),
+                        GameConstants.CameraWorldWidth,
+                        GameConstants.CameraViewportHeight));
                     break;
                 case EntityType.WINGAME:
                     entity.AddComponent(new WinGameComponent());

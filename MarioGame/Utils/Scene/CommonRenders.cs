@@ -135,8 +135,8 @@ public static class CommonRenders
         if (spriteBatch == null || animation == null || collider == null)
             return;
 
-        float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
-        float entityPosY = collider.collider.Position.Y * Constants.pixelPerMeter;
+        float entityPosX = collider.collider.Position.X * GameConstants.pixelPerMeter;
+        float entityPosY = collider.collider.Position.Y * GameConstants.pixelPerMeter;
         Vector2 entityPosition = new Vector2(entityPosX, entityPosY);
 
         int textureRectX = (int)entityPosition.X - animation.width / 2;
