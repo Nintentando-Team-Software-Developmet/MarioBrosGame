@@ -30,7 +30,7 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(animationComponent);
                     entity.AddComponent(new EnemyComponent());
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
-                    entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    entity.AddComponent(new MovementComponent(MovementType.LEFT));
                     break;
                 case EntityType.PLAYER:
                     entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
@@ -56,7 +56,7 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new QuestionBlockComponent());
                     break;
                 case EntityType.COINBLOCK:
-                    AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
+                    AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 68, 64);
                     entity.AddComponent(coinBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
                     entity.AddComponent(new CoinBlockComponent());
