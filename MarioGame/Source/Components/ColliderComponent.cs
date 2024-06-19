@@ -19,5 +19,10 @@ namespace SuperMarioBros.Source.Components
             collider.FixedRotation = true;
             collider.CreateRectangle(rectangle.Width / Constants.pixelPerMeter, rectangle.Height / Constants.pixelPerMeter, 1f, AetherVector2.Zero);
         }
+
+        public bool isJumping()
+        {
+            return collider.LinearVelocity.Y != 0;
+        }
     }
 }

@@ -51,5 +51,12 @@ namespace SuperMarioBros.Source.Components
                 timeElapsed = 0;
             }
         }
+
+        public bool notCurrentState(params AnimationState[] state)
+        {
+            return !state.Contains(currentState);
+        }
+
+
     }
 }
