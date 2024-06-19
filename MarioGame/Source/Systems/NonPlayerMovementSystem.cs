@@ -30,44 +30,31 @@ namespace SuperMarioBros.Source.Systems
                     }
 
                     float verticalVelocity = collider.collider.LinearVelocity.Y;
-
+                    float horizontalVelocity = 1.1f;
+                    BaseComponent entityComponent;
+                    
                     if (entity.HasComponent<StarComponent>())
                     {
-                        var starComponent = entity.GetComponent<StarComponent>();
-                        starComponent.VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
-                        if (movement.Direction == MovementType.LEFT)
-                        {
-                            collider.collider.LinearVelocity = new AetherVector2(-starComponent.HorizontalVelocity, starComponent.VerticalVelocity);
-                        }
-                        else if (movement.Direction == MovementType.RIGHT)
-                        {
-                            collider.collider.LinearVelocity = new AetherVector2(starComponent.HorizontalVelocity, starComponent.VerticalVelocity);
-                        }
+                        entityComponent = entity.GetComponent<StarComponent>();
+                        ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
+                        horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
+                        verticalVelocity = ((StarComponent)entityComponent).VerticalVelocity;
                     }
 
-                    else if(entity.HasComponent<MushroomComponent>())
+                    else if (entity.HasComponent<MushroomComponent>())
                     {
-                        var mushroomComponent = entity.GetComponent<MushroomComponent>();
-                        if (movement.Direction == MovementType.LEFT)
-                        {
-                            collider.collider.LinearVelocity = new AetherVector2(-mushroomComponent.HorizontalVelocity, verticalVelocity);
-                        }
-                        else if (movement.Direction == MovementType.RIGHT)
-                        {
-                            collider.collider.LinearVelocity = new AetherVector2(mushroomComponent.HorizontalVelocity, verticalVelocity);
-                        }
+                        entityComponent = entity.GetComponent<MushroomComponent>();
+                        horizontalVelocity = ((MushroomComponent)entityComponent).HorizontalVelocity;
                     }
 
-                    else
+                    switch (movement.Direction)
                     {
-                        if (movement.Direction == MovementType.LEFT)
-                        {
-                            collider.collider.LinearVelocity = new AetherVector2(-1.1f, verticalVelocity);
-                        }
-                        else if (movement.Direction == MovementType.RIGHT)
-                        {
-                            collider.collider.LinearVelocity = new AetherVector2(1.1f, verticalVelocity);
-                        }
+                        case MovementType.LEFT:
+                            collider.collider.LinearVelocity = new AetherVector2(-horizontalVelocity, verticalVelocity);
+                            break;
+                        case MovementType.RIGHT:
+                            collider.collider.LinearVelocity = new AetherVector2(horizontalVelocity, verticalVelocity);
+                            break;
                     }
                 }
             }
