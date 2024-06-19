@@ -517,7 +517,7 @@
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
             "position": { "x": 1376, "y": 544 },
-            "TypeContent": "MUSHROOM",
+            "TypeContent": "POWERUP",
             "Quantity": 1
         },
         {
@@ -556,7 +556,7 @@
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
             "position": { "x": 5024, "y": 544 },
-            "TypeContent": "FLOWER",
+            "TypeContent": "POWERUP",
             "Quantity": 1
         },
         {
@@ -683,7 +683,7 @@
             "type": "QUESTIONBLOCK",
             "name": "QUESTIONBLOCK",
             "position": { "x": 6944, "y": 320 },
-            "TypeContent": "MUSHROOM",
+            "TypeContent": "POWERUP",
             "Quantity": 1
         },
         {

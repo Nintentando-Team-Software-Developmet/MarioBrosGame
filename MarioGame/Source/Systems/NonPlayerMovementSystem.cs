@@ -12,7 +12,7 @@ namespace SuperMarioBros.Source.Systems
     public class NonPlayerMovementSystem : BaseSystem
     {
         private HashSet<Entity> registeredEntities = new HashSet<Entity>();
-    
+
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent));
