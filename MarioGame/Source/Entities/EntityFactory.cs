@@ -43,7 +43,6 @@ namespace SuperMarioBros.Source.Entities
                     }
                     else if (entityData.name == EntitiesName.GOOMBA)
                     {
-                        entity.AddComponent(new GoombaComponent());
                         entity.AddComponent(new MovementComponent(MovementType.LEFT));
                         entity.AddComponent(new EnemyComponent(EntitiesName.GOOMBA));
                     }

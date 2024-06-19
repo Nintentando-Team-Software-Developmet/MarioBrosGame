@@ -75,7 +75,7 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
                 {
                     if (!enemy.IsAlive)
                     {
-                        entity.AddComponent(new AnimationComponent(Animations.entityTextures[enemy.DiedName], 64, 64));
+                        entity.AddComponent(new AnimationComponent(Animations.entityTextures[enemy.KilledName], 64, 64));
                     }
                     else if (koopa.IsKnocked)
                     {
