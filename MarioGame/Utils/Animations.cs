@@ -131,13 +131,19 @@ namespace MarioGame
             { EntitiesName.BLOCK,  blockTextures},
             { EntitiesName.DUCTEXTENSION,  ductExtensionTextures},
             { EntitiesName.DUCT,  ductTextures},
-            { EntitiesName.KOOPARIGTH,  koopaRigthTextures},
-            { EntitiesName.KOOPALEFT,  koopaLeftTextures},
-            { EntitiesName.KOOPAKNOCKED,  koopaKnockedTextures},
-            { EntitiesName.KOOPAREVIVE,  koopaReviveTextures},
-            { EntitiesName.KOOPADIES,  koopaDiesTextures},
+            { EntitiesName.KOOPA,  koopaLeftTextures},
+        };
 
-
+        public static readonly Dictionary<KoopaSpriteStates, Texture2D[]> KoopaEntityTextures = new Dictionary<KoopaSpriteStates, Texture2D[]>
+        {
+            { KoopaSpriteStates.KOOPARIGTH,  koopaRigthTextures},
+            { KoopaSpriteStates.KOOPALEFT,  koopaLeftTextures},
+            { KoopaSpriteStates.KOOPAKNOCKED,  koopaKnockedTextures},
+            { KoopaSpriteStates.KOOPAREVIVE,  koopaReviveTextures},
+        };
+        public static readonly Dictionary<string, Texture2D[]> DeathEntityTextures = new Dictionary<string, Texture2D[]>
+        {
+            { "koopaDeath", koopaDiesTextures},
         };
     }
 }

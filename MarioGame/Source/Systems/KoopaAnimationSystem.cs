@@ -33,14 +33,14 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
     {
         if (entities != null)
         {
-            var enemies = entities.WithComponents(typeof(AnimationComponent), typeof(ColliderComponent), typeof(FacingComponent), typeof(MovementComponent), typeof(KoopaComponent));
+            var enemies = entities.WithComponents(typeof(AnimationComponent), typeof(ColliderComponent), typeof(KoopaFacingComponent), typeof(MovementComponent), typeof(KoopaComponent));
             foreach (var entity in enemies)
             {
                 if(entity.HasComponent<PlayerComponent>()) continue;
                 var colliderComponent = entity.GetComponent<ColliderComponent>();
                 var animation = entity.GetComponent<AnimationComponent>();
                 var movement = entity.GetComponent<MovementComponent>();
-                var facing = entity.GetComponent<FacingComponent>();
+                var facing = entity.GetComponent<KoopaFacingComponent>();
                 var koopa = entity.GetComponent<KoopaComponent>();
                 var enemy = entity.GetComponent<EnemyComponent>();
                 animation.FrameTime = 0.8f;
@@ -75,23 +75,23 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
                 {
                     if (!enemy.IsAlive)
                     {
-                        entity.AddComponent(new AnimationComponent(Animations.entityTextures[enemy.KilledName], 64, 64));
+                        entity.AddComponent(new AnimationComponent(Animations.DeathEntityTextures[enemy.KilledName], 64, 64));
                     }
                     else if (koopa.IsKnocked)
                     {
-                        entity.AddComponent(new AnimationComponent(Animations.entityTextures[facing.KnockedName], 64, 64));
+                        entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.KnockedName], 64, 64));
                     }
                     else if (koopa.IsReviving)
                     {
-                        entity.AddComponent(new AnimationComponent(Animations.entityTextures[facing.RevivingName], 64, 64));
+                        entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.RevivingName], 64, 64));
                     }
                     else switch (movement.direcction)
                     {
                         case MovementType.LEFT:
-                            entity.AddComponent(new AnimationComponent(Animations.entityTextures[facing.LeftName], 64, 64));
+                            entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.LeftName], 64, 64));
                             break;
                         case MovementType.RIGHT:
-                            entity.AddComponent(new AnimationComponent(Animations.entityTextures[facing.RigthName], 64, 64));
+                            entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.RigthName], 64, 64));
                             break;
                     }
                 }
