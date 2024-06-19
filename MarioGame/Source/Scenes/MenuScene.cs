@@ -30,7 +30,7 @@ namespace SuperMarioBros.Source.Scenes
             if (spriteData == null) return;
 
             Sprites.Load(spriteData.content);
-            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/mario-bros-remix"));
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/mario-bros-remix"));
             MediaPlayer.IsRepeating = true;
         }
 

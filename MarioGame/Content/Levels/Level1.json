@@ -27,30 +27,6 @@
                 "x": 140,
                 "y": 517
             }
-        },
-        {
-            "type": "POWERUP",
-            "name": "MUSHROOM",
-            "position": {
-                "x": 170,
-                "y": 517
-            }
-        },
-        {
-            "type": "POWERUP",
-            "name": "FLOWER",
-            "position": {
-                "x": 120,
-                "y": 517
-            }
-        },
-        {
-            "type": "POWERUP",
-            "name": "STAR",
-            "position": {
-                "x": 180,
-                "y": 517
-            }
         }
     ]
 }
