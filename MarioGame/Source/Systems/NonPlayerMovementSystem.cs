@@ -25,22 +25,55 @@ namespace SuperMarioBros.Source.Systems
                 {
                     if (!registeredEntities.Contains(entity))
                     {
-                        RegisterChangePositionEvent(collider, movement);
+                        RegisterChangePositionEvent(collider, movement, entity);
                         registeredEntities.Add(entity);
                     }
-                    if (movement.Direction == MovementType.LEFT)
+
+                    float verticalVelocity = collider.collider.LinearVelocity.Y;
+
+                    if (entity.HasComponent<StarComponent>())
                     {
-                        collider.collider.LinearVelocity = new AetherVector2(-1.1f, collider.collider.LinearVelocity.Y);
+                        var starComponent = entity.GetComponent<StarComponent>();
+                        starComponent.VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
+                        if (movement.Direction == MovementType.LEFT)
+                        {
+                            collider.collider.LinearVelocity = new AetherVector2(-starComponent.HorizontalVelocity, starComponent.VerticalVelocity);
+                        }
+                        else if (movement.Direction == MovementType.RIGHT)
+                        {
+                            collider.collider.LinearVelocity = new AetherVector2(starComponent.HorizontalVelocity, starComponent.VerticalVelocity);
+                        }
                     }
-                    else if (movement.Direction == MovementType.RIGHT)
+
+                    else if(entity.HasComponent<MushroomComponent>())
                     {
-                        collider.collider.LinearVelocity = new AetherVector2(1.1f, collider.collider.LinearVelocity.Y);
+                        var mushroomComponent = entity.GetComponent<MushroomComponent>();
+                        if (movement.Direction == MovementType.LEFT)
+                        {
+                            collider.collider.LinearVelocity = new AetherVector2(-mushroomComponent.HorizontalVelocity, verticalVelocity);
+                        }
+                        else if (movement.Direction == MovementType.RIGHT)
+                        {
+                            collider.collider.LinearVelocity = new AetherVector2(mushroomComponent.HorizontalVelocity, verticalVelocity);
+                        }
+                    }
+
+                    else
+                    {
+                        if (movement.Direction == MovementType.LEFT)
+                        {
+                            collider.collider.LinearVelocity = new AetherVector2(-1.1f, verticalVelocity);
+                        }
+                        else if (movement.Direction == MovementType.RIGHT)
+                        {
+                            collider.collider.LinearVelocity = new AetherVector2(1.1f, verticalVelocity);
+                        }
                     }
                 }
             }
         }
 
-        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement)
+        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement, Entity entity)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
@@ -56,8 +89,16 @@ namespace SuperMarioBros.Source.Systems
                         movement.Direction = MovementType.LEFT;
                     }
                 }
+                else
+                {
+                    if (entity.HasComponent<StarComponent>())
+                    {
+                        collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X, -6f);
+                    }
+                }
                 return true;
             };
         }
     }
 }
+

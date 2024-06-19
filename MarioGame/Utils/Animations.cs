@@ -84,12 +84,16 @@ namespace MarioGame
 
         public static readonly Texture2D[] fireFlowerTextures = new Texture2D[]
         {
-            Sprites.FireFlower1
+            Sprites.FireFlower1,
+            Sprites.FireFlower2,
+            Sprites.FireFlower3
         };
 
         public static readonly Texture2D[] superStarTextures = new Texture2D[]
         {
-            Sprites.SuperStar1
+            Sprites.SuperStar1,
+            Sprites.SuperStar2,
+            Sprites.SuperStar3
         };
 
         public static readonly Dictionary<string, Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>

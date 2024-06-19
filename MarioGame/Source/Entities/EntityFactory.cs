@@ -33,11 +33,28 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     break;
                 case EntityType.POWERUP:
-                    AnimationComponent mushroomAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
-                    entity.AddComponent(mushroomAnimationComponent);
-                    entity.AddComponent(new EnemyComponent());
-                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic));
-                    entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    if (entityData.name == EntitiesName.MUSHROOM)
+                    {
+                        AnimationComponent mushroomAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
+                        entity.AddComponent(mushroomAnimationComponent);
+                        entity.AddComponent(new MushroomComponent());
+                        entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic));
+                        entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    }
+                    if (entityData.name == EntitiesName.FLOWER)
+                    {
+                        AnimationComponent fireFlowerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
+                        entity.AddComponent(fireFlowerAnimationComponent);
+                        entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, fireFlowerAnimationComponent.textureRectangle, BodyType.Dynamic));
+                    }
+                    if (entityData.name == EntitiesName.STAR)
+                    {
+                        AnimationComponent superStarAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
+                        entity.AddComponent(superStarAnimationComponent);
+                        entity.AddComponent(new StarComponent());
+                        entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, superStarAnimationComponent.textureRectangle, BodyType.Dynamic));
+                        entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    }
                     break;
                 case EntityType.PLAYER:
                     entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
