@@ -63,49 +63,9 @@ namespace SuperMarioBros.Source.Systems
 
                     }
                 }
-
-                ColitionCoint(entities);
                 ColitionWinGame(entities);
-
             }
         }
-        private static void ColitionCoint(IEnumerable<Entity> entities)
-        {
-            var playerEntities = entities.Where(e =>
-                e.HasComponent<AnimationComponent>() &&
-                e.HasComponent<PositionComponent>() &&
-                e.HasComponent<PlayerComponent>()
-            ).ToList();
-
-            var questionBlockEntities = entities.Where(e =>
-                e.HasComponent<AnimationComponent>() &&
-                e.HasComponent<PositionComponent>() &&
-                e.HasComponent<QuestionBlockComponent>()
-            ).ToList();
-
-            playerEntities.ForEach(playerEntity =>
-            {
-                var playerPositionX = playerEntity.GetComponent<PositionComponent>().Position.X;
-                questionBlockEntities.Where(winFlagEntity =>
-                {
-                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>();
-                    return Math.Abs(winFlagPosition.Position.X - playerPositionX) < TOLERANCE;
-                }).ToList().ForEach(winFlagEntity =>
-                {
-                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>();
-                    var questionBlockComponent = winFlagEntity.GetComponent<QuestionBlockComponent>();
-
-                 //   Console.WriteLine(playerPositionX);
-                 //   Console.WriteLine(winFlagPosition.Position.X);
-                 //   Console.WriteLine('s');
-                 //   Console.WriteLine(questionBlockComponent.TypeContent);
-                   // Console.WriteLine(questionBlockComponent.Quantity);
-                });
-            });
-
-
-        }
-
 
         private static void ColitionWinGame(IEnumerable<Entity> entities)
         {

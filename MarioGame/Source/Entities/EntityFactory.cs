@@ -54,31 +54,24 @@ namespace SuperMarioBros.Source.Entities
 
                     break;
                 case EntityType.QUESTIONBLOCK:
-                    PositionComponent positionComponent =
+                    PositionComponent positionQuestionBlock =
                         new PositionComponent(new Vector2(entityData.position.x, entityData.position.y));
-                    entity.AddComponent(positionComponent);
+                    entity.AddComponent(positionQuestionBlock);
                     AnimationComponent questionBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(questionBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, questionBlockAnimationComponent.textureRectangle, BodyType.Static));
                     QuestionBlockComponent questionBlockComponent = new QuestionBlockComponent(entityData.TypeContent,entityData.Quantity);
                     entity.AddComponent(questionBlockComponent);
-                    Console.WriteLine(questionBlockComponent.TypeContent);
-                    Console.WriteLine(questionBlockComponent.Quantity);
-
                     break;
                 case EntityType.COINBLOCK:
                     AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(coinBlockAnimationComponent);
-                    PositionComponent positionComponent2 =
+                    PositionComponent positionCoinBlock =
                         new PositionComponent(new Vector2(entityData.position.x, entityData.position.y));
-                    entity.AddComponent(positionComponent2);
+                    entity.AddComponent(positionCoinBlock);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
                     CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent,entityData.Quantity);
                     entity.AddComponent(coinBlockComponent);
-
-                    Console.WriteLine(coinBlockComponent.TypeContent);
-                    Console.WriteLine(coinBlockComponent.Quantity);
-
                     break;
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
