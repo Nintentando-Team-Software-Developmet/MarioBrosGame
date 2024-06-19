@@ -11,6 +11,7 @@ namespace SuperMarioBros.Utils.DataStructures
         FLOWER,
         PIPE,
         FLAG,
+        NORMAL,
         CASTLE,
         MARIO,
         QUESTIONBLOCK,

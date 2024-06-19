@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
@@ -27,6 +28,9 @@ namespace MarioGame.Utils.DataStructures
 
         [JsonConverter(typeof(StringEnumConverter))]
         public EntitiesName name { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public EntitiesName TypeContent { get; set; }
+        public int Quantity { get; set; }
 
         public Position position { get; set; }
     }

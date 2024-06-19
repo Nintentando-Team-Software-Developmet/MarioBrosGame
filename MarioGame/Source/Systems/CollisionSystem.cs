@@ -18,7 +18,7 @@ namespace SuperMarioBros.Source.Systems
         private readonly Dictionary<Vector2, int> _tilemap;
         private readonly int _levelHeight;
 
-        private static double TOLERANCE { get; set; } = 1.01f;
+        private static double TOLERANCE { get; set; } = 5f;
         /*
         * Initializes a new instance of the CollisionSystem class.
         *
@@ -39,6 +39,7 @@ namespace SuperMarioBros.Source.Systems
         */
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
+
             if (entities == null)
                 return;
 
@@ -54,16 +55,57 @@ namespace SuperMarioBros.Source.Systems
                     {
                         positionComponent.Position = AdjustPosition(positionComponent.Position, velocityComponent.Velocity);
                         velocityComponent.Velocity = Vector2.Zero;
+
                     }
                     else
                     {
                         positionComponent.Position = futurePosition;
+
                     }
                 }
 
+                ColitionCoint(entities);
                 ColitionWinGame(entities);
+
             }
         }
+        private static void ColitionCoint(IEnumerable<Entity> entities)
+        {
+            var playerEntities = entities.Where(e =>
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<PlayerComponent>()
+            ).ToList();
+
+            var questionBlockEntities = entities.Where(e =>
+                e.HasComponent<AnimationComponent>() &&
+                e.HasComponent<PositionComponent>() &&
+                e.HasComponent<QuestionBlockComponent>()
+            ).ToList();
+
+            playerEntities.ForEach(playerEntity =>
+            {
+                var playerPositionX = playerEntity.GetComponent<PositionComponent>().Position.X;
+                questionBlockEntities.Where(winFlagEntity =>
+                {
+                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>();
+                    return Math.Abs(winFlagPosition.Position.X - playerPositionX) < TOLERANCE;
+                }).ToList().ForEach(winFlagEntity =>
+                {
+                    var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>();
+                    var questionBlockComponent = winFlagEntity.GetComponent<QuestionBlockComponent>();
+
+                 //   Console.WriteLine(playerPositionX);
+                 //   Console.WriteLine(winFlagPosition.Position.X);
+                 //   Console.WriteLine('s');
+                 //   Console.WriteLine(questionBlockComponent.TypeContent);
+                   // Console.WriteLine(questionBlockComponent.Quantity);
+                });
+            });
+
+
+        }
+
 
         private static void ColitionWinGame(IEnumerable<Entity> entities)
         {
@@ -89,6 +131,7 @@ namespace SuperMarioBros.Source.Systems
                 foreach (var winFlagEntity in winFlagEntities)
                 {
                     var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position.X;
+
                     if (Math.Abs(playerPosition - winFlagPosition) < TOLERANCE)
                     {
                         playerComponent.colition = true;
