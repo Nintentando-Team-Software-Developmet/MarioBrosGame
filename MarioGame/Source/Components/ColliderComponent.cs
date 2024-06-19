@@ -11,6 +11,9 @@ namespace SuperMarioBros.Source.Components
     public class ColliderComponent : BaseComponent
     {
         public Body collider { get; set; }
+        public float maxSpeed { get; set;}
+        public float acceleration { get; set;}
+        public float friction { get; set;}
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {

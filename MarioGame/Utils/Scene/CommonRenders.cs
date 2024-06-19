@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -127,27 +127,9 @@ public static class CommonRenders
                 new Vector2(1f), SpriteEffects.None, 0f);
     }
 
-    /*
-     * Draws an entity on the screen.
-     */
+    
+
     public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
-    {
-        if (spriteBatch == null || animation == null || collider == null)
-            return;
-
-        float entityPosX = collider.collider.Position.X * Constants.pixelPerMeter;
-        float entityPosY = collider.collider.Position.Y * Constants.pixelPerMeter;
-        Vector2 entityPosition = new Vector2(entityPosX, entityPosY);
-
-        int textureRectX = (int)entityPosition.X - animation.width / 2;
-        int textureRectY = (int)entityPosition.Y - animation.height / 2;
-        animation.textureRectangle = new Rectangle(textureRectX, textureRectY, animation.width, animation.height);
-
-        Texture2D currentTexture = animation.Textures[animation.CurrentFrame];
-        spriteBatch.Draw(currentTexture, animation.textureRectangle, Color.White);
-    }
-
-    public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponen animation, ColliderComponent collider)
     {
        if (spriteBatch == null || animation == null || collider == null)
             return;

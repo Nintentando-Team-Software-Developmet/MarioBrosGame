@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Systems;
 
@@ -50,8 +51,7 @@ public class WinGameSystem
             var position = entity.GetComponent<PositionComponent>();
 
             InitialPosition = position.Position;
-            spritesheets = new Texture2D[] { playerAnimation.Textures[0], playerAnimation.Textures[1] };
-
+            spritesheets = playerAnimation.animations[AnimationState.STOP];
             if (spritePosition == Vector2.Zero)
             {
                 spritePosition = new Vector2(2800, 10);

@@ -55,7 +55,7 @@ namespace SuperMarioBros.Source.Scenes
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
-            physicsWorld = new World(new AetherVector2(0, 9.8f));
+            physicsWorld = new World(new AetherVector2(0, 20f));
             _flagSoundEffect = null;
             _isFlagEventPlayed = false;
             _isLevelCompleted = false;
@@ -82,7 +82,6 @@ namespace SuperMarioBros.Source.Scenes
         {
             Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CameraSystem());
-            Systems.Add(new BlinkAnimationSystem(spriteData.spriteBatch));
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
         }

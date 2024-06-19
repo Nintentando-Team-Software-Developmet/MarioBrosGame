@@ -91,32 +91,70 @@ namespace MarioGame
             { "QUESTION_BLOCK", Sprites.QuestionBlockBrown}
         };
 
-        public static readonly Dictionary<EntitiesName, Texture2D[]> entityTextures = new Dictionary<EntitiesName, Texture2D[]>
+        
+
+        public static readonly Dictionary<AnimationState,Texture2D[]>  playerAnimations = new Dictionary<AnimationState, Texture2D[]>
+            {
+                { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk2, Sprites.SmallWalk3 } },
+                { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk2Left, Sprites.SmallWalk3Left } },
+                { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.SmallJumpLeft } },
+                { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.SmallJump } },
+                { AnimationState.RUNLEFT, new Texture2D[] { Sprites.SmallRunLeft } },
+                { AnimationState.RUNRIGHT, new Texture2D[] { Sprites.SmallRun } },
+                { AnimationState.STOP, new Texture2D[] { Sprites.SmallStop } },
+                { AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeft } },
+                { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } }
+            };
+        
+        public static readonly Dictionary<AnimationState, Texture2D[]> goombaAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
-            { EntitiesName.MARIO, playerTextures },
-            { EntitiesName.GOOMBA, goombaTextures },
-            { EntitiesName.FLAG, FlagWinTextures },
-            { EntitiesName.QUESTIONBLOCK,  questionBlockTextures },
-            { EntitiesName.COINBLOCK,  coinBlockTextures},
-            { EntitiesName.BLOCK,  blockTextures},
-            { EntitiesName.DUCTEXTENSION,  ductExtensionTextures},
-            { EntitiesName.DUCT,  ductTextures},
+            { AnimationState.STOP, new Texture2D[] { Sprites.Goomba1, Sprites.Goomba2 } },
+            { AnimationState.DIE, new Texture2D[] { Sprites.Goomba3 } }
         };
 
-        public static Dictionary<AnimationState,Texture2D[]> MarioSmallAnimation()
+        public static readonly Dictionary<AnimationState, Texture2D[]> questionBLockAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
-            Dictionary<AnimationState, Texture2D[]> animations = new Dictionary<AnimationState, Texture2D[]>();
-            animations.Add(AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk2, Sprites.SmallWalk3 });
-            animations.Add(AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk2Left, Sprites.SmallWalk3Left });
-            animations.Add(AnimationState.JUMPLEFT, new Texture2D[] { Sprites.SmallJumpLeft });
-            animations.Add(AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.SmallJump });
-            animations.Add(AnimationState.RUNLEFT, new Texture2D[] { Sprites.SmallRunLeft });
-            animations.Add(AnimationState.RUNRIGHT, new Texture2D[] { Sprites.SmallRun });
-            animations.Add(AnimationState.STOP, new Texture2D[] { Sprites.SmallStop });
-            animations.Add(AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeft });
-            animations.Add(AnimationState.DIE, new Texture2D[] { Sprites.SmallDie });
-            return animations;
-        }  
+            { AnimationState.BlINK, new Texture2D[] { Sprites.QuestionBlockAny, Sprites.QuestionBlockBrown } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> coinBlockAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.BrickBlockBrown } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> blockAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.PolishedStoneBlockBrown } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> ductExtensionAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.STOP, new Texture2D[] { Sprites.DuctVerticalGreen } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> ductAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.STOP, new Texture2D[] { Sprites.DuctSquareGreen } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> flagWinAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.STOP, new Texture2D[] { Sprites.WinFlagGreen, Sprites.WinFlag } }
+            //TODO: Modify for the flag win animation
+        };
+
+        public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName,  Dictionary<AnimationState, Texture2D[]>>
+        {
+            { EntitiesName.MARIO, playerAnimations },
+            { EntitiesName.GOOMBA, goombaAnimations },
+            { EntitiesName.FLAG, flagWinAnimations },
+            { EntitiesName.QUESTIONBLOCK,  questionBLockAnimations },
+            { EntitiesName.COINBLOCK,  coinBlockAnimations},
+            { EntitiesName.BLOCK,  blockAnimations},
+            { EntitiesName.DUCTEXTENSION,  ductExtensionAnimations},
+            { EntitiesName.DUCT,  ductAnimations},
+        };
+
 
     }
 }

@@ -15,17 +15,18 @@ namespace SuperMarioBros.Source.Systems
     
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent));
+            IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent), typeof(AnimationComponent));
             foreach (var entity in movementEntities)
             {
                 var collider = entity.GetComponent<ColliderComponent>();
                 var movement = entity.GetComponent<MovementComponent>();
+                var animation = entity.GetComponent<AnimationComponent>();
                 if(entity.HasComponent<PlayerComponent>()) continue;
-                if (collider != null && movement != null)
+                if (collider != null && movement != null && animation != null)
                 {
                     if (!registeredEntities.Contains(entity))
                     {
-                        RegisterChangePositionEvent(collider, movement);
+                        RegisterChangePositionEvent(collider, movement, animation);
                         registeredEntities.Add(entity);
                     }
                     if (movement.direcction == MovementType.LEFT)
@@ -40,7 +41,7 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement)
+        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement, AnimationComponent animation)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
@@ -50,10 +51,18 @@ namespace SuperMarioBros.Source.Systems
                     if (movement.direcction == MovementType.LEFT)
                     {
                         movement.direcction = MovementType.RIGHT;
+                        if(animation.containsState(AnimationState.WALKRIGHT))
+                        {
+                            animation.Play(AnimationState.WALKRIGHT);
+                        }
                     }
                     else if (movement.direcction == MovementType.RIGHT)
                     {
                         movement.direcction = MovementType.LEFT;
+                        if(animation.containsState(AnimationState.WALKLEFT))
+                        {
+                            animation.Play(AnimationState.WALKLEFT);
+                        }
                     }
                 }
                 return true;

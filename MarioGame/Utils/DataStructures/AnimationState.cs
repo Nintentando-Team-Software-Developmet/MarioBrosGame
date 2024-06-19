@@ -13,6 +13,7 @@ namespace SuperMarioBros.Utils.DataStructures
         STOP,
         STOPLEFT,
         DIE,
-        BlIKN,
+        BlINK,
+        WIN
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,10 +21,10 @@ namespace SuperMarioBros.Source.Systems
         }
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> animationEntities = entities.WithComponents(typeof(AnimationComponen));
+            IEnumerable<Entity> animationEntities = entities.WithComponents(typeof(AnimationComponent));
             foreach (var entity in animationEntities)
             {
-                var animation = entity.GetComponent<AnimationComponen>();
+                var animation = entity.GetComponent<AnimationComponent>();
                 if (animation != null)
                 {
                     animation.timeElapsed += (float)gameTime?.ElapsedGameTime.TotalSeconds;
@@ -42,10 +43,11 @@ namespace SuperMarioBros.Source.Systems
         }
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> animationEntities = entities.WithComponents(typeof(AnimationComponen));
+            IEnumerable<Entity> animationEntities = entities.WithComponents(typeof(AnimationComponent));
+            Console.WriteLine(animationEntities.Count());
             foreach (var entity in animationEntities)
             {
-                var animation = entity.GetComponent<AnimationComponen>();
+                var animation = entity.GetComponent<AnimationComponent>();
                 var collider = entity.GetComponent<ColliderComponent>();
                 if (animation != null && collider != null)
                 {
