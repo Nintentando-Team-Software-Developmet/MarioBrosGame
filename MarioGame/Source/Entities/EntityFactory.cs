@@ -50,6 +50,8 @@ namespace SuperMarioBros.Source.Entities
                 case EntityType.WINGAME:
                     entity.AddComponent(new WinGameComponent());
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
+
                     break;
                 case EntityType.QUESTIONBLOCK:
                     AnimationComponent questionBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
