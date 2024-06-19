@@ -27,7 +27,7 @@ namespace SuperMarioBros.Source.Systems
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
                 var keyboardState = Keyboard.GetState();
-                GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+                var gamePadState = GamePad.GetState(PlayerIndex.One);
                 if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
                 {
                     HandleLeftKey(collider, animation, movement);

@@ -259,9 +259,6 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
-            using(var db = new DebuggerColliders(physicsWorld, spriteData)){
-                db.DrawColliders();
-            }
             spriteData.spriteBatch.End();
         }
 
