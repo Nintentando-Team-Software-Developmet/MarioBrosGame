@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
-
 namespace SuperMarioBros.Utils.SceneCommonData;
 
 public static class CommonRenders
