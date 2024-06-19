@@ -5,11 +5,11 @@ namespace SuperMarioBros.Source.Components
     public class EnemyComponent : BaseComponent
     {
         public bool IsAlive { get; set; }
-        public EntitiesName DiedName { get; set; }
-        public EnemyComponent( EntitiesName diedName)
+        public EntitiesName KilledName { get; set; }
+        public EnemyComponent( EntitiesName killedName)
         {
             IsAlive = true;
-            DiedName = diedName;
+            KilledName = killedName;
         }
     }
 }
