@@ -18,7 +18,7 @@ namespace SuperMarioBros.Source.Systems
         private readonly Dictionary<Vector2, int> _tilemap;
         private readonly int _levelHeight;
 
-        private static double TOLERANCE { get; set; } = 1.01f;
+        private static double TOLERANCE { get; set; } = 5f;
         /*
         * Initializes a new instance of the CollisionSystem class.
         *
@@ -39,6 +39,7 @@ namespace SuperMarioBros.Source.Systems
         */
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
+
             if (entities == null)
                 return;
 
@@ -54,13 +55,14 @@ namespace SuperMarioBros.Source.Systems
                     {
                         positionComponent.Position = AdjustPosition(positionComponent.Position, velocityComponent.Velocity);
                         velocityComponent.Velocity = Vector2.Zero;
+
                     }
                     else
                     {
                         positionComponent.Position = futurePosition;
+
                     }
                 }
-
                 ColitionWinGame(entities);
             }
         }
@@ -89,6 +91,7 @@ namespace SuperMarioBros.Source.Systems
                 foreach (var winFlagEntity in winFlagEntities)
                 {
                     var winFlagPosition = winFlagEntity.GetComponent<PositionComponent>().Position.X;
+
                     if (Math.Abs(playerPosition - winFlagPosition) < TOLERANCE)
                     {
                         playerComponent.colition = true;
@@ -115,6 +118,7 @@ namespace SuperMarioBros.Source.Systems
             {
                 return _tilemap.ContainsKey(new Vector2(tileX, tileY));
             }
+
 
             return false;
         }
