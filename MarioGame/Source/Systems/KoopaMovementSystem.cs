@@ -81,9 +81,7 @@ public class KoopaMovementSystem : BaseSystem
         collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
         {
             AetherVector2 normal = contact.Manifold.LocalNormal;
-            if (Math.Abs(normal.X) < Math.Abs(normal.Y))
-            {
-                if (normal.Y > 0 && !koopaComponent.IsKnocked && !koopaComponent.IsReviving)
+                if (normal.Y > -0.5 && !koopaComponent.IsKnocked && !koopaComponent.IsReviving)
                 {
                     koopaComponent.IsKnocked = true;
                     koopaComponent.IsReviving = false;
@@ -92,16 +90,18 @@ public class KoopaMovementSystem : BaseSystem
                     koopaComponent.Hits = 1;
                     registeredEntities.Remove(entity);
                 }
-                else if (normal.Y < 0 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) && koopaComponent.Hits >= 4)
+                else if (normal.Y < -0.5 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) && koopaComponent.Hits >= 4)
                 {
                     enemyComponent.IsAlive = false;
+                    registeredEntities.Remove(entity);
                 }
-                else if (normal.Y < 0 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) &&
+                else if (normal.Y < -0.5 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) &&
                          koopaComponent.Hits < 4)
                 {
                     koopaComponent.Hits += 1;
+                    registeredEntities.Remove(entity);
                 }
-            }
+
             return true;
         };
     }

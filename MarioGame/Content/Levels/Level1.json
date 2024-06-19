@@ -150,7 +150,7 @@
         },
         {
             "type": "ENEMY",
-            "name": "KOOPALEFT",
+            "name": "KOOPA",
             "position": {
                 "x": 6816,
                 "y": 720

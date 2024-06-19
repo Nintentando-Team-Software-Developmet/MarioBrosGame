@@ -152,8 +152,20 @@ namespace MarioGame
             { EntitiesName.DUCT,  ductTextures},
             { EntitiesName.MUSHROOM, mushroomTextures},
             { EntitiesName.FLOWER, fireFlowerTextures},
-            { EntitiesName.STAR, superStarTextures}
+            { EntitiesName.STAR, superStarTextures},
+            { EntitiesName.KOOPA,  koopaLeftTextures},
+        };
 
+        public static readonly Dictionary<KoopaSpriteStates, Texture2D[]> KoopaEntityTextures = new Dictionary<KoopaSpriteStates, Texture2D[]>
+        {
+            { KoopaSpriteStates.KOOPARIGTH,  koopaRigthTextures},
+            { KoopaSpriteStates.KOOPALEFT,  koopaLeftTextures},
+            { KoopaSpriteStates.KOOPAKNOCKED,  koopaKnockedTextures},
+            { KoopaSpriteStates.KOOPAREVIVE,  koopaReviveTextures},
+        };
+        public static readonly Dictionary<string, Texture2D[]> DeathEntityTextures = new Dictionary<string, Texture2D[]>
+        {
+            { "koopaDeath", koopaDiesTextures},
         };
     }
 }
