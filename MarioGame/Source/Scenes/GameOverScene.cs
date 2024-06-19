@@ -36,7 +36,7 @@ public class GameOverScene : IScene, IDisposable
     public void Load(SpriteData spriteData)
     {
         Sprites.Load(spriteData?.content);
-        MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/game_over"));
+        //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/game_over"));
         MediaPlayer.IsRepeating = true;
 
     }

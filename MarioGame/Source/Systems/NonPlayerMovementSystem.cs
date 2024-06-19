@@ -12,7 +12,7 @@ namespace SuperMarioBros.Source.Systems
     public class NonPlayerMovementSystem : BaseSystem
     {
         private HashSet<Entity> registeredEntities = new HashSet<Entity>();
-    
+
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent));
@@ -28,11 +28,11 @@ namespace SuperMarioBros.Source.Systems
                         RegisterChangePositionEvent(collider, movement);
                         registeredEntities.Add(entity);
                     }
-                    if (movement.direcction == MovementType.LEFT)
+                    if (movement.Direction == MovementType.LEFT)
                     {
                         collider.collider.LinearVelocity = new AetherVector2(-1.1f, collider.collider.LinearVelocity.Y);
                     }
-                    else if (movement.direcction == MovementType.RIGHT)
+                    else if (movement.Direction == MovementType.RIGHT)
                     {
                         collider.collider.LinearVelocity = new AetherVector2(1.1f, collider.collider.LinearVelocity.Y);
                     }
@@ -47,13 +47,13 @@ namespace SuperMarioBros.Source.Systems
                 AetherVector2 normal = contact.Manifold.LocalNormal;
                 if (Math.Abs(normal.X) > Math.Abs(normal.Y))
                 {
-                    if (movement.direcction == MovementType.LEFT)
+                    if (movement.Direction == MovementType.LEFT)
                     {
-                        movement.direcction = MovementType.RIGHT;
+                        movement.Direction = MovementType.RIGHT;
                     }
-                    else if (movement.direcction == MovementType.RIGHT)
+                    else if (movement.Direction == MovementType.RIGHT)
                     {
-                        movement.direcction = MovementType.LEFT;
+                        movement.Direction = MovementType.LEFT;
                     }
                 }
                 return true;

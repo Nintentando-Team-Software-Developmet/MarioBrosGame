@@ -32,6 +32,13 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     break;
+                case EntityType.POWERUP:
+                    AnimationComponent mushroomAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
+                    entity.AddComponent(mushroomAnimationComponent);
+                    entity.AddComponent(new EnemyComponent());
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic));
+                    entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    break;
                 case EntityType.PLAYER:
                     entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
                     AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name]);

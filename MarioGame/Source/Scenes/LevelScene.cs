@@ -74,7 +74,7 @@ namespace SuperMarioBros.Source.Scenes
             LoadEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
         }
 
@@ -263,6 +263,10 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+            using (var deb = new DebuggerColliders(physicsWorld, spriteData))
+            {
+                deb.DrawColliders();
+            }
             spriteData.spriteBatch.End();
         }
 

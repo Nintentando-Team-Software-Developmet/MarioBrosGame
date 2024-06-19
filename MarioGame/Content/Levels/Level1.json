@@ -21,10 +21,10 @@
             }
         },
         {
-            "type": "ENEMY",
-            "name": "GOOMBA",
+            "type": "POWERUP",
+            "name": "MUSHROOM",
             "position": {
-                "x": 110,
+                "x": 130,
                 "y": 517
             }
         }

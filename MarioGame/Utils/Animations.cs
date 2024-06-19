@@ -77,6 +77,21 @@ namespace MarioGame
             Sprites.DuctVerticalGreen
         };
 
+        public static readonly Texture2D[] mushroomTextures = new Texture2D[]
+        {
+            Sprites.GrowMushroom1
+        };
+
+        public static readonly Texture2D[] fireFlowerTextures = new Texture2D[]
+        {
+            Sprites.FireFlower1
+        };
+
+        public static readonly Texture2D[] superStarTextures = new Texture2D[]
+        {
+            Sprites.SuperStar1
+        };
+
         public static readonly Dictionary<string, Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
         {
             { "BUSH", Sprites.BushMenu },
@@ -105,7 +120,9 @@ namespace MarioGame
             { EntitiesName.BLOCK,  blockTextures},
             { EntitiesName.DUCTEXTENSION,  ductExtensionTextures},
             { EntitiesName.DUCT,  ductTextures},
-
+            { EntitiesName.MUSHROOM, mushroomTextures},
+            { EntitiesName.FLOWER, fireFlowerTextures},
+            { EntitiesName.STAR, superStarTextures}
 
         };
     }
