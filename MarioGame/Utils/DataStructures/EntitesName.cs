@@ -7,6 +7,7 @@ namespace SuperMarioBros.Utils.DataStructures
         KOOPARIGTH,
         KOOPAKNOCKED,
         KOOPAREVIVE,
+        KOOPADIES,
         BLOCK,
         COIN,
         MUSHROOM,
