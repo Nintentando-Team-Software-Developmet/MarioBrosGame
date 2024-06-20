@@ -45,7 +45,8 @@ namespace SuperMarioBros.Source.Scenes
         private bool _isLevelCompleted { get; set; }
         private double _levelCompleteDisplayTime;
         private const double LevelCompleteMaxDisplayTime = 10.0;
-        private HashSet<string> _loadedEntities { get; }// Keep track of loaded entities
+        private HashSet<string> _loadedEntities { get; }
+        private const int LoadRadius = 1000;
 
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
@@ -114,14 +115,13 @@ namespace SuperMarioBros.Source.Scenes
             {
                 Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld));
                 _loadedEntities.Add(GetEntityKey(playerEntityData));
-                _levelData.entities.Remove(playerEntityData); // Remove the player entity from the list to avoid loading it again
             }
 
             // Load initial static entities near the player's starting position
             var initialStaticEntities = map.staticEntities.entities.Where(entityData =>
             {
                 var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
-                return Vector2.Distance(new Vector2(playerEntityData.position.x, playerEntityData.position.y), entityPosition) <= 500; // Adjust the radius as needed
+                return Vector2.Distance(new Vector2(playerEntityData.position.x, playerEntityData.position.y), entityPosition) <= LoadRadius; // Adjust the radius as needed
             }).ToList();
 
             foreach (var entity in initialStaticEntities)
@@ -131,7 +131,6 @@ namespace SuperMarioBros.Source.Scenes
             }
 
             // Remove loaded static entities from the list to avoid reloading
-            map.staticEntities.entities = map.staticEntities.entities.Except(initialStaticEntities).ToList();
 
         }
 
@@ -159,6 +158,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             Entities.ClearAll();
             Systems.Clear();
+            _loadedEntities.Clear();
 
             foreach (var body in physicsWorld.BodyList.ToList())
             {
@@ -188,7 +188,7 @@ namespace SuperMarioBros.Source.Scenes
             if (playerEntity != null)
             {
                 var playerPosition = playerEntity.GetComponent<PositionComponent>().Position;
-                LoadEntitiesNearPlayer(playerPosition, 500); // Adjust the load radius as needed
+                LoadEntitiesNearPlayer(playerPosition, LoadRadius); // Adjust the load radius as needed
             }
 
             if (!_isFlagEventPlayed)

@@ -14,7 +14,7 @@ namespace SuperMarioBros.Source.Managers;
 public class ProgressDataManager
 {
     private ProgressData _data;
-    private const int DefaultTime = 70;
+    private const int DefaultTime = 10;
     private HighScoreManager _highScoreManager;
 
     public ProgressDataManager()
