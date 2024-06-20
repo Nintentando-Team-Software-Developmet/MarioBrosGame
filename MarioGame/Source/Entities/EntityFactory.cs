@@ -1,13 +1,17 @@
+using System;
+using System.Collections.Generic;
+
 using MarioGame;
 using MarioGame.Utils.DataStructures;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
-using System;
-using System.Collections.Generic;
 
 namespace SuperMarioBros.Source.Entities
 {
@@ -57,14 +61,14 @@ namespace SuperMarioBros.Source.Entities
                     AnimationComponent questionBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(questionBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, questionBlockAnimationComponent.textureRectangle, BodyType.Static));
-                    QuestionBlockComponent questionBlockComponent = new QuestionBlockComponent(entityData.TypeContent,entityData.Quantity);
+                    QuestionBlockComponent questionBlockComponent = new QuestionBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(questionBlockComponent);
                     break;
                 case EntityType.COINBLOCK:
                     AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 68, 64);
                     entity.AddComponent(coinBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
-                    CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent,entityData.Quantity);
+                    CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(coinBlockComponent);
                     break;
                 case EntityType.BLOCK:

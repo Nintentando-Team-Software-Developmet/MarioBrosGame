@@ -9,7 +9,7 @@ public class QuestionBlockComponent : BaseComponent
     public EntitiesName TypeContent { get; set; }
     public int Quantity { get; set; }
 
-    public QuestionBlockComponent(EntitiesName typeContent,int quantity)
+    public QuestionBlockComponent(EntitiesName typeContent, int quantity)
     {
         TypeContent = typeContent;
         Quantity = quantity;
