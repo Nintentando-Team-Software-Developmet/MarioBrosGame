@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
@@ -29,13 +33,40 @@ namespace SuperMarioBros.Source.Systems
                         RegisterChangePositionEvent(collider, movement, animation);
                         registeredEntities.Add(entity);
                     }
-                    if (movement.direcction == MovementType.LEFT)
+
+                    float verticalVelocity = collider.collider.LinearVelocity.Y;
+                    float horizontalVelocity = 1.1f;
+                    BaseComponent entityComponent;
+
+                    if (entity.HasComponent<StarComponent>())
                     {
-                        collider.collider.LinearVelocity = new AetherVector2(-1.1f, collider.collider.LinearVelocity.Y);
+                        
+                        
+                      entityComponent = entity.GetComponent<StarComponent>();
+                        ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
+                        horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
+                        verticalVelocity = ((StarComponent)entityComponent).VerticalVelocity;
+                    
+                        if (!collider.isJumping())
+                        {
+                            collider.collider.ApplyLinearImpulse(new AetherVector2(0, -3.8f));
+                        }
                     }
-                    else if (movement.direcction == MovementType.RIGHT)
+
+                    else if (entity.HasComponent<MushroomComponent>())
                     {
-                        collider.collider.LinearVelocity = new AetherVector2(1.1f, collider.collider.LinearVelocity.Y);
+                        entityComponent = entity.GetComponent<MushroomComponent>();
+                        horizontalVelocity = ((MushroomComponent)entityComponent).HorizontalVelocity;
+                    }
+
+                    switch (movement.Direction)
+                    {
+                        case MovementType.LEFT:
+                            collider.collider.LinearVelocity = new AetherVector2(-horizontalVelocity, collider.collider.LinearVelocity.Y);
+                            break;
+                        case MovementType.RIGHT:
+                            collider.collider.LinearVelocity = new AetherVector2(horizontalVelocity, collider.collider.LinearVelocity.Y);
+                            break;
                     }
                 }
             }
@@ -46,19 +77,19 @@ namespace SuperMarioBros.Source.Systems
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
                 AetherVector2 normal = contact.Manifold.LocalNormal;
-                if (Math.Abs(normal.X) > Math.Abs(normal.Y))
+                if (CollisionAnalyzer.GetCollisionType(contact) == CollisionType.HORIZONTAL)
                 {
-                    if (movement.direcction == MovementType.LEFT)
+                    if (movement.Direction == MovementType.LEFT)
                     {
-                        movement.direcction = MovementType.RIGHT;
+                        movement.Direction = MovementType.RIGHT;
                         if(animation.containsState(AnimationState.WALKRIGHT))
                         {
                             animation.Play(AnimationState.WALKRIGHT);
                         }
                     }
-                    else if (movement.direcction == MovementType.RIGHT)
+                    else if (movement.Direction == MovementType.RIGHT)
                     {
-                        movement.direcction = MovementType.LEFT;
+                        movement.Direction = MovementType.LEFT;
                         if(animation.containsState(AnimationState.WALKLEFT))
                         {
                             animation.Play(AnimationState.WALKLEFT);
@@ -70,3 +101,4 @@ namespace SuperMarioBros.Source.Systems
         }
     }
 }
+

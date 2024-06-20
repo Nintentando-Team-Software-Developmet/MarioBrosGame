@@ -73,6 +73,25 @@ namespace MarioGame
             Sprites.DuctVerticalGreen
         };
 
+        public static readonly Texture2D[] mushroomTextures = new Texture2D[]
+        {
+            Sprites.GrowMushroom1
+        };
+
+        public static readonly Texture2D[] fireFlowerTextures = new Texture2D[]
+        {
+            Sprites.FireFlower1,
+            Sprites.FireFlower2,
+            Sprites.FireFlower3
+        };
+
+        public static readonly Texture2D[] superStarTextures = new Texture2D[]
+        {
+            Sprites.SuperStar1,
+            Sprites.SuperStar2,
+            Sprites.SuperStar3
+        };
+
         public static readonly Dictionary<string, Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
         {
             { "BUSH", Sprites.BushMenu },
@@ -143,6 +162,21 @@ namespace MarioGame
             //TODO: Modify for the flag win animation
         };
 
+        public static readonly Dictionary<AnimationState, Texture2D[]> mushroomAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.STOP, new Texture2D[] { Sprites.GrowMushroom1 } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> fireFlowerAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.FireFlower1, Sprites.FireFlower2, Sprites.FireFlower3 } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> superStarAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.SuperStar1, Sprites.SuperStar2, Sprites.SuperStar3 } }
+        };
+
         public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName,  Dictionary<AnimationState, Texture2D[]>>
         {
             { EntitiesName.MARIO, playerAnimations },
@@ -153,6 +187,9 @@ namespace MarioGame
             { EntitiesName.BLOCK,  blockAnimations},
             { EntitiesName.DUCTEXTENSION,  ductExtensionAnimations},
             { EntitiesName.DUCT,  ductAnimations},
+            { EntitiesName.MUSHROOM,  mushroomAnimations},
+            { EntitiesName.FLOWER,  fireFlowerAnimations},
+            { EntitiesName.STAR,  superStarAnimations}
         };
 
 

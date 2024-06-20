@@ -25,8 +25,155 @@
             "type": "ENEMY",
             "name": "GOOMBA",
             "position": {
-                "x": 1000,
-                "y": 645
+                "x": 1472,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 2752,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 3072,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 3168,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 5312,
+                "y": 256
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 5376,
+                "y": 256
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 6464,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 6400,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7040,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7360,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7872,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7946,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 8074,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 8148,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 11200,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 11284,
+                "y": 768
+            }
+        },
+
+
+
+
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 170,
+                "y": 517
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "FLOWER",
+            "position": {
+                "x": 1314,
+                "y": 300 }
+        },
+        {
+            "type": "POWERUP",
+            "name": "STAR",
+            "position": {
+                "x": 180,
+                "y": 517
             }
         }
     ]

@@ -58,8 +58,7 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.WALKLEFT);
                 }
             }
-
-            movement.direcction = MovementType.LEFT;
+            movement.Direction = MovementType.LEFT;
             if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
             {
                 collider.collider.ApplyForce(new AetherVector2(-collider.acceleration, 0));
@@ -79,7 +78,7 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.WALKRIGHT);
                 }
             }
-            movement.direcction = MovementType.RIGHT;
+            movement.Direction = MovementType.RIGHT;
             if (collider.collider.LinearVelocity.X < collider.maxSpeed)
             {
                 collider.collider.ApplyForce(new AetherVector2(collider.acceleration, 0));
@@ -92,15 +91,15 @@ namespace SuperMarioBros.Source.Systems
             {
                 if (keyboardState.IsKeyDown(Keys.Z)) keyboardJumpReleased = false;
                 if (gamePadState.Buttons.A == ButtonState.Pressed) gamepadJumpReleased = false;
-                if (movement.direcction == MovementType.LEFT)
+                if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.JUMPLEFT);
-                    movement.direcction = MovementType.LEFT;
+                    movement.Direction = MovementType.LEFT;
                 }
-                else if (movement.direcction == MovementType.RIGHT)
+                else if (movement.Direction == MovementType.RIGHT)
                 {
                     animation.Play(AnimationState.JUMPRIGHT);
-                    movement.direcction = MovementType.RIGHT;
+                    movement.Direction = MovementType.RIGHT;
                 }
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
             }
@@ -120,11 +119,11 @@ namespace SuperMarioBros.Source.Systems
             {
                 collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y);
             }
-            if (movement.direcction == MovementType.LEFT && !collider.isJumping())
+            if (movement.Direction == MovementType.LEFT && !collider.isJumping())
             {
                 animation.Play(AnimationState.STOPLEFT);
             }
-            else if (movement.direcction == MovementType.RIGHT && !collider.isJumping())
+            else if (movement.Direction == MovementType.RIGHT && !collider.isJumping())
             {
                 animation.Play(AnimationState.STOP);
             }

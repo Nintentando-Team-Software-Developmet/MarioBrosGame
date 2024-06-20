@@ -2,13 +2,13 @@ using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Components
 {
-    public class MovementComponent: BaseComponent
+    public class MovementComponent : BaseComponent
     {
-        public MovementType direcction { get; set; }
-        
-        public MovementComponent(MovementType direcction)
+        public MovementType Direction { get; set; }
+
+        public MovementComponent(MovementType direction)
         {
-            this.direcction = direcction;
+            this.Direction = direction;
         }
 
     }

@@ -1,6 +1,9 @@
+using System;
+
 using Microsoft.Xna.Framework;
 
 using nkast.Aether.Physics2D.Dynamics;
+using nkast.Aether.Physics2D.Dynamics.Contacts;
 
 using SuperMarioBros.Utils;
 
@@ -14,6 +17,7 @@ namespace SuperMarioBros.Source.Components
         public float maxSpeed { get; set;}
         public float acceleration { get; set;}
         public float friction { get; set;}
+        public CollisionType lastCollision { get; set; }
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
@@ -21,6 +25,7 @@ namespace SuperMarioBros.Source.Components
             collider = physicsWorld?.CreateBody(position, rotation, bodyType);
             collider.FixedRotation = true;
             collider.CreateRectangle(rectangle.Width / Constants.pixelPerMeter, rectangle.Height / Constants.pixelPerMeter, 1f, AetherVector2.Zero);
+            collider.OnCollision += HandleCurrentCollision;
         }
 
         public bool isJumping()
@@ -34,6 +39,12 @@ namespace SuperMarioBros.Source.Components
             {
                 return new Vector2(collider.Position.X * Constants.pixelPerMeter, collider.Position.Y * Constants.pixelPerMeter);
             }
+        }
+
+        private bool HandleCurrentCollision( Fixture fixtureA, Fixture fixtureB, Contact contact )
+        {
+            lastCollision = CollisionAnalyzer.GetDirectionCollision(contact);
+            return true;
         }
     }
 }
