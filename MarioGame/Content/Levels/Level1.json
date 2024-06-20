@@ -24,7 +24,7 @@
             "type": "ENEMY",
             "name": "GOOMBA",
             "position": {
-                "x": 110,
+                "x": 140,
                 "y": 517
             }
         }
