@@ -2,7 +2,7 @@ using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Components
 {
-    public class MovementComponent: BaseComponent
+    public class MovementComponent : BaseComponent
     {
         public MovementType Direction { get; set; }
 

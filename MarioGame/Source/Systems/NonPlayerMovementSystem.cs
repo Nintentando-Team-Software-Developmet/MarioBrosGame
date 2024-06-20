@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
@@ -20,7 +23,7 @@ namespace SuperMarioBros.Source.Systems
             {
                 var collider = entity.GetComponent<ColliderComponent>();
                 var movement = entity.GetComponent<MovementComponent>();
-                if(entity.HasComponent<PlayerComponent>()) continue;
+                if (entity.HasComponent<PlayerComponent>()) continue;
                 if (collider != null && movement != null)
                 {
                     if (!registeredEntities.Contains(entity))
