@@ -1,4 +1,4 @@
-﻿namespace SuperMarioBros.Source.Components;
+namespace SuperMarioBros.Source.Components;
 
 public class StarComponent : BaseComponent
 {
