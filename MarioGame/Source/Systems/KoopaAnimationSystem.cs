@@ -85,7 +85,7 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
                     {
                         entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.RevivingName], 64, 64));
                     }
-                    else switch (movement.direcction)
+                    else switch (movement.Direction)
                     {
                         case MovementType.LEFT:
                             entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.LeftName], 64, 64));

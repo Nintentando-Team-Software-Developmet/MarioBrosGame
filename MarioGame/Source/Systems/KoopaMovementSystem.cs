@@ -38,21 +38,21 @@ public class KoopaMovementSystem : BaseSystem
             }
             else if (koopa.IsKnocked)
             {
-                if (movement.direcction == MovementType.LEFT && koopa.Hits == 3)
+                if (movement.Direction == MovementType.LEFT && koopa.Hits == 3)
                 {
                     collider.collider.LinearVelocity = new AetherVector2(-4.1f, collider.collider.LinearVelocity.Y);
                     koopa.KnockedTime += 0.01f;
                 }
-                else if (movement.direcction == MovementType.RIGHT && koopa.Hits == 3)
+                else if (movement.Direction == MovementType.RIGHT && koopa.Hits == 3)
                 {
                     collider.collider.LinearVelocity = new AetherVector2(4.1f, collider.collider.LinearVelocity.Y);
                     koopa.KnockedTime += 0.01f;
                 }
-                else if (movement.direcction == MovementType.RIGHT && koopa.Hits == 1)
+                else if (movement.Direction == MovementType.RIGHT && koopa.Hits == 1)
                 {
                     collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
                 }
-                else if (movement.direcction == MovementType.LEFT && koopa.Hits == 1)
+                else if (movement.Direction == MovementType.LEFT && koopa.Hits == 1)
                 {
                     collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
                 }
@@ -65,7 +65,7 @@ public class KoopaMovementSystem : BaseSystem
             }
             else
             {
-                collider.collider.LinearVelocity = movement.direcction switch
+                collider.collider.LinearVelocity = movement.Direction switch
                 {
                     MovementType.LEFT => new AetherVector2(-1.1f, collider.collider.LinearVelocity.Y),
                     MovementType.RIGHT => new AetherVector2(1.1f, collider.collider.LinearVelocity.Y),
