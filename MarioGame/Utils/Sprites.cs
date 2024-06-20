@@ -46,6 +46,7 @@ namespace SuperMarioBros.Utils
         public static Texture2D Koopa4 { get; set; }
         public static Texture2D Koopa5 { get; set; }
         public static Texture2D Koopa6 { get; set; }
+        public static Texture2D Koopa7 { get; set; }
         public static Texture2D PiranhaPlant1 { get; set; }
         public static Texture2D PiranhaPlant2 { get; set; }
         // Props
@@ -185,6 +186,7 @@ namespace SuperMarioBros.Utils
             Koopa4 = content.Load<Texture2D>("sprites/Enemies/Koopa/Koopa4");
             Koopa5 = content.Load<Texture2D>("sprites/Enemies/Koopa/Koopa5");
             Koopa6 = content.Load<Texture2D>("sprites/Enemies/Koopa/Koopa6");
+            Koopa7 = content.Load<Texture2D>("sprites/Enemies/Koopa/Koopa7");
             PiranhaPlant1 = content.Load<Texture2D>("sprites/Enemies/PiranhaPlant/Plant1");
             PiranhaPlant2 = content.Load<Texture2D>("sprites/Enemies/PiranhaPlant/Plant2");
 

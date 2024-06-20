@@ -41,6 +41,32 @@ namespace MarioGame
             Sprites.Goomba1,
             Sprites.Goomba2,
         };
+        public static readonly Texture2D[] koopaLeftTextures = new Texture2D[]
+        {
+            Sprites.Koopa1,
+            Sprites.Koopa2
+        };
+        public static readonly Texture2D[] koopaRigthTextures = new Texture2D[]
+        {
+            Sprites.Koopa3,
+            Sprites.Koopa4
+        };
+
+        public static readonly Texture2D[] koopaKnockedTextures = new Texture2D[]
+        {
+            Sprites.Koopa6
+        };
+
+        public static readonly Texture2D[] koopaReviveTextures = new Texture2D[]
+        {
+            Sprites.Koopa5
+        };
+
+        public static readonly Texture2D[] koopaDiesTextures = new Texture2D[]
+        {
+            Sprites.Koopa7
+        };
+
         public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
         {
             Sprites.WinFlagGreen,
@@ -126,8 +152,20 @@ namespace MarioGame
             { EntitiesName.DUCT,  ductTextures},
             { EntitiesName.MUSHROOM, mushroomTextures},
             { EntitiesName.FLOWER, fireFlowerTextures},
-            { EntitiesName.STAR, superStarTextures}
+            { EntitiesName.STAR, superStarTextures},
+            { EntitiesName.KOOPA,  koopaLeftTextures},
+        };
 
+        public static readonly Dictionary<KoopaSpriteStates, Texture2D[]> KoopaEntityTextures = new Dictionary<KoopaSpriteStates, Texture2D[]>
+        {
+            { KoopaSpriteStates.KOOPARIGTH,  koopaRigthTextures},
+            { KoopaSpriteStates.KOOPALEFT,  koopaLeftTextures},
+            { KoopaSpriteStates.KOOPAKNOCKED,  koopaKnockedTextures},
+            { KoopaSpriteStates.KOOPAREVIVE,  koopaReviveTextures},
+        };
+        public static readonly Dictionary<string, Texture2D[]> DeathEntityTextures = new Dictionary<string, Texture2D[]>
+        {
+            { "koopaDeath", koopaDiesTextures},
         };
     }
 }
