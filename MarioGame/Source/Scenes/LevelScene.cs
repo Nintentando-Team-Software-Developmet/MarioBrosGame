@@ -109,7 +109,6 @@ namespace SuperMarioBros.Source.Scenes
          */
         private void LoadEssentialEntities()
         {
-            // Load player entity first
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
@@ -117,11 +116,10 @@ namespace SuperMarioBros.Source.Scenes
                 _loadedEntities.Add(GetEntityKey(playerEntityData));
             }
 
-            // Load initial static entities near the player's starting position
             var initialStaticEntities = map.staticEntities.entities.Where(entityData =>
             {
                 var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
-                return Vector2.Distance(new Vector2(playerEntityData.position.x, playerEntityData.position.y), entityPosition) <= LoadRadius; // Adjust the radius as needed
+                return Vector2.Distance(new Vector2(playerEntityData.position.x, playerEntityData.position.y), entityPosition) <= LoadRadius;
             }).ToList();
 
             foreach (var entity in initialStaticEntities)
@@ -129,9 +127,6 @@ namespace SuperMarioBros.Source.Scenes
                 Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
                 _loadedEntities.Add(GetEntityKey(entity));
             }
-
-            // Remove loaded static entities from the list to avoid reloading
-
         }
 
         private static string GetEntityKey(EntityData entityData)
@@ -188,7 +183,7 @@ namespace SuperMarioBros.Source.Scenes
             if (playerEntity != null)
             {
                 var playerPosition = playerEntity.GetComponent<PositionComponent>().Position;
-                LoadEntitiesNearPlayer(playerPosition, LoadRadius); // Adjust the load radius as needed
+                LoadEntitiesNearPlayer(playerPosition, LoadRadius);
             }
 
             if (!_isFlagEventPlayed)
@@ -224,10 +219,8 @@ namespace SuperMarioBros.Source.Scenes
             {
                 Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
                 _loadedEntities.Add(GetEntityKey(entityData));
-                _levelData.entities.Remove(entityData); // Remove loaded entities from the list to avoid reloading
             }
 
-            // Load static entities based on the player's position
             var staticEntitiesToLoad = map.staticEntities.entities.Where(entityData =>
             {
                 var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
@@ -238,7 +231,6 @@ namespace SuperMarioBros.Source.Scenes
             {
                 Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
                 _loadedEntities.Add(GetEntityKey(entityData));
-                map.staticEntities.entities.Remove(entityData); // Remove loaded static entities from the list to avoid reloading
             }
         }
 
