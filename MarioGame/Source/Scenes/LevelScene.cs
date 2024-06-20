@@ -45,6 +45,8 @@ namespace SuperMarioBros.Source.Scenes
         private bool _isLevelCompleted { get; set; }
         private double _levelCompleteDisplayTime;
         private const double LevelCompleteMaxDisplayTime = 10.0;
+        private HashSet<string> _loadedEntities { get; }// Keep track of loaded entities
+
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
@@ -66,6 +68,7 @@ namespace SuperMarioBros.Source.Scenes
             _isFlagEventPlayed = false;
             _isLevelCompleted = false;
             _levelCompleteDisplayTime = 0;
+            _loadedEntities = new HashSet<string>();
         }
 
         /*
@@ -77,7 +80,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
-            LoadEntities();
+            LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
@@ -103,18 +106,40 @@ namespace SuperMarioBros.Source.Scenes
          * Loads entities from the level data.
          * This method creates entities based on the level data and adds them to the scene.
          */
-        private void LoadEntities()
+        private void LoadEssentialEntities()
         {
-            foreach (var entity in _levelData.entities)
+            // Load player entity first
+            var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
+            if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld));
+                _loadedEntities.Add(GetEntityKey(playerEntityData));
+                _levelData.entities.Remove(playerEntityData); // Remove the player entity from the list to avoid loading it again
             }
 
-            foreach (var entity in map.staticEntities.entities)
+            // Load initial static entities near the player's starting position
+            var initialStaticEntities = map.staticEntities.entities.Where(entityData =>
+            {
+                var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
+                return Vector2.Distance(new Vector2(playerEntityData.position.x, playerEntityData.position.y), entityPosition) <= 500; // Adjust the radius as needed
+            }).ToList();
+
+            foreach (var entity in initialStaticEntities)
             {
                 Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+                _loadedEntities.Add(GetEntityKey(entity));
             }
+
+            // Remove loaded static entities from the list to avoid reloading
+            map.staticEntities.entities = map.staticEntities.entities.Except(initialStaticEntities).ToList();
+
         }
+
+        private static string GetEntityKey(EntityData entityData)
+        {
+            return $"{entityData.type}_{entityData.position.x}_{entityData.position.y}";
+        }
+
 
         public void PlayFlagSound()
         {
@@ -159,6 +184,13 @@ namespace SuperMarioBros.Source.Scenes
             if (gameTime?.ElapsedGameTime.TotalSeconds != null)
                 physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
 
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity != null)
+            {
+                var playerPosition = playerEntity.GetComponent<PositionComponent>().Position;
+                LoadEntitiesNearPlayer(playerPosition, 500); // Adjust the load radius as needed
+            }
+
             if (!_isFlagEventPlayed)
             {
                 CheckFlagEvent();
@@ -179,6 +211,38 @@ namespace SuperMarioBros.Source.Scenes
             CheckPlayerState(sceneManager);
             Console.WriteLine("Active Entities: " + Entities.Count);
         }
+
+        private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
+        {
+            var entitiesToLoad = _levelData.entities.Where(entityData =>
+            {
+                var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
+                return Vector2.Distance(playerPosition, entityPosition) <= radius && !_loadedEntities.Contains(GetEntityKey(entityData));
+            }).ToList();
+
+            foreach (var entityData in entitiesToLoad)
+            {
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                _loadedEntities.Add(GetEntityKey(entityData));
+                _levelData.entities.Remove(entityData); // Remove loaded entities from the list to avoid reloading
+            }
+
+            // Load static entities based on the player's position
+            var staticEntitiesToLoad = map.staticEntities.entities.Where(entityData =>
+            {
+                var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
+                return Vector2.Distance(playerPosition, entityPosition) <= radius && !_loadedEntities.Contains(GetEntityKey(entityData));
+            }).ToList();
+
+            foreach (var entityData in staticEntitiesToLoad)
+            {
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                _loadedEntities.Add(GetEntityKey(entityData));
+                map.staticEntities.entities.Remove(entityData); // Remove loaded static entities from the list to avoid reloading
+            }
+        }
+
+
 
         private void CheckFlagEvent()
         {
