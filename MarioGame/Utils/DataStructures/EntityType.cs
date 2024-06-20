@@ -10,6 +10,7 @@ namespace SuperMarioBros.Utils.DataStructures
         QUESTIONBLOCK,
         DUCT,
         COINBLOCK,
-        DUCTEXTENSION
+        DUCTEXTENSION,
+        POWERUP
     }
 }
