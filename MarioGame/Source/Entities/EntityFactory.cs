@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using MarioGame;
 using MarioGame.Utils.DataStructures;
 
