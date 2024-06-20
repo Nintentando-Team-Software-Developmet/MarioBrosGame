@@ -47,7 +47,18 @@ namespace SuperMarioBros.Source.Systems
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
-            if (!collider.isJumping()) animation.Play(AnimationState.WALKLEFT);
+            if (!collider.isJumping())
+            {
+                if (collider.collider.LinearVelocity.X > 0)
+                {
+                    animation.Play(AnimationState.RUNLEFT);
+                }
+                else
+                {
+                    animation.Play(AnimationState.WALKLEFT);
+                }
+            }
+
             movement.direcction = MovementType.LEFT;
             if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
             {
@@ -57,7 +68,17 @@ namespace SuperMarioBros.Source.Systems
 
         private static void HandleKeyRight(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
-            if (!collider.isJumping()) animation.Play(AnimationState.WALKRIGHT);
+            if (!collider.isJumping())
+            {
+                if (collider.collider.LinearVelocity.X < 0)
+                {
+                    animation.Play(AnimationState.RUNRIGHT);
+                }
+                else
+                {
+                    animation.Play(AnimationState.WALKRIGHT);
+                }
+            }
             movement.direcction = MovementType.RIGHT;
             if (collider.collider.LinearVelocity.X < collider.maxSpeed)
             {
