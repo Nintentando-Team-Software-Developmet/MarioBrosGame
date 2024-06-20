@@ -6,7 +6,7 @@ namespace SuperMarioBros.Source.Components
     {
         public bool IsAlive { get; set; }
         public string KilledName { get; set; }
-        public EnemyComponent( string killedName)
+        public EnemyComponent(string killedName)
         {
             IsAlive = true;
             KilledName = killedName;

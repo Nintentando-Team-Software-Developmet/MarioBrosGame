@@ -8,6 +8,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems;
@@ -25,7 +26,7 @@ public class KoopaMovementSystem : BaseSystem
             var movement = entity.GetComponent<MovementComponent>();
             var koopa = entity.GetComponent<KoopaComponent>();
             var enemy = entity.GetComponent<EnemyComponent>();
-            if(entity.HasComponent<PlayerComponent>()) continue;
+            if (entity.HasComponent<PlayerComponent>()) continue;
             if (collider == null || movement == null) continue;
             if (!registeredEntities.Contains(entity))
             {

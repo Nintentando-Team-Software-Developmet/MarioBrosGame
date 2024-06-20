@@ -12,6 +12,7 @@ using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.SceneCommonData;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems;
@@ -36,7 +37,7 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
             var enemies = entities.WithComponents(typeof(AnimationComponent), typeof(ColliderComponent), typeof(KoopaFacingComponent), typeof(MovementComponent), typeof(KoopaComponent));
             foreach (var entity in enemies)
             {
-                if(entity.HasComponent<PlayerComponent>()) continue;
+                if (entity.HasComponent<PlayerComponent>()) continue;
                 var colliderComponent = entity.GetComponent<ColliderComponent>();
                 var animation = entity.GetComponent<AnimationComponent>();
                 var movement = entity.GetComponent<MovementComponent>();
@@ -86,14 +87,14 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
                         entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.RevivingName], 64, 64));
                     }
                     else switch (movement.Direction)
-                    {
-                        case MovementType.LEFT:
-                            entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.LeftName], 64, 64));
-                            break;
-                        case MovementType.RIGHT:
-                            entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.RigthName], 64, 64));
-                            break;
-                    }
+                        {
+                            case MovementType.LEFT:
+                                entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.LeftName], 64, 64));
+                                break;
+                            case MovementType.RIGHT:
+                                entity.AddComponent(new AnimationComponent(Animations.KoopaEntityTextures[facing.RigthName], 64, 64));
+                                break;
+                        }
                 }
                 animation.TimeElapsed = 0;
             }
