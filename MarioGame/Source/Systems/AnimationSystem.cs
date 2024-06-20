@@ -44,7 +44,6 @@ namespace SuperMarioBros.Source.Systems
         public void Draw(GameTime gameTime, IEnumerable<Entity> entities)
         {
             IEnumerable<Entity> animationEntities = entities.WithComponents(typeof(AnimationComponent));
-            Console.WriteLine(animationEntities.Count());
             foreach (var entity in animationEntities)
             {
                 var animation = entity.GetComponent<AnimationComponent>();

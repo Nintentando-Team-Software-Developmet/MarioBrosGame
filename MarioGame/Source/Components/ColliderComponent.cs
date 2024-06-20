@@ -27,5 +27,13 @@ namespace SuperMarioBros.Source.Components
         {
             return collider.LinearVelocity.Y != 0;
         }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(collider.Position.X * Constants.pixelPerMeter, collider.Position.Y * Constants.pixelPerMeter);
+            }
+        }
     }
 }

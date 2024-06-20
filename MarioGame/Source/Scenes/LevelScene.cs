@@ -84,6 +84,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new CameraSystem());
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
+            Systems.Add(new PlayerSystem());
         }
 
         /*
@@ -259,6 +260,9 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+            using(var db = new DebuggerColliders(physicsWorld, spriteData)){
+                db.DrawColliders();
+            }
             spriteData.spriteBatch.End();
         }
 
