@@ -31,19 +31,16 @@ namespace SuperMarioBros.Source.Entities
                 case EntityType.ENEMY:
                     AnimationComponent animationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(animationComponent);
-
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
-
+                    entity.AddComponent(new MovementComponent(MovementType.LEFT));
                     if (entityData.name == EntitiesName.KOOPA)
                     {
                         entity.AddComponent(new KoopaComponent());
                         entity.AddComponent(new KoopaFacingComponent(KoopaSpriteStates.KOOPALEFT, KoopaSpriteStates.KOOPARIGTH, KoopaSpriteStates.KOOPAKNOCKED, KoopaSpriteStates.KOOPAREVIVE));
-                        entity.AddComponent(new MovementComponent(MovementType.LEFT));
                         entity.AddComponent(new EnemyComponent("koopaDeath"));
                     }
                     else if (entityData.name == EntitiesName.GOOMBA)
                     {
-                        entity.AddComponent(new MovementComponent(MovementType.LEFT));
                         entity.AddComponent(new EnemyComponent("GoombaDeath"));
                     }
                     break;
