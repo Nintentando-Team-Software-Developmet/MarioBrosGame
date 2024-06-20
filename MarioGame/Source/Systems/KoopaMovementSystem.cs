@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 using Microsoft.Xna.Framework;
 
@@ -39,22 +38,23 @@ public class KoopaMovementSystem : BaseSystem
             }
             else if (koopa.IsKnocked)
             {
-                switch (movement.direcction)
+                if (movement.direcction == MovementType.LEFT && koopa.Hits == 3)
                 {
-                    case MovementType.LEFT when koopa.Hits == 3:
-                        collider.collider.LinearVelocity = new AetherVector2(-4.1f, collider.collider.LinearVelocity.Y);
-                        koopa.KnockedTime += 0.01f;
-                        break;
-                    case MovementType.RIGHT when koopa.Hits == 3:
-                        collider.collider.LinearVelocity = new AetherVector2(4.1f, collider.collider.LinearVelocity.Y);
-                        koopa.KnockedTime += 0.01f;
-                        break;
-                    case MovementType.RIGHT when koopa.Hits == 1:
-                        collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
-                        break;
-                    case MovementType.LEFT when koopa.Hits == 1:
-                        collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
-                        break;
+                    collider.collider.LinearVelocity = new AetherVector2(-4.1f, collider.collider.LinearVelocity.Y);
+                    koopa.KnockedTime += 0.01f;
+                }
+                else if (movement.direcction == MovementType.RIGHT && koopa.Hits == 3)
+                {
+                    collider.collider.LinearVelocity = new AetherVector2(4.1f, collider.collider.LinearVelocity.Y);
+                    koopa.KnockedTime += 0.01f;
+                }
+                else if (movement.direcction == MovementType.RIGHT && koopa.Hits == 1)
+                {
+                    collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
+                }
+                else if (movement.direcction == MovementType.LEFT && koopa.Hits == 1)
+                {
+                    collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
                 }
             }
 
@@ -80,8 +80,11 @@ public class KoopaMovementSystem : BaseSystem
     {
         collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
         {
-            AetherVector2 normal = contact.Manifold.LocalNormal;
-                if (normal.Y > -0.5 && !koopaComponent.IsKnocked && !koopaComponent.IsReviving)
+            var normal = contact.Manifold.LocalNormal;
+
+            if (Math.Abs(normal.X) < Math.Abs(normal.Y) && normal.Y < 0)
+            {
+                if (normal.Y < 0 && !koopaComponent.IsKnocked && !koopaComponent.IsReviving)
                 {
                     koopaComponent.IsKnocked = true;
                     koopaComponent.IsReviving = false;
@@ -90,17 +93,18 @@ public class KoopaMovementSystem : BaseSystem
                     koopaComponent.Hits = 1;
                     registeredEntities.Remove(entity);
                 }
-                else if (normal.Y < -0.5 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) && koopaComponent.Hits >= 4)
+                else if (normal.Y < 0 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) && koopaComponent.Hits >= 4)
                 {
                     enemyComponent.IsAlive = false;
                     registeredEntities.Remove(entity);
                 }
-                else if (normal.Y < -0.5 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) &&
+                else if (normal.Y < 0 && (koopaComponent.IsKnocked || koopaComponent.IsReviving) &&
                          koopaComponent.Hits < 4)
                 {
                     koopaComponent.Hits += 1;
                     registeredEntities.Remove(entity);
                 }
+            }
 
             return true;
         };
