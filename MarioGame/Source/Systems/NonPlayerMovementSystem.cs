@@ -32,7 +32,7 @@ namespace SuperMarioBros.Source.Systems
                     float verticalVelocity = collider.collider.LinearVelocity.Y;
                     float horizontalVelocity = 1.1f;
                     BaseComponent entityComponent;
-                    
+
                     if (entity.HasComponent<StarComponent>())
                     {
                         entityComponent = entity.GetComponent<StarComponent>();

@@ -6,6 +6,8 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using System;
+using System.Collections.Generic;
 
 namespace SuperMarioBros.Source.Entities
 {
@@ -72,18 +74,22 @@ namespace SuperMarioBros.Source.Entities
                 case EntityType.WINGAME:
                     entity.AddComponent(new WinGameComponent());
                     entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
+
                     break;
                 case EntityType.QUESTIONBLOCK:
                     AnimationComponent questionBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(questionBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, questionBlockAnimationComponent.textureRectangle, BodyType.Static));
-                    entity.AddComponent(new QuestionBlockComponent());
+                    QuestionBlockComponent questionBlockComponent = new QuestionBlockComponent(entityData.TypeContent,entityData.Quantity);
+                    entity.AddComponent(questionBlockComponent);
                     break;
                 case EntityType.COINBLOCK:
                     AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(coinBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
-                    entity.AddComponent(new CoinBlockComponent());
+                    CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent,entityData.Quantity);
+                    entity.AddComponent(coinBlockComponent);
                     break;
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
@@ -106,5 +112,7 @@ namespace SuperMarioBros.Source.Entities
 
             return entity;
         }
+
+
     }
 }
