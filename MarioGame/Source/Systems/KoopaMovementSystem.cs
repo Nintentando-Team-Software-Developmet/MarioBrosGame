@@ -19,8 +19,8 @@ namespace SuperMarioBros.Source.Systems;
 
 public class KoopaMovementSystem : BaseSystem
 {
-    private HashSet<Entity> registeredEntities = new HashSet<Entity>();
-    private List<Body> _bodiesToRemove = new List<Body>();
+    private HashSet<Entity> registeredEntities = new();
+    private List<Body> _bodiesToRemove = new();
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
