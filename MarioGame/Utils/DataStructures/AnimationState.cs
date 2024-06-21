@@ -14,6 +14,8 @@ namespace SuperMarioBros.Utils.DataStructures
         STOPLEFT,
         DIE,
         BlINK,
-        WIN
+        WIN,
+        KNOCKED,
+        REVIVE
     }
 }

@@ -31,9 +31,15 @@ namespace SuperMarioBros.Source.Entities
                 case EntityType.ENEMY:
                     AnimationComponent animationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64, 0.8f);
                     entity.AddComponent(animationComponent);
-                    entity.AddComponent(new EnemyComponent());
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, animationComponent.textureRectangle, BodyType.Dynamic));
                     entity.AddComponent(new MovementComponent(MovementType.LEFT));
+                    if (entityData.name == EntitiesName.KOOPA)
+                    {
+                        entity.AddComponent(new KoopaComponent());
+                        entity.GetComponent<AnimationComponent>().velocity = 0.5f;
+                    }
+                    entity.AddComponent(new EnemyComponent());
+                    entity.GetComponent<ColliderComponent>().velocity = 1.1f;
                     break;
                 case EntityType.POWERUP:
                     if (entityData.name == EntitiesName.MUSHROOM)
@@ -66,13 +72,13 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new PlayerComponent());
                     ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
                     colliderComponent.maxSpeed = 3f;
-                    colliderComponent.acceleration = 3f;
+                    colliderComponent.velocity = 3f;
                     colliderComponent.friction = 0.97f;
                     entity.AddComponent(colliderComponent);
                     entity.AddComponent(new CameraComponent(
-                        new Viewport(0, 0, Constants.CameraViewportWidth, Constants.CameraViewportHeight),
-                        Constants.CameraWorldWidth,
-                        Constants.CameraViewportHeight));
+                        new Viewport(0, 0, GameConstants.CameraViewportWidth, GameConstants.CameraViewportHeight),
+                        GameConstants.CameraWorldWidth,
+                        GameConstants.CameraViewportHeight));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     break;
 

@@ -61,7 +61,7 @@ namespace SuperMarioBros.Source.Systems
             movement.Direction = MovementType.LEFT;
             if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
             {
-                collider.collider.ApplyForce(new AetherVector2(-collider.acceleration, 0));
+                collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
             }
         }
 
@@ -81,7 +81,7 @@ namespace SuperMarioBros.Source.Systems
             movement.Direction = MovementType.RIGHT;
             if (collider.collider.LinearVelocity.X < collider.maxSpeed)
             {
-                collider.collider.ApplyForce(new AetherVector2(collider.acceleration, 0));
+                collider.collider.ApplyForce(new AetherVector2(collider.velocity, 0));
             };
         }
 

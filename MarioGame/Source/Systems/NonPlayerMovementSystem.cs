@@ -33,15 +33,12 @@ namespace SuperMarioBros.Source.Systems
                         RegisterChangePositionEvent(collider, movement, animation);
                         registeredEntities.Add(entity);
                     }
-
                     float verticalVelocity = collider.collider.LinearVelocity.Y;
-                    float horizontalVelocity = 1.1f;
+                    float horizontalVelocity = collider.velocity;
                     BaseComponent entityComponent;
 
                     if (entity.HasComponent<StarComponent>())
                     {
-                        
-                        
                       entityComponent = entity.GetComponent<StarComponent>();
                         ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
                         horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
@@ -82,7 +79,7 @@ namespace SuperMarioBros.Source.Systems
                     if (movement.Direction == MovementType.LEFT)
                     {
                         movement.Direction = MovementType.RIGHT;
-                        if(animation.containsState(AnimationState.WALKRIGHT))
+                        if(animation.containsState(AnimationState.WALKRIGHT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
                         {
                             animation.Play(AnimationState.WALKRIGHT);
                         }
@@ -90,7 +87,7 @@ namespace SuperMarioBros.Source.Systems
                     else if (movement.Direction == MovementType.RIGHT)
                     {
                         movement.Direction = MovementType.LEFT;
-                        if(animation.containsState(AnimationState.WALKLEFT))
+                        if(animation.containsState(AnimationState.WALKLEFT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
                         {
                             animation.Play(AnimationState.WALKLEFT);
                         }

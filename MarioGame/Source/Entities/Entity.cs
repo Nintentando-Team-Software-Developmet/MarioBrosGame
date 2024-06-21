@@ -33,5 +33,6 @@ namespace SuperMarioBros.Source.Entities
         {
             _components.Clear();
         }
+
     }
 }

@@ -37,6 +37,32 @@ namespace MarioGame
             Sprites.Goomba1,
             Sprites.Goomba2,
         };
+        public static readonly Texture2D[] koopaLeftTextures = new Texture2D[]
+        {
+            Sprites.Koopa1,
+            Sprites.Koopa2
+        };
+        public static readonly Texture2D[] koopaRigthTextures = new Texture2D[]
+        {
+            Sprites.Koopa3,
+            Sprites.Koopa4
+        };
+
+        public static readonly Texture2D[] koopaKnockedTextures = new Texture2D[]
+        {
+            Sprites.Koopa6
+        };
+
+        public static readonly Texture2D[] koopaReviveTextures = new Texture2D[]
+        {
+            Sprites.Koopa5
+        };
+
+        public static readonly Texture2D[] koopaDiesTextures = new Texture2D[]
+        {
+            Sprites.Koopa7
+        };
+
         public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
         {
             Sprites.WinFlagGreen,
@@ -124,6 +150,15 @@ namespace MarioGame
                 { AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeft } },
                 { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } }
             };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> koopaAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.Koopa3, Sprites.Koopa4 } },
+            { AnimationState.WALKLEFT, new Texture2D[] { Sprites.Koopa1, Sprites.Koopa2 } },
+            { AnimationState.KNOCKED, new Texture2D[] { Sprites.Koopa6 } },
+            { AnimationState.REVIVE, new Texture2D[] { Sprites.Koopa5 } },
+            { AnimationState.DIE, new Texture2D[] { Sprites.Koopa7 } }
+        };
         
         public static readonly Dictionary<AnimationState, Texture2D[]> goombaAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
@@ -189,7 +224,8 @@ namespace MarioGame
             { EntitiesName.DUCT,  ductAnimations},
             { EntitiesName.MUSHROOM,  mushroomAnimations},
             { EntitiesName.FLOWER,  fireFlowerAnimations},
-            { EntitiesName.STAR,  superStarAnimations}
+            { EntitiesName.STAR,  superStarAnimations},
+            { EntitiesName.KOOPA, koopaAnimations}
         };
 
 

@@ -17,7 +17,7 @@ namespace SuperMarioBros.Source.Systems
                 var playerComponent = player.GetComponent<PlayerComponent>();
                 var colliderComponent = player.GetComponent<ColliderComponent>();
                 var playerPosition = colliderComponent.Position;
-                if(playerPosition.Y > Constants.CameraViewportHeight + 300){
+                if(playerPosition.Y > GameConstants.CameraViewportHeight + 300){
                     playerComponent.IsAlive = false;
                 }
             }

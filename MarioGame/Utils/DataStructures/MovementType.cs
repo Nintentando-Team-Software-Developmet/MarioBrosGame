@@ -10,5 +10,6 @@ namespace SuperMarioBros.Utils.DataStructures
         UPLEFT,
         UPRIGHT,
         DOWN,
+        STOP,
     }
 }

@@ -15,16 +15,16 @@ namespace SuperMarioBros.Source.Components
     {
         public Body collider { get; set; }
         public float maxSpeed { get; set;}
-        public float acceleration { get; set;}
+        public float velocity { get; set;}
         public float friction { get; set;}
         public CollisionType lastCollision { get; set; }
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
-            AetherVector2 position = new AetherVector2(x / Constants.pixelPerMeter, y / Constants.pixelPerMeter);
+            AetherVector2 position = new AetherVector2(x / GameConstants.pixelPerMeter, y / GameConstants.pixelPerMeter);
             collider = physicsWorld?.CreateBody(position, rotation, bodyType);
             collider.FixedRotation = true;
-            collider.CreateRectangle(rectangle.Width / Constants.pixelPerMeter, rectangle.Height / Constants.pixelPerMeter, 1f, AetherVector2.Zero);
+            collider.CreateRectangle(rectangle.Width / GameConstants.pixelPerMeter, rectangle.Height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
             collider.OnCollision += HandleCurrentCollision;
         }
 
@@ -37,7 +37,7 @@ namespace SuperMarioBros.Source.Components
         {
             get
             {
-                return new Vector2(collider.Position.X * Constants.pixelPerMeter, collider.Position.Y * Constants.pixelPerMeter);
+                return new Vector2(collider.Position.X * GameConstants.pixelPerMeter, collider.Position.Y * GameConstants.pixelPerMeter);
             }
         }
 

@@ -149,31 +149,12 @@
                 "y": 768
             }
         },
-
-
-
-
         {
-            "type": "POWERUP",
-            "name": "MUSHROOM",
+            "type": "ENEMY",
+            "name": "KOOPA",
             "position": {
-                "x": 170,
-                "y": 517
-            }
-        },
-        {
-            "type": "POWERUP",
-            "name": "FLOWER",
-            "position": {
-                "x": 1314,
-                "y": 300 }
-        },
-        {
-            "type": "POWERUP",
-            "name": "STAR",
-            "position": {
-                "x": 180,
-                "y": 517
+                "x": 500,
+                "y": 760
             }
         }
     ]

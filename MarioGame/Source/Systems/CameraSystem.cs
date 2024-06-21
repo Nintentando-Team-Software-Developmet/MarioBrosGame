@@ -26,14 +26,14 @@ namespace SuperMarioBros.Source.Systems
 
                 if (playerPosition != null && camera != null)
                 {
-                    if (playerPosition.collider.Position.X * Constants.pixelPerMeter> camera.LastXPosition)
+                    if (playerPosition.collider.Position.X * GameConstants.pixelPerMeter> camera.LastXPosition)
                     {
                         camera.Position = new Vector2(
-                            MathHelper.Clamp(playerPosition.collider.Position.X * Constants.pixelPerMeter - camera.Viewport.Width / 2, 0, camera.WorldWidth - camera.Viewport.Width),
-                            MathHelper.Clamp(playerPosition.collider.Position.Y * Constants.pixelPerMeter - camera.Viewport.Height / 2, 0, camera.WorldHeight - camera.Viewport.Height)
+                            MathHelper.Clamp(playerPosition.collider.Position.X * GameConstants.pixelPerMeter - camera.Viewport.Width / 2, 0, camera.WorldWidth - camera.Viewport.Width),
+                            MathHelper.Clamp(playerPosition.collider.Position.Y * GameConstants.pixelPerMeter - camera.Viewport.Height / 2, 0, camera.WorldHeight - camera.Viewport.Height)
                         );
 
-                        camera.LastXPosition = playerPosition.collider.Position.X * Constants.pixelPerMeter;
+                        camera.LastXPosition = playerPosition.collider.Position.X * GameConstants.pixelPerMeter;
                     }
 
                     camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
