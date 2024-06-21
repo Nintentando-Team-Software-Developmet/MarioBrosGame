@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -18,30 +19,35 @@ namespace SuperMarioBros.Source.Systems
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent));
+            IEnumerable<Entity> movementEntities = entities.WithComponents(typeof(ColliderComponent), typeof(MovementComponent), typeof(AnimationComponent));
             foreach (var entity in movementEntities)
             {
                 var collider = entity.GetComponent<ColliderComponent>();
                 var movement = entity.GetComponent<MovementComponent>();
-                if (entity.HasComponent<PlayerComponent>()) continue;
-                if (collider != null && movement != null)
+                var animation = entity.GetComponent<AnimationComponent>();
+                if(entity.HasComponent<PlayerComponent>()) continue;
+                if (collider != null && movement != null && animation != null)
                 {
                     if (!registeredEntities.Contains(entity))
                     {
-                        RegisterChangePositionEvent(collider, movement, entity);
+                        RegisterChangePositionEvent(collider, movement, animation);
                         registeredEntities.Add(entity);
                     }
-
                     float verticalVelocity = collider.collider.LinearVelocity.Y;
-                    float horizontalVelocity = 1.1f;
+                    float horizontalVelocity = collider.velocity;
                     BaseComponent entityComponent;
 
                     if (entity.HasComponent<StarComponent>())
                     {
-                        entityComponent = entity.GetComponent<StarComponent>();
+                      entityComponent = entity.GetComponent<StarComponent>();
                         ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
                         horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
                         verticalVelocity = ((StarComponent)entityComponent).VerticalVelocity;
+                    
+                        if (!collider.isJumping())
+                        {
+                            collider.collider.ApplyLinearImpulse(new AetherVector2(0, -3.8f));
+                        }
                     }
 
                     else if (entity.HasComponent<MushroomComponent>())
@@ -53,37 +59,38 @@ namespace SuperMarioBros.Source.Systems
                     switch (movement.Direction)
                     {
                         case MovementType.LEFT:
-                            collider.collider.LinearVelocity = new AetherVector2(-horizontalVelocity, verticalVelocity);
+                            collider.collider.LinearVelocity = new AetherVector2(-horizontalVelocity, collider.collider.LinearVelocity.Y);
                             break;
                         case MovementType.RIGHT:
-                            collider.collider.LinearVelocity = new AetherVector2(horizontalVelocity, verticalVelocity);
+                            collider.collider.LinearVelocity = new AetherVector2(horizontalVelocity, collider.collider.LinearVelocity.Y);
                             break;
                     }
                 }
             }
         }
 
-        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement, Entity entity)
+        private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement, AnimationComponent animation)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
                 AetherVector2 normal = contact.Manifold.LocalNormal;
-                if (Math.Abs(normal.X) > Math.Abs(normal.Y))
+                if (CollisionAnalyzer.GetCollisionType(contact) == CollisionType.HORIZONTAL)
                 {
                     if (movement.Direction == MovementType.LEFT)
                     {
                         movement.Direction = MovementType.RIGHT;
+                        if(animation.containsState(AnimationState.WALKRIGHT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
+                        {
+                            animation.Play(AnimationState.WALKRIGHT);
+                        }
                     }
                     else if (movement.Direction == MovementType.RIGHT)
                     {
                         movement.Direction = MovementType.LEFT;
-                    }
-                }
-                else
-                {
-                    if (entity.HasComponent<StarComponent>())
-                    {
-                        collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X, -6f);
+                        if(animation.containsState(AnimationState.WALKLEFT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
+                        {
+                            animation.Play(AnimationState.WALKLEFT);
+                        }
                     }
                 }
                 return true;

@@ -20,6 +20,7 @@
                 "y": 95
             }
         },
+
         {
             "type": "ENEMY",
             "name": "GOOMBA",
@@ -152,7 +153,7 @@
             "type": "ENEMY",
             "name": "KOOPA",
             "position": {
-                "x": 6816,
+                "x": 500,
                 "y": 760
             }
         }

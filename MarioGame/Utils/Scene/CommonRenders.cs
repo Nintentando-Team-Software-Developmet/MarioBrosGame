@@ -1,15 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
-
 namespace SuperMarioBros.Utils.SceneCommonData;
 
 public static class CommonRenders
@@ -127,12 +124,11 @@ public static class CommonRenders
                 new Vector2(1f), SpriteEffects.None, 0f);
     }
 
-    /*
-     * Draws an entity on the screen.
-     */
+    
+
     public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
     {
-        if (spriteBatch == null || animation == null || collider == null)
+       if (spriteBatch == null || animation == null || collider == null)
             return;
 
         float entityPosX = collider.collider.Position.X * GameConstants.pixelPerMeter;
@@ -143,7 +139,7 @@ public static class CommonRenders
         int textureRectY = (int)entityPosition.Y - animation.height / 2;
         animation.textureRectangle = new Rectangle(textureRectX, textureRectY, animation.width, animation.height);
 
-        Texture2D currentTexture = animation.Textures[animation.CurrentFrame];
+        Texture2D currentTexture = animation.animations[animation.currentState][animation.currentFrame];
         spriteBatch.Draw(currentTexture, animation.textureRectangle, Color.White);
     }
 }
