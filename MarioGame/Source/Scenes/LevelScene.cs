@@ -97,9 +97,6 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
             Systems.Add(new EnemySystem());
-            //TODO: Review system
-            //Systems.Add(new KoopaAnimationSystem(spriteData.spriteBatch));
-            //Systems.Add(new KoopaMovementSystem());
         }
 
         /*
