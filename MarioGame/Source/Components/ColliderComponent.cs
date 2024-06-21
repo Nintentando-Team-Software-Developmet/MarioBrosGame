@@ -25,7 +25,6 @@ namespace SuperMarioBros.Source.Components
             collider = physicsWorld?.CreateBody(position, rotation, bodyType);
             collider.FixedRotation = true;
             collider.CreateRectangle(rectangle.Width / GameConstants.pixelPerMeter, rectangle.Height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
-            collider.OnCollision += HandleCurrentCollision;
         }
 
         public bool isJumping()
@@ -41,10 +40,5 @@ namespace SuperMarioBros.Source.Components
             }
         }
 
-        private bool HandleCurrentCollision( Fixture fixtureA, Fixture fixtureB, Contact contact )
-        {
-            lastCollision = CollisionAnalyzer.GetDirectionCollision(contact);
-            return true;
-        }
     }
 }
