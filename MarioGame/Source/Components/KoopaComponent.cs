@@ -8,7 +8,7 @@ public class KoopaComponent : BaseComponent
     public bool IsReviving { get; set; }
     public float KnockedTime { get; set; }
     public float RevivingTime { get; set; }
-    public byte Hits { get; set; }
+    public bool Killable { get; set; }
 
     public KoopaComponent()
     {
@@ -16,6 +16,6 @@ public class KoopaComponent : BaseComponent
         IsReviving = false;
         KnockedTime = GameConstants.KoopaKnockedTime;
         RevivingTime = GameConstants.KoopaReviveTime;
-        Hits = default;
+        Killable = false;
     }
 }

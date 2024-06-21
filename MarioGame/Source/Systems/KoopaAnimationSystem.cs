@@ -69,6 +69,10 @@ public class KoopaAnimationSystem : BaseSystem, IRenderableSystem
                         koopa.RevivingTime = GameConstants.KoopaReviveTime;
                     }
                 }
+                else if (!enemy.IsAlive)
+                {
+                    enemy.KillTime -= (float)gameTime?.ElapsedGameTime.TotalSeconds;
+                }
 
                 if (!(animation.TimeElapsed > animation.FrameTime)) continue;
                 animation.CurrentFrame++;
