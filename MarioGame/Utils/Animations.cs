@@ -18,8 +18,8 @@ namespace MarioGame
             Sprites.BigStopLeft,
             Sprites.BigRun,
             Sprites.BigWalk1Left,
-            Sprites.BigWalk2Left,
             Sprites.BigWalk3Left,
+            Sprites.BigWalk2Left,
 
             Sprites.BigBend,
             Sprites.BigBendLeft,
@@ -136,12 +136,12 @@ namespace MarioGame
             { "QUESTION_BLOCK", Sprites.QuestionBlockBrown}
         };
 
-        
+
 
         public static readonly Dictionary<AnimationState,Texture2D[]>  playerAnimations = new Dictionary<AnimationState, Texture2D[]>
             {
-                { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk2, Sprites.SmallWalk3 } },
-                { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk2Left, Sprites.SmallWalk3Left } },
+                { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk3, Sprites.SmallWalk2 } },
+                { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk3Left, Sprites.SmallWalk2Left } },
                 { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.SmallJumpLeft } },
                 { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.SmallJump } },
                 { AnimationState.RUNLEFT, new Texture2D[] { Sprites.SmallRunLeft } },
@@ -159,7 +159,7 @@ namespace MarioGame
             { AnimationState.REVIVE, new Texture2D[] { Sprites.Koopa5 } },
             { AnimationState.DIE, new Texture2D[] { Sprites.Koopa7 } }
         };
-        
+
         public static readonly Dictionary<AnimationState, Texture2D[]> goombaAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.STOP, new Texture2D[] { Sprites.Goomba1, Sprites.Goomba2 } },

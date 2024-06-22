@@ -40,6 +40,7 @@ namespace SuperMarioBros.Utils
             LoadBackground(backgroundJsonPath);
             LoadStaticEntities(backgroundEntitiesPath);
             CreateCollisionBodies();
+            CreateCollisionBodiesForBlocks();
         }
 
         /*
@@ -90,8 +91,8 @@ namespace SuperMarioBros.Utils
                 new AetherVector2(40.96f, 0.6f),
                 new AetherVector2(40.32f, 0.6f),
                 new AetherVector2(1.28f, 0.64f),
-                new AetherVector2(1.32f, 0.64f),
-                new AetherVector2(1.32f, 1.28f)
+                new AetherVector2(1.32f, 2.56f),
+                new AetherVector2(1.32f, 2.56f)
             };
 
             var positions = new List<AetherVector2>
@@ -101,20 +102,10 @@ namespace SuperMarioBros.Utils
                 new AetherVector2(77.43f, 8f),
                 new AetherVector2(119.36f,8f),
                 new AetherVector2(24.32f,7.04f),
-                new AetherVector2(29.43f,7.04f),
-                new AetherVector2(36.48f,7.04f)
+                new AetherVector2(29.44f,6.4f),
+                new AetherVector2(36.48f,6.4f)
             };
-
-            for (int i = 0; i < sizes.Count; i++)
-            {
-                AetherVector2 size = sizes[i];
-                AetherVector2 position = positions[i];
-
-                Body largeBody = physicsWorld.CreateBody(position, 0f, BodyType.Static);
-
-                largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
-                largeBody.Tag = i + 1;
-            }
+            CreateBodiesCollisions(sizes, positions);
         }
 
         /*
@@ -194,6 +185,51 @@ namespace SuperMarioBros.Utils
             string json = File.ReadAllText(staticEntitiesPath);
             staticEntities = JsonConvert.DeserializeObject<StaticEntitiesData>(json);
 
+        }
+
+        /*
+         * Creates large collision bodies with specified sizes at the current positions.
+         */
+        private void CreateCollisionBodiesForBlocks()
+        {
+            var sizes = new List<AetherVector2>
+            {
+                new AetherVector2(3.20f, 0.1f),
+                new AetherVector2(1.92f, 0.1f),
+                new AetherVector2(5.12f, 0.1f),
+                new AetherVector2(2.56f, 0.1f),
+                new AetherVector2(1.28f, 0.1f),
+                new AetherVector2(1.92f, 0.1f),
+                new AetherVector2(2.56f, 0.1f),
+                new AetherVector2(2.56f, 0.1f)
+            };
+
+            var positions = new List<AetherVector2>
+            {
+                new AetherVector2(14.4f, 5.165f),
+                new AetherVector2(50.248f, 5.162f),
+                new AetherVector2(53.752f, 2.92f),
+                new AetherVector2(59.52f, 2.92f),
+                new AetherVector2(64f, 5.165f),
+                new AetherVector2(77.76f, 2.92f),
+                new AetherVector2(83.2f, 2.92f),
+                new AetherVector2(108.8f, 5.165f),
+            };
+            CreateBodiesCollisions(sizes, positions);
+        }
+
+        private void CreateBodiesCollisions(List<AetherVector2> sizes, List<AetherVector2> positions)
+        {
+            for (int i = 0; i < sizes.Count; i++)
+            {
+                AetherVector2 size = sizes[i];
+                AetherVector2 position = positions[i];
+
+                Body largeBody = physicsWorld.CreateBody(position, 0f, BodyType.Static);
+
+                largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
+                largeBody.Tag = i + 1;
+            }
         }
     }
 }

@@ -200,7 +200,6 @@ namespace SuperMarioBros.Source.Scenes
 
             UpdateSystems(gameTime);
             CheckPlayerState(sceneManager);
-            Console.WriteLine("Active Entities: " + Entities.Count);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
