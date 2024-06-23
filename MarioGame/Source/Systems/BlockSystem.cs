@@ -37,14 +37,12 @@ public class BlockSystem : BaseSystem
         UpdateBlocks(coinBlockEntities, gameTime, mushroomEntities,startEntities,playerEntities,flowerEntities,coinEntities);
 
     }
-    private void UpdateBlocks(IEnumerable<Entity> entities, GameTime gameTime, IEnumerable<Entity> entities2, IEnumerable<Entity> entities3,IEnumerable<Entity> entitiesPlayer,
+    private void UpdateBlocks(IEnumerable<Entity> entities, GameTime gameTime, IEnumerable<Entity> entitiesMushroom, IEnumerable<Entity> entitiesStar,IEnumerable<Entity> entitiesPlayer,
         IEnumerable<Entity> entitiesflower, IEnumerable<Entity> entitiesCoin)
     {
         foreach (var entity in entities)
         {
             var collider = entity.GetComponent<ColliderComponent>();
-            var animation = entity.GetComponent<AnimationComponent>();
-
             if (collider.collider.ContactList != null)
             {
                 if (!registeredEntities.Contains(entity))
@@ -52,7 +50,7 @@ public class BlockSystem : BaseSystem
                     RegisterBlock(entity, collider,entitiesPlayer);
                 }
 
-                HandleBlockMovement(gameTime, collider, entity, animation, entities2,entities3,entitiesflower,entitiesCoin);
+                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom,entitiesStar,entitiesflower,entitiesCoin);
 
             }
         }
@@ -66,9 +64,8 @@ public class BlockSystem : BaseSystem
         entityStates[entity] = "idle";
     }
 
-    private static void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity,
-        AnimationComponent animationComponent, IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> starEntities,
-        IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
+    private static void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
+        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
         float timeToMove = 0.02f;
