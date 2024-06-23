@@ -203,6 +203,7 @@
                 "x": 6944,
                 "y": 320 }
         },
+
         {
             "type": "COINANIMATION",
             "name": "COIN",
@@ -211,11 +212,11 @@
                 "y": 544 }
         },
         {
-            "type": "COINANIMATION",
-            "name": "COIN",
-            "position": {
-                "x": 1056,
-                "y": 544 }
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 1056, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
         },
         {
             "type": "COINANIMATION",

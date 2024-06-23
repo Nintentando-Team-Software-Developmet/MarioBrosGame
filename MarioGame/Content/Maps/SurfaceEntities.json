@@ -501,13 +501,6 @@
             "position": { "x": 12768, "y": 736 }
         },
         {
-            "type": "QUESTIONBLOCK",
-            "name": "QUESTIONBLOCK",
-            "position": { "x": 1056, "y": 544 },
-            "TypeContent": "COIN",
-            "Quantity": 1
-        },
-        {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
             "position": { "x": 1312, "y": 544 },
