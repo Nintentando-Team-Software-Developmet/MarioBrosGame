@@ -156,6 +156,129 @@
                 "x": 500,
                 "y": 760
             }
+        },
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 1376,
+                "y": 544
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 5024,
+                "y": 544
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 6944,
+                "y": 320
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "STAR",
+            "position": {
+                "x": 6432,
+                "y": 544
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "FLOWER",
+            "position": {
+                "x": 5024,
+                "y": 544 }
+        },
+        {
+            "type": "POWERUP",
+            "name": "FLOWER",
+            "position": {
+                "x": 6944,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1056,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1056,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1504,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1440,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6048,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6752,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6944,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 7136,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 8288,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 8352,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 10912,
+                "y": 544 }
         }
     ]
 }

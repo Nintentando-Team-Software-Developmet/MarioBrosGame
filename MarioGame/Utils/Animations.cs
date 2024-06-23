@@ -80,6 +80,12 @@ namespace MarioGame
             Sprites.QuestionBlockAny
         };
 
+        public static readonly Texture2D[] blockedBlockBrown = new Texture2D[]
+        {
+            Sprites.BlockedBlockBrown,
+            Sprites.BlockedBlockBrown
+        };
+
         public static readonly Texture2D[] coinBlockTextures = new Texture2D[]
         {
             Sprites.BrickBlockBrown
@@ -136,7 +142,7 @@ namespace MarioGame
             { "QUESTION_BLOCK", Sprites.QuestionBlockBrown}
         };
 
-        
+
 
         public static readonly Dictionary<AnimationState,Texture2D[]>  playerAnimations = new Dictionary<AnimationState, Texture2D[]>
             {
@@ -159,7 +165,7 @@ namespace MarioGame
             { AnimationState.REVIVE, new Texture2D[] { Sprites.Koopa5 } },
             { AnimationState.DIE, new Texture2D[] { Sprites.Koopa7 } }
         };
-        
+
         public static readonly Dictionary<AnimationState, Texture2D[]> goombaAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.STOP, new Texture2D[] { Sprites.Goomba1, Sprites.Goomba2 } },
@@ -169,6 +175,10 @@ namespace MarioGame
         public static readonly Dictionary<AnimationState, Texture2D[]> questionBLockAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.QuestionBlockAny, Sprites.QuestionBlockBrown } }
+        };
+        public static readonly Dictionary<AnimationState, Texture2D[]> blockedLockAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.BlockedBlockBrown, Sprites.BlockedBlockBrown } }
         };
 
         public static readonly Dictionary<AnimationState, Texture2D[]> coinBlockAnimations = new Dictionary<AnimationState, Texture2D[]>
@@ -211,6 +221,10 @@ namespace MarioGame
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.SuperStar1, Sprites.SuperStar2, Sprites.SuperStar3 } }
         };
+        public static readonly Dictionary<AnimationState, Texture2D[]> coin = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon } }
+        };
 
         public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName,  Dictionary<AnimationState, Texture2D[]>>
         {
@@ -225,7 +239,9 @@ namespace MarioGame
             { EntitiesName.MUSHROOM,  mushroomAnimations},
             { EntitiesName.FLOWER,  fireFlowerAnimations},
             { EntitiesName.STAR,  superStarAnimations},
-            { EntitiesName.KOOPA, koopaAnimations}
+            { EntitiesName.KOOPA, koopaAnimations},
+            { EntitiesName.BLOCKERBLOCKBROWN, blockedLockAnimations},
+            { EntitiesName.COIN, coin}
         };
 
 

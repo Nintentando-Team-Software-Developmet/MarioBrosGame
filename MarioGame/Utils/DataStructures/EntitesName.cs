@@ -18,6 +18,7 @@ namespace SuperMarioBros.Utils.DataStructures
         QUESTIONBLOCK,
         COINBLOCK,
         DUCT,
-        DUCTEXTENSION
+        DUCTEXTENSION,
+        BLOCKERBLOCKBROWN
     }
 }
