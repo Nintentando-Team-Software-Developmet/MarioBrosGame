@@ -280,5 +280,13 @@
                 "x": 10912,
                 "y": 544 }
         }
+    ,
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6047,
+                "y": 544 }
+        }
     ]
 }

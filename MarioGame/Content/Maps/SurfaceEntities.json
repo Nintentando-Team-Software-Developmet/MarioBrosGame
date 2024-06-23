@@ -641,7 +641,7 @@
         {
             "type": "COINBLOCK",
             "name": "COINBLOCK",
-            "position": { "x": 6048, "y": 544 },
+            "position": { "x": 6047, "y": 544 },
             "TypeContent": "COIN",
             "Quantity": 10
         },

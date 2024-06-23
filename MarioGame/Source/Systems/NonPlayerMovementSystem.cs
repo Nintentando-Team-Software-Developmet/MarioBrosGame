@@ -119,25 +119,29 @@ namespace SuperMarioBros.Source.Systems
         }
         private void HandleCoinComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime)
         {
-            var mushroomComponent = entity.GetComponent<CoinComponent>();
-            if (mushroomComponent.statusBlock)
+            var coinComponent = entity.GetComponent<CoinComponent>();
+            if (coinComponent.statusBlock)
             {
                 if (!mushroomVerticalMovement.ContainsKey(entity))
                 {
                     mushroomVerticalMovement[entity] = 0;
                 }
-                if (mushroomVerticalMovement[entity] < 1.5f )
+                if (mushroomVerticalMovement[entity] < 1.5f)
                 {
-                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity,3.5f,false);
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 4.5f, false);
                 }
-                else if (mushroomVerticalMovement[entity] <= 3.0f )
+                else if (mushroomVerticalMovement[entity] <= 3.0f)
                 {
-                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity,3.5f,true);
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 4.5f, true);
+                }
+                else
+                {
+                    mushroomVerticalMovement[entity] = 0;
+                    coinComponent.statusBlock = false;
 
                 }
             }
         }
-
         private void HandleStarComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime,BaseComponent entityComponent,float verticalVelocity)
         {
             var mushroomComponent = entity.GetComponent<StarComponent>();
