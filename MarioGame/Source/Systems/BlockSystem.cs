@@ -125,7 +125,7 @@ public class BlockSystem : BaseSystem
                         number += 1;
                         if (questionBlock.TypeContent == EntitiesName.POWERUP)
                         {
-                            if (!statusMario)
+                            if (statusMario)
                             {
                                 ActivateMushrooms(entities, collider.collider.Position);
                             }
