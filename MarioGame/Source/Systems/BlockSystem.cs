@@ -1,26 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 using MarioGame;
-using MarioGame.Utils.DataStructures;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using nkast.Aether.Physics2D.Common;
 using nkast.Aether.Physics2D.Dynamics;
 using nkast.Aether.Physics2D.Dynamics.Contacts;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
-
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
-
-using Vector2 = nkast.Aether.Physics2D.Common.Vector2;
-
 namespace SuperMarioBros.Source.Systems;
 
 public class BlockSystem : BaseSystem
@@ -31,8 +22,6 @@ public class BlockSystem : BaseSystem
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
     private static bool statusMario { get; set; }
-
-    static int number { get; set; }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
@@ -81,13 +70,12 @@ public class BlockSystem : BaseSystem
     }
 
     private static void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity,
-        AnimationComponent animationComponent, IEnumerable<Entity> entities, IEnumerable<Entity> entities3,
-        IEnumerable<Entity> flowerEntities,IEnumerable<Entity> coinEntities)
+        AnimationComponent animationComponent, IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> starEntities,
+        IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
         float timeToMove = 0.02f;
         float waitTime = 0.02f;
-        Entity entity2 = new Entity();
         if (!entitiesInContact.Contains(entity))
         {
             entitiesInContact.Add(entity);
@@ -100,49 +88,14 @@ public class BlockSystem : BaseSystem
 
         switch (entityStates[entity])
         {
-            case "movingUp2":
+            case "movingUp":
                 if (entityTimers[entity] >= timeToMove)
                 {
                     MoveBlock(collider, entity, -movementSpeed);
                     entityStates[entity] = "waiting";
                     entityTimers[entity] = 0;
-                    if (entity.HasComponent<CoinBlockComponent>())
-                    {
-                        if (coinBlock.TypeContent == EntitiesName.STAR)
-                        {
-                            ActivateMushroomsStart(entities3, collider.collider.Position);
+                    HandleBlockContent(entity, collider, questionBlock, coinBlock, mushroomEntities, starEntities, flowerEntities, coinEntities);
 
-                        }
-                        Console.WriteLine(coinBlock.TypeContent);
-                    }
-
-                    if (entity.HasComponent<QuestionBlockComponent>())
-                    {
-                        AnimationComponent animationComponent2 =
-                            new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64);
-                        animationComponent.animations = animationComponent2.animations;
-
-                        number += 1;
-                        if (questionBlock.TypeContent == EntitiesName.POWERUP)
-                        {
-                            if (statusMario)
-                            {
-                                ActivateMushrooms(entities, collider.collider.Position);
-                            }
-                            else
-                            {
-                                ActivateFlower(flowerEntities, collider.collider.Position);
-                            }
-
-
-                        }
-                        else if (questionBlock.TypeContent == EntitiesName.COIN)
-                        {
-
-                            Console.WriteLine(questionBlock.TypeContent);
-                            ActivateCoin(coinEntities,collider.collider.Position);
-                        }
-                    }
                 }
 
                 break;
@@ -167,62 +120,60 @@ public class BlockSystem : BaseSystem
         }
     }
 
-    private static void ActivateMushrooms(IEnumerable<Entity> mushroomEntities, AetherVector2 questionBlockPosition)
+    private static void HandleBlockContent(Entity entity, ColliderComponent collider,
+        QuestionBlockComponent questionBlock, CoinBlockComponent coinBlock,
+        IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities,
+        IEnumerable<Entity> coinEntities)
     {
-        foreach (var entity in mushroomEntities)
+        if (coinBlock != null)
         {
-            var mushroom = entity.GetComponent<MushroomComponent>();
-            var collider = entity.GetComponent<ColliderComponent>();
-
-            if (collider.collider.Position.X == questionBlockPosition.X)
+            if (coinBlock.TypeContent == EntitiesName.STAR)
             {
-                mushroom.statusBlock = true;
+                ActivateEntities<StarComponent>(starEntities, collider.collider.Position);
             }
-        }
-    }
-    private static void ActivateFlower(IEnumerable<Entity> mushroomEntities, AetherVector2 questionBlockPosition)
-    {
-        foreach (var entity in mushroomEntities)
-        {
-            var mushroom = entity.GetComponent<FlowerComponent>();
-            var collider = entity.GetComponent<ColliderComponent>();
-
-            if (collider.collider.Position.X == questionBlockPosition.X)
-            {
-                mushroom.statusBlock = true;
-            }
-        }
-    }
-    private static void ActivateCoin(IEnumerable<Entity> mushroomEntities, AetherVector2 questionBlockPosition)
-    {
-        foreach (var entity in mushroomEntities)
-        {
-            var mushroom = entity.GetComponent<CoinComponent>();
-            var collider = entity.GetComponent<ColliderComponent>();
-
-            if (collider.collider.Position.X == questionBlockPosition.X)
-            {
-                mushroom.statusBlock = true;
-                Console.WriteLine(mushroom.statusBlock);
-            }
-
 
         }
-    }
-    private static void ActivateMushroomsStart(IEnumerable<Entity> mushroomEntities, AetherVector2 questionBlockPosition)
-    {
-        foreach (var entity in mushroomEntities)
-        {
-            var mushroom = entity.GetComponent<StarComponent>();
-            var collider = entity.GetComponent<ColliderComponent>();
 
-            if (collider.collider.Position.X == questionBlockPosition.X)
+        if (questionBlock != null)
+        {
+            var animationComponent = entity.GetComponent<AnimationComponent>();
+            animationComponent.animations =
+                new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
+
+            if (questionBlock.TypeContent == EntitiesName.POWERUP)
             {
-                mushroom.statusBlock = true;
+                if (!statusMario)
+                {
+                    ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
+                }
+                else
+                {
+                    ActivateEntities<FlowerComponent>(flowerEntities, collider.collider.Position);
+                }
             }
+            else if (questionBlock.TypeContent == EntitiesName.COIN)
+            {
+                ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
+            }
+
+            questionBlock.HasMoved = true;
         }
     }
 
+    private static void ActivateEntities<T>(IEnumerable<Entity> entities, AetherVector2 position) where T : BaseComponent
+    {
+        foreach (var entity in entities)
+        {
+            var component = entity.GetComponent<T>();
+            var collider = entity.GetComponent<ColliderComponent>();
+
+            if (collider.collider.Position.X == position.X)
+            {
+                dynamic dynComponent = component;
+                dynComponent.statusBlock = true;
+            }
+        }
+    }
 
     private static void MoveBlock(ColliderComponent collider, Entity entity, float speed)
     {
@@ -242,14 +193,15 @@ public class BlockSystem : BaseSystem
 
             if (IsCollisionAtBase(contact, blockBottomY,entities))
             {
-                if (entityStates[entity] == "idle")
+                var questionBlock = entity.GetComponent<QuestionBlockComponent>();
+                var coinBlock = entity.GetComponent<QuestionBlockComponent>();
+                if (entityStates[entity] == "idle" && (questionBlock == null || !questionBlock.HasMoved || !coinBlock.HasMoved))
                 {
-                    entityStates[entity] = "movingUp2";
+                    entityStates[entity] = "movingUp";
                 }
             }
             else
             {
-
                 ApplyRepulsionForce(contact);
             }
             return true;
