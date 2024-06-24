@@ -124,7 +124,7 @@ public static class CommonRenders
                 new Vector2(1f), SpriteEffects.None, 0f);
     }
 
-    
+
 
     public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
     {

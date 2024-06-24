@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
+
 
 using Microsoft.Xna.Framework;
+
+using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
@@ -15,10 +17,19 @@ namespace SuperMarioBros.Source.Systems
 {
     public class EnemySystem : BaseSystem
     {
-        private HashSet<Entity> registeredEntities = new HashSet<Entity>();
+        private HashSet<Entity> registeredEntities = new();
+        private List<Body> _bodiesToRemove = new();
+        private List<Body> _playerBodies = new();
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
+            IEnumerable<Entity> players = entities.WithComponents(typeof(ColliderComponent), typeof(PlayerComponent));
+
+            foreach (var player in players)
+            {
+                _playerBodies.Add(player.GetComponent<ColliderComponent>().collider);
+            }
+
             IEnumerable<Entity> enemies = entities.WithComponents(typeof(ColliderComponent), typeof(EnemyComponent), typeof(MovementComponent));
             foreach (var entity in enemies)
             {
@@ -57,6 +68,7 @@ namespace SuperMarioBros.Source.Systems
                         {
                             koopa.IsReviving = false;
                             koopa.RevivingTime = GameConstants.KoopaReviveTime;
+                            koopa.IsKillable = false;
                             if (movement.Direction == MovementType.RIGHT)
                             {
                                 animation.Play(AnimationState.WALKRIGHT);
@@ -71,37 +83,74 @@ namespace SuperMarioBros.Source.Systems
                     }
 
                 }
+
+                if (!enemy.IsAlive)
+                {
+                    enemy.KillTime -= (float)gameTime?.ElapsedGameTime.TotalSeconds;
+                    collider.collider.LinearVelocity = new AetherVector2(0, 1);
+                    if (enemy.KillTime <= 0)
+                    {
+                        foreach (var body in _bodiesToRemove)
+                        {
+                            body.World.Remove(body);
+                        }
+                        _bodiesToRemove.Clear();
+                        entity.ClearComponents();
+                    }
+
+                }
             }
         }
 
-        private static void RegisterEnemyEvents(ColliderComponent collider, AnimationComponent animation = null, MovementComponent movement = null, Entity entity = null, EnemyComponent enemy = null)
+        private void RegisterEnemyEvents(ColliderComponent collider, AnimationComponent animation = null, MovementComponent movement = null, Entity entity = null, EnemyComponent enemy = null)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
-
-                AetherVector2 normal = contact.Manifold.LocalNormal;
-                if (CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
+                var enemyBody = fixtureA.Body;
+                var otherBody = fixtureB.Body;
+                if (!enemy.IsAlive)
                 {
-                    //collider.velocity = 0;
-                    movement.Direction = MovementType.STOP;
-                    if (entity.HasComponent<KoopaComponent>())
+                    return false;
+                }
+
+                if (_playerBodies.Contains(otherBody))
+                {
+                    if (CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                     {
-                        var koopa = entity.GetComponent<KoopaComponent>();
-                        if (koopa.IsKnocked)
+                        movement.Direction = MovementType.STOP;
+                        if (entity.HasComponent<KoopaComponent>())
                         {
-                            movement.Direction = MovementType.RIGHT;
-                            collider.velocity = 3.1f;
+                            var koopa = entity.GetComponent<KoopaComponent>();
+                            if (koopa.IsKnocked && !koopa.IsKillable)
+                            {
+                                movement.Direction = MovementType.RIGHT;
+                                koopa.IsKillable = true;
+                                collider.velocity = 5.1f;
+                            }
+                            else if (koopa.IsKillable)
+                            {
+                                enemy.IsAlive = false;
+                                animation.Play(AnimationState.DIE);
+                                enemyBody.ResetDynamics();
+                                fixtureA.CollidesWith = Category.None;
+                                enemyBody.ApplyForce(new AetherVector2(0, 64));
+                                _bodiesToRemove.Add(enemyBody);
+                            }
+                            else
+                            {
+                                koopa.IsKnocked = true;
+                                otherBody.ApplyForce(new AetherVector2(0, -300));
+                                animation.Play(AnimationState.KNOCKED);
+                            }
                         }
                         else
                         {
-                            koopa.IsKnocked = true;
-                            animation.Play(AnimationState.KNOCKED);
+                            enemy.IsAlive = false;
+                            animation.Play(AnimationState.DIE);
+                            otherBody.ApplyForce(new AetherVector2(0, -300));
+                            enemyBody.ResetDynamics();
+                            _bodiesToRemove.Add(enemyBody);
                         }
-                    }
-                    else
-                    {
-                        enemy.IsAlive = false;
-                        animation.Play(AnimationState.DIE);
                     }
                 }
                 return true;

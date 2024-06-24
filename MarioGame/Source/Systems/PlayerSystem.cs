@@ -16,21 +16,35 @@ namespace SuperMarioBros.Source.Systems
 {
     public class PlayerSystem : BaseSystem
     {
+        private List<Body> _enemyBodies = new();
+        private HashSet<Entity> registeredEntities = new();
+
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> players = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent), typeof(AnimationComponent));
-            foreach (var player in players)
+            IEnumerable<Entity> enemies = entities.WithComponents(typeof(EnemyComponent), typeof(ColliderComponent));
+            foreach (Entity enemy in enemies)
             {
+                _enemyBodies.Add(enemy.GetComponent<ColliderComponent>().collider);
+            }
+            IEnumerable<Entity> players = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent));
+            foreach(var player in players){
                 var playerComponent = player.GetComponent<PlayerComponent>();
                 var colliderComponent = player.GetComponent<ColliderComponent>();
                 var animationComponent = player.GetComponent<AnimationComponent>();
+                var movementComponent = player.GetComponent<MovementComponent>();
                 var playerPosition = colliderComponent.Position;
 
-                if (playerPosition.Y > GameConstants.CameraViewportHeight + 300 && playerComponent.IsAlive)
+                if(playerPosition.Y > GameConstants.CameraViewportHeight + 300)
                 {
                     playerComponent.IsAlive = false;
                     StartDeathAnimation(playerComponent, animationComponent, colliderComponent);
                 }
+                if (!registeredEntities.Contains(player))
+                {
+                    RegisterEnemyEvents(colliderComponent, playerComponent, movementComponent);
+                    registeredEntities.Add(player);
+                }
+
 
                 if (!playerComponent.IsAlive)
                 {
@@ -40,6 +54,27 @@ namespace SuperMarioBros.Source.Systems
                     }
                 }
             }
+
+        }
+        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent, MovementComponent movement)
+        {
+            collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
+            {
+                if (!playerComponent.IsAlive)
+                {
+                    return false;
+                }
+                var otherBody = fixtureB.Body;
+
+                if (_enemyBodies.Contains(otherBody))
+                {
+                    if (CollisionAnalyzer.GetDirectionCollision(contact) != CollisionType.UP)
+                    {
+                        playerComponent.IsAlive = false;
+                    }
+                }
+                return true;
+            };
         }
 
         private static void StartDeathAnimation(PlayerComponent playerComponent, AnimationComponent animationComponent, ColliderComponent colliderComponent)

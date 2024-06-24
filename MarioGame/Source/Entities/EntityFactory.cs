@@ -47,23 +47,41 @@ namespace SuperMarioBros.Source.Entities
                         AnimationComponent mushroomAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                         entity.AddComponent(mushroomAnimationComponent);
                         entity.AddComponent(new MushroomComponent());
-                        entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic));
+                        ColliderComponent colliderComponentMushroom = new ColliderComponent(physicsWorld, entityData.position.x,entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic);
+                        entity.AddComponent(colliderComponentMushroom);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                        colliderComponentMushroom.Enabled(false);
                     }
                     if (entityData.name == EntitiesName.FLOWER)
                     {
                         AnimationComponent fireFlowerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                         entity.AddComponent(fireFlowerAnimationComponent);
-                        entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, fireFlowerAnimationComponent.textureRectangle, BodyType.Dynamic));
+                        entity.AddComponent(new FlowerComponent());
+                        ColliderComponent colliderComponentFireFlower = new ColliderComponent(physicsWorld,entityData.position.x, entityData.position.y, fireFlowerAnimationComponent.textureRectangle,BodyType.Dynamic);
+                        entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                        entity.AddComponent(colliderComponentFireFlower);
+                        colliderComponentFireFlower.Enabled(false);
                     }
                     if (entityData.name == EntitiesName.STAR)
                     {
                         AnimationComponent superStarAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                         entity.AddComponent(superStarAnimationComponent);
                         entity.AddComponent(new StarComponent());
-                        entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, superStarAnimationComponent.textureRectangle, BodyType.Dynamic));
+                        ColliderComponent colliderComponent3 = new ColliderComponent(physicsWorld,entityData.position.x, entityData.position.y, superStarAnimationComponent.textureRectangle,BodyType.Dynamic);
+                        entity.AddComponent(colliderComponent3);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                        colliderComponent3.Enabled(false);
                     }
+                    break;
+
+                case EntityType.COINANIMATION:
+                    AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 40, 40);
+                    entity.AddComponent(coinAnimationComponent);
+                    entity.AddComponent(new CoinComponent());
+                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld,entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle,BodyType.Dynamic);
+                    entity.AddComponent(colliderComponentCoin);
+                    entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    colliderComponentCoin.Enabled(false);
                     break;
 
                 case EntityType.PLAYER:
@@ -105,6 +123,7 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(coinBlockComponent);
                     break;
 
+
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(blockAnimationComponent);
@@ -122,7 +141,6 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(ductExtensionAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductExtensionAnimationComponent.textureRectangle, BodyType.Static));
                     break;
-
                 default:
                     break;
             }

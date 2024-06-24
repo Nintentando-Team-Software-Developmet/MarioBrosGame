@@ -11,4 +11,8 @@ public static class GameConstants
     //Koopa Times
     public const float KoopaReviveTime = 4f;
     public const float KoopaKnockedTime = 4f;
+
+    //Enemies Times
+    public const float EnemyKillTime = 0.2f;
 }
+
