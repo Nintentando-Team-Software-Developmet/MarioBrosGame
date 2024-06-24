@@ -86,7 +86,6 @@ namespace SuperMarioBros.Source.Scenes
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
-            Console.WriteLine("Loaded Entities: " + Entities.Count);
         }
 
         private void InitializeSystems(SpriteData spriteData)
@@ -200,7 +199,6 @@ namespace SuperMarioBros.Source.Scenes
 
             UpdateSystems(gameTime);
             CheckPlayerState(sceneManager);
-            Console.WriteLine("Active Entities: " + Entities.Count);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
@@ -292,7 +290,10 @@ namespace SuperMarioBros.Source.Scenes
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && !player.IsAlive)
             {
-                HandlePlayerDeath(sceneManager);
+                if (player.DeathAnimationComplete)
+                {
+                    HandlePlayerDeath(sceneManager);
+                }
             }
         }
 
@@ -308,6 +309,7 @@ namespace SuperMarioBros.Source.Scenes
                 sceneManager.ChangeScene(SceneName.GameOver);
             }
         }
+
 
         /*
          * Draws the level scene on the screen.
@@ -325,6 +327,10 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+            using (var deb = new DebuggerColliders(physicsWorld, spriteData))
+            {
+                deb.DrawColliders();
+            }
             spriteData.spriteBatch.End();
         }
 

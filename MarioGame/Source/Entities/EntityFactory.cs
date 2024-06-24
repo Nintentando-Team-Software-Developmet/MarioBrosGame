@@ -98,7 +98,7 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.COINBLOCK:
-                    AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 68, 64);
+                    AnimationComponent coinBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                     entity.AddComponent(coinBlockAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
                     CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent, entityData.Quantity);
