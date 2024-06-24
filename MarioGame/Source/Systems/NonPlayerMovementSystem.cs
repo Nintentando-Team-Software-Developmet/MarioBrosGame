@@ -16,6 +16,9 @@ namespace SuperMarioBros.Source.Systems
     public class NonPlayerMovementSystem : BaseSystem
     {
         private HashSet<Entity> registeredEntities = new HashSet<Entity>();
+       // private static Dictionary<Entity, bool> hasMovedVertically = new Dictionary<Entity, bool>();
+        private Dictionary<Entity, float> mushroomVerticalMovement = new Dictionary<Entity, float>();
+
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
@@ -39,21 +42,26 @@ namespace SuperMarioBros.Source.Systems
 
                     if (entity.HasComponent<StarComponent>())
                     {
-                      entityComponent = entity.GetComponent<StarComponent>();
-                        ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
-                        horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
-                        verticalVelocity = ((StarComponent)entityComponent).VerticalVelocity;
-                    
-                        if (!collider.isJumping())
-                        {
-                            collider.collider.ApplyLinearImpulse(new AetherVector2(0, -3.8f));
-                        }
+                        entityComponent = entity.GetComponent<StarComponent>();
+                        if (gameTime != null)
+                            HandleStarComponentMovement(entity, collider, ref horizontalVelocity, gameTime,
+                                entityComponent, verticalVelocity);
                     }
 
-                    else if (entity.HasComponent<MushroomComponent>())
+                    else if (entity.HasComponent<MushroomComponent>() )
                     {
-                        entityComponent = entity.GetComponent<MushroomComponent>();
-                        horizontalVelocity = ((MushroomComponent)entityComponent).HorizontalVelocity;
+                        if (gameTime != null)
+                         HandleMushroomComponentMovement(entity, collider, ref horizontalVelocity, gameTime);
+                    }
+                    else if (entity.HasComponent<FlowerComponent>())
+                    {
+                        if (gameTime != null)
+                            HandleFlowerComponentMovement(entity, collider, ref horizontalVelocity, gameTime);
+                    }
+                    else if (entity.HasComponent<CoinComponent>())
+                    {
+                        if (gameTime != null)
+                            HandleCoinComponentMovement(entity, collider, ref horizontalVelocity, gameTime);
                     }
 
                     switch (movement.Direction)
@@ -67,6 +75,122 @@ namespace SuperMarioBros.Source.Systems
                     }
                 }
             }
+        }
+
+        private void HandleMushroomComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime)
+        {
+            var mushroomComponent = entity.GetComponent<MushroomComponent>();
+            if (mushroomComponent.statusBlock)
+            {
+                if (!mushroomVerticalMovement.ContainsKey(entity))
+                {
+                    mushroomVerticalMovement[entity] = 0;
+                }
+                if (mushroomVerticalMovement[entity] < 0.7f )
+                {
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity,0.5f,false);
+                }
+                else
+                {
+                    collider.Enabled(true);
+                    horizontalVelocity = mushroomComponent.HorizontalVelocity;
+                }
+            }
+        }
+
+        private void HandleFlowerComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime)
+        {
+            var mushroomComponent = entity.GetComponent<FlowerComponent>();
+            if (mushroomComponent.statusBlock)
+            {
+                if (!mushroomVerticalMovement.ContainsKey(entity))
+                {
+                    mushroomVerticalMovement[entity] = 0;
+                }
+                if (mushroomVerticalMovement[entity] < 0.7f )
+                {
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 0.5f,false);
+                }
+                else
+                {
+                    collider.Enabled(true);
+                }
+            }
+        }
+        private void HandleCoinComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime)
+        {
+            var coinComponent = entity.GetComponent<CoinComponent>();
+            if (coinComponent.statusBlock)
+            {
+                if (!mushroomVerticalMovement.ContainsKey(entity))
+                {
+                    mushroomVerticalMovement[entity] = 0;
+                }
+                if (mushroomVerticalMovement[entity] < 1.5f)
+                {
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 4.5f, false);
+                }
+                else if (mushroomVerticalMovement[entity] <= 3.0f)
+                {
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 4.5f, true);
+                }
+                else
+                {
+                    mushroomVerticalMovement[entity] = 0;
+                    coinComponent.statusBlock = false;
+
+                }
+            }
+        }
+        private void HandleStarComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime,BaseComponent entityComponent,float verticalVelocity)
+        {
+            var mushroomComponent = entity.GetComponent<StarComponent>();
+            if (mushroomComponent.statusBlock)
+            {
+                if (!mushroomVerticalMovement.ContainsKey(entity))
+                {
+                    mushroomVerticalMovement[entity] = 0;
+                }
+                if (mushroomVerticalMovement[entity] < 0.7f )
+                {
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity,0.5f,false);
+                }
+                else
+                {
+                    collider.Enabled(true);
+                    ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
+                    horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
+                    verticalVelocity = ((StarComponent)entityComponent).VerticalVelocity;
+                    if (!collider.isJumping())
+                    {
+                        collider.collider.ApplyLinearImpulse(new AetherVector2(0, -3.8f));
+                    }
+                }
+            }
+        }
+
+        public void PowerUpRise(GameTime gameTime,Entity entity,ColliderComponent collider,ref float horizontalVelocity,float upPosition,bool IsDescent)
+        {
+            if (gameTime != null)
+            {
+                float increment = upPosition * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                mushroomVerticalMovement[entity] += increment;
+                if (collider != null)
+                {
+                    var currentPosition = collider.collider.Position;
+                    if (IsDescent)
+                    {
+                        currentPosition.Y += increment;
+                    }
+                    else
+                    {
+                        currentPosition.Y -= increment;
+                    }
+                    collider.collider.Position = currentPosition;
+                }
+            }
+            if (collider != null) collider.Enabled(false);
+            horizontalVelocity = 0;
         }
 
         private static void RegisterChangePositionEvent(ColliderComponent collider, MovementComponent movement, AnimationComponent animation)
