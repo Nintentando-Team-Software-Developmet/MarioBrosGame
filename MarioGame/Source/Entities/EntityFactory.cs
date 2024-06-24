@@ -10,6 +10,8 @@ using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
+using static SuperMarioBros.Utils.PowerUpType;
+
 namespace SuperMarioBros.Source.Entities
 {
     public static class EntityFactory
@@ -49,6 +51,7 @@ namespace SuperMarioBros.Source.Entities
                         entity.AddComponent(new MushroomComponent());
                         ColliderComponent colliderComponentMushroom = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic);
                         entity.AddComponent(colliderComponentMushroom);
+                        entity.AddComponent(new PowerUpComponent(Mushroom));
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                         colliderComponentMushroom.Enabled(false);
                     }
@@ -60,6 +63,7 @@ namespace SuperMarioBros.Source.Entities
                         ColliderComponent colliderComponentFireFlower = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, fireFlowerAnimationComponent.textureRectangle, BodyType.Dynamic);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                         entity.AddComponent(colliderComponentFireFlower);
+                        entity.AddComponent(new PowerUpComponent(FireFlower));
                         colliderComponentFireFlower.Enabled(false);
                     }
                     if (entityData.name == EntitiesName.STAR)
@@ -70,6 +74,7 @@ namespace SuperMarioBros.Source.Entities
                         ColliderComponent colliderComponent3 = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, superStarAnimationComponent.textureRectangle, BodyType.Dynamic);
                         entity.AddComponent(colliderComponent3);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                        entity.AddComponent(new PowerUpComponent(Star));
                         colliderComponent3.Enabled(false);
                     }
                     break;
@@ -98,6 +103,7 @@ namespace SuperMarioBros.Source.Entities
                         GameConstants.CameraWorldWidth,
                         GameConstants.CameraViewportHeight));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    entity.AddComponent(new PlayerStateComponent());
                     break;
 
                 case EntityType.WINGAME:
