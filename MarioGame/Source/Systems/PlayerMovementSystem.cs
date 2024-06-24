@@ -115,9 +115,11 @@ namespace SuperMarioBros.Source.Systems
 
         private static void HandleStop(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            float velocityX = collider.collider.LinearVelocity.X;
+            float velocityY = collider.collider.LinearVelocity.Y;
             if (!collider.isJumping())
             {
-                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y);
+                collider.collider.LinearVelocity = new AetherVector2(velocityX * collider.friction, velocityY);
             }
             if (movement.Direction == MovementType.LEFT && !collider.isJumping())
             {
@@ -131,13 +133,16 @@ namespace SuperMarioBros.Source.Systems
 
         private static void LimitSpeed(ColliderComponent collider, float maxSpeed)
         {
-            if (collider.collider.LinearVelocity.X > maxSpeed)
+            float velocityX = collider.collider.LinearVelocity.X;
+            float velocityY = collider.collider.LinearVelocity.Y;
+            
+            if (velocityX > maxSpeed)
             {
-                collider.collider.LinearVelocity = new AetherVector2(maxSpeed, collider.collider.LinearVelocity.Y);
+                collider.collider.LinearVelocity = new AetherVector2(maxSpeed, velocityY);
             }
-            else if (collider.collider.LinearVelocity.X < -maxSpeed)
+            else if (velocityX < -maxSpeed)
             {
-                collider.collider.LinearVelocity = new AetherVector2(-maxSpeed, collider.collider.LinearVelocity.Y);
+                collider.collider.LinearVelocity = new AetherVector2(-maxSpeed, velocityY);
             }
         }
     }
