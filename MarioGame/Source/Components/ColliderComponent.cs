@@ -17,7 +17,6 @@ namespace SuperMarioBros.Source.Components
         public float maxSpeed { get; set;}
         public float velocity { get; set;}
         public float friction { get; set;}
-        public CollisionType lastCollision { get; set; }
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
@@ -30,6 +29,10 @@ namespace SuperMarioBros.Source.Components
         public bool isJumping()
         {
             return collider.LinearVelocity.Y != 0;
+        }
+        public void Enabled(bool enabled)
+        {
+            collider.Enabled = enabled;
         }
 
         public Vector2 Position

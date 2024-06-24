@@ -11,6 +11,7 @@ namespace SuperMarioBros.Utils.DataStructures
         DUCT,
         COINBLOCK,
         DUCTEXTENSION,
-        POWERUP
+        POWERUP,
+        COINANIMATION
     }
 }

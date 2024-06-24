@@ -6,6 +6,7 @@ public class CoinBlockComponent : BaseComponent
 {
     public EntitiesName TypeContent { get; set; }
     public int Quantity { get; set; }
+    public bool HasMoved { get; set; }
 
     public CoinBlockComponent(EntitiesName typeContent, int quantity)
     {

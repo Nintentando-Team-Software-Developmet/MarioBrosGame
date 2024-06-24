@@ -11,7 +11,8 @@ namespace SuperMarioBros.Source.Components
 {
     public class AnimationComponent : BaseComponent
     {
-        public Dictionary<AnimationState, Texture2D[]> animations { get; private set; }
+        public IReadOnlyDictionary<AnimationState, Texture2D[]> animations { get; set; }
+
         public AnimationState currentState { get; private set; }
         public Rectangle textureRectangle { get; set; }
         public float velocity { get; set; }
