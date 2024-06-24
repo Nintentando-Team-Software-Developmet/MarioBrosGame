@@ -35,14 +35,14 @@ namespace SuperMarioBros.Source.Systems
                 }
                 if (!registeredEntities.Contains(player))
                 {
-                    RegisterEnemyEvents(colliderComponent, playerComponent, movementComponent);
+                    RegisterEnemyEvents(colliderComponent, playerComponent);
                     registeredEntities.Add(player);
                 }
 
             }
 
         }
-        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent, MovementComponent movement)
+        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {

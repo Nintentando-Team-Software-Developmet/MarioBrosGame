@@ -92,7 +92,7 @@ public class BlockSystem : BaseSystem
             case "movingUp":
                 if (entityTimers[entity] >= timeToMove)
                 {
-                    MoveBlock(collider, entity, -movementSpeed);
+                    MoveBlock(collider, -movementSpeed);
                     entityStates[entity] = "waiting";
                     entityTimers[entity] = 0;
                     HandleBlockContent(entity, collider, questionBlock, coinBlock, mushroomEntities, starEntities, flowerEntities,coinEntities);
@@ -111,7 +111,7 @@ public class BlockSystem : BaseSystem
             case "movingDown":
                 if (entityTimers[entity] >= timeToMove)
                 {
-                    MoveBlock(collider, entity, movementSpeed);
+                    MoveBlock(collider, movementSpeed);
                     entityStates[entity] = "idle";
                     entityTimers[entity] = 0;
                     entitiesInContact.Remove(entity);
@@ -204,7 +204,7 @@ public class BlockSystem : BaseSystem
         }
     }
 
-    private static void MoveBlock(ColliderComponent collider, Entity entity, float speed)
+    private static void MoveBlock(ColliderComponent collider, float speed)
     {
         var currentPosition = collider.collider.Position;
         currentPosition.Y += speed;
