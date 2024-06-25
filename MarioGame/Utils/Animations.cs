@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework.Graphics;
+
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -144,7 +146,7 @@ namespace MarioGame
 
 
 
-        public static readonly Dictionary<AnimationState,Texture2D[]>  playerAnimations = new Dictionary<AnimationState, Texture2D[]>
+        public static readonly Dictionary<AnimationState, Texture2D[]> playerAnimations = new Dictionary<AnimationState, Texture2D[]>
             {
                 { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk3, Sprites.SmallWalk2 } },
                 { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk3Left, Sprites.SmallWalk2Left } },
@@ -226,7 +228,7 @@ namespace MarioGame
             { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon } }
         };
 
-        public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName,  Dictionary<AnimationState, Texture2D[]>>
+        public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>>
         {
             { EntitiesName.MARIO, playerAnimations },
             { EntitiesName.GOOMBA, goombaAnimations },

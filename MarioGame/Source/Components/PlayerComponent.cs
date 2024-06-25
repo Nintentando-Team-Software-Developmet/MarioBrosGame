@@ -9,6 +9,8 @@ namespace SuperMarioBros.Source.Components
         public bool IsDying { get; set; }
         public float DeathTimer { get; set; }
         public bool DeathAnimationComplete { get; set; }
+        public bool ShouldProcessDeath { get; set; }
+        public bool IsTimeOver { get; set; }
 
         public PlayerComponent()
         {
@@ -19,6 +21,8 @@ namespace SuperMarioBros.Source.Components
             IsDying = false;
             DeathTimer = 0;
             DeathAnimationComplete = false;
+            ShouldProcessDeath = false;
+            IsTimeOver = false;
         }
     }
 }

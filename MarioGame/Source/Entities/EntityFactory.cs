@@ -47,7 +47,7 @@ namespace SuperMarioBros.Source.Entities
                         AnimationComponent mushroomAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                         entity.AddComponent(mushroomAnimationComponent);
                         entity.AddComponent(new MushroomComponent());
-                        ColliderComponent colliderComponentMushroom = new ColliderComponent(physicsWorld, entityData.position.x,entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic);
+                        ColliderComponent colliderComponentMushroom = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, mushroomAnimationComponent.textureRectangle, BodyType.Dynamic);
                         entity.AddComponent(colliderComponentMushroom);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                         colliderComponentMushroom.Enabled(false);
@@ -57,7 +57,7 @@ namespace SuperMarioBros.Source.Entities
                         AnimationComponent fireFlowerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                         entity.AddComponent(fireFlowerAnimationComponent);
                         entity.AddComponent(new FlowerComponent());
-                        ColliderComponent colliderComponentFireFlower = new ColliderComponent(physicsWorld,entityData.position.x, entityData.position.y, fireFlowerAnimationComponent.textureRectangle,BodyType.Dynamic);
+                        ColliderComponent colliderComponentFireFlower = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, fireFlowerAnimationComponent.textureRectangle, BodyType.Dynamic);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                         entity.AddComponent(colliderComponentFireFlower);
                         colliderComponentFireFlower.Enabled(false);
@@ -67,7 +67,7 @@ namespace SuperMarioBros.Source.Entities
                         AnimationComponent superStarAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
                         entity.AddComponent(superStarAnimationComponent);
                         entity.AddComponent(new StarComponent());
-                        ColliderComponent colliderComponent3 = new ColliderComponent(physicsWorld,entityData.position.x, entityData.position.y, superStarAnimationComponent.textureRectangle,BodyType.Dynamic);
+                        ColliderComponent colliderComponent3 = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, superStarAnimationComponent.textureRectangle, BodyType.Dynamic);
                         entity.AddComponent(colliderComponent3);
                         entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                         colliderComponent3.Enabled(false);
@@ -78,7 +78,7 @@ namespace SuperMarioBros.Source.Entities
                     AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 40, 40);
                     entity.AddComponent(coinAnimationComponent);
                     entity.AddComponent(new CoinComponent());
-                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld,entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle,BodyType.Dynamic);
+                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle, BodyType.Dynamic);
                     entity.AddComponent(colliderComponentCoin);
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     colliderComponentCoin.Enabled(false);

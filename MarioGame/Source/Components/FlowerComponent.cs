@@ -1,5 +1,5 @@
 namespace SuperMarioBros.Source.Components;
 
-public class FlowerComponent  : BaseComponent
+public class FlowerComponent : BaseComponent
 {
 }

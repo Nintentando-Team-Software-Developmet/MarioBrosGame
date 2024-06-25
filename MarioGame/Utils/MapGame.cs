@@ -90,7 +90,8 @@ namespace SuperMarioBros.Utils
                 new AetherVector2(40.32f, 1.28f),
                 new AetherVector2(1.28f, 0.64f),
                 new AetherVector2(1.32f, 2.56f),
-                new AetherVector2(1.32f, 2.56f)
+                new AetherVector2(1.32f, 2.56f),
+                new AetherVector2(0.64f, 3.2f),
             };
 
             var positions = new List<AetherVector2>
@@ -101,7 +102,8 @@ namespace SuperMarioBros.Utils
                 new AetherVector2(119.36f,8.32f),
                 new AetherVector2(24.32f,7.04f),
                 new AetherVector2(29.44f,6.4f),
-                new AetherVector2(36.48f,6.4f)
+                new AetherVector2(36.48f,6.4f),
+                new AetherVector2(99.47f,6.73f)
             };
 
             for (int i = 0; i < sizes.Count; i++)

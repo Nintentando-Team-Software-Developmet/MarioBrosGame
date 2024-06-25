@@ -16,7 +16,7 @@ namespace SuperMarioBros.Source.Systems
     public class NonPlayerMovementSystem : BaseSystem
     {
         private HashSet<Entity> registeredEntities = new HashSet<Entity>();
-       // private static Dictionary<Entity, bool> hasMovedVertically = new Dictionary<Entity, bool>();
+        // private static Dictionary<Entity, bool> hasMovedVertically = new Dictionary<Entity, bool>();
         private Dictionary<Entity, float> mushroomVerticalMovement = new Dictionary<Entity, float>();
 
 
@@ -28,7 +28,7 @@ namespace SuperMarioBros.Source.Systems
                 var collider = entity.GetComponent<ColliderComponent>();
                 var movement = entity.GetComponent<MovementComponent>();
                 var animation = entity.GetComponent<AnimationComponent>();
-                if(entity.HasComponent<PlayerComponent>()) continue;
+                if (entity.HasComponent<PlayerComponent>()) continue;
                 if (collider != null && movement != null && animation != null)
                 {
                     if (!registeredEntities.Contains(entity))
@@ -48,10 +48,10 @@ namespace SuperMarioBros.Source.Systems
                                 entityComponent, verticalVelocity);
                     }
 
-                    else if (entity.HasComponent<MushroomComponent>() )
+                    else if (entity.HasComponent<MushroomComponent>())
                     {
                         if (gameTime != null)
-                         HandleMushroomComponentMovement(entity, collider, ref horizontalVelocity, gameTime);
+                            HandleMushroomComponentMovement(entity, collider, ref horizontalVelocity, gameTime);
                     }
                     else if (entity.HasComponent<FlowerComponent>())
                     {
@@ -86,9 +86,9 @@ namespace SuperMarioBros.Source.Systems
                 {
                     mushroomVerticalMovement[entity] = 0;
                 }
-                if (mushroomVerticalMovement[entity] < 0.7f )
+                if (mushroomVerticalMovement[entity] < 0.7f)
                 {
-                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity,0.5f,false);
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 0.5f, false);
                 }
                 else
                 {
@@ -107,9 +107,9 @@ namespace SuperMarioBros.Source.Systems
                 {
                     mushroomVerticalMovement[entity] = 0;
                 }
-                if (mushroomVerticalMovement[entity] < 0.7f )
+                if (mushroomVerticalMovement[entity] < 0.7f)
                 {
-                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 0.5f,false);
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 0.5f, false);
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
         }
-        private void HandleStarComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime,BaseComponent entityComponent,float verticalVelocity)
+        private void HandleStarComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime, BaseComponent entityComponent, float verticalVelocity)
         {
             var mushroomComponent = entity.GetComponent<StarComponent>();
             if (mushroomComponent.statusBlock)
@@ -151,9 +151,9 @@ namespace SuperMarioBros.Source.Systems
                 {
                     mushroomVerticalMovement[entity] = 0;
                 }
-                if (mushroomVerticalMovement[entity] < 0.7f )
+                if (mushroomVerticalMovement[entity] < 0.7f)
                 {
-                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity,0.5f,false);
+                    PowerUpRise(gameTime, entity, collider, ref horizontalVelocity, 0.5f, false);
                 }
                 else
                 {
@@ -169,7 +169,7 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-        public void PowerUpRise(GameTime gameTime,Entity entity,ColliderComponent collider,ref float horizontalVelocity,float upPosition,bool IsDescent)
+        public void PowerUpRise(GameTime gameTime, Entity entity, ColliderComponent collider, ref float horizontalVelocity, float upPosition, bool IsDescent)
         {
             if (gameTime != null)
             {
@@ -203,7 +203,7 @@ namespace SuperMarioBros.Source.Systems
                     if (movement.Direction == MovementType.LEFT)
                     {
                         movement.Direction = MovementType.RIGHT;
-                        if(animation.containsState(AnimationState.WALKRIGHT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
+                        if (animation.containsState(AnimationState.WALKRIGHT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
                         {
                             animation.Play(AnimationState.WALKRIGHT);
                         }
@@ -211,7 +211,7 @@ namespace SuperMarioBros.Source.Systems
                     else if (movement.Direction == MovementType.RIGHT)
                     {
                         movement.Direction = MovementType.LEFT;
-                        if(animation.containsState(AnimationState.WALKLEFT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
+                        if (animation.containsState(AnimationState.WALKLEFT) && animation.currentState != AnimationState.KNOCKED && animation.currentState != AnimationState.REVIVE)
                         {
                             animation.Play(AnimationState.WALKLEFT);
                         }

@@ -186,7 +186,7 @@ namespace SuperMarioBros.Source.Scenes
             {
                 CheckFlagEvent();
                 UpdateProgressData(gameTime);
-                CheckGameOverConditions(sceneManager);
+                CheckGameOverConditions(gameTime);
             }
             else if (!_isLevelCompleted)
             {
@@ -199,7 +199,7 @@ namespace SuperMarioBros.Source.Scenes
             }
 
             UpdateSystems(gameTime);
-            CheckPlayerState(sceneManager);
+            CheckPlayerState(gameTime, sceneManager);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
@@ -250,28 +250,27 @@ namespace SuperMarioBros.Source.Scenes
             _progressDataManager.Update(gameTime);
         }
 
-        private void CheckGameOverConditions(SceneManager sceneManager)
+        private void CheckGameOverConditions(GameTime gameTime)
         {
             if (_progressDataManager.Time <= 0)
             {
-                HandleTimeOver(sceneManager);
-            }
-            else if (_progressDataManager.Lives <= 0)
-            {
-                sceneManager.ChangeScene(SceneName.GameOver);
+                HandleTimeOver();
             }
         }
 
-        private void HandleTimeOver(SceneManager sceneManager)
+        private void HandleTimeOver()
         {
-            _progressDataManager.Lives--;
-            if (_progressDataManager.Lives > 0)
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity == null) return;
+
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            var animationComponent = playerEntity.GetComponent<AnimationComponent>();
+            var colliderComponent = playerEntity.GetComponent<ColliderComponent>();
+
+            if (playerComponent != null && animationComponent != null && colliderComponent != null && playerComponent.IsAlive)
             {
-                sceneManager.ChangeScene(SceneName.Lives);
-            }
-            else
-            {
-                sceneManager.ChangeScene(SceneName.GameOver);
+                playerComponent.IsAlive = false;
+                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50);
             }
         }
 
@@ -283,7 +282,7 @@ namespace SuperMarioBros.Source.Scenes
             }
         }
 
-        private void CheckPlayerState(SceneManager sceneManager)
+        private void CheckPlayerState(GameTime gameTime, SceneManager sceneManager)
         {
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
             if (playerEntity == null) return;
@@ -291,6 +290,14 @@ namespace SuperMarioBros.Source.Scenes
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && !player.IsAlive)
             {
+                var animationComponent = playerEntity.GetComponent<AnimationComponent>();
+                var colliderComponent = playerEntity.GetComponent<ColliderComponent>();
+
+                if (animationComponent != null && colliderComponent != null)
+                {
+                    PlayerSystem.UpdateDeathAnimation(gameTime, player, colliderComponent, animationComponent);
+                }
+
                 if (player.DeathAnimationComplete)
                 {
                     HandlePlayerDeath(sceneManager);
@@ -328,10 +335,6 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
-            using (var deb = new DebuggerColliders(physicsWorld, spriteData))
-            {
-                deb.DrawColliders();
-            }
             spriteData.spriteBatch.End();
         }
 
