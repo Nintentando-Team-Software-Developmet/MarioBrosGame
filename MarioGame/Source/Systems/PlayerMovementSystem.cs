@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
+using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
@@ -14,7 +14,7 @@ namespace SuperMarioBros.Source.Systems
 {
     public class PlayerMovementSystem : BaseSystem
     {
-
+        private static ColliderComponent colliderCamera { get; set; }
         private bool keyboardJumpReleased = true;
         private bool gamepadJumpReleased = true;
 
@@ -28,6 +28,7 @@ namespace SuperMarioBros.Source.Systems
                 var movement = player.GetComponent<MovementComponent>();
                 var keyboardState = Keyboard.GetState();
                 var gamePadState = GamePad.GetState(PlayerIndex.One);
+                var camera = player.GetComponent<CameraComponent>();
                 if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
                 {
                     HandleLeftKey(collider, animation, movement);
@@ -42,6 +43,9 @@ namespace SuperMarioBros.Source.Systems
                 }
                 HandleUpKey(gamePadState, keyboardState, collider, animation, movement);
                 LimitSpeed(collider, collider.maxSpeed);
+
+                colliderCamera = new ColliderComponent(collider.collider.World, camera.Position.X+1f, 100, new Rectangle(100, 100, 10, 10), BodyType.Static);
+
             }
         }
 
@@ -59,9 +63,25 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
             movement.Direction = MovementType.LEFT;
-            if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
+            double positionX;
+
+            if (colliderCamera.collider.Position.X <= 0.0)
             {
-                collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
+                positionX = colliderCamera.collider.Position.X + 1.0f;
+            }
+            else
+            {
+                positionX = colliderCamera.collider.Position.X + 1.5f;
+
+            }
+
+            if (collider.collider.Position.X >= positionX )
+            {
+                movement.Direction = MovementType.LEFT;
+                if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
+                {
+                    collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
+                }
             }
         }
 
