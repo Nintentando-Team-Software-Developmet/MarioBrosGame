@@ -186,7 +186,7 @@ namespace SuperMarioBros.Source.Scenes
             {
                 CheckFlagEvent();
                 UpdateProgressData(gameTime);
-                CheckGameOverConditions(gameTime);
+                CheckGameOverConditions();
             }
             else if (!_isLevelCompleted)
             {
@@ -250,7 +250,7 @@ namespace SuperMarioBros.Source.Scenes
             _progressDataManager.Update(gameTime);
         }
 
-        private void CheckGameOverConditions(GameTime gameTime)
+        private void CheckGameOverConditions()
         {
             if (_progressDataManager.Time <= 0)
             {

@@ -45,7 +45,7 @@ namespace SuperMarioBros.Source.Systems
                         entityComponent = entity.GetComponent<StarComponent>();
                         if (gameTime != null)
                             HandleStarComponentMovement(entity, collider, ref horizontalVelocity, gameTime,
-                                entityComponent, verticalVelocity);
+                                entityComponent);
                     }
 
                     else if (entity.HasComponent<MushroomComponent>())
@@ -142,7 +142,7 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
         }
-        private void HandleStarComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime, BaseComponent entityComponent, float verticalVelocity)
+        private void HandleStarComponentMovement(Entity entity, ColliderComponent collider, ref float horizontalVelocity, GameTime gameTime, BaseComponent entityComponent)
         {
             var mushroomComponent = entity.GetComponent<StarComponent>();
             if (mushroomComponent.statusBlock)
@@ -160,7 +160,6 @@ namespace SuperMarioBros.Source.Systems
                     collider.Enabled(true);
                     ((StarComponent)entityComponent).VerticalVelocity = Math.Min(collider.collider.LinearVelocity.Y + 0.1f, 5f);
                     horizontalVelocity = ((StarComponent)entityComponent).HorizontalVelocity;
-                    verticalVelocity = ((StarComponent)entityComponent).VerticalVelocity;
                     if (!collider.isJumping())
                     {
                         collider.collider.ApplyLinearImpulse(new AetherVector2(0, -3.8f));
