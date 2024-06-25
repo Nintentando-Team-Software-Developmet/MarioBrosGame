@@ -90,6 +90,7 @@ namespace SuperMarioBros.Source.Scenes
 
         private void InitializeSystems(SpriteData spriteData)
         {
+            Systems.Add(new InputSystem());
             Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CameraSystem());
             Systems.Add(new NonPlayerMovementSystem());
@@ -97,6 +98,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new EnemySystem());
             Systems.Add(new BlockSystem());
+            
         }
 
         /*

@@ -14,25 +14,27 @@ namespace SuperMarioBros.Source.Systems
 {
     public class PlayerMovementSystem : BaseSystem
     {
-
-        private bool keyboardJumpReleased = true;
-        private bool gamepadJumpReleased = true;
-
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent), typeof(MovementComponent));
+            IEnumerable<Entity> playerEntities = entities.WithComponents(
+                typeof(PlayerComponent),
+                typeof(AnimationComponent),
+                typeof(ColliderComponent),
+                typeof(MovementComponent),
+                typeof(InputComponent)
+            );
+
             foreach (var player in playerEntities)
             {
                 var collider = player.GetComponent<ColliderComponent>();
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
-                var keyboardState = Keyboard.GetState();
-                var gamePadState = GamePad.GetState(PlayerIndex.One);
-                if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
+                var input = player.GetComponent<InputComponent>();
+                if (input.LEFT.IsPressed)
                 {
                     HandleLeftKey(collider, animation, movement);
                 }
-                else if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed)
+                else if (input.RIGHT.IsPressed)
                 {
                     HandleKeyRight(collider, animation, movement);
                 }
@@ -40,16 +42,17 @@ namespace SuperMarioBros.Source.Systems
                 {
                     HandleStop(collider, animation, movement);
                 }
-                HandleUpKey(gamePadState, keyboardState, collider, animation, movement);
+                HandleUpKey(input, collider, animation, movement);
                 LimitSpeed(collider, collider.maxSpeed);
             }
         }
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            float velocityX = collider.collider.LinearVelocity.X;
             if (!collider.isJumping())
             {
-                if (collider.collider.LinearVelocity.X > 0)
+                if (velocityX > 0)
                 {
                     animation.Play(AnimationState.RUNLEFT);
                 }
@@ -59,7 +62,7 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
             movement.Direction = MovementType.LEFT;
-            if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
+            if (velocityX > -collider.maxSpeed)
             {
                 collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
             }
@@ -67,9 +70,10 @@ namespace SuperMarioBros.Source.Systems
 
         private static void HandleKeyRight(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            float velocityX = collider.collider.LinearVelocity.X;
             if (!collider.isJumping())
             {
-                if (collider.collider.LinearVelocity.X < 0)
+                if (velocityX < 0)
                 {
                     animation.Play(AnimationState.RUNRIGHT);
                 }
@@ -79,18 +83,17 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
             movement.Direction = MovementType.RIGHT;
-            if (collider.collider.LinearVelocity.X < collider.maxSpeed)
+            if (velocityX < collider.maxSpeed)
             {
                 collider.collider.ApplyForce(new AetherVector2(collider.velocity, 0));
             };
         }
 
-        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
+        private static void HandleUpKey(InputComponent input, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
-            if ((keyboardState.IsKeyDown(Keys.Z) && keyboardJumpReleased || gamePadState.Buttons.A == ButtonState.Pressed && gamepadJumpReleased) && !collider.isJumping())
+            if (input.A.IsPressed && input.A.IsHeld && !collider.isJumping())
             {
-                if (keyboardState.IsKeyDown(Keys.Z)) keyboardJumpReleased = false;
-                if (gamePadState.Buttons.A == ButtonState.Pressed) gamepadJumpReleased = false;
+               
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.JUMPLEFT);
@@ -102,15 +105,9 @@ namespace SuperMarioBros.Source.Systems
                     movement.Direction = MovementType.RIGHT;
                 }
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
+                input.A.setHeld(false);
             }
-            if (keyboardState.IsKeyUp(Keys.Z))
-            {
-                keyboardJumpReleased = true;
-            }
-            if (gamePadState.Buttons.A == ButtonState.Released)
-            {
-                gamepadJumpReleased = true;
-            }
+             
         }
 
         private static void HandleStop(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
@@ -135,7 +132,7 @@ namespace SuperMarioBros.Source.Systems
         {
             float velocityX = collider.collider.LinearVelocity.X;
             float velocityY = collider.collider.LinearVelocity.Y;
-            
+
             if (velocityX > maxSpeed)
             {
                 collider.collider.LinearVelocity = new AetherVector2(maxSpeed, velocityY);

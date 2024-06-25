@@ -4,8 +4,6 @@ namespace SuperMarioBros.Utils
 {
     public class KeyboardInput : IActionInput
     {
-
-        private bool _isReleased{ get; set;} = true;
         private Keys _key{ get; set;}
 
         public KeyboardInput(Keys key)
@@ -19,7 +17,7 @@ namespace SuperMarioBros.Utils
 
         public bool IsReleased()
         {
-            return _isReleased;
+            return Keyboard.GetState().IsKeyUp(_key);
         }
     }
 }

@@ -98,6 +98,7 @@ namespace SuperMarioBros.Source.Entities
                         GameConstants.CameraWorldWidth,
                         GameConstants.CameraViewportHeight));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    entity.AddComponent(new InputComponent());
                     break;
 
                 case EntityType.WINGAME:
