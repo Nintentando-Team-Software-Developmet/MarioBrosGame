@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 using MarioGame;
 
@@ -12,6 +10,7 @@ using nkast.Aether.Physics2D.Dynamics.Contacts;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -20,12 +19,18 @@ namespace SuperMarioBros.Source.Systems;
 
 public class BlockSystem : BaseSystem
 {
+    private ProgressDataManager _progressDataManager;
     private HashSet<Entity> registeredEntities = new HashSet<Entity>();
     private static HashSet<Entity> entitiesInContact = new HashSet<Entity>();
     private static Dictionary<Entity, bool> entitiesProcessed = new Dictionary<Entity, bool>();
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
     private static bool statusMario { get; set; }
+
+    public BlockSystem(ProgressDataManager progressDataManager)
+    {
+        _progressDataManager = progressDataManager;
+    }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
@@ -68,7 +73,7 @@ public class BlockSystem : BaseSystem
         entityStates[entity] = "idle";
     }
 
-    private static void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
+    private void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
         IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
@@ -118,7 +123,7 @@ public class BlockSystem : BaseSystem
         }
     }
 
-    private static void HandleBlockContent(Entity entity, ColliderComponent collider,
+    private void HandleBlockContent(Entity entity, ColliderComponent collider,
         QuestionBlockComponent questionBlock, CoinBlockComponent coinBlock,
         IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities,
         IEnumerable<Entity> coinEntities)
@@ -134,7 +139,7 @@ public class BlockSystem : BaseSystem
         }
     }
 
-    private static void HandleCoinBlockContent(CoinBlockComponent coinBlock, ColliderComponent collider, Entity entity,
+    private void HandleCoinBlockContent(CoinBlockComponent coinBlock, ColliderComponent collider, Entity entity,
         IEnumerable<Entity> starEntities, IEnumerable<Entity> coinEntities)
     {
         if (coinBlock.TypeContent == EntitiesName.STAR)
@@ -148,6 +153,7 @@ public class BlockSystem : BaseSystem
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             coinBlock.Quantity--;
+            _progressDataManager.Coins++;
             if (coinBlock.Quantity == 0)
             {
                 coinBlock.statusBlock = false;
@@ -159,7 +165,7 @@ public class BlockSystem : BaseSystem
 
     }
 
-    private static void HandleQuestionBlockContent(QuestionBlockComponent questionBlock, ColliderComponent collider, Entity entity,
+    private void HandleQuestionBlockContent(QuestionBlockComponent questionBlock, ColliderComponent collider, Entity entity,
         IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
     {
         var animationComponent = entity.GetComponent<AnimationComponent>();
@@ -179,6 +185,7 @@ public class BlockSystem : BaseSystem
         else if (questionBlock.TypeContent == EntitiesName.COIN)
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
+            _progressDataManager.Coins++;
         }
         questionBlock.HasMoved = true;
     }
