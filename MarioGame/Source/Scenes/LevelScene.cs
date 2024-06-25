@@ -97,8 +97,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
             Systems.Add(new EnemySystem());
-            Systems.Add(new BlockSystem());
-            
+            Systems.Add(new BlockSystem(_progressDataManager));
         }
 
         /*
