@@ -41,7 +41,7 @@ namespace SuperMarioBros.Source.Systems
                     if (activePowerUps.ContainsKey(player))
                     {
                         powerUpTimers[player] -= deltaTime;
-                        if (powerUpTimers[player] <= 0)
+                        if (powerUpTimers[player] <= 0 && activePowerUps[player] == PowerUpType.Star)
                         {
                             RemovePowerUp(player);
                         }
@@ -110,6 +110,7 @@ namespace SuperMarioBros.Source.Systems
         {
             var playerState = player.GetComponent<PlayerStateComponent>();
             playerState.HasFirePower = true;
+            playerState.IsBig = true;
             activePowerUps[player] = PowerUpType.FireFlower;
             powerUpTimers[player] = 0;
 
@@ -139,6 +140,7 @@ namespace SuperMarioBros.Source.Systems
                 else if (powerUpType == PowerUpType.FireFlower)
                 {
                     playerState.HasFirePower = false;
+                    playerState.IsBig = false;
                     Console.WriteLine("Fire Flower power-up deactivated: Player no longer has fire power." + playerState.HasFirePower);
                 }
 
