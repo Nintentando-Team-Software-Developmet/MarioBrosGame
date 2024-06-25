@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
@@ -128,7 +130,7 @@ public static class CommonRenders
 
     public static void DrawEntity(SpriteBatch spriteBatch, AnimationComponent animation, ColliderComponent collider)
     {
-       if (spriteBatch == null || animation == null || collider == null)
+        if (spriteBatch == null || animation == null || collider == null)
             return;
 
         float entityPosX = collider.collider.Position.X * GameConstants.pixelPerMeter;

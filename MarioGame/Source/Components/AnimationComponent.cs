@@ -24,7 +24,7 @@ namespace SuperMarioBros.Source.Components
 
         public AnimationComponent(Dictionary<AnimationState, Texture2D[]> animations, int width = 0, int height = 0, float velocity = 0.8f)
         {
-            if(animations == null) throw new ArgumentException("Animations cannot be null");
+            if (animations == null) throw new ArgumentException("Animations cannot be null");
             this.animations = animations;
             this.velocity = velocity;
             currentFrame = 0;

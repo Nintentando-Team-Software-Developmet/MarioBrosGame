@@ -26,7 +26,7 @@ namespace SuperMarioBros.Source.Systems
 
                 if (playerPosition != null && camera != null)
                 {
-                    if (playerPosition.collider.Position.X * GameConstants.pixelPerMeter> camera.LastXPosition)
+                    if (playerPosition.collider.Position.X * GameConstants.pixelPerMeter > camera.LastXPosition)
                     {
                         camera.Position = new Vector2(
                             MathHelper.Clamp(playerPosition.collider.Position.X * GameConstants.pixelPerMeter - camera.Viewport.Width / 2, 0, camera.WorldWidth - camera.Viewport.Width),

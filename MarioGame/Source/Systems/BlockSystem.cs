@@ -1,15 +1,19 @@
 using System.Collections.Generic;
 
 using MarioGame;
+
 using Microsoft.Xna.Framework;
+
 using nkast.Aether.Physics2D.Dynamics;
 using nkast.Aether.Physics2D.Dynamics.Contacts;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 namespace SuperMarioBros.Source.Systems;
 
@@ -38,11 +42,11 @@ public class BlockSystem : BaseSystem
         var flowerEntities = entities.WithComponents(typeof(FlowerComponent), typeof(ColliderComponent));
         var coinEntities = entities.WithComponents(typeof(CoinComponent), typeof(ColliderComponent));
 
-        UpdateBlocks(questionBlockEntities, gameTime, mushroomEntities,startEntities,playerEntities,flowerEntities,coinEntities);
-        UpdateBlocks(coinBlockEntities, gameTime, mushroomEntities,startEntities,playerEntities,flowerEntities,coinEntities);
+        UpdateBlocks(questionBlockEntities, gameTime, mushroomEntities, startEntities, playerEntities, flowerEntities, coinEntities);
+        UpdateBlocks(coinBlockEntities, gameTime, mushroomEntities, startEntities, playerEntities, flowerEntities, coinEntities);
 
     }
-    private void UpdateBlocks(IEnumerable<Entity> entities, GameTime gameTime, IEnumerable<Entity> entitiesMushroom, IEnumerable<Entity> entitiesStar,IEnumerable<Entity> entitiesPlayer,
+    private void UpdateBlocks(IEnumerable<Entity> entities, GameTime gameTime, IEnumerable<Entity> entitiesMushroom, IEnumerable<Entity> entitiesStar, IEnumerable<Entity> entitiesPlayer,
         IEnumerable<Entity> entitiesflower, IEnumerable<Entity> entitiesCoin)
     {
         foreach (var entity in entities)
@@ -52,19 +56,19 @@ public class BlockSystem : BaseSystem
             {
                 if (!registeredEntities.Contains(entity))
                 {
-                    RegisterBlock(entity, collider,entitiesPlayer);
+                    RegisterBlock(entity, collider, entitiesPlayer);
                 }
 
-                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom,entitiesStar,entitiesflower,entitiesCoin);
+                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin);
 
             }
         }
     }
 
-    private void RegisterBlock(Entity entity, ColliderComponent collider,IEnumerable<Entity> entities)
+    private void RegisterBlock(Entity entity, ColliderComponent collider, IEnumerable<Entity> entities)
     {
         registeredEntities.Add(entity);
-        RegisterCollisionEvent(collider, entity,entities);
+        RegisterCollisionEvent(collider, entity, entities);
         entityTimers[entity] = 0;
         entityStates[entity] = "idle";
     }
@@ -93,7 +97,7 @@ public class BlockSystem : BaseSystem
                     MoveBlock(collider, -movementSpeed);
                     entityStates[entity] = "waiting";
                     entityTimers[entity] = 0;
-                    HandleBlockContent(entity, collider, questionBlock, coinBlock, mushroomEntities, starEntities, flowerEntities,coinEntities);
+                    HandleBlockContent(entity, collider, questionBlock, coinBlock, mushroomEntities, starEntities, flowerEntities, coinEntities);
 
                 }
 
