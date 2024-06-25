@@ -84,8 +84,7 @@ public class GameOverScene : IScene, IDisposable
         {
             _displayTime = 0;
             sceneManager.ChangeScene(SceneName.MainMenu);
-            _progressDataManager.ResetTime();
-            _progressDataManager.Lives = 3;
+            _progressDataManager.ResetLevel();
         }
     }
 

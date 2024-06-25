@@ -19,7 +19,7 @@ public class ProgressDataManager
 
     public ProgressDataManager()
     {
-        _data = new ProgressData(DefaultTime, 1, 123, 3);
+        _data = new ProgressData(DefaultTime, 0, 0, 3);
         _highScoreManager = new HighScoreManager();
     }
 
@@ -61,6 +61,15 @@ public class ProgressDataManager
     public void ResetTime()
     {
         _data.Time = DefaultTime;
+    }
+
+
+    public void ResetLevel()
+    {
+        ResetTime();
+        _data.Coins = 0;
+        _data.Score = 0;
+        _data.Lives = 3;
     }
 
     public void UpdateHighScore()
