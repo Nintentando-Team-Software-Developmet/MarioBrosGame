@@ -9,7 +9,7 @@ public class PowerUpEvent : BaseEvent
     public Entity PowerUp { get; }
     public PowerUpType PowerUpType { get;  }
 
-    public PowerUpEvent(Entity player, Entity powerUp, PowerUpType powerUpType) : base("powerup")
+    public PowerUpEvent(Entity player, Entity powerUp, PowerUpType powerUpType) : base(powerUpType.ToString() + " PowerUp Event")
     {
         Player = player;
         PowerUp = powerUp;

@@ -13,10 +13,19 @@ using SuperMarioBros.Utils;
 
 namespace SuperMarioBros.Source.Systems
 {
+
+    /// <summary>
+    /// The EntityCollisionSystem class is responsible for managing collisions between entities in the game.
+    /// It keeps track of entities that need to be destroyed due to collisions and handles collision events.
+    /// </summary>
     public class EntityCollisionSystem : BaseSystem
     {
-        private static bool colition { get; set; }
 
+        private List<Body> _bodiesToDestroy = new List<Body>();
+
+        /// <summary>
+        /// The Update method is called every frame and checks for collisions between player entities and power-up entities.
+        /// </summary>
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
@@ -27,30 +36,39 @@ namespace SuperMarioBros.Source.Systems
             {
                 var playerCollider = player.GetComponent<ColliderComponent>();
                 RegisterCollisionEvent(playerCollider, player, powerUpEntities);
+
+                if (_bodiesToDestroy.Count == 0 )
+                {
+                    return;
+                }
+                Console.WriteLine("Destroying bodies " + _bodiesToDestroy.Count);
+                _bodiesToDestroy.ForEach(body => body.World.Remove(body));
+                _bodiesToDestroy.Clear();
             }
         }
 
-        private static void RegisterCollisionEvent(ColliderComponent collider, Entity entity, IEnumerable<Entity> powerUpEntities)
+        /// <summary>
+        /// The RegisterCollisionEvent method registers a collision event for a given entity.
+        /// </summary>
+        private void RegisterCollisionEvent(ColliderComponent collider, Entity entity, IEnumerable<Entity> powerUpEntities)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
                 var otherEntity = GetEntityFromBody(fixtureB.Body, powerUpEntities);
                 if (otherEntity != null && otherEntity.HasComponent<PowerUpComponent>())
                 {
-                    Console.WriteLine("Hay colision");
-                    HandleCollision(entity, otherEntity);
-                    colition = true;
+                    Console.WriteLine("Collision Detected");
+                    _bodiesToDestroy.Add(fixtureB.Body);
+                    DebugCollision(entity, otherEntity);
+                    DispatchCollisionEvent(entity, otherEntity);
                 }
-                else
-                {
-                    Console.WriteLine("NO Hay colision ");
-
-                }
-
                 return true;
             };
         }
 
+        /// <summary>
+        /// The GetEntityFromBody method returns the entity associated with a given body.
+        /// </summary>
         private static Entity GetEntityFromBody(Body body, IEnumerable<Entity> entities)
         {
             foreach (var entity in entities)
@@ -64,31 +82,38 @@ namespace SuperMarioBros.Source.Systems
             return null;
         }
 
-        private static void HandleCollision(Entity player, Entity powerUp)
-        {
-            DispatchCollisionEvent(player, powerUp);
-            DebugCollision(player, powerUp);
-        }
-
+        /// <summary>
+        /// The DispatchCollisionEvent method dispatches a collision event for a player and a power-up.
+        /// </summary>
         private static void DispatchCollisionEvent(Entity player, Entity powerUp)
         {
             if (powerUp.HasComponent<MushroomComponent>())
             {
-                EventDispatcher.Instance.Dispatch(new PowerUpEvent(player, powerUp, PowerUpType.Mushroom));
+                var evt = new PowerUpEvent(player, powerUp, PowerUpType.Mushroom);
+                EventDispatcher.Instance.Dispatch(evt);
+                Console.WriteLine($"Dispatched {evt}");
             }
             else if (powerUp.HasComponent<StarComponent>())
             {
-                EventDispatcher.Instance.Dispatch(new PowerUpEvent(player, powerUp, PowerUpType.Star));
+                var evt = new PowerUpEvent(player, powerUp, PowerUpType.Star);
+                EventDispatcher.Instance.Dispatch(evt);
+                Console.WriteLine($"Dispatched {evt}");
             }
             else if (powerUp.HasComponent<FlowerComponent>())
             {
-                EventDispatcher.Instance.Dispatch(new PowerUpEvent(player, powerUp, PowerUpType.FireFlower));
+                var evt = new PowerUpEvent(player, powerUp, PowerUpType.FireFlower);
+                EventDispatcher.Instance.Dispatch(evt);
+                Console.WriteLine($"Dispatched {evt}");
             }
+            powerUp.ClearComponents();
         }
 
+        /// <summary>
+        /// The DebugCollision method logs a collision between a player and another entity.
+        /// </summary>
         private static void DebugCollision(Entity player, Entity other)
         {
-            Console.WriteLine($"Collision detected between Player and {other.GetType().Name}");
+            Console.WriteLine($"Collision detected between Player and {other.GetComponent<PowerUpComponent>().PowerUpType}");
         }
     }
 }

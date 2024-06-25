@@ -9,5 +9,10 @@ namespace SuperMarioBros.Source.Events
         {
             Name = name;
         }
+
+        public override string ToString()
+        {
+            return $"Event: {Name}";
+        }
     }
 }
