@@ -74,7 +74,6 @@ namespace SuperMarioBros.Source.Systems
                 positionX = colliderCamera.collider.Position.X + 1.5f;
 
             }
-
             if (collider.collider.Position.X >= positionX )
             {
                 movement.Direction = MovementType.LEFT;
