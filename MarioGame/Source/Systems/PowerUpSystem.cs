@@ -60,7 +60,7 @@ namespace SuperMarioBros.Source.Systems
                 ActivateFireFlowerPowerUp(player);
             }
 
-            powerUp.GetComponent<ColliderComponent>().Enabled(false);
+            //powerUp.GetComponent<ColliderComponent>().Enabled(false);
             powerUp.ClearComponents();
         }
 

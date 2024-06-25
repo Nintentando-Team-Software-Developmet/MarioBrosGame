@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using Microsoft.Xna.Framework;
+
 using nkast.Aether.Physics2D.Dynamics;
-using nkast.Aether.Physics2D.Dynamics.Contacts;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
@@ -14,64 +15,45 @@ namespace SuperMarioBros.Source.Systems
 {
     public class EntityCollisionSystem : BaseSystem
     {
-        private Entity playerEntity;
-        private HashSet<Entity> registeredEntities = new HashSet<Entity>();
-        private List<Body> powerUpBodies = new List<Body>();
+        private static bool colition { get; set; }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            var entityArray = entities as Entity[] ?? entities.ToArray();
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+            var playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent));
+            var powerUpEntities = entities.WithComponents(typeof(PowerUpComponent), typeof(ColliderComponent));
 
-            playerEntity = FindPlayerEntity(entityArray);
-            if (!registeredEntities.Contains(playerEntity))
+            foreach (var player in playerEntities)
             {
-                RegisterPlayerCollisionEvents(playerEntity);
-                registeredEntities.Add(playerEntity);
+                var playerCollider = player.GetComponent<ColliderComponent>();
+                RegisterCollisionEvent(playerCollider, player, powerUpEntities);
             }
-
-            UpdatePowerUpBodies(entityArray);
         }
 
-        private static Entity FindPlayerEntity(IEnumerable<Entity> entities)
+        private static void RegisterCollisionEvent(ColliderComponent collider, Entity entity, IEnumerable<Entity> powerUpEntities)
         {
-            foreach (var entity in entities)
+            collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
-                if (entity.HasComponent<PlayerComponent>())
-                {
-                    return entity;
-                }
-            }
-            return null;
-        }
-
-        private void RegisterPlayerCollisionEvents(Entity player)
-        {
-            var colliderComponent = player.GetComponent<ColliderComponent>();
-            colliderComponent.collider.OnCollision += (fixtureA, fixtureB, contact) =>
-            {
-                var otherEntity = GetEntityFromBody(fixtureB.Body);
+                var otherEntity = GetEntityFromBody(fixtureB.Body, powerUpEntities);
                 if (otherEntity != null && otherEntity.HasComponent<PowerUpComponent>())
                 {
-                    HandleCollision(player, otherEntity, contact);
-                    Console.WriteLine("Collision detected between player and power-up.");
+                    Console.WriteLine("Hay colision");
+                    HandleCollision(entity, otherEntity);
+                    colition = true;
                 }
+                else
+                {
+                    Console.WriteLine("NO Hay colision ");
+
+                }
+
                 return true;
             };
         }
 
-        private void UpdatePowerUpBodies(IEnumerable<Entity> entities)
+        private static Entity GetEntityFromBody(Body body, IEnumerable<Entity> entities)
         {
-            powerUpBodies.Clear();
-            var powerUpEntities = entities.WithComponents(typeof(ColliderComponent), typeof(PowerUpComponent));
-            foreach (var powerUp in powerUpEntities)
-            {
-                powerUpBodies.Add(powerUp.GetComponent<ColliderComponent>().collider);
-            }
-        }
-
-        private Entity GetEntityFromBody(Body body)
-        {
-            foreach (var entity in registeredEntities)
+            foreach (var entity in entities)
             {
                 var colliderComponent = entity.GetComponent<ColliderComponent>();
                 if (colliderComponent.collider == body)
@@ -82,7 +64,7 @@ namespace SuperMarioBros.Source.Systems
             return null;
         }
 
-        private static void HandleCollision(Entity player, Entity powerUp, Contact contact)
+        private static void HandleCollision(Entity player, Entity powerUp)
         {
             DispatchCollisionEvent(player, powerUp);
             DebugCollision(player, powerUp);
