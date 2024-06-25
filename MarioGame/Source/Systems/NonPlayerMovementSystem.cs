@@ -16,7 +16,6 @@ namespace SuperMarioBros.Source.Systems
     public class NonPlayerMovementSystem : BaseSystem
     {
         private HashSet<Entity> registeredEntities = new HashSet<Entity>();
-        // private static Dictionary<Entity, bool> hasMovedVertically = new Dictionary<Entity, bool>();
         private Dictionary<Entity, float> mushroomVerticalMovement = new Dictionary<Entity, float>();
 
 
