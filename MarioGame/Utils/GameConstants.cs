@@ -14,5 +14,8 @@ public static class GameConstants
 
     //Enemies Times
     public const float EnemyKillTime = 0.2f;
+
+    //Player mass
+    public const float PlayerMass = 0.4096f;
 }
 

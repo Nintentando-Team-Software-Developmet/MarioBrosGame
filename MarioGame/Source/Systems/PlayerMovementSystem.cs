@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -7,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -38,6 +40,9 @@ namespace SuperMarioBros.Source.Systems
                 {
                     HandleKeyRight(collider, animation, movement);
                 }
+                else if(input.DOWN.IsPressed){
+                    HandleKeyDown(collider, animation, movement);
+                }
                 else
                 {
                     HandleStop(collider, animation, movement);
@@ -48,7 +53,9 @@ namespace SuperMarioBros.Source.Systems
         }
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
-        {
+        {   
+            float mass = collider.collider.Mass;
+            float force = collider.velocity * (mass/GameConstants.PlayerMass);
             float velocityX = collider.collider.LinearVelocity.X;
             if (!collider.isJumping())
             {
@@ -64,12 +71,14 @@ namespace SuperMarioBros.Source.Systems
             movement.Direction = MovementType.LEFT;
             if (velocityX > -collider.maxSpeed)
             {
-                collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
+                collider.collider.ApplyForce(new AetherVector2(-force , 0));
             }
         }
 
         private static void HandleKeyRight(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            float mass = collider.collider.Mass;
+            float force = collider.velocity * (mass/GameConstants.PlayerMass);
             float velocityX = collider.collider.LinearVelocity.X;
             if (!collider.isJumping())
             {
@@ -85,15 +94,30 @@ namespace SuperMarioBros.Source.Systems
             movement.Direction = MovementType.RIGHT;
             if (velocityX < collider.maxSpeed)
             {
-                collider.collider.ApplyForce(new AetherVector2(collider.velocity, 0));
+                collider.collider.ApplyForce(new AetherVector2(force, 0));
             };
+        }
+
+        private static void HandleKeyDown(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
+        {
+            bool containsBend = animation.containsState(AnimationState.BENDLEFT) && animation.containsState(AnimationState.BENDRIGHT);
+            if (!collider.isJumping() && containsBend)
+            {
+                if(movement.Direction == MovementType.LEFT){
+                    animation.Play(AnimationState.BENDLEFT);
+                }else if (movement.Direction == MovementType.RIGHT){
+                    animation.Play(AnimationState.BENDRIGHT);
+                }
+            }
+            
         }
 
         private static void HandleUpKey(InputComponent input, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            float mass = collider.collider.Mass;
+            float force = 4.29f * (mass/GameConstants.PlayerMass);
             if (input.A.IsPressed && input.A.IsHeld && !collider.isJumping())
             {
-               
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.JUMPLEFT);
@@ -104,7 +128,7 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.JUMPRIGHT);
                     movement.Direction = MovementType.RIGHT;
                 }
-                collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
+                collider.collider.ApplyLinearImpulse(new AetherVector2(0, -force));
                 input.A.setHeld(false);
             }
              

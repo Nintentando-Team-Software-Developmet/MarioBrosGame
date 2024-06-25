@@ -7,67 +7,7 @@ namespace MarioGame
 {
     public static class Animations
     {
-        public static readonly Texture2D[] playerTextures = new Texture2D[]
-        {
-            Sprites.BigStop,
-            Sprites.BigRunLeft,
-            Sprites.BigWalk1,
-            Sprites.BigWalk3,
-            Sprites.BigWalk2,
 
-            Sprites.BigStopLeft,
-            Sprites.BigRun,
-            Sprites.BigWalk1Left,
-            Sprites.BigWalk2Left,
-            Sprites.BigWalk3Left,
-
-            Sprites.BigBend,
-            Sprites.BigBendLeft,
-
-            Sprites.BigJumpBack,
-            Sprites.BigJumpBackLeft,
-
-            Sprites.LowerThePost1,
-            Sprites.LowerThePost2,
-            Sprites.LowerThePostLeft
-        };
-
-        public static readonly Texture2D[] goombaTextures = new Texture2D[]
-        {
-            Sprites.Goomba1,
-            Sprites.Goomba2,
-        };
-        public static readonly Texture2D[] koopaLeftTextures = new Texture2D[]
-        {
-            Sprites.Koopa1,
-            Sprites.Koopa2
-        };
-        public static readonly Texture2D[] koopaRigthTextures = new Texture2D[]
-        {
-            Sprites.Koopa3,
-            Sprites.Koopa4
-        };
-
-        public static readonly Texture2D[] koopaKnockedTextures = new Texture2D[]
-        {
-            Sprites.Koopa6
-        };
-
-        public static readonly Texture2D[] koopaReviveTextures = new Texture2D[]
-        {
-            Sprites.Koopa5
-        };
-
-        public static readonly Texture2D[] koopaDiesTextures = new Texture2D[]
-        {
-            Sprites.Koopa7
-        };
-
-        public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
-        {
-            Sprites.WinFlagGreen,
-            Sprites.WinFlag
-        };
 
         public static readonly Dictionary<int, Texture2D> mapTextures = new Dictionary<int, Texture2D>
         {
@@ -144,7 +84,7 @@ namespace MarioGame
 
 
 
-        public static readonly Dictionary<AnimationState,Texture2D[]>  playerAnimations = new Dictionary<AnimationState, Texture2D[]>
+        public static readonly Dictionary<AnimationState,Texture2D[]>  smallPlayerAnimations = new Dictionary<AnimationState, Texture2D[]>
             {
                 { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk2, Sprites.SmallWalk3 } },
                 { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk2Left, Sprites.SmallWalk3Left } },
@@ -156,6 +96,20 @@ namespace MarioGame
                 { AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeft } },
                 { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } }
             };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> bigPlayerAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.BigWalk1, Sprites.BigWalk2, Sprites.BigWalk3 } },
+            { AnimationState.WALKLEFT, new Texture2D[] { Sprites.BigWalk1Left, Sprites.BigWalk2Left, Sprites.BigWalk3Left } },
+            { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.BigJumpBackLeft } },
+            { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.BigJumpBack } },
+            { AnimationState.RUNLEFT, new Texture2D[] { Sprites.BigRunLeft } },
+            { AnimationState.RUNRIGHT, new Texture2D[] { Sprites.BigRun } },
+            { AnimationState.STOP, new Texture2D[] { Sprites.BigStop } },
+            { AnimationState.STOPLEFT, new Texture2D[] { Sprites.BigStopLeft } },
+            { AnimationState.BENDLEFT , new Texture2D[] { Sprites.BigBendLeft } },
+            { AnimationState.BENDRIGHT, new Texture2D[] { Sprites.BigBend} },
+        };
 
         public static readonly Dictionary<AnimationState, Texture2D[]> koopaAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
@@ -226,9 +180,14 @@ namespace MarioGame
             { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon } }
         };
 
+        public static readonly  Dictionary<PlayerState, Dictionary<AnimationState, Texture2D[]>> playerTextures = new Dictionary<PlayerState, Dictionary<AnimationState, Texture2D[]>>
+        {
+            { PlayerState.SMALL, smallPlayerAnimations},
+            { PlayerState.BIG, bigPlayerAnimations }
+        };
+
         public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName,  Dictionary<AnimationState, Texture2D[]>>
         {
-            { EntitiesName.MARIO, playerAnimations },
             { EntitiesName.GOOMBA, goombaAnimations },
             { EntitiesName.FLAG, flagWinAnimations },
             { EntitiesName.QUESTIONBLOCK,  questionBLockAnimations },
@@ -243,6 +202,20 @@ namespace MarioGame
             { EntitiesName.BLOCKERBLOCKBROWN, blockedLockAnimations},
             { EntitiesName.COIN, coin}
         };
+
+        public static  Dictionary<AnimationState, Texture2D[]> GetAnimation(EntitiesName entityName)
+        {
+            return entityTextures[entityName];
+        }
+
+        public static  Dictionary<AnimationState, Texture2D[]> GetAnimation(PlayerState playerState)
+        {
+            return playerTextures[playerState];
+        }
+    
+
+       
+
 
 
     }

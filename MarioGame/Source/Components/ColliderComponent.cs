@@ -2,6 +2,8 @@ using System;
 
 using Microsoft.Xna.Framework;
 
+using MonoGame.Framework.Utilities;
+
 using nkast.Aether.Physics2D.Dynamics;
 using nkast.Aether.Physics2D.Dynamics.Contacts;
 
@@ -23,6 +25,7 @@ namespace SuperMarioBros.Source.Components
             AetherVector2 position = new AetherVector2(x / GameConstants.pixelPerMeter, y / GameConstants.pixelPerMeter);
             collider = physicsWorld?.CreateBody(position, rotation, bodyType);
             collider.FixedRotation = true;
+            
             collider.CreateRectangle(rectangle.Width / GameConstants.pixelPerMeter, rectangle.Height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
         }
 
@@ -39,11 +42,12 @@ namespace SuperMarioBros.Source.Components
         {
             get
             {
-                return new Vector2(collider.Position.X * GameConstants.pixelPerMeter, collider.Position.Y * GameConstants.pixelPerMeter);
+                float x = collider.Position.X * GameConstants.pixelPerMeter;
+                float y = collider.Position.Y * GameConstants.pixelPerMeter;
+                return new Vector2(x, y);
             }
         }
 
-        
 
     }
 }

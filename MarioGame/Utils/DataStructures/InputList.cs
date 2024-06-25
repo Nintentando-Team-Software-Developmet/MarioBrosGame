@@ -15,7 +15,6 @@ namespace SuperMarioBros.Utils
         {
             
             IsHeld = held;
-            Console.WriteLine("is held changed : " + IsHeld);
             
         }
     }

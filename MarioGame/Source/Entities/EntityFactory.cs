@@ -85,9 +85,10 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.PLAYER:
-                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64, 0.09f);
+                    PlayerComponent playerComponent = new PlayerComponent();
+                    entity.AddComponent(playerComponent);
+                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.GetAnimation(playerComponent.State), 64, 128, 0.09f);
                     entity.AddComponent(playerAnimationComponent);
-                    entity.AddComponent(new PlayerComponent());
                     ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
                     colliderComponent.maxSpeed = 3f;
                     colliderComponent.velocity = 3f;
