@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework.Graphics;
+
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -144,10 +146,10 @@ namespace MarioGame
 
 
 
-        public static readonly Dictionary<AnimationState,Texture2D[]>  playerAnimations = new Dictionary<AnimationState, Texture2D[]>
+        public static readonly Dictionary<AnimationState, Texture2D[]> playerAnimations = new Dictionary<AnimationState, Texture2D[]>
             {
-                { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk2, Sprites.SmallWalk3 } },
-                { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk2Left, Sprites.SmallWalk3Left } },
+                { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1, Sprites.SmallWalk3, Sprites.SmallWalk2 } },
+                { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1Left, Sprites.SmallWalk3Left, Sprites.SmallWalk2Left } },
                 { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.SmallJumpLeft } },
                 { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.SmallJump } },
                 { AnimationState.RUNLEFT, new Texture2D[] { Sprites.SmallRunLeft } },
@@ -226,7 +228,7 @@ namespace MarioGame
             { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon } }
         };
 
-        public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName,  Dictionary<AnimationState, Texture2D[]>>
+        public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>>
         {
             { EntitiesName.MARIO, playerAnimations },
             { EntitiesName.GOOMBA, goombaAnimations },

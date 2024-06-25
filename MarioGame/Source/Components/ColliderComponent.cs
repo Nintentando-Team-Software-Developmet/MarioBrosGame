@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -14,9 +15,10 @@ namespace SuperMarioBros.Source.Components
     public class ColliderComponent : BaseComponent
     {
         public Body collider { get; set; }
-        public float maxSpeed { get; set;}
-        public float velocity { get; set;}
-        public float friction { get; set;}
+        public float maxSpeed { get; set; }
+        public float velocity { get; set; }
+        public float friction { get; set; }
+        private Fixture[] _storedFixtures;
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
@@ -43,5 +45,16 @@ namespace SuperMarioBros.Source.Components
             }
         }
 
+        public void RemoveCollider()
+        {
+            if (collider != null && collider.FixtureList.Count > 0)
+            {
+                _storedFixtures = collider.FixtureList.ToArray();
+                foreach (var fixture in _storedFixtures)
+                {
+                    collider.Remove(fixture);
+                }
+            }
+        }
     }
 }

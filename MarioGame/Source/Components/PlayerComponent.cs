@@ -6,6 +6,11 @@ namespace SuperMarioBros.Source.Components
         public int Lives { get; set; }
         public bool colition { get; set; }
         public bool HasReachedEnd { get; set; }
+        public bool IsDying { get; set; }
+        public float DeathTimer { get; set; }
+        public bool DeathAnimationComplete { get; set; }
+        public bool ShouldProcessDeath { get; set; }
+        public bool IsTimeOver { get; set; }
 
         public PlayerComponent()
         {
@@ -13,6 +18,11 @@ namespace SuperMarioBros.Source.Components
             Lives = 3;
             colition = false;
             HasReachedEnd = false;
+            IsDying = false;
+            DeathTimer = 0;
+            DeathAnimationComplete = false;
+            ShouldProcessDeath = false;
+            IsTimeOver = false;
         }
     }
 }
