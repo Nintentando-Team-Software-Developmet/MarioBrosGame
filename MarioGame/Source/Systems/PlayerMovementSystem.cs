@@ -42,7 +42,8 @@ namespace SuperMarioBros.Source.Systems
                 {
                     HandleStop(collider, animation, movement);
                 }
-                HandleUpKey(gamePadState, keyboardState, collider, animation, movement);
+
+                if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                 LimitSpeed(collider, collider.maxSpeed);
                 CreateImvisibleWall(camera,collider);
             }
@@ -105,12 +106,20 @@ namespace SuperMarioBros.Source.Systems
             };
         }
 
-        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
+        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement,GameTime gameTime)
         {
-            if ((keyboardState.IsKeyDown(Keys.Z) && keyboardJumpReleased || gamePadState.Buttons.A == ButtonState.Pressed && gamepadJumpReleased) && !collider.isJumping())
+            if (collider == null || animation == null || movement == null || colliderCamera == null)
+            {
+                return;
+            }
+
+            bool jumpCondition = (keyboardState.IsKeyDown(Keys.Z) && keyboardJumpReleased) || (gamePadState.Buttons.A == ButtonState.Pressed && gamepadJumpReleased);
+
+            if (jumpCondition && !collider.isJumping())
             {
                 if (keyboardState.IsKeyDown(Keys.Z)) keyboardJumpReleased = false;
                 if (gamePadState.Buttons.A == ButtonState.Pressed) gamepadJumpReleased = false;
+
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.JUMPLEFT);
@@ -123,6 +132,7 @@ namespace SuperMarioBros.Source.Systems
                 }
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
             }
+
             if (keyboardState.IsKeyUp(Keys.Z))
             {
                 keyboardJumpReleased = true;
@@ -130,6 +140,16 @@ namespace SuperMarioBros.Source.Systems
             if (gamePadState.Buttons.A == ButtonState.Released)
             {
                 gamepadJumpReleased = true;
+            }
+
+
+            if (collider.isJumping())
+            {
+                if (collider.collider.Position.X + collider.collider.LinearVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds <= colliderCamera.collider.Position.X + 0.3f)
+                {
+                    collider.collider.LinearVelocity = new AetherVector2(1, collider.collider.LinearVelocity.Y);
+                    animation.Play(AnimationState.JUMPLEFT);
+                }
             }
         }
 
