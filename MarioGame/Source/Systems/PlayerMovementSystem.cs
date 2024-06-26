@@ -7,6 +7,7 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -43,9 +44,19 @@ namespace SuperMarioBros.Source.Systems
                 }
                 HandleUpKey(gamePadState, keyboardState, collider, animation, movement);
                 LimitSpeed(collider, collider.maxSpeed);
+                CreateImvisibleWall(camera,collider);
+            }
+        }
 
+        private static void CreateImvisibleWall(CameraComponent camera,ColliderComponent collider)
+        {
+            if (colliderCamera != null)
+            {
+                colliderCamera.collider.Position = new AetherVector2(camera.Position.X / GameConstants.pixelPerMeter, colliderCamera.collider.Position.Y);
+            }
+            else
+            {
                 colliderCamera = new ColliderComponent(collider.collider.World, camera.Position.X+1f, 100, new Rectangle(100, 100, 10, 10), BodyType.Static);
-
             }
         }
 
@@ -63,18 +74,8 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
             movement.Direction = MovementType.LEFT;
-            double positionX;
 
-            if (colliderCamera.collider.Position.X <= 0.0)
-            {
-                positionX = colliderCamera.collider.Position.X + 1.0f;
-            }
-            else
-            {
-                positionX = colliderCamera.collider.Position.X + 1.5f;
-
-            }
-            if (collider.collider.Position.X >= positionX )
+            if (collider.collider.Position.X >= colliderCamera.collider.Position.X + 1.5f )
             {
                 movement.Direction = MovementType.LEFT;
                 if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
