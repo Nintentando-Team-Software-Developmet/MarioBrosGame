@@ -46,11 +46,14 @@ namespace SuperMarioBros.Source.Systems
                 if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                 LimitSpeed(collider, collider.maxSpeed);
                 CreateImvisibleWall(camera,collider);
+
+
             }
         }
 
         private static void CreateImvisibleWall(CameraComponent camera,ColliderComponent collider)
         {
+
             if (colliderCamera != null)
             {
                 colliderCamera.collider.Position = new AetherVector2(camera.Position.X / GameConstants.pixelPerMeter, colliderCamera.collider.Position.Y);
@@ -63,6 +66,11 @@ namespace SuperMarioBros.Source.Systems
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            if (collider == null || animation == null || movement == null || colliderCamera == null)
+            {
+                return;
+            }
+
             if (!collider.isJumping())
             {
                 if (collider.collider.LinearVelocity.X > 0)
@@ -74,9 +82,13 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.WALKLEFT);
                 }
             }
-            movement.Direction = MovementType.LEFT;
 
-            if (collider.collider.Position.X >= colliderCamera.collider.Position.X + 1.5f )
+            float velocityThreshold = collider.maxSpeed * 0.5f;
+            bool isWithImpulse = Math.Abs(collider.collider.LinearVelocity.X) > velocityThreshold;
+
+            float limit = isWithImpulse ? 1.4f : 0.7f;
+
+            if (collider.collider.Position.X >= colliderCamera.collider.Position.X + limit)
             {
                 movement.Direction = MovementType.LEFT;
                 if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
@@ -85,6 +97,7 @@ namespace SuperMarioBros.Source.Systems
                 }
             }
         }
+
 
         private static void HandleKeyRight(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
@@ -147,7 +160,7 @@ namespace SuperMarioBros.Source.Systems
             {
                 if (collider.collider.Position.X + collider.collider.LinearVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds <= colliderCamera.collider.Position.X + 0.3f)
                 {
-                    collider.collider.LinearVelocity = new AetherVector2(1, collider.collider.LinearVelocity.Y);
+                    collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
                     animation.Play(AnimationState.JUMPLEFT);
                 }
             }
