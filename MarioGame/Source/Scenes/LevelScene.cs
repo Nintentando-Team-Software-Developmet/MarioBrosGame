@@ -297,7 +297,7 @@ namespace SuperMarioBros.Source.Scenes
 
                 if (animationComponent != null && colliderComponent != null)
                 {
-                    PlayerSystem.UpdateDeathAnimation(gameTime, player, colliderComponent, animationComponent);
+                    PlayerSystem.UpdateDeathAnimation(gameTime, player, colliderComponent);
                 }
 
                 if (player.DeathAnimationComplete)

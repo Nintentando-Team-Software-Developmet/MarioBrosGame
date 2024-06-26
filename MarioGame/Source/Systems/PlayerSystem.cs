@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
-
 using nkast.Aether.Physics2D.Dynamics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Services;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
-
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
@@ -19,27 +16,37 @@ namespace SuperMarioBros.Source.Systems
     {
         private List<Body> _enemyBodies = new();
         private HashSet<Entity> registeredEntities = new();
+        private Guid _invincibilityTimerId;
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> enemies = entities.WithComponents(typeof(EnemyComponent), typeof(ColliderComponent));
-            foreach (Entity enemy in enemies)
+            var enemyBodiesCache = new List<Body>();
+
+            foreach (var enemy in entities.WithComponents(typeof(EnemyComponent), typeof(ColliderComponent)))
             {
-                _enemyBodies.Add(enemy.GetComponent<ColliderComponent>().collider);
+                enemyBodiesCache.Add(enemy.GetComponent<ColliderComponent>().collider);
             }
-            IEnumerable<Entity> players = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent));
-            foreach (var player in players)
+            _enemyBodies = enemyBodiesCache;
+
+            foreach (var player in entities.WithComponents(typeof(PlayerComponent), typeof(PlayerStateComponent), typeof(ColliderComponent)))
             {
                 var playerComponent = player.GetComponent<PlayerComponent>();
+                var playerState = player.GetComponent<PlayerStateComponent>();
                 var colliderComponent = player.GetComponent<ColliderComponent>();
-                var animationComponent = player.GetComponent<AnimationComponent>();
-                var movementComponent = player.GetComponent<MovementComponent>();
                 var playerPosition = colliderComponent.Position;
 
-                if (playerComponent.ShouldProcessDeath)
+                if (!playerComponent.IsAlive && !playerState.IsInvincible)
                 {
-                    StartDeathAnimation(playerComponent, colliderComponent, 50);
-                    playerComponent.ShouldProcessDeath = false;
+                    if (playerComponent.ShouldProcessDeath)
+                    {
+                        StartDeathAnimation(playerComponent, colliderComponent, 50);
+                        playerComponent.ShouldProcessDeath = false;
+                    }
+                    if (gameTime != null)
+                    {
+                        UpdateDeathAnimation(gameTime, playerComponent, colliderComponent);
+                    }
+                    continue;
                 }
 
                 if (playerPosition.Y > GameConstants.CameraViewportHeight + 100 && playerComponent.IsAlive)
@@ -49,41 +56,48 @@ namespace SuperMarioBros.Source.Systems
                 }
                 if (!registeredEntities.Contains(player))
                 {
-                    RegisterEnemyEvents(colliderComponent, playerComponent);
+                    RegisterEnemyEvents(colliderComponent, playerComponent, playerState);
                     registeredEntities.Add(player);
                 }
-
-
-                if (!playerComponent.IsAlive)
-                {
-                    if (gameTime != null)
-                    {
-                        UpdateDeathAnimation(gameTime, playerComponent, colliderComponent, animationComponent);
-                    }
-                }
             }
-
         }
-        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent)
+
+        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent, PlayerStateComponent playerState)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
-                if (!playerComponent.IsAlive)
+                if (!playerComponent.IsAlive || playerState.IsInvincible)
                 {
                     return false;
                 }
-                var otherBody = fixtureB.Body;
 
+                var otherBody = fixtureB.Body;
                 if (_enemyBodies.Contains(otherBody))
                 {
                     CollisionType collisionDirection = CollisionAnalyzer.GetDirectionCollision(contact);
+                    Console.WriteLine($"Player collided with enemy. Collision direction: {collisionDirection}");
 
                     if (collisionDirection == CollisionType.DOWN ||
                         collisionDirection == CollisionType.LEFT ||
                         collisionDirection == CollisionType.RIGHT)
                     {
-                        playerComponent.IsAlive = false;
-                        playerComponent.ShouldProcessDeath = true;
+                        if (playerState.IsBig)
+                        {
+                            Console.WriteLine("Player is big and collided with enemy. Becoming small and invincible.");
+                            playerState.IsBig = false;
+                            playerState.IsInvincible = true;
+                            _invincibilityTimerId = TimerService.Instance.StartTimer(3.0f, () =>
+                            {
+                                playerState.IsInvincible = false;
+                                Console.WriteLine("Player is no longer invincible.");
+                            });
+                        }
+                        else
+                        {
+                            Console.WriteLine("Player is not big and collided with enemy. Dying.");
+                            playerComponent.IsAlive = false;
+                            playerComponent.ShouldProcessDeath = true;
+                        }
                     }
                 }
                 return true;
@@ -100,20 +114,17 @@ namespace SuperMarioBros.Source.Systems
             colliderComponent.collider.ApplyForce(new AetherVector2(0, -jumpForce));
         }
 
-        public static void UpdateDeathAnimation(GameTime gameTime, PlayerComponent playerComponent, ColliderComponent colliderComponent, AnimationComponent animationComponent)
+        public static void UpdateDeathAnimation(GameTime gameTime, PlayerComponent playerComponent, ColliderComponent colliderComponent)
         {
             if (playerComponent == null) throw new ArgumentNullException(nameof(playerComponent));
             if (gameTime == null) throw new ArgumentNullException(nameof(gameTime));
             if (colliderComponent == null) throw new ArgumentNullException(nameof(colliderComponent));
             playerComponent.DeathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (animationComponent == null) throw new ArgumentNullException(nameof(animationComponent));
-            animationComponent.Play(AnimationState.DIE);
+            Console.WriteLine($"Death timer: {playerComponent.DeathTimer}");
 
             if (playerComponent.DeathTimer <= 1f)
             {
                 colliderComponent.collider.ApplyForce(new AetherVector2(0, -22f));
-
             }
             else if (playerComponent.DeathTimer > 1f && playerComponent.DeathTimer <= 2f)
             {
