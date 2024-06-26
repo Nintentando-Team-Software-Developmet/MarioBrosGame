@@ -259,7 +259,6 @@ public class BlockSystem : BaseSystem
                     Console.WriteLine("Player state: " + playerState.IsBig);
                     Console.WriteLine("Block is destructible: " + destructible);
                     Console.WriteLine("Block type: " + blockEntity.GetComponent<BlockComponent>().BlockType);
-                    // Destroy only destructible blocks when player is big
                     if (playerState.IsBig && destructible)
                     {
                         Console.WriteLine("The player is big " + playerState.IsBig + " and the block is destructible " + destructible);
@@ -268,7 +267,6 @@ public class BlockSystem : BaseSystem
                         registeredEntities.Remove(blockEntity);
                     }
 
-                    // Move only question and coin blocks (if not already moved)
                     if (entityStates[blockEntity] == "idle" &&
                         ((questionBlock != null && !questionBlock.HasMoved) || (coinBlock != null && !coinBlock.HasMoved)))
                     {

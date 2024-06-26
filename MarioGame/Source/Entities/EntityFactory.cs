@@ -129,7 +129,12 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
                     CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(coinBlockComponent);
-                    entity.AddComponent(new BlockComponent(true, BlockType.Coin));
+                    if (entityData.TypeContent == EntitiesName.NORMAL)
+                        entity.AddComponent(new BlockComponent(true, BlockType.Coin));
+                    else
+                    {
+                        entity.AddComponent(new BlockComponent(false, BlockType.Coin));
+                    }
                     break;
 
 
