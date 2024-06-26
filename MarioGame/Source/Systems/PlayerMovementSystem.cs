@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
+using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -14,7 +15,7 @@ namespace SuperMarioBros.Source.Systems
 {
     public class PlayerMovementSystem : BaseSystem
     {
-
+        private static ColliderComponent colliderCamera { get; set; }
         private bool keyboardJumpReleased = true;
         private bool gamepadJumpReleased = true;
 
@@ -28,6 +29,7 @@ namespace SuperMarioBros.Source.Systems
                 var movement = player.GetComponent<MovementComponent>();
                 var keyboardState = Keyboard.GetState();
                 var gamePadState = GamePad.GetState(PlayerIndex.One);
+                var camera = player.GetComponent<CameraComponent>();
                 if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
                 {
                     HandleLeftKey(collider, animation, movement);
@@ -40,13 +42,35 @@ namespace SuperMarioBros.Source.Systems
                 {
                     HandleStop(collider, animation, movement);
                 }
-                HandleUpKey(gamePadState, keyboardState, collider, animation, movement);
+
+                if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                 LimitSpeed(collider, collider.maxSpeed);
+                CreateImvisibleWall(camera,collider);
+
+
+            }
+        }
+
+        private static void CreateImvisibleWall(CameraComponent camera,ColliderComponent collider)
+        {
+
+            if (colliderCamera != null)
+            {
+                colliderCamera.collider.Position = new AetherVector2(camera.Position.X / GameConstants.pixelPerMeter, colliderCamera.collider.Position.Y);
+            }
+            else
+            {
+                colliderCamera = new ColliderComponent(collider.collider.World, camera.Position.X+1f, 100, new Rectangle(100, 100, 10, 10), BodyType.Static);
             }
         }
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
+            if (collider == null || animation == null || movement == null || colliderCamera == null)
+            {
+                return;
+            }
+
             if (!collider.isJumping())
             {
                 if (collider.collider.LinearVelocity.X > 0)
@@ -58,12 +82,22 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.WALKLEFT);
                 }
             }
-            movement.Direction = MovementType.LEFT;
-            if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
+
+            float velocityThreshold = collider.maxSpeed * 0.5f;
+            bool isWithImpulse = Math.Abs(collider.collider.LinearVelocity.X) > velocityThreshold;
+
+            float limit = isWithImpulse ? 1.4f : 0.7f;
+
+            if (collider.collider.Position.X >= colliderCamera.collider.Position.X + limit)
             {
-                collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
+                movement.Direction = MovementType.LEFT;
+                if (collider.collider.LinearVelocity.X > -collider.maxSpeed)
+                {
+                    collider.collider.ApplyForce(new AetherVector2(-collider.velocity, 0));
+                }
             }
         }
+
 
         private static void HandleKeyRight(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
@@ -85,12 +119,20 @@ namespace SuperMarioBros.Source.Systems
             };
         }
 
-        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
+        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement,GameTime gameTime)
         {
-            if ((keyboardState.IsKeyDown(Keys.Z) && keyboardJumpReleased || gamePadState.Buttons.A == ButtonState.Pressed && gamepadJumpReleased) && !collider.isJumping())
+            if (collider == null || animation == null || movement == null || colliderCamera == null)
+            {
+                return;
+            }
+
+            bool jumpCondition = (keyboardState.IsKeyDown(Keys.Z) && keyboardJumpReleased) || (gamePadState.Buttons.A == ButtonState.Pressed && gamepadJumpReleased);
+
+            if (jumpCondition && !collider.isJumping())
             {
                 if (keyboardState.IsKeyDown(Keys.Z)) keyboardJumpReleased = false;
                 if (gamePadState.Buttons.A == ButtonState.Pressed) gamepadJumpReleased = false;
+
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.JUMPLEFT);
@@ -103,6 +145,7 @@ namespace SuperMarioBros.Source.Systems
                 }
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
             }
+
             if (keyboardState.IsKeyUp(Keys.Z))
             {
                 keyboardJumpReleased = true;
@@ -110,6 +153,16 @@ namespace SuperMarioBros.Source.Systems
             if (gamePadState.Buttons.A == ButtonState.Released)
             {
                 gamepadJumpReleased = true;
+            }
+
+
+            if (collider.isJumping())
+            {
+                if (collider.collider.Position.X + collider.collider.LinearVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds <= colliderCamera.collider.Position.X + 0.3f)
+                {
+                    collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
+                    animation.Play(AnimationState.JUMPLEFT);
+                }
             }
         }
 
