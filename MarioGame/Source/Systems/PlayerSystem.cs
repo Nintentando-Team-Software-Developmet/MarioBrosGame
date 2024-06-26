@@ -76,6 +76,10 @@ namespace SuperMarioBros.Source.Systems
                     {
                         colliderComponent.collider.LinearVelocity = new Vector2(2, 4);
                     }
+                    if (playerComponent.HasReachedEnd && animationComponent.currentState == AnimationState.WIN)
+                    {
+                        colliderComponent.collider.LinearVelocity = new Vector2(0, 1);
+                    }
                 }
                 else
                 {

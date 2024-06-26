@@ -9,6 +9,8 @@ using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 
+using Vector2 = nkast.Aether.Physics2D.Common.Vector2;
+
 namespace SuperMarioBros.Source.Systems;
 
 public class WinPoleSystem : BaseSystem
@@ -19,7 +21,7 @@ public class WinPoleSystem : BaseSystem
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
         IEnumerable<Entity> players = entities.WithComponents(typeof(ColliderComponent), typeof(PlayerComponent));
-
+        IEnumerable<Entity> flags = entities.WithComponents(typeof(ColliderComponent), typeof(WinFlagComponent));
         foreach (var player in players)
         {
             _playerBodies.Add(player.GetComponent<ColliderComponent>().collider);
@@ -35,6 +37,16 @@ public class WinPoleSystem : BaseSystem
             {
                 RegisterPoleEvents(collider, pole);
                 registeredEntities.Add(entity);
+            }
+
+            if (pole.MarioContact)
+            {
+                foreach (Entity flag in flags)
+                {
+                    flag.GetComponent<ColliderComponent>().collider.IgnoreGravity = false;
+                    flag.GetComponent<ColliderComponent>().collider.LinearVelocity = new Vector2(0, 3);
+
+                }
             }
         }
     }
