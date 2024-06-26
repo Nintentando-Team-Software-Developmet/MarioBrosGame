@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using MarioGame;
@@ -25,6 +26,7 @@ public class BlockSystem : BaseSystem
     private static Dictionary<Entity, bool> entitiesProcessed = new Dictionary<Entity, bool>();
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
+    private List<Body> _bodiesToRemove = new List<Body>();
     private static bool statusMario { get; set; }
 
     public BlockSystem(ProgressDataManager progressDataManager)
@@ -44,6 +46,14 @@ public class BlockSystem : BaseSystem
 
         UpdateBlocks(questionBlockEntities, gameTime, mushroomEntities, startEntities, playerEntities, flowerEntities, coinEntities);
         UpdateBlocks(coinBlockEntities, gameTime, mushroomEntities, startEntities, playerEntities, flowerEntities, coinEntities);
+
+        if (_bodiesToRemove.Count == 0)
+        {
+            return;
+        }
+        Console.WriteLine("Destroying bodies " + _bodiesToRemove.Count);
+        _bodiesToRemove.ForEach(body => body.World.Remove(body));
+        _bodiesToRemove.Clear();
 
     }
     private void UpdateBlocks(IEnumerable<Entity> entities, GameTime gameTime, IEnumerable<Entity> entitiesMushroom, IEnumerable<Entity> entitiesStar, IEnumerable<Entity> entitiesPlayer,
@@ -213,7 +223,20 @@ public class BlockSystem : BaseSystem
         collider.collider.Position = currentPosition;
     }
 
-    private static void RegisterCollisionEvent(ColliderComponent collider, Entity entity, IEnumerable<Entity> entities)
+    private static Entity GetPlayerEntity(IEnumerable<Entity> entities)
+    {
+        foreach (var entity in entities)
+        {
+            if (entity.HasComponent<PlayerComponent>())
+            {
+                return entity;
+            }
+        }
+        return null;
+    }
+
+
+    private void RegisterCollisionEvent(ColliderComponent collider, Entity blockEntity, IEnumerable<Entity> entities)
     {
         collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
         {
@@ -222,25 +245,47 @@ public class BlockSystem : BaseSystem
 
             float blockBottomY = colliderBody.Position.Y * GameConstants.pixelPerMeter + colliderFixture.Shape.Radius;
 
-            if (IsCollisionAtBase(contact, blockBottomY, entities))
+            var playerEntity = GetPlayerEntity(entities);
+            if (playerEntity != null)
             {
-                var questionBlock = entity.GetComponent<QuestionBlockComponent>();
-                var coinBlock = entity.GetComponent<CoinBlockComponent>();
-                if (entityStates[entity] == "idle" &&
-                    ((questionBlock == null || !questionBlock.HasMoved) && (coinBlock == null || !coinBlock.HasMoved)))
+                var playerState = playerEntity.GetComponent<PlayerStateComponent>();
+
+                if (IsCollisionAtBase(contact, blockBottomY, playerEntity))
                 {
-                    entityStates[entity] = "movingUp";
+                    var questionBlock = blockEntity.GetComponent<QuestionBlockComponent>();
+                    var coinBlock = blockEntity.GetComponent<CoinBlockComponent>();
+                    var destructible = blockEntity.GetComponent<BlockComponent>().IsDestrucible;
+
+                    Console.WriteLine("Player state: " + playerState.IsBig);
+                    Console.WriteLine("Block is destructible: " + destructible);
+                    Console.WriteLine("Block type: " + blockEntity.GetComponent<BlockComponent>().BlockType);
+                    // Destroy only destructible blocks when player is big
+                    if (playerState.IsBig && destructible)
+                    {
+                        Console.WriteLine("The player is big " + playerState.IsBig + " and the block is destructible " + destructible);
+                        blockEntity.ClearComponents();
+                        _bodiesToRemove.Add(colliderBody);
+                        registeredEntities.Remove(blockEntity);
+                    }
+
+                    // Move only question and coin blocks (if not already moved)
+                    if (entityStates[blockEntity] == "idle" &&
+                        ((questionBlock != null && !questionBlock.HasMoved) || (coinBlock != null && !coinBlock.HasMoved)))
+                    {
+                        entityStates[blockEntity] = "movingUp";
+                    }
                 }
-            }
-            else
-            {
-                ApplyRepulsionForce(contact);
+                else
+                {
+                    ApplyRepulsionForce(contact);
+                }
             }
             return true;
         };
     }
 
-    private static bool IsCollisionAtBase(Contact contact, float blockBottomY, IEnumerable<Entity> entities)
+
+    private static bool IsCollisionAtBase(Contact contact, float blockBottomY, Entity playerEntity)
     {
         Fixture fixtureA = contact.FixtureA;
         Body bodyA = fixtureA.Body;
@@ -255,19 +300,8 @@ public class BlockSystem : BaseSystem
         bool isBodyBAtBase = bodyBPositionY >= blockBottomY;
         bool isContactAtBase = isBodyAAtBase && isBodyBAtBase;
 
-        bool isPlayerInvolved = false;
-
-        foreach (var playerEntity in entities)
-        {
-            var playerCollider = playerEntity.GetComponent<ColliderComponent>().collider;
-            if (playerCollider == bodyA || playerCollider == bodyB)
-            {
-                isPlayerInvolved = true;
-                break;
-            }
-        }
-
-        return isContactAtBase && isPlayerInvolved;
+        var playerCollider = playerEntity.GetComponent<ColliderComponent>().collider;
+        return isContactAtBase && (playerCollider == bodyA || playerCollider == bodyB);
     }
 
     private static void ApplyRepulsionForce(Contact contact)
