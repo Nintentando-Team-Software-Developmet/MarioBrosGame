@@ -7,6 +7,7 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
@@ -180,6 +181,11 @@ namespace SuperMarioBros.Source.Scenes
             {
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
+
+                if (IsPlayerAtSecretLocation(100))
+                {
+                    sceneManager.ChangeScene(SceneName.SecretLevel);
+                }
             }
 
             if (!_isFlagEventPlayed)
@@ -200,6 +206,23 @@ namespace SuperMarioBros.Source.Scenes
 
             UpdateSystems(gameTime);
             CheckPlayerState(gameTime, sceneManager);
+        }
+
+        private bool IsPlayerAtSecretLocation(float secretLocation)
+        {
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity != null)
+            {
+                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
+                return playerPosition.X == secretLocation && IsHKeyPressed();
+            }
+            return false;
+        }
+
+        private static bool IsHKeyPressed()
+        {
+            KeyboardState state = Keyboard.GetState();
+            return state.IsKeyDown(Keys.H);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
