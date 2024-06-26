@@ -30,24 +30,24 @@ namespace SuperMarioBros.Source.Systems
                 var keyboardState = Keyboard.GetState();
                 var gamePadState = GamePad.GetState(PlayerIndex.One);
                 var camera = player.GetComponent<CameraComponent>();
-                if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
+                if (!player.GetComponent<PlayerComponent>().HasReachedEnd)
                 {
-                    HandleLeftKey(collider, animation, movement);
+                    if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
+                    {
+                        HandleLeftKey(collider, animation, movement);
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed)
+                    {
+                        HandleKeyRight(collider, animation, movement);
+                    }
+                    else
+                    {
+                        HandleStop(collider, animation, movement);
+                    }
+                    if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
+                    LimitSpeed(collider, collider.maxSpeed);
+                    CreateImvisibleWall(camera,collider);
                 }
-                else if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed)
-                {
-                    HandleKeyRight(collider, animation, movement);
-                }
-                else
-                {
-                    HandleStop(collider, animation, movement);
-                }
-
-                if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
-                LimitSpeed(collider, collider.maxSpeed);
-                CreateImvisibleWall(camera,collider);
-
-
             }
         }
 

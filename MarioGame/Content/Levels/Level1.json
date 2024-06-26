@@ -14,10 +14,26 @@
         },
         {
             "type": "WINGAME",
+            "name": "POLE",
+            "position": {
+                "x": 12768,
+                "y": 416
+            }
+        },
+        {
+            "type": "WINGAME",
+            "name": "FLAGBALL",
+            "position": {
+                "x": 12768,
+                "y": 120
+            }
+        },
+        {
+            "type": "WINFLAG",
             "name": "FLAG",
             "position": {
-                "x": 12700,
-                "y": 95
+                "x": 12736,
+                "y": 160
             }
         },
 
