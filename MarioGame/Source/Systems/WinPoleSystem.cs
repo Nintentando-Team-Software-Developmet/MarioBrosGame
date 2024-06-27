@@ -27,11 +27,11 @@ public class WinPoleSystem : BaseSystem
             _playerBodies.Add(player.GetComponent<ColliderComponent>().collider);
         }
 
-        IEnumerable<Entity> winPole = entities.WithComponents(typeof(ColliderComponent), typeof(WinGameComponent));
+        IEnumerable<Entity> winPole = entities.WithComponents(typeof(ColliderComponent), typeof(WinPoleSensorComponent));
         foreach (Entity entity in winPole)
         {
             var collider = entity.GetComponent<ColliderComponent>();
-            var pole = entity.GetComponent<WinGameComponent>();
+            var pole = entity.GetComponent<WinPoleSensorComponent>();
             if (collider == null || pole == null) continue;
             if (!registeredEntities.Contains(entity))
             {
@@ -51,19 +51,19 @@ public class WinPoleSystem : BaseSystem
         }
     }
 
-    private void RegisterPoleEvents(ColliderComponent collider, WinGameComponent winGameComponent)
+    private void RegisterPoleEvents(ColliderComponent collider, WinPoleSensorComponent winPoleSensorComponent)
     {
         collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
         {
             var otherBody = fixtureB.Body;
 
-            if (winGameComponent.MarioContact)
+            if (winPoleSensorComponent.MarioContact)
             {
                 return false;
             }
             if (_playerBodies.Contains(otherBody))
             {
-                winGameComponent.MarioContact = true;
+                winPoleSensorComponent.MarioContact = true;
             }
             return true;
         };

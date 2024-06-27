@@ -21,12 +21,8 @@ namespace SuperMarioBros.Source.Systems
         private List<Body> _enemyBodies = new();
         private HashSet<Entity> registeredEntities = new();
         private List<Body> _poleBodies = new();
-        private bool _teleportMario { get; set; }
 
-        public PlayerSystem()
-        {
-            _teleportMario = false;
-        }
+
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
@@ -35,7 +31,7 @@ namespace SuperMarioBros.Source.Systems
             {
                 _enemyBodies.Add(enemy.GetComponent<ColliderComponent>().collider);
             }
-            IEnumerable<Entity> winPoles = entities.WithComponents(typeof(WinGameComponent), typeof(ColliderComponent));
+            IEnumerable<Entity> winPoles = entities.WithComponents(typeof(WinPoleSensorComponent), typeof(ColliderComponent));
             foreach (Entity winPole in winPoles)
             {
                 _poleBodies.Add(winPole.GetComponent<ColliderComponent>().collider);
@@ -65,10 +61,10 @@ namespace SuperMarioBros.Source.Systems
                     RegisterPlayerEvents(colliderComponent, playerComponent, animationComponent);
                     registeredEntities.Add(player);
                 }
-                if (_teleportMario)
+                if (playerComponent.MayTeleport)
                 {
                     colliderComponent.collider.Position = new Vector2(colliderComponent.collider.Position.X + 0.64f, colliderComponent.collider.Position.Y + -0.5f);
-                    _teleportMario = false;
+                    playerComponent.MayTeleport = false;
                 }
                 if (colliderComponent.collider.Position.X < 131.25)
                 {
@@ -108,7 +104,7 @@ namespace SuperMarioBros.Source.Systems
                 {
                     playerComponent.HasReachedEnd = true;
                     animationComponent.Play(AnimationState.WIN);
-                    _teleportMario = true;
+                    playerComponent.MayTeleport = true;
                 }
                 if (_enemyBodies.Contains(otherBody))
                 {

@@ -11,6 +11,7 @@ namespace SuperMarioBros.Source.Components
         public bool DeathAnimationComplete { get; set; }
         public bool ShouldProcessDeath { get; set; }
         public bool IsTimeOver { get; set; }
+        public bool MayTeleport { get; set; }
 
         public PlayerComponent()
         {
@@ -23,6 +24,7 @@ namespace SuperMarioBros.Source.Components
             DeathAnimationComplete = false;
             ShouldProcessDeath = false;
             IsTimeOver = false;
+            MayTeleport = false;
         }
     }
 }

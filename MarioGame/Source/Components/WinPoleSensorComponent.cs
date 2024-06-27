@@ -1,10 +1,10 @@
 namespace SuperMarioBros.Source.Components;
 
-public class WinGameComponent : BaseComponent
+public class WinPoleSensorComponent : BaseComponent
 {
     public bool MarioContact { get; set; }
 
-    public WinGameComponent()
+    public WinPoleSensorComponent()
     {
         MarioContact = false;
     }
