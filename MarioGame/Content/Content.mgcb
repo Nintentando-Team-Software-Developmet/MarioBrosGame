@@ -1431,6 +1431,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/props/win_flag_1.png
 
+#begin sprites/props/win_flag_1_ball.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/win_flag_1_ball.png
+
 #begin sprites/props/win_flag_2.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -156,7 +156,8 @@ namespace MarioGame
                 { AnimationState.RUNRIGHT, new Texture2D[] { Sprites.SmallRun } },
                 { AnimationState.STOP, new Texture2D[] { Sprites.SmallStop } },
                 { AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeft } },
-                { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } }
+                { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } },
+                { AnimationState.WIN, new Texture2D[] { Sprites.LowerThePostLeft } }
             };
 
         public static readonly Dictionary<AnimationState, Texture2D[]> koopaAnimations = new Dictionary<AnimationState, Texture2D[]>
@@ -205,8 +206,17 @@ namespace MarioGame
 
         public static readonly Dictionary<AnimationState, Texture2D[]> flagWinAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
-            { AnimationState.STOP, new Texture2D[] { Sprites.WinFlagGreen, Sprites.WinFlag } }
-            //TODO: Modify for the flag win animation
+            { AnimationState.STOP, new Texture2D[] { Sprites.WinFlag } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> flagWinBallAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.STOP, new Texture2D[] { Sprites.WinFlagGreenBall } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> poleWinAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.STOP, new Texture2D[] { Sprites.WinFlagGreen } }
         };
 
         public static readonly Dictionary<AnimationState, Texture2D[]> mushroomAnimations = new Dictionary<AnimationState, Texture2D[]>
@@ -233,6 +243,8 @@ namespace MarioGame
             { EntitiesName.MARIO, playerAnimations },
             { EntitiesName.GOOMBA, goombaAnimations },
             { EntitiesName.FLAG, flagWinAnimations },
+            { EntitiesName.FLAGBALL, flagWinBallAnimations },
+            { EntitiesName.POLE, poleWinAnimations },
             { EntitiesName.QUESTIONBLOCK,  questionBLockAnimations },
             { EntitiesName.COINBLOCK,  coinBlockAnimations},
             { EntitiesName.BLOCK,  blockAnimations},
