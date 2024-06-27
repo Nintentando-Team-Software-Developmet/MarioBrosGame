@@ -19,6 +19,8 @@ namespace SuperMarioBros.Utils.DataStructures
         COINBLOCK,
         DUCT,
         DUCTEXTENSION,
-        BLOCKERBLOCKBROWN
+        BLOCKERBLOCKBROWN,
+        DUCTCROSS,
+        DUCTCROSS1
     }
 }

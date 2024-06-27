@@ -75,7 +75,7 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.COINANIMATION:
-                    AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 40, 40);
+                    AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 55, 55);
                     entity.AddComponent(coinAnimationComponent);
                     entity.AddComponent(new CoinComponent());
                     ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle, BodyType.Dynamic);
@@ -141,6 +141,17 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(ductExtensionAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductExtensionAnimationComponent.textureRectangle, BodyType.Static));
                     break;
+                case EntityType.DUCTCROSS:
+                    AnimationComponent ductCrossAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 131, 128);
+                    entity.AddComponent(ductCrossAnimationComponent);
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductCrossAnimationComponent.textureRectangle, BodyType.Static));
+                    break;
+                case EntityType.DUCTCROSS1:
+                    AnimationComponent ductCrossSquareAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 128, 120);
+                    entity.AddComponent(ductCrossSquareAnimationComponent);
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductCrossSquareAnimationComponent.textureRectangle, BodyType.Static));
+                    break;
+
                 default:
                     break;
             }

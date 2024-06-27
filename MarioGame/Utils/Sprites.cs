@@ -23,6 +23,7 @@ namespace SuperMarioBros.Utils
         public static Texture2D DuctVerticalGreen { get; set; }
         public static Texture2D DuctVerticalOrange { get; set; }
         public static Texture2D DuctVerticalColors { get; set; }
+        public static Texture2D DuctCrossSquare { get; set; }
         public static Texture2D NoIluminatedBrickBlockBrown { get; set; }
         public static Texture2D NoIluminatedBrickBlockBlue { get; set; }
         public static Texture2D NoIluminatedBrickBlockGrey { get; set; }
@@ -162,6 +163,7 @@ namespace SuperMarioBros.Utils
             DuctVerticalGreen = content.Load<Texture2D>("sprites/blocks/duct_vertical_extension_1");
             DuctVerticalOrange = content.Load<Texture2D>("sprites/blocks/duct_vertical_extension_2");
             DuctVerticalColors = content.Load<Texture2D>("sprites/blocks/duct_vertical_extension_3");
+            DuctCrossSquare = content.Load<Texture2D>("sprites/blocks/duct_cross_square");
             NoIluminatedBrickBlockBrown = content.Load<Texture2D>("sprites/blocks/no_iluminated_brick_block_1");
             NoIluminatedBrickBlockBlue = content.Load<Texture2D>("sprites/blocks/no_iluminated_brick_block_2");
             NoIluminatedBrickBlockGrey = content.Load<Texture2D>("sprites/blocks/no_iluminated_brick_block_3");

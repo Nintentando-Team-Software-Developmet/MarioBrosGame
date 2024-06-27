@@ -21,6 +21,7 @@ using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -182,7 +183,7 @@ namespace SuperMarioBros.Source.Scenes
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
 
-                if (IsPlayerAtSecretLocation(100))
+                if (IsPlayerAtSecretLocation(3620,3776))
                 {
                     sceneManager.ChangeScene(SceneName.SecretLevel);
                 }
@@ -208,13 +209,13 @@ namespace SuperMarioBros.Source.Scenes
             CheckPlayerState(gameTime, sceneManager);
         }
 
-        private bool IsPlayerAtSecretLocation(float secretLocation)
+        private bool IsPlayerAtSecretLocation(float secretLocationStart, float secretLocationEnd)
         {
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
             if (playerEntity != null)
             {
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X == secretLocation && IsHKeyPressed();
+                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && IsHKeyPressed();
             }
             return false;
         }

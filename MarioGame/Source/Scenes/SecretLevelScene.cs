@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
@@ -9,9 +11,15 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
 using nkast.Aether.Physics2D.Dynamics;
+
+using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
-using SuperMarioBros.Utils;
+using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.Maps;
+using SuperMarioBros.Utils.SceneCommonData;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -19,33 +27,73 @@ namespace SuperMarioBros.Source.Scenes
 {
     public class SecretLevelScene : IScene, IDisposable
     {
-
-        private SecretLevelMapGame map;
-        private World physicsWorld;
-        private LevelData _levelData;
+        private List<Entity> Entities { get; set; } = new();
+        private List<BaseSystem> Systems { get; set; } = new();
+        private SecretLevelMapGame _map;
+        private readonly World _physicsWorld;
+        private readonly LevelData _levelData;
         private bool _disposed;
-        private ProgressDataManager _progressDataManager;
+        private readonly ProgressDataManager _progressDataManager;
+        private HashSet<string> LoadedEntities { get; }
 
         public SecretLevelScene(string pathScene, ProgressDataManager progressDataManager)
         {
             string json = File.ReadAllText(pathScene);
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
             _progressDataManager = progressDataManager;
-            physicsWorld = new World(new AetherVector2(0, 20f));
+            _physicsWorld = new World(new AetherVector2(0, 20f));
+            LoadedEntities = new HashSet<string>();
         }
 
         public void Load(SpriteData spriteData)
         {
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
-            map = new SecretLevelMapGame(_levelData.pathMap, spriteData, physicsWorld);
+            _map = new SecretLevelMapGame(_levelData.pathMap, _levelData.backgroundEntitiesPath, spriteData, _physicsWorld);
+            LoadEntities();
+            InitializeSystems(spriteData);
         }
 
+        private void InitializeSystems(SpriteData spriteData)
+        {
+            Systems.Add(new AnimationSystem(spriteData.spriteBatch));
+            Systems.Add(new PlayerMovementSystem());
+            Systems.Add(new PlayerSystem());
+        }
+
+        private void LoadEntities()
+        {
+            var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
+            if (playerEntityData != null)
+            {
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, _physicsWorld));
+                LoadedEntities.Add(GetEntityKey(playerEntityData));
+            }
+            foreach (var entityData in _levelData.entities)
+            {
+                if (entityData.type != EntityType.PLAYER)
+                {
+                    Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld));
+                    LoadedEntities.Add(GetEntityKey(entityData));
+                }
+            }
+            foreach (var entityData in _map.staticEntities.entities)
+            {
+                Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld));
+                LoadedEntities.Add(GetEntityKey(entityData));
+            }
+        }
+        private static string GetEntityKey(EntityData entityData)
+        {
+            return $"{entityData.type}_{entityData.position.x}_{entityData.position.y}";
+        }
 
         public void Unload()
         {
-            foreach (var body in physicsWorld.BodyList.ToList())
+            Entities.ClearAll();
+            Systems.Clear();
+            foreach (var body in _physicsWorld.BodyList.ToList())
             {
-                physicsWorld.Remove(body);
+                _physicsWorld.Remove(body);
             }
             _progressDataManager.ResetTime();
         }
@@ -53,8 +101,42 @@ namespace SuperMarioBros.Source.Scenes
         public void Update(GameTime gameTime, SceneManager sceneManager)
         {
             if (sceneManager == null) throw new ArgumentNullException(nameof(sceneManager));
-            physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
+            if (gameTime?.ElapsedGameTime.TotalSeconds != null)
+                _physicsWorld.Step((float)gameTime?.ElapsedGameTime.TotalSeconds);
 
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity != null)
+            {
+                if (IsPlayerAtSecretLocation(910, 736))
+                {
+                    sceneManager.ChangeScene(SceneName.Level1);
+                }
+            }
+
+            UpdateProgressData(gameTime);
+            UpdateSystems(gameTime);
+        }
+
+        private bool IsPlayerAtSecretLocation(float secretLocationX, float secretLocationY)
+        {
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity != null)
+            {
+                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
+                return playerPosition.X > secretLocationX && playerPosition.Y > secretLocationY;
+            }
+            return false;
+        }
+        private void UpdateSystems(GameTime gameTime)
+        {
+            foreach (var system in Systems)
+            {
+                system.Update(gameTime, Entities);
+            }
+        }
+        private void UpdateProgressData(GameTime gameTime)
+        {
+            _progressDataManager.Update(gameTime);
         }
 
         public void Draw(SpriteData spriteData, GameTime gameTime)
@@ -64,14 +146,25 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin();
 
             spriteData.graphics.GraphicsDevice.Clear(Color.Black);
-            map.Draw(spriteData);
-
-            using (var deb = new DebuggerColliders(physicsWorld, spriteData))
-            {
-                deb.DrawColliders();
-            }
-
+            _map.Draw(spriteData);
+            DrawEntities(gameTime);
+            CommonRenders.DrawProgressData(Entities,
+                                            spriteData, _progressDataManager.Score,
+                                            _progressDataManager.Coins,
+                                            "1-1",
+                                            _progressDataManager.Time);
             spriteData.spriteBatch.End();
+        }
+
+        private void DrawEntities(GameTime gameTime)
+        {
+            foreach (var system in Systems)
+            {
+                if (system is IRenderableSystem renderableSystem)
+                {
+                    renderableSystem.Draw(gameTime, Entities);
+                }
+            }
         }
 
         public SceneType GetSceneType()
