@@ -32,6 +32,7 @@ namespace SuperMarioBros.Source.Systems
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
                 var input = player.GetComponent<InputComponent>();
+                var playerComponent = player.GetComponent<PlayerComponent>();
                 if (input.LEFT.IsPressed)
                 {
                     HandleLeftKey(collider, animation, movement);
@@ -40,22 +41,30 @@ namespace SuperMarioBros.Source.Systems
                 {
                     HandleKeyRight(collider, animation, movement);
                 }
-                else if(input.DOWN.IsPressed){
+                else if (input.DOWN.IsPressed)
+                {
                     HandleKeyDown(collider, animation, movement);
                 }
                 else
                 {
                     HandleStop(collider, animation, movement);
                 }
+
+                if (!input.DOWN.IsPressed && playerComponent.State == PlayerState.BIG)
+                {
+                    animation.height = 128;
+                }
+
+
                 HandleUpKey(input, collider, animation, movement);
                 LimitSpeed(collider, collider.maxSpeed);
             }
         }
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
-        {   
+        {
             float mass = collider.collider.Mass;
-            float force = collider.velocity * (mass/GameConstants.PlayerMass);
+            float force = collider.velocity * (mass / GameConstants.PlayerMass);
             float velocityX = collider.collider.LinearVelocity.X;
             if (!collider.isJumping())
             {
@@ -71,14 +80,14 @@ namespace SuperMarioBros.Source.Systems
             movement.Direction = MovementType.LEFT;
             if (velocityX > -collider.maxSpeed)
             {
-                collider.collider.ApplyForce(new AetherVector2(-force , 0));
+                collider.collider.ApplyForce(new AetherVector2(-force, 0));
             }
         }
 
         private static void HandleKeyRight(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
             float mass = collider.collider.Mass;
-            float force = collider.velocity * (mass/GameConstants.PlayerMass);
+            float force = collider.velocity * (mass / GameConstants.PlayerMass);
             float velocityX = collider.collider.LinearVelocity.X;
             if (!collider.isJumping())
             {
@@ -103,19 +112,23 @@ namespace SuperMarioBros.Source.Systems
             bool containsBend = animation.containsState(AnimationState.BENDLEFT) && animation.containsState(AnimationState.BENDRIGHT);
             if (!collider.isJumping() && containsBend)
             {
-                if(movement.Direction == MovementType.LEFT){
+                animation.height = 64;
+                if (movement.Direction == MovementType.LEFT)
+                {
                     animation.Play(AnimationState.BENDLEFT);
-                }else if (movement.Direction == MovementType.RIGHT){
+                }
+                else if (movement.Direction == MovementType.RIGHT)
+                {
                     animation.Play(AnimationState.BENDRIGHT);
                 }
             }
-            
+
         }
 
         private static void HandleUpKey(InputComponent input, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
             float mass = collider.collider.Mass;
-            float force = 4.29f * (mass/GameConstants.PlayerMass);
+            float force = 4.29f * (mass / GameConstants.PlayerMass);
             if (input.A.IsPressed && input.A.IsHeld && !collider.isJumping())
             {
                 if (movement.Direction == MovementType.LEFT)
@@ -131,7 +144,7 @@ namespace SuperMarioBros.Source.Systems
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -force));
                 input.A.setHeld(false);
             }
-             
+
         }
 
         private static void HandleStop(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
