@@ -46,7 +46,7 @@ namespace SuperMarioBros.Source.Scenes
         private bool _isFlagEventPlayed { get; set; }
         private bool _isLevelCompleted { get; set; }
         private double _levelCompleteDisplayTime;
-        private const double LevelCompleteMaxDisplayTime = 10.0;
+        private const double LevelCompleteMaxDisplayTime = 6.5;
         private HashSet<string> _loadedEntities { get; }
         private const int LoadRadius = 1000;
 
@@ -99,6 +99,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new EnemySystem());
             Systems.Add(new BlockSystem(_progressDataManager));
+            Systems.Add(new WinPoleSystem());
         }
 
         /*
@@ -262,7 +263,6 @@ namespace SuperMarioBros.Source.Scenes
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && player.HasReachedEnd)
             {
-                player.HasReachedEnd = false;
                 _isFlagEventPlayed = true;
                 PlayFlagSound();
             }
