@@ -1,4 +1,4 @@
-﻿using SuperMarioBros.Utils;
+using SuperMarioBros.Utils;
 
 namespace SuperMarioBros.Source.Components;
 

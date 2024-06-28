@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -37,7 +37,7 @@ namespace SuperMarioBros.Source.Systems
                 var playerCollider = player.GetComponent<ColliderComponent>();
                 RegisterCollisionEvent(playerCollider, player, powerUpEntities);
 
-                if (_bodiesToDestroy.Count == 0 )
+                if (_bodiesToDestroy.Count == 0)
                 {
                     return;
                 }
@@ -59,7 +59,7 @@ namespace SuperMarioBros.Source.Systems
                 {
                     Console.WriteLine("Collision Detected");
                     _bodiesToDestroy.Add(fixtureB.Body);
-                    DebugCollision(entity, otherEntity);
+                    DebugCollision(otherEntity);
                     DispatchCollisionEvent(entity, otherEntity);
                 }
                 return true;
@@ -111,7 +111,7 @@ namespace SuperMarioBros.Source.Systems
         /// <summary>
         /// The DebugCollision method logs a collision between a player and another entity.
         /// </summary>
-        private static void DebugCollision(Entity player, Entity other)
+        private static void DebugCollision(Entity other)
         {
             Console.WriteLine($"Collision detected between Player and {other.GetComponent<PowerUpComponent>().PowerUpType}");
         }

@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Services;
 using SuperMarioBros.Utils;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems

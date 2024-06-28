@@ -261,7 +261,7 @@ public class BlockSystem : BaseSystem
                     Console.WriteLine("Block type: " + blockEntity.GetComponent<BlockComponent>().BlockType);
                     if (playerState.IsBig && destructible)
                     {
-                        Console.WriteLine("The player is big " +  playerState.IsBig + " and the block is destructible " + destructible);
+                        Console.WriteLine("The player is big " + playerState.IsBig + " and the block is destructible " + destructible);
                         blockEntity.ClearComponents();
                         _bodiesToRemove.Add(colliderBody);
                         registeredEntities.Remove(blockEntity);

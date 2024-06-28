@@ -1,4 +1,4 @@
-﻿namespace SuperMarioBros.Utils;
+namespace SuperMarioBros.Utils;
 
 public enum PowerUpType
 {
