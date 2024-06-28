@@ -158,7 +158,6 @@ namespace SuperMarioBros.Source.Scenes
                 physicsWorld.Remove(body);
             }
             MediaPlayer.Stop();
-            _progressDataManager.ResetTime();
             _isLevelCompleted = false;
             _isFlagEventPlayed = false;
             _levelCompleteDisplayTime = 0;
@@ -387,6 +386,11 @@ namespace SuperMarioBros.Source.Scenes
         public SceneType GetSceneType()
         {
             return SceneType.Level;
+        }
+
+        public Entity GetPlayerEntity()
+        {
+            return Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
         }
 
         /*

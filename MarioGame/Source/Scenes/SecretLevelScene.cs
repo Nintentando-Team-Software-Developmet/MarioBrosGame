@@ -95,7 +95,6 @@ namespace SuperMarioBros.Source.Scenes
             {
                 _physicsWorld.Remove(body);
             }
-            _progressDataManager.ResetTime();
         }
 
         public void Update(GameTime gameTime, SceneManager sceneManager)
