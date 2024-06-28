@@ -18,6 +18,8 @@ namespace SuperMarioBros.Source.Components
         public bool IsBig { get; set; }
         public bool IsFire { get; set; }
 
+        public float StarPowerTimer { get; set; }
+
         public PlayerComponent()
         {
             IsAlive = true;

@@ -7,7 +7,6 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Services;
 using SuperMarioBros.Utils;
-using SuperMarioBros.Utils.DataStructures;
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
@@ -27,6 +26,7 @@ namespace SuperMarioBros.Source.Systems
                 enemyBodiesCache.Add(enemy.GetComponent<ColliderComponent>().collider);
             }
             _enemyBodies = enemyBodiesCache;
+
 
             foreach (var player in entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent)))
             {
@@ -74,7 +74,11 @@ namespace SuperMarioBros.Source.Systems
                 if (_enemyBodies.Contains(otherBody))
                 {
                     CollisionType collisionDirection = CollisionAnalyzer.GetDirectionCollision(contact);
-                    Console.WriteLine($"Player collided with enemy. Collision direction: {collisionDirection}");
+
+                    if (playerComponent.IsStarInvincible)
+                    {
+                        return true;
+                    }
 
                     if (collisionDirection == CollisionType.DOWN ||
                         collisionDirection == CollisionType.LEFT ||

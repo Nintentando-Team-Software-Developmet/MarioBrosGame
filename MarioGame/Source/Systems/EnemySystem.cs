@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 using Microsoft.Xna.Framework;
-
 using nkast.Aether.Physics2D.Dynamics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
-
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
+
 namespace SuperMarioBros.Source.Systems
 {
     public class EnemySystem : BaseSystem
@@ -38,12 +36,13 @@ namespace SuperMarioBros.Source.Systems
                 var enemy = entity.GetComponent<EnemyComponent>();
                 var animation = entity.GetComponent<AnimationComponent>();
 
-                if (entity.HasComponent<PlayerComponent>()) continue;
                 if (enemy == null) Console.WriteLine("EnemyComponent is null: " + entity);
                 if (collider == null || movement == null && enemy == null) continue;
                 if (!registeredEntities.Contains(entity))
                 {
-                    RegisterEnemyEvents(collider, animation, movement, entity, enemy);
+                    var player = EntityExtensions.GetPlayer(entities.ToList());
+                    if (player == null) continue;
+                    RegisterEnemyEvents(collider, player.GetComponent<PlayerComponent>(), animation, movement, entity, enemy);
                     registeredEntities.Add(entity);
                 }
                 if (entity.HasComponent<KoopaComponent>())
@@ -102,7 +101,7 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-        private void RegisterEnemyEvents(ColliderComponent collider, AnimationComponent animation = null, MovementComponent movement = null, Entity entity = null, EnemyComponent enemy = null)
+        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent player, AnimationComponent animation = null, MovementComponent movement = null, Entity entity = null, EnemyComponent enemy = null)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
@@ -115,6 +114,18 @@ namespace SuperMarioBros.Source.Systems
 
                 if (_playerBodies.Contains(otherBody))
                 {
+                    if (player != null)
+                        if (player.IsStarInvincible)
+                        {
+                            enemy.IsAlive = false;
+                            animation?.Play(AnimationState.DIE);
+                            enemyBody.ResetDynamics();
+                            fixtureA.CollidesWith = Category.None;
+                            _bodiesToRemove.Add(enemyBody);
+                            Console.WriteLine("Enemy destroyed by star-powered player.");
+                            return true;
+                        }
+
                     if (CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                     {
                         movement.Direction = MovementType.STOP;
@@ -157,5 +168,13 @@ namespace SuperMarioBros.Source.Systems
             };
         }
 
+        private Entity GetEntityFromBody(Body body)
+        {
+            return registeredEntities.FirstOrDefault(e =>
+            {
+                var colliderComponent = e.GetComponent<ColliderComponent>();
+                return colliderComponent != null && colliderComponent.collider == body;
+            });
+        }
     }
 }

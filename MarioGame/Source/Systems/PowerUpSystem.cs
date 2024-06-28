@@ -5,6 +5,7 @@ using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Services;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -16,8 +17,8 @@ namespace SuperMarioBros.Source.Systems
     /// </summary>
     public class PowerUpSystem : BaseSystem
     {
-        private Dictionary<Entity, float> powerUpTimers = new Dictionary<Entity, float>();
-        private Dictionary<Entity, PowerUpType> activePowerUps = new Dictionary<Entity, PowerUpType>();
+        private Dictionary<Entity, Guid> activeTimers = new Dictionary<Entity, Guid>();
+
 
         /// <summary>
         /// The constructor subscribes to the PowerUpEvent.
@@ -32,23 +33,7 @@ namespace SuperMarioBros.Source.Systems
         /// </summary>
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            if (gameTime != null)
-            {
-                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                var players = entities.WithComponents(typeof(PlayerComponent));
-
-                foreach (var player in players)
-                {
-                    if (activePowerUps.ContainsKey(player))
-                    {
-                        powerUpTimers[player] -= deltaTime;
-                        if (powerUpTimers[player] <= 0 && activePowerUps[player] == PowerUpType.Star)
-                        {
-                            RemovePowerUp(player);
-                        }
-                    }
-                }
-            }
+            if (gameTime != null) TimerService.Instance.Update(gameTime);
         }
 
         /// <summary>
@@ -59,7 +44,6 @@ namespace SuperMarioBros.Source.Systems
         {
             var powerUpEvent = (PowerUpEvent)eventArgs;
             var player = powerUpEvent.Player;
-            var powerUp = powerUpEvent.PowerUp;
             var powerUpType = powerUpEvent.PowerUpType;
 
             Console.WriteLine($"PowerUp collision event received: {powerUpType}");
@@ -85,8 +69,18 @@ namespace SuperMarioBros.Source.Systems
         {
             var playerState = player.GetComponent<PlayerComponent>();
             playerState.IsStarInvincible = true;
-            activePowerUps[player] = PowerUpType.Star;
-            powerUpTimers[player] = 10.0f;
+
+            if (activeTimers.ContainsKey(player))
+            {
+                TimerService.Instance.StopTimer(activeTimers[player]);
+            }
+
+            activeTimers[player] = TimerService.Instance.StartTimer(10.0f, () =>
+            {
+                playerState.IsStarInvincible = false;
+                activeTimers.Remove(player);
+                Console.WriteLine("Star power-up deactivated: Player is no longer invincible.");
+            });
 
             Console.WriteLine("Star power-up activated: Player is invincible." + playerState.IsStarInvincible);
         }
@@ -94,12 +88,10 @@ namespace SuperMarioBros.Source.Systems
         /// <summary>
         /// The ActivateMushroomPowerUp method activates the Mushroom power-up for a player.
         /// </summary>
-        private void ActivateMushroomPowerUp(Entity player)
+        private static void ActivateMushroomPowerUp(Entity player)
         {
             var playerState = player.GetComponent<PlayerComponent>();
             playerState.IsBig = true;
-            activePowerUps[player] = PowerUpType.Mushroom;
-            powerUpTimers[player] = 0;
 
             Console.WriteLine("Mushroom power-up activated: Player is big." + playerState.IsBig);
         }
@@ -107,7 +99,7 @@ namespace SuperMarioBros.Source.Systems
         /// <summary>
         /// The ActivateFireFlowerPowerUp method activates the Fire Flower power-up for a player.
         /// </summary>
-        private void ActivateFireFlowerPowerUp(Entity player)
+        private static void ActivateFireFlowerPowerUp(Entity player)
         {
             var playerState = player.GetComponent<PlayerComponent>();
             if (playerState.IsBig)
@@ -119,42 +111,8 @@ namespace SuperMarioBros.Source.Systems
                 ActivateMushroomPowerUp(player);
                 return;
             }
-            activePowerUps[player] = PowerUpType.FireFlower;
-            powerUpTimers[player] = 0;
-
             Console.WriteLine("Fire Flower power-up activated: Player has fire power." + playerState.IsFire);
         }
 
-        /// <summary>
-        /// The RemovePowerUp method removes an active power-up from a player.
-        /// </summary>
-        private void RemovePowerUp(Entity player)
-        {
-            if (activePowerUps.ContainsKey(player))
-            {
-                var powerUpType = activePowerUps[player];
-                var playerState = player.GetComponent<PlayerComponent>();
-
-                if (powerUpType == PowerUpType.Star)
-                {
-                    playerState.IsStarInvincible = false;
-                    Console.WriteLine("Star power-up deactivated: Player is no longer invincible." + playerState.IsStarInvincible);
-                }
-                else if (powerUpType == PowerUpType.Mushroom)
-                {
-                    playerState.IsBig = false;
-                    Console.WriteLine("Mushroom power-up deactivated: Player is no longer big." + playerState.IsBig);
-                }
-                else if (powerUpType == PowerUpType.FireFlower)
-                {
-                    playerState.IsFire = false;
-                    playerState.IsBig = false;
-                    Console.WriteLine("Fire Flower power-up deactivated: Player no longer has fire power." + playerState.IsFire);
-                }
-
-                activePowerUps.Remove(player);
-                powerUpTimers.Remove(player);
-            }
-        }
     }
 }

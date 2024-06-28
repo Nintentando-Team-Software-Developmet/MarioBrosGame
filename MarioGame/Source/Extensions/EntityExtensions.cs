@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
+using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 
 namespace SuperMarioBros.Source.Extensions
@@ -27,6 +27,20 @@ namespace SuperMarioBros.Source.Extensions
                 entities.ForEach(e => e.ClearComponents());
                 entities.Clear();
             }
+        }
+
+        public static Entity GetPlayer(this List<Entity> entities)
+        {
+            if (entities != null)
+                foreach (var entity in entities)
+                {
+                    if (entity.HasComponent(typeof(PlayerComponent)))
+                    {
+                        return entity;
+                    }
+                }
+
+            return null;
         }
 
     }
