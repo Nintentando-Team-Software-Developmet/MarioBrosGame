@@ -81,7 +81,7 @@ namespace SuperMarioBros.Source.Systems
             var winFlagEntities = entities.Where(e =>
                 e.HasComponent<AnimationComponent>() &&
                 e.HasComponent<PositionComponent>() &&
-                e.HasComponent<WinGameComponent>()
+                e.HasComponent<WinPoleSensorComponent>()
             );
 
             foreach (var playerEntity in playerEntities)

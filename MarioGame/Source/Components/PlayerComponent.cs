@@ -1,5 +1,3 @@
-using SuperMarioBros.Utils.DataStructures;
-
 namespace SuperMarioBros.Source.Components
 {
     public class PlayerComponent : BaseComponent
@@ -19,6 +17,7 @@ namespace SuperMarioBros.Source.Components
         public bool IsFire { get; set; }
 
         public float StarPowerTimer { get; set; }
+        public bool MayTeleport { get; set; }
 
         public PlayerComponent()
         {
@@ -31,6 +30,7 @@ namespace SuperMarioBros.Source.Components
             DeathAnimationComplete = false;
             ShouldProcessDeath = false;
             IsTimeOver = false;
+            MayTeleport = false;
         }
     }
 }

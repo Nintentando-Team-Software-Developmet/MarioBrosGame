@@ -97,6 +97,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new EnemySystem());
             Systems.Add(new BlockSystem(_progressDataManager));
+            Systems.Add(new WinPoleSystem());
             Systems.Add(new PowerUpSystem());
             Systems.Add(new EntityCollisionSystem());
         }
@@ -297,7 +298,7 @@ namespace SuperMarioBros.Source.Scenes
 
                 if (animationComponent != null && colliderComponent != null)
                 {
-                    PlayerSystem.UpdateDeathAnimation(gameTime, player, colliderComponent);
+                    PlayerSystem.UpdateDeathAnimation(gameTime, player, colliderComponent, animationComponent);
                 }
 
                 if (player.DeathAnimationComplete)
