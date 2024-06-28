@@ -28,14 +28,13 @@ namespace SuperMarioBros.Source.Systems
             }
             _enemyBodies = enemyBodiesCache;
 
-            foreach (var player in entities.WithComponents(typeof(PlayerComponent), typeof(PlayerStateComponent), typeof(ColliderComponent)))
+            foreach (var player in entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent)))
             {
                 var playerComponent = player.GetComponent<PlayerComponent>();
-                var playerState = player.GetComponent<PlayerStateComponent>();
                 var colliderComponent = player.GetComponent<ColliderComponent>();
                 var playerPosition = colliderComponent.Position;
 
-                if (!playerComponent.IsAlive && !playerState.IsInvincible)
+                if (!playerComponent.IsAlive && !playerComponent.IsInvincibleAfterHit)
                 {
                     if (playerComponent.ShouldProcessDeath)
                     {
@@ -56,17 +55,17 @@ namespace SuperMarioBros.Source.Systems
                 }
                 if (!registeredEntities.Contains(player))
                 {
-                    RegisterEnemyEvents(colliderComponent, playerComponent, playerState);
+                    RegisterEnemyEvents(colliderComponent, playerComponent);
                     registeredEntities.Add(player);
                 }
             }
         }
 
-        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent, PlayerStateComponent playerState)
+        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
-                if (!playerComponent.IsAlive || playerState.IsInvincible)
+                if (!playerComponent.IsAlive || playerComponent.IsInvincibleAfterHit)
                 {
                     return false;
                 }
@@ -81,14 +80,14 @@ namespace SuperMarioBros.Source.Systems
                         collisionDirection == CollisionType.LEFT ||
                         collisionDirection == CollisionType.RIGHT)
                     {
-                        if (playerState.IsBig)
+                        if (playerComponent.IsBig)
                         {
                             Console.WriteLine("Player is big and collided with enemy. Becoming small and invincible.");
-                            playerState.IsBig = false;
-                            playerState.IsInvincible = true;
+                            playerComponent.IsBig = false;
+                            playerComponent.IsInvincibleAfterHit = true;
                             _invincibilityTimerId = TimerService.Instance.StartTimer(3.0f, () =>
                             {
-                                playerState.IsInvincible = false;
+                                playerComponent.IsInvincibleAfterHit = false;
                                 Console.WriteLine("Player is no longer invincible.");
                             });
                         }

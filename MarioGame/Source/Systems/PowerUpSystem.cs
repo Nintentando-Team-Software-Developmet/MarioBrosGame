@@ -6,6 +6,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -34,7 +35,7 @@ namespace SuperMarioBros.Source.Systems
             if (gameTime != null)
             {
                 var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                var players = entities.WithComponents(typeof(PlayerComponent), typeof(PlayerStateComponent));
+                var players = entities.WithComponents(typeof(PlayerComponent));
 
                 foreach (var player in players)
                 {
@@ -82,12 +83,12 @@ namespace SuperMarioBros.Source.Systems
         /// </summary>
         private void ActivateStarPowerUp(Entity player)
         {
-            var playerState = player.GetComponent<PlayerStateComponent>();
-            playerState.IsInvincible = true;
+            var playerState = player.GetComponent<PlayerComponent>();
+            playerState.IsStarInvincible = true;
             activePowerUps[player] = PowerUpType.Star;
             powerUpTimers[player] = 10.0f;
 
-            Console.WriteLine("Star power-up activated: Player is invincible." + playerState.IsInvincible);
+            Console.WriteLine("Star power-up activated: Player is invincible." + playerState.IsStarInvincible);
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace SuperMarioBros.Source.Systems
         /// </summary>
         private void ActivateMushroomPowerUp(Entity player)
         {
-            var playerState = player.GetComponent<PlayerStateComponent>();
+            var playerState = player.GetComponent<PlayerComponent>();
             playerState.IsBig = true;
             activePowerUps[player] = PowerUpType.Mushroom;
             powerUpTimers[player] = 0;
@@ -108,13 +109,20 @@ namespace SuperMarioBros.Source.Systems
         /// </summary>
         private void ActivateFireFlowerPowerUp(Entity player)
         {
-            var playerState = player.GetComponent<PlayerStateComponent>();
-            playerState.HasFirePower = true;
-            playerState.IsBig = true;
+            var playerState = player.GetComponent<PlayerComponent>();
+            if (playerState.IsBig)
+            {
+                playerState.IsFire = true;
+            }
+            else
+            {
+                ActivateMushroomPowerUp(player);
+                return;
+            }
             activePowerUps[player] = PowerUpType.FireFlower;
             powerUpTimers[player] = 0;
 
-            Console.WriteLine("Fire Flower power-up activated: Player has fire power." + playerState.HasFirePower);
+            Console.WriteLine("Fire Flower power-up activated: Player has fire power." + playerState.IsFire);
         }
 
         /// <summary>
@@ -125,12 +133,12 @@ namespace SuperMarioBros.Source.Systems
             if (activePowerUps.ContainsKey(player))
             {
                 var powerUpType = activePowerUps[player];
-                var playerState = player.GetComponent<PlayerStateComponent>();
+                var playerState = player.GetComponent<PlayerComponent>();
 
                 if (powerUpType == PowerUpType.Star)
                 {
-                    playerState.IsInvincible = false;
-                    Console.WriteLine("Star power-up deactivated: Player is no longer invincible." + playerState.IsInvincible);
+                    playerState.IsStarInvincible = false;
+                    Console.WriteLine("Star power-up deactivated: Player is no longer invincible." + playerState.IsStarInvincible);
                 }
                 else if (powerUpType == PowerUpType.Mushroom)
                 {
@@ -139,9 +147,9 @@ namespace SuperMarioBros.Source.Systems
                 }
                 else if (powerUpType == PowerUpType.FireFlower)
                 {
-                    playerState.HasFirePower = false;
+                    playerState.IsFire = false;
                     playerState.IsBig = false;
-                    Console.WriteLine("Fire Flower power-up deactivated: Player no longer has fire power." + playerState.HasFirePower);
+                    Console.WriteLine("Fire Flower power-up deactivated: Player no longer has fire power." + playerState.IsFire);
                 }
 
                 activePowerUps.Remove(player);

@@ -248,7 +248,7 @@ public class BlockSystem : BaseSystem
             var playerEntity = GetPlayerEntity(entities);
             if (playerEntity != null)
             {
-                var playerState = playerEntity.GetComponent<PlayerStateComponent>();
+                var playerState = playerEntity.GetComponent<PlayerComponent>();
 
                 if (IsCollisionAtBase(contact, blockBottomY, playerEntity))
                 {
@@ -256,12 +256,12 @@ public class BlockSystem : BaseSystem
                     var coinBlock = blockEntity.GetComponent<CoinBlockComponent>();
                     var destructible = blockEntity.GetComponent<BlockComponent>().IsDestrucible;
 
-                    Console.WriteLine("Player state: " + playerState.IsBig);
+                    Console.WriteLine("Player is Big" + playerState.IsBig);
                     Console.WriteLine("Block is destructible: " + destructible);
                     Console.WriteLine("Block type: " + blockEntity.GetComponent<BlockComponent>().BlockType);
                     if (playerState.IsBig && destructible)
                     {
-                        Console.WriteLine("The player is big " + playerState.IsBig + " and the block is destructible " + destructible);
+                        Console.WriteLine("The player is big " +  playerState.IsBig + " and the block is destructible " + destructible);
                         blockEntity.ClearComponents();
                         _bodiesToRemove.Add(colliderBody);
                         registeredEntities.Remove(blockEntity);

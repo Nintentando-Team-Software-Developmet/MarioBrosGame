@@ -1,3 +1,5 @@
+using SuperMarioBros.Utils.DataStructures;
+
 namespace SuperMarioBros.Source.Components
 {
     public class PlayerComponent : BaseComponent
@@ -11,6 +13,10 @@ namespace SuperMarioBros.Source.Components
         public bool DeathAnimationComplete { get; set; }
         public bool ShouldProcessDeath { get; set; }
         public bool IsTimeOver { get; set; }
+        public bool IsInvincibleAfterHit { get; set; }
+        public bool IsStarInvincible { get; set; }
+        public bool IsBig { get; set; }
+        public bool IsFire { get; set; }
 
         public PlayerComponent()
         {
