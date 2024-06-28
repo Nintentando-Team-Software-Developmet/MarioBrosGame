@@ -8,8 +8,10 @@ using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Utils.DataStructures;

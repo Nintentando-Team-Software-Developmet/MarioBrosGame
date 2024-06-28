@@ -183,7 +183,7 @@ namespace SuperMarioBros.Source.Scenes
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
 
-                if (IsPlayerAtSecretLocation(3620,3776))
+                if (IsPlayerAtSecretLocation(3620, 3776))
                 {
                     sceneManager.ChangeScene(SceneName.SecretLevel);
                 }

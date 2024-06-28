@@ -86,7 +86,7 @@ public static class CommonRenders
         if (spriteData != null)
         {
             spriteData.spriteBatch.Draw(Sprites.CoinIcon, position, null, Color.White, 0f,
-                Vector2.Zero, new Vector2(0.3f , 0.3f), SpriteEffects.None, 0f
+                Vector2.Zero, new Vector2(0.3f, 0.3f), SpriteEffects.None, 0f
             );
         }
     }
