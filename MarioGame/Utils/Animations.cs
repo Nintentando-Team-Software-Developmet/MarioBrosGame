@@ -265,7 +265,7 @@ namespace MarioGame
             { EntitiesName.BLOCKERBLOCKBROWN, blockedLockAnimations},
             { EntitiesName.COIN, coin},
             { EntitiesName.DUCTCROSS , ductCross },
-            { EntitiesName.DUCTCROSS1 , ductCrossSquare }
+            { EntitiesName.SECRETLEVELDUCTENTRANCE , ductCrossSquare }
         };
 
 

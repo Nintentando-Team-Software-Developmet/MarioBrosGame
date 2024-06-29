@@ -155,7 +155,7 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(ductCrossAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductCrossAnimationComponent.textureRectangle, BodyType.Static));
                     break;
-                case EntityType.DUCTCROSS1:
+                case EntityType.SECRETLEVELDUCTENTRANCE:
                     AnimationComponent ductCrossSquareAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 128, 128);
                     entity.AddComponent(ductCrossSquareAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductCrossSquareAnimationComponent.textureRectangle, BodyType.Static));

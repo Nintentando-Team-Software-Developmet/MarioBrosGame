@@ -48,12 +48,12 @@ namespace SuperMarioBros.Source.Systems
                     }
                     if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                     LimitSpeed(collider, collider.maxSpeed);
-                    CreateImvisibleWall(camera, collider);
+                    CreateInvisibleWall(camera, collider);
                 }
             }
         }
 
-        private static void CreateImvisibleWall(CameraComponent camera, ColliderComponent collider)
+        private static void CreateInvisibleWall(CameraComponent camera, ColliderComponent collider)
         {
 
             if (colliderCamera != null)

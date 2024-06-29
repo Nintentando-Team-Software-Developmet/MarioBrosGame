@@ -15,6 +15,6 @@ namespace SuperMarioBros.Utils.DataStructures
         COINANIMATION,
         WINFLAG,
         DUCTCROSS,
-        DUCTCROSS1
+        SECRETLEVELDUCTENTRANCE
     }
 }
