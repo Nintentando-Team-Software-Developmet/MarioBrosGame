@@ -33,11 +33,11 @@ namespace SuperMarioBros.Source.Systems
                 var movement = player.GetComponent<MovementComponent>();
                 var input = player.GetComponent<InputComponent>();
                 var playerComponent = player.GetComponent<PlayerComponent>();
-                if (input.LEFT.IsPressed)
+                if (input.LEFT.IsPressed && !input.DOWN.IsPressed)
                 {
                     HandleLeftKey(collider, animation, movement);
                 }
-                else if (input.RIGHT.IsPressed)
+                else if (input.RIGHT.IsPressed && !input.DOWN.IsPressed)
                 {
                     HandleKeyRight(collider, animation, movement);
                 }
@@ -52,10 +52,10 @@ namespace SuperMarioBros.Source.Systems
 
                 if (!input.DOWN.IsPressed && playerComponent.State == PlayerState.BIG)
                 {
-                    animation.height = 128;
+                    
+                    animation.height = GameConstants.playerHeightBig;
+                    collider.ResizeRectangle(GameConstants.playerWidth, GameConstants.playerHeightBig);
                 }
-
-
                 HandleUpKey(input, collider, animation, movement);
                 LimitSpeed(collider, collider.maxSpeed);
             }
@@ -112,7 +112,8 @@ namespace SuperMarioBros.Source.Systems
             bool containsBend = animation.containsState(AnimationState.BENDLEFT) && animation.containsState(AnimationState.BENDRIGHT);
             if (!collider.isJumping() && containsBend)
             {
-                animation.height = 64;
+
+
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.BENDLEFT);
@@ -121,6 +122,10 @@ namespace SuperMarioBros.Source.Systems
                 {
                     animation.Play(AnimationState.BENDRIGHT);
                 }
+
+                animation.height = GameConstants.playerHeightSmall;
+                collider.ResizeRectangle(GameConstants.playerHeightSmall, GameConstants.playerHeightSmall);
+                //collider.collider.ApplyLinearImpulse(new AetherVector2(0, 1.5f));
             }
 
         }
@@ -128,7 +133,7 @@ namespace SuperMarioBros.Source.Systems
         private static void HandleUpKey(InputComponent input, ColliderComponent collider, AnimationComponent animation, MovementComponent movement)
         {
             float mass = collider.collider.Mass;
-            float force = 4.29f * (mass / GameConstants.PlayerMass);
+            float force = GameConstants.jumpForce * (mass / GameConstants.PlayerMass);
             if (input.A.IsPressed && input.A.IsHeld && !collider.isJumping())
             {
                 if (movement.Direction == MovementType.LEFT)

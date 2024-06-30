@@ -144,4 +144,6 @@ public static class CommonRenders
         Texture2D currentTexture = animation.animations[animation.currentState][animation.currentFrame];
         spriteBatch.Draw(currentTexture, animation.textureRectangle, Color.White);
     }
+
+
 }
