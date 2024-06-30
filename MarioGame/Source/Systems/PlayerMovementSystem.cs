@@ -112,8 +112,6 @@ namespace SuperMarioBros.Source.Systems
             bool containsBend = animation.containsState(AnimationState.BENDLEFT) && animation.containsState(AnimationState.BENDRIGHT);
             if (!collider.isJumping() && containsBend)
             {
-
-
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.BENDLEFT);
@@ -125,7 +123,6 @@ namespace SuperMarioBros.Source.Systems
 
                 animation.height = GameConstants.playerHeightSmall;
                 collider.ResizeRectangle(GameConstants.playerHeightSmall, GameConstants.playerHeightSmall);
-                //collider.collider.ApplyLinearImpulse(new AetherVector2(0, 1.5f));
             }
 
         }
@@ -149,7 +146,6 @@ namespace SuperMarioBros.Source.Systems
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -force));
                 input.A.setHeld(false);
             }
-
         }
 
         private static void HandleStop(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)

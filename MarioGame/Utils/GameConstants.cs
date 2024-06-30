@@ -21,4 +21,7 @@ public static class GameConstants
     public const int playerHeightSmall = 64;
     public const int playerWidth = 64;
     public const float jumpForce = 4.4f;
+
+    //Level
+    public const int positionFloor = 700;
 }

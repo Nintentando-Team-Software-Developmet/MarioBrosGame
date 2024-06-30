@@ -8,9 +8,7 @@ using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
-
 using Newtonsoft.Json;
-
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
@@ -287,7 +285,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
             if (playerEntity == null) return;
-
+            
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && !player.IsAlive)
             {

@@ -114,6 +114,7 @@ namespace SuperMarioBros.Utils
                 Body largeBody = physicsWorld.CreateBody(position, 0f, BodyType.Static);
 
                 largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
+                largeBody.FixedRotation = true;
                 largeBody.Tag = i + 1;
             }
         }

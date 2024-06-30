@@ -38,7 +38,27 @@ namespace SuperMarioBros.Source.Components
 
         public bool isJumping()
         {
-            return collider.LinearVelocity.Y != 0;
+            if (collider.LinearVelocity.Y != 0) return true;
+            var position = (int)collider.Position.Y * GameConstants.pixelPerMeter;
+            Console.WriteLine(position);
+            if (position != GameConstants.positionFloor)
+            {
+                var contactEdge = collider.ContactList;
+                while (contactEdge != null)
+                {
+                    var currentContact = contactEdge.Contact;
+                    if (CollisionAnalyzer.GetDirectionCollision(currentContact) == CollisionType.UP)
+                    {
+                        return false;
+                    }
+                    contactEdge = contactEdge.Next;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public void Enabled(bool enabled)
         {
@@ -69,15 +89,18 @@ namespace SuperMarioBros.Source.Components
 
         public void ResizeRectangle(int width, int height)
         {
-            if(width == this.width && height == this.height) return;
+            if (width == this.width && height == this.height) return;
             float heightPosition;
-            if(height > this.height){
-                heightPosition = height/4;
-                collider.Position = new AetherVector2(collider.Position.X, collider.Position.Y - (heightPosition/GameConstants.pixelPerMeter));
-            } else {
-                heightPosition = height/2;
-                collider.Position = new AetherVector2(collider.Position.X, collider.Position.Y + (heightPosition/GameConstants.pixelPerMeter));
-            } 
+            if (height > this.height)
+            {
+                heightPosition = height / 4;
+                collider.Position = new AetherVector2(collider.Position.X, collider.Position.Y - (heightPosition / GameConstants.pixelPerMeter));
+            }
+            else
+            {
+                heightPosition = height / 2;
+                collider.Position = new AetherVector2(collider.Position.X, collider.Position.Y + (heightPosition / GameConstants.pixelPerMeter));
+            }
             this.width = width;
             this.height = height;
             collider.Remove(fixture);
