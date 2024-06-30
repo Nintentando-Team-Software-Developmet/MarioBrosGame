@@ -40,7 +40,6 @@ namespace SuperMarioBros.Source.Components
         {
             if (collider.LinearVelocity.Y != 0) return true;
             var position = (int)collider.Position.Y * GameConstants.pixelPerMeter;
-            Console.WriteLine(position);
             if (position != GameConstants.positionFloor)
             {
                 var contactEdge = collider.ContactList;
