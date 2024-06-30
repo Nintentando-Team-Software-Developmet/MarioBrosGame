@@ -103,10 +103,19 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.WINGAME:
-                    entity.AddComponent(new WinGameComponent());
-                    entity.AddComponent(new AnimationComponent(Animations.entityTextures[entityData.name]));
+                    entity.AddComponent(new WinPoleSensorComponent());
+                    var winAnimation = new AnimationComponent(Animations.entityTextures[entityData.name]);
+                    entity.AddComponent(winAnimation);
                     entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
-
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, winAnimation.textureRectangle, BodyType.Static));
+                    break;
+                case EntityType.WINFLAG:
+                    var flagAnimation = new AnimationComponent(Animations.entityTextures[entityData.name]);
+                    entity.AddComponent(flagAnimation);
+                    entity.AddComponent(new WinFlagComponent());
+                    entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, flagAnimation.textureRectangle, BodyType.Dynamic));
+                    entity.GetComponent<ColliderComponent>().collider.IgnoreGravity = true;
                     break;
 
                 case EntityType.QUESTIONBLOCK:

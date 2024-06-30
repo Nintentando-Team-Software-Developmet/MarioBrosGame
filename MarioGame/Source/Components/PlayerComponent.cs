@@ -15,6 +15,7 @@ namespace SuperMarioBros.Source.Components
         public bool IsTimeOver { get; set; }
         //TODO: provitional Refactor 
         public PlayerState State { get; set; }
+        public bool MayTeleport { get; set; }
 
         public PlayerComponent()
         {
@@ -29,6 +30,7 @@ namespace SuperMarioBros.Source.Components
             IsTimeOver = false;
             //TODO: Refactor
             State = PlayerState.SMALL;
+            MayTeleport = false;
         }
     }
 }

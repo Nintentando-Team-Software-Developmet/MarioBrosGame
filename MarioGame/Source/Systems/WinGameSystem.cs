@@ -42,7 +42,7 @@ public class WinGameSystem
         var playerEntitiesWin = entities.Where(e =>
             e.HasComponent<AnimationComponent>() &&
             e.HasComponent<PositionComponent>() &&
-            e.HasComponent<WinGameComponent>()
+            e.HasComponent<WinPoleSensorComponent>()
         );
 
         foreach (var entity in playerEntitiesWin)

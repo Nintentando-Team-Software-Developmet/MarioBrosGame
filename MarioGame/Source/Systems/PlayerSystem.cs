@@ -12,6 +12,7 @@ using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
+using Vector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -19,6 +20,9 @@ namespace SuperMarioBros.Source.Systems
     {
         private List<Body> _enemyBodies = new();
         private HashSet<Entity> registeredEntities = new();
+        private List<Body> _poleBodies = new();
+
+
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
@@ -26,6 +30,11 @@ namespace SuperMarioBros.Source.Systems
             foreach (Entity enemy in enemies)
             {
                 _enemyBodies.Add(enemy.GetComponent<ColliderComponent>().collider);
+            }
+            IEnumerable<Entity> winPoles = entities.WithComponents(typeof(WinPoleSensorComponent), typeof(ColliderComponent));
+            foreach (Entity winPole in winPoles)
+            {
+                _poleBodies.Add(winPole.GetComponent<ColliderComponent>().collider);
             }
             IEnumerable<Entity> players = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent));
             foreach (var player in players)
@@ -49,11 +58,29 @@ namespace SuperMarioBros.Source.Systems
                 }
                 if (!registeredEntities.Contains(player))
                 {
-                    RegisterEnemyEvents(colliderComponent, playerComponent);
+                    RegisterPlayerEvents(colliderComponent, playerComponent, animationComponent);
                     registeredEntities.Add(player);
                 }
-
-
+                if (playerComponent.MayTeleport)
+                {
+                    colliderComponent.collider.Position = new Vector2(colliderComponent.collider.Position.X + 0.64f, colliderComponent.collider.Position.Y + -0.5f);
+                    playerComponent.MayTeleport = false;
+                }
+                if (colliderComponent.collider.Position.X < 131.25)
+                {
+                    if (playerComponent.HasReachedEnd && animationComponent.currentState == AnimationState.WALKRIGHT)
+                    {
+                        colliderComponent.collider.LinearVelocity = new Vector2(2, 4);
+                    }
+                    if (playerComponent.HasReachedEnd && animationComponent.currentState == AnimationState.WIN)
+                    {
+                        colliderComponent.collider.LinearVelocity = new Vector2(0, 1);
+                    }
+                }
+                else
+                {
+                    player.RemoveComponent<AnimationComponent>();
+                }
                 if (!playerComponent.IsAlive)
                 {
                     if (gameTime != null)
@@ -64,7 +91,7 @@ namespace SuperMarioBros.Source.Systems
             }
 
         }
-        private void RegisterEnemyEvents(ColliderComponent collider, PlayerComponent playerComponent)
+        private void RegisterPlayerEvents(ColliderComponent collider, PlayerComponent playerComponent, AnimationComponent animationComponent)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
@@ -73,7 +100,12 @@ namespace SuperMarioBros.Source.Systems
                     return false;
                 }
                 var otherBody = fixtureB.Body;
-
+                if (_poleBodies.Contains(otherBody))
+                {
+                    playerComponent.HasReachedEnd = true;
+                    animationComponent.Play(AnimationState.WIN);
+                    playerComponent.MayTeleport = true;
+                }
                 if (_enemyBodies.Contains(otherBody))
                 {
                     CollisionType collisionDirection = CollisionAnalyzer.GetDirectionCollision(contact);
@@ -85,6 +117,11 @@ namespace SuperMarioBros.Source.Systems
                         playerComponent.IsAlive = false;
                         playerComponent.ShouldProcessDeath = true;
                     }
+                }
+                if (animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
+                {
+                    animationComponent.Play(AnimationState.WALKRIGHT);
+                    collider.collider.IgnoreGravity = false;
                 }
                 return true;
             };

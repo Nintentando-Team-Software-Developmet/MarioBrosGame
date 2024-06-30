@@ -4,6 +4,7 @@ namespace SuperMarioBros.Utils.DataStructures
     {
         GOOMBA,
         KOOPA,
+        POLE,
         BLOCK,
         COIN,
         MUSHROOM,
@@ -11,6 +12,7 @@ namespace SuperMarioBros.Utils.DataStructures
         FLOWER,
         PIPE,
         FLAG,
+        FLAGBALL,
         POWERUP,
         NORMAL,
         CASTLE,
