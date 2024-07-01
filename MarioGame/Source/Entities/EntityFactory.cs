@@ -132,6 +132,15 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(coinBlockComponent);
                     break;
 
+                case EntityType.FIREBALL:
+                    AnimationComponent fireBlockAnimationComponent = new AnimationComponent(Animations.fire, 34, 34);
+                    entity.AddComponent(fireBlockAnimationComponent);
+                    ColliderComponent colliderFireComponent = new ColliderComponent(physicsWorld, -100, 750,
+                        fireBlockAnimationComponent.textureRectangle, BodyType.Static);
+                    entity.AddComponent(colliderFireComponent);
+                    FireBoolComponent fireBlockComponent = new FireBoolComponent();
+                    entity.AddComponent(fireBlockComponent);
+                    break;
 
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);

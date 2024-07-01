@@ -245,7 +245,15 @@ namespace MarioGame
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.DuctCrossSquare } }
         };
+        public static readonly Dictionary<AnimationState, Texture2D[]> fire = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.FireBallDown ,Sprites.FireBallRight,Sprites.FireBallUp,Sprites.FireBallLeft} }
+        };
 
+        public static readonly Dictionary<AnimationState, Texture2D[]> fireExprotion = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.FireBallExplode1 ,Sprites.FireBallExplode2,Sprites.FireBallExplode3} }
+        };
         public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>>
         {
             { EntitiesName.MARIO, playerAnimations },
@@ -265,7 +273,9 @@ namespace MarioGame
             { EntitiesName.BLOCKERBLOCKBROWN, blockedLockAnimations},
             { EntitiesName.COIN, coin},
             { EntitiesName.DUCTCROSS , ductCross },
-            { EntitiesName.SECRETLEVELDUCTENTRANCE , ductCrossSquare }
+            { EntitiesName.SECRETLEVELDUCTENTRANCE , ductCrossSquare },
+            { EntitiesName.FIRE, fire},
+            { EntitiesName.FIREEXPROTION, fireExprotion}
         };
 
 
