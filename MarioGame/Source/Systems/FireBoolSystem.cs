@@ -184,56 +184,54 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
     if (otherEntity != null)
     {
         var animationComponent = otherEntity.GetComponent<AnimationComponent>();
-        if (animationComponent != null)
+if (animationComponent != null)
         {
-            string otherEntityName = Animations.entityTextures
-                .FirstOrDefault(x => x.Value == animationComponent.animations)
-                .Key.ToString() ?? string.Empty;
+            var otherEntityName = Animations.entityTextures.FirstOrDefault(x => x.Value == animationComponent.animations).Key;
 
-            if (otherEntityName == "GOOMBA" || otherEntityName == "KOOPA")
+            switch (otherEntityName)
             {
-                if (fireballComponent != null)
-                {
-                    fireballComponent.collidedWithGoomba = true;
-
-                }
-                pendingActions.Add(() => DisableCollider(otherEntity));
-                pendingActions.Add(() => MoveFireball(fireballEntity));
-
-            }
-            else if (otherEntityName == "DUCT")
-            {
-                var positionDuctComponent = otherEntity.GetComponent<ColliderComponent>();
-
-                float bottomPart1 = positionDuctComponent.Position.Y / 120 +1;
-                float fireballY = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
-                if (fireballY > bottomPart1)
-                {
+                case EntitiesName.GOOMBA:
+                case EntitiesName.KOOPA:
+                    if (fireballComponent != null)
+                    {
+                        fireballComponent.collidedWithGoomba = true;
+                    }
+                    pendingActions.Add(() => DisableCollider(otherEntity));
                     pendingActions.Add(() => MoveFireball(fireballEntity));
+                    break;
 
-                }
-            }
-            else if (otherEntityName == "BLOCK" || otherEntityName == "DUCTEXTENSION")
-            {
-                pendingActions.Add(() => MoveFireball(fireballEntity));
+                case EntitiesName.DUCT:
+                    var positionDuctComponent = otherEntity.GetComponent<ColliderComponent>();
+                    float bottomPart1 = positionDuctComponent.Position.Y / 120 + 1;
+                    float fireballY = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
+                    if (fireballY > bottomPart1)
+                    {
+                        pendingActions.Add(() => MoveFireball(fireballEntity));
+                    }
+                    break;
 
-            }
-            else if (otherEntityName == "COINBLOCK" || otherEntityName == "QUESTIONBLOCK")
-            {
-                var positionDuctComponent = otherEntity.GetComponent<ColliderComponent>();
-
-                float bottomPart1 = positionDuctComponent.Position.Y / 110;
-                float fireballY = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
-                if (fireballY > bottomPart1 )
-                {
+                case EntitiesName.BLOCK:
+                case EntitiesName.DUCTEXTENSION:
                     pendingActions.Add(() => MoveFireball(fireballEntity));
+                    break;
 
-                }
+                case EntitiesName.COINBLOCK:
+                case EntitiesName.QUESTIONBLOCK:
+                    var positionBlockComponent = otherEntity.GetComponent<ColliderComponent>();
+                    float bottomPart2 = positionBlockComponent.Position.Y / 110;
+                    float fireballY2 = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
+                    if (fireballY2 > bottomPart2)
+                    {
+                        pendingActions.Add(() => MoveFireball(fireballEntity));
+                    }
+                    break;
+
+                default:
+                    break;
             }
-            var fireball = fireballEntity.GetComponent<ColliderComponent>();
-            positionExprotion = fireball.collider.Position;
 
-
+            var fireballCollider = fireballEntity.GetComponent<ColliderComponent>().collider;
+            positionExprotion = fireballCollider.Position;
         }
     }
     else
