@@ -23,7 +23,7 @@ public class FireBoolSystem : BaseSystem
     public static AetherVector2 positionExprotion { get; set; }
     private static readonly Dictionary<Entity, float> fireballTimers = new Dictionary<Entity, float>();
 
-    public static readonly float waitTime = 0.3f;
+    public static readonly float waitTime = 0.5f;
 
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
@@ -117,7 +117,7 @@ public class FireBoolSystem : BaseSystem
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) => HandleCollision(fixtureA, fixtureB, contact, entities, pendingActions, cameraComponent, forwardSpeedFire);
             collider.collider.LinearVelocity = new AetherVector2(forwardSpeedFire, 0);
 
-            fireballComponent.InitialDirection = Math.Sign(forwardSpeedFire);  // Añadir esta línea
+            fireballComponent.InitialDirection = Math.Sign(forwardSpeedFire);
         }
     }
 
@@ -249,6 +249,7 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
             colliderComponent.collider.Position = positionExprotion;
             fireAnimation.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.FIREEXPROTION], 34, 34).animations;
             colliderComponent.collider.BodyType = BodyType.Static;
+            colliderComponent.Enabled(false);
 
             fireballTimers[fireballEntity] = waitTime;
         }
@@ -264,6 +265,7 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
             colliderComponent.collider.Position = new AetherVector2(-100, 750);
             colliderComponent.collider.BodyType = BodyType.Static;
             fireAnimation.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.FIRE], 34, 34).animations;
+            colliderComponent.Enabled(true);
         }
     }
 
