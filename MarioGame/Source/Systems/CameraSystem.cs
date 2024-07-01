@@ -3,10 +3,11 @@ using System.Linq;
 using System.Reflection.Metadata;
 
 using Microsoft.Xna.Framework;
-
+using AetherVector = nkast.Aether.Physics2D.Common.Vector2;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils;
+using System;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -24,6 +25,7 @@ namespace SuperMarioBros.Source.Systems
                 var camera = playerEntity.GetComponent<CameraComponent>();
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>();
 
+
                 if (playerPosition != null && camera != null)
                 {
                     if (playerPosition.collider.Position.X * GameConstants.pixelPerMeter > camera.LastXPosition)
@@ -35,7 +37,8 @@ namespace SuperMarioBros.Source.Systems
 
                         camera.LastXPosition = playerPosition.collider.Position.X * GameConstants.pixelPerMeter;
                     }
-
+                    camera.LeftWall.Position = new AetherVector(camera.Position.X / GameConstants.pixelPerMeter, camera.Position.Y / GameConstants.pixelPerMeter);
+                    Console.WriteLine(camera.Position.X + " " + camera.Position.Y);
                     camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
                 }
             }

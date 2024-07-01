@@ -9,6 +9,7 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.Scene;
 
 namespace SuperMarioBros.Source.Entities
 {
@@ -93,11 +94,14 @@ namespace SuperMarioBros.Source.Entities
                     colliderComponent.maxSpeed = 3f;
                     colliderComponent.velocity = 3f;
                     colliderComponent.friction = 0.97f;
+                    colliderComponent.fixture.CollisionCategories = Categories.Player;
+                    colliderComponent.fixture.CollidesWith = Categories.World | Categories.LeftWall | Categories.Player;
                     entity.AddComponent(colliderComponent);
                     entity.AddComponent(new CameraComponent(
                         new Viewport(0, 0, GameConstants.CameraViewportWidth, GameConstants.CameraViewportHeight),
                         GameConstants.CameraWorldWidth,
-                        GameConstants.CameraViewportHeight));
+                        GameConstants.CameraViewportHeight,
+                        physicsWorld));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     entity.AddComponent(new InputComponent());
                     break;
@@ -133,7 +137,6 @@ namespace SuperMarioBros.Source.Entities
                     CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(coinBlockComponent);
                     break;
-
 
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);

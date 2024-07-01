@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.Scene;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -113,7 +114,9 @@ namespace SuperMarioBros.Utils
 
                 Body largeBody = physicsWorld.CreateBody(position, 0f, BodyType.Static);
 
-                largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
+                Fixture fixture = largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
+                fixture.CollisionCategories = Categories.World;
+                fixture.CollidesWith = Categories.Player | Categories.World;
                 largeBody.FixedRotation = true;
                 largeBody.Tag = i + 1;
             }

@@ -1,15 +1,10 @@
 using System;
 using System.Linq;
-using System.Reflection.Metadata;
-
 using Microsoft.Xna.Framework;
-
-using MonoGame.Framework.Utilities;
-
 using nkast.Aether.Physics2D.Dynamics;
-using nkast.Aether.Physics2D.Dynamics.Contacts;
 
 using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.Scene;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -32,6 +27,8 @@ namespace SuperMarioBros.Source.Components
             collider = physicsWorld?.CreateBody(position, rotation, bodyType);
             collider.FixedRotation = true;
             fixture = collider.CreateRectangle(rectangle.Width / GameConstants.pixelPerMeter, rectangle.Height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
+            fixture.CollisionCategories = Categories.World;
+            fixture.CollidesWith = Categories.World | Categories.Player;
             width = rectangle.Width;
             height = rectangle.Height;
         }
