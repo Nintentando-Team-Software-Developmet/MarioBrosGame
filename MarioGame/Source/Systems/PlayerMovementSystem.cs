@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
@@ -46,12 +48,12 @@ namespace SuperMarioBros.Source.Systems
                     }
                     if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                     LimitSpeed(collider, collider.maxSpeed);
-                    CreateImvisibleWall(camera,collider);
+                    CreateInvisibleWall(camera, collider);
                 }
             }
         }
 
-        private static void CreateImvisibleWall(CameraComponent camera,ColliderComponent collider)
+        private static void CreateInvisibleWall(CameraComponent camera, ColliderComponent collider)
         {
 
             if (colliderCamera != null)
@@ -60,7 +62,7 @@ namespace SuperMarioBros.Source.Systems
             }
             else
             {
-                colliderCamera = new ColliderComponent(collider.collider.World, camera.Position.X+1f, 100, new Rectangle(100, 100, 10, 10), BodyType.Static);
+                colliderCamera = new ColliderComponent(collider.collider.World, camera.Position.X + 1f, 100, new Rectangle(100, 100, 10, 10), BodyType.Static);
             }
         }
 
@@ -119,7 +121,7 @@ namespace SuperMarioBros.Source.Systems
             };
         }
 
-        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement,GameTime gameTime)
+        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement, GameTime gameTime)
         {
             if (collider == null || animation == null || movement == null || colliderCamera == null)
             {

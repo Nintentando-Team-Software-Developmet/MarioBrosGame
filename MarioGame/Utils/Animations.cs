@@ -237,6 +237,14 @@ namespace MarioGame
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon } }
         };
+        public static readonly Dictionary<AnimationState, Texture2D[]> ductCross = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.DuctCrossGreen } }
+        };
+        public static readonly Dictionary<AnimationState, Texture2D[]> ductCrossSquare = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.DuctCrossSquare } }
+        };
 
         public static readonly Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>> entityTextures = new Dictionary<EntitiesName, Dictionary<AnimationState, Texture2D[]>>
         {
@@ -255,7 +263,9 @@ namespace MarioGame
             { EntitiesName.STAR,  superStarAnimations},
             { EntitiesName.KOOPA, koopaAnimations},
             { EntitiesName.BLOCKERBLOCKBROWN, blockedLockAnimations},
-            { EntitiesName.COIN, coin}
+            { EntitiesName.COIN, coin},
+            { EntitiesName.DUCTCROSS , ductCross },
+            { EntitiesName.SECRETLEVELDUCTENTRANCE , ductCrossSquare }
         };
 
 

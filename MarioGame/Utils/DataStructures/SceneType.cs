@@ -6,7 +6,8 @@ namespace MarioGame
         GameOver,
         Level1,
         Lives,
-        Win
+        Win,
+        SecretLevel
     }
 
 }

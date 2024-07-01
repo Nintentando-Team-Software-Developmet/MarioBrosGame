@@ -13,6 +13,8 @@ namespace SuperMarioBros.Utils.DataStructures
         DUCTEXTENSION,
         POWERUP,
         COINANIMATION,
-        WINFLAG
+        WINFLAG,
+        DUCTCROSS,
+        SECRETLEVELDUCTENTRANCE
     }
 }
