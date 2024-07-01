@@ -16,7 +16,6 @@ namespace SuperMarioBros.Source.Systems
 {
 public class FireBoolSystem : BaseSystem
 {
-
     private static float forwardSpeed = 4f;
     private bool canShoot = true;
     private static readonly List<Action> pendingActions = new List<Action>();
@@ -25,15 +24,25 @@ public class FireBoolSystem : BaseSystem
 
     public static readonly float waitTime = 0.5f;
 
+    public float timeElapsed { get; set; }
+    public float timeBetweenShots { get; set; } = 0.3f;
+    public int countBool { get; set; }
 
-        public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
+    private int fireballCount { get; set; }
+    private int maxFireballs { get; set; } = 2;
+
+    public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
         if (gameTime != null)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            IEnumerable<Entity> playerEntities = entities.WithComponents(
+                typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent),
+                typeof(MovementComponent), typeof(CameraComponent));
+            IEnumerable<Entity> fireEntities = entities.WithComponents(
+                typeof(FireBoolComponent), typeof(AnimationComponent), typeof(ColliderComponent));
 
-            IEnumerable<Entity> playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent), typeof(MovementComponent), typeof(CameraComponent));
             foreach (var player in playerEntities)
             {
                 var keyboardState = Keyboard.GetState();
@@ -43,18 +52,45 @@ public class FireBoolSystem : BaseSystem
 
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    if (canShoot)
+                    if (canShoot && fireballCount < maxFireballs)
                     {
                         if (animation.currentState == AnimationState.STOP ||
                             animation.currentState == AnimationState.WALKRIGHT || animation.currentState == AnimationState.JUMPRIGHT)
                         {
-                            createFire(entities, collider.collider.Position.X + 0.8f, collider.collider.Position.Y, pendingActions,camera, forwardSpeed);
-                            canShoot = false;
+                            createFire(entities, collider.collider.Position.X + 0.8f, collider.collider.Position.Y, pendingActions, camera, forwardSpeed);
+                            timeElapsed = 0;
+                            fireballCount++;
                         }
                         else if (animation.currentState == AnimationState.STOPLEFT ||
                                  animation.currentState == AnimationState.WALKLEFT || animation.currentState == AnimationState.JUMPLEFT)
                         {
-                            createFire(entities, collider.collider.Position.X - 0.8f, collider.collider.Position.Y, pendingActions,camera, -forwardSpeed);
+                            createFire(entities, collider.collider.Position.X - 0.8f, collider.collider.Position.Y, pendingActions, camera, -forwardSpeed);
+                            timeElapsed = 0;
+                            fireballCount++;
+                        }
+
+                        canShoot = false;
+                    }
+                    else
+                    {
+                        timeElapsed += deltaTime;
+
+                        if (timeElapsed >= timeBetweenShots && fireballCount < maxFireballs)
+                        {
+                            if (animation.currentState == AnimationState.STOP ||
+                                animation.currentState == AnimationState.WALKRIGHT || animation.currentState == AnimationState.JUMPRIGHT)
+                            {
+                                createFire(entities, collider.collider.Position.X + 0.8f, collider.collider.Position.Y, pendingActions, camera, forwardSpeed);
+                                fireballCount++;
+                            }
+                            else if (animation.currentState == AnimationState.STOPLEFT ||
+                                     animation.currentState == AnimationState.WALKLEFT || animation.currentState == AnimationState.JUMPLEFT)
+                            {
+                                createFire(entities, collider.collider.Position.X - 0.8f, collider.collider.Position.Y, pendingActions, camera, -forwardSpeed);
+                                fireballCount++;
+                            }
+
+                            timeElapsed = 0;
                             canShoot = false;
                         }
                     }
@@ -62,6 +98,8 @@ public class FireBoolSystem : BaseSystem
                 else
                 {
                     canShoot = true;
+                    timeElapsed = 0;
+                    fireballCount = 0;
                 }
 
                 IEnumerable<Entity> fireballEntities = entities.WithComponents(typeof(FireBoolComponent), typeof(ColliderComponent));
@@ -81,6 +119,7 @@ public class FireBoolSystem : BaseSystem
             }
 
             pendingActions.Clear();
+
             var fireballsToMove = new List<Entity>();
             foreach (var fireball in fireballTimers.Keys.ToList())
             {
@@ -110,12 +149,14 @@ public class FireBoolSystem : BaseSystem
         if (firstFireball != null)
         {
             var collider = firstFireball.GetComponent<ColliderComponent>();
+            var fireAnimation = firstFireball.GetComponent<AnimationComponent>();
             var fireballComponent = firstFireball.GetComponent<FireBoolComponent>();
 
             collider.collider.Position = new AetherVector2(positionX, positionY);
             collider.collider.BodyType = BodyType.Dynamic;
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) => HandleCollision(fixtureA, fixtureB, contact, entities, pendingActions, cameraComponent, forwardSpeedFire);
             collider.collider.LinearVelocity = new AetherVector2(forwardSpeedFire, 0);
+            fireAnimation.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.FIRE], 34, 34).animations;
 
             fireballComponent.InitialDirection = Math.Sign(forwardSpeedFire);
         }
@@ -172,7 +213,7 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
 
                 }
             }
-            else if (otherEntityName == "BLOCK" || otherEntityName == "FIRE" || otherEntityName == "DUCTEXTENSION")
+            else if (otherEntityName == "BLOCK" || otherEntityName == "DUCTEXTENSION")
             {
                 pendingActions.Add(() => MoveFireball(fireballEntity));
 
@@ -247,8 +288,7 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
             var positionExprotion = colliderComponent.collider.Position;
 
             colliderComponent.collider.Position = positionExprotion;
-            fireAnimation.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.FIREEXPROTION], 34, 34).animations;
-            colliderComponent.collider.BodyType = BodyType.Static;
+            fireAnimation.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.FIREEXPLOSION], 34, 34).animations;
             colliderComponent.Enabled(false);
 
             fireballTimers[fireballEntity] = waitTime;
