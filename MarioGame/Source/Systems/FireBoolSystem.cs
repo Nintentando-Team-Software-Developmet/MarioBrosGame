@@ -74,7 +74,7 @@ public class FireBoolSystem : BaseSystem
                     var fireballCollider = fireball.GetComponent<ColliderComponent>().collider;
                     if (fireballCollider.BodyType == BodyType.Dynamic && fireballCollider.Position.Y > 8.5f)
                     {
-                        pendingActions.Add(() => MoveFireball(fireball));
+                        pendingActions.Add(() => MoveFireballAfterWait(fireball));
                     }
                 }
             }
