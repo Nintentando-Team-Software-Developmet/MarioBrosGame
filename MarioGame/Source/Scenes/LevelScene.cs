@@ -7,6 +7,7 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Newtonsoft.Json;
 using nkast.Aether.Physics2D.Dynamics;
@@ -18,6 +19,7 @@ using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -156,7 +158,6 @@ namespace SuperMarioBros.Source.Scenes
                 physicsWorld.Remove(body);
             }
             MediaPlayer.Stop();
-            _progressDataManager.ResetTime();
             _isLevelCompleted = false;
             _isFlagEventPlayed = false;
             _levelCompleteDisplayTime = 0;
@@ -180,6 +181,11 @@ namespace SuperMarioBros.Source.Scenes
             {
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
+
+                if (IsPlayerAtSecretLocation(3620, 3776))
+                {
+                    sceneManager.ChangeScene(SceneName.SecretLevel);
+                }
             }
 
             if (!_isFlagEventPlayed)
@@ -200,6 +206,23 @@ namespace SuperMarioBros.Source.Scenes
 
             UpdateSystems(gameTime);
             CheckPlayerState(gameTime, sceneManager);
+        }
+
+        private bool IsPlayerAtSecretLocation(float secretLocationStart, float secretLocationEnd)
+        {
+            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
+            if (playerEntity != null)
+            {
+                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
+                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && IsHKeyPressed();
+            }
+            return false;
+        }
+
+        private static bool IsHKeyPressed()
+        {
+            KeyboardState state = Keyboard.GetState();
+            return state.IsKeyDown(Keys.H);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
@@ -362,6 +385,11 @@ namespace SuperMarioBros.Source.Scenes
         public SceneType GetSceneType()
         {
             return SceneType.Level;
+        }
+
+        public Entity GetPlayerEntity()
+        {
+            return Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
         }
 
         /*
