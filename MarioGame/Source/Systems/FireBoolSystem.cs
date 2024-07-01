@@ -21,15 +21,7 @@ public class FireBoolSystem : BaseSystem
     private static readonly List<Action> pendingActions = new List<Action>();
     public static AetherVector2 positionExprotion { get; set; }
     private static readonly Dictionary<Entity, float> fireballTimers = new Dictionary<Entity, float>();
-
     public static readonly float waitTime = 0.5f;
-
-    public float timeElapsed { get; set; }
-    public float timeBetweenShots { get; set; } = 0.3f;
-    public int countBool { get; set; }
-
-    private int fireballCount { get; set; }
-    private int maxFireballs { get; set; } = 2;
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
@@ -52,54 +44,28 @@ public class FireBoolSystem : BaseSystem
 
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    if (canShoot && fireballCount < maxFireballs)
+                    if (canShoot)
                     {
                         if (animation.currentState == AnimationState.STOP ||
                             animation.currentState == AnimationState.WALKRIGHT || animation.currentState == AnimationState.JUMPRIGHT)
                         {
                             createFire(entities, collider.collider.Position.X + 0.8f, collider.collider.Position.Y, pendingActions, camera, forwardSpeed);
-                            timeElapsed = 0;
-                            fireballCount++;
+
                         }
                         else if (animation.currentState == AnimationState.STOPLEFT ||
                                  animation.currentState == AnimationState.WALKLEFT || animation.currentState == AnimationState.JUMPLEFT)
                         {
                             createFire(entities, collider.collider.Position.X - 0.8f, collider.collider.Position.Y, pendingActions, camera, -forwardSpeed);
-                            timeElapsed = 0;
-                            fireballCount++;
+
                         }
 
                         canShoot = false;
                     }
-                    else
-                    {
-                        timeElapsed += deltaTime;
 
-                        if (timeElapsed >= timeBetweenShots && fireballCount < maxFireballs)
-                        {
-                            if (animation.currentState == AnimationState.STOP ||
-                                animation.currentState == AnimationState.WALKRIGHT || animation.currentState == AnimationState.JUMPRIGHT)
-                            {
-                                createFire(entities, collider.collider.Position.X + 0.8f, collider.collider.Position.Y, pendingActions, camera, forwardSpeed);
-                                fireballCount++;
-                            }
-                            else if (animation.currentState == AnimationState.STOPLEFT ||
-                                     animation.currentState == AnimationState.WALKLEFT || animation.currentState == AnimationState.JUMPLEFT)
-                            {
-                                createFire(entities, collider.collider.Position.X - 0.8f, collider.collider.Position.Y, pendingActions, camera, -forwardSpeed);
-                                fireballCount++;
-                            }
-
-                            timeElapsed = 0;
-                            canShoot = false;
-                        }
-                    }
                 }
                 else
                 {
                     canShoot = true;
-                    timeElapsed = 0;
-                    fireballCount = 0;
                 }
 
                 IEnumerable<Entity> fireballEntities = entities.WithComponents(typeof(FireBoolComponent), typeof(ColliderComponent));
