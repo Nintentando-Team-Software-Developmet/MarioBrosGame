@@ -23,7 +23,7 @@ public class FireBoolSystem : BaseSystem
     public static AetherVector2 positionExprotion { get; set; }
     private static readonly Dictionary<Entity, float> fireballTimers = new Dictionary<Entity, float>();
 
-    public static readonly float waitTime = 0.5f;
+    public static readonly float waitTime = 0.3f;
 
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
@@ -160,10 +160,6 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
                 pendingActions.Add(() => MoveFireball(fireballEntity));
 
             }
-            else if (otherEntityName == "DUCTEXTENSION")
-            {
-                pendingActions.Add(() => MoveFireball(fireballEntity));
-            }
             else if (otherEntityName == "DUCT")
             {
                 var positionDuctComponent = otherEntity.GetComponent<ColliderComponent>();
@@ -176,7 +172,7 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
 
                 }
             }
-            else if (otherEntityName == "BLOCK" || otherEntityName == "FIRE")
+            else if (otherEntityName == "BLOCK" || otherEntityName == "FIRE" || otherEntityName == "DUCTEXTENSION")
             {
                 pendingActions.Add(() => MoveFireball(fireballEntity));
 
@@ -193,22 +189,21 @@ private static bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact 
 
                 }
             }
-
             var fireball = fireballEntity.GetComponent<ColliderComponent>();
             positionExprotion = fireball.collider.Position;
+
 
         }
     }
     else
     {
-
         IEnumerable<Entity> entitiesDuct = entities.WithComponents(typeof(DuctExtensionComponent), typeof(AnimationComponent), typeof(ColliderComponent));
         foreach (var player in entitiesDuct)
         {
             var collider = player.GetComponent<ColliderComponent>();
             float fireballY = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
             float fireballX = fireballEntity.GetComponent<ColliderComponent>().collider.Position.X;
-            if (fireballY > collider.collider.Position.Y && fireballX > 28.5f && fireballX < 30.0f || fireballY > collider.collider.Position.Y && fireballX > 35.5f && fireballX < 37.5f)
+            if (fireballY > collider.collider.Position.Y && fireballX > 28.5f && fireballX < 30.5f || fireballY > collider.collider.Position.Y && fireballX > 35.5f && fireballX < 37.5f)
             {
                 pendingActions.Add(() => MoveFireball(fireballEntity));
             }

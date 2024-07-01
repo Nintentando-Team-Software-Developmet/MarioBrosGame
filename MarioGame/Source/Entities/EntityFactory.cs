@@ -158,6 +158,8 @@ namespace SuperMarioBros.Source.Entities
                     AnimationComponent ductExtensionAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 128, 64);
                     entity.AddComponent(ductExtensionAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductExtensionAnimationComponent.textureRectangle, BodyType.Static));
+                    entity.AddComponent(new DuctExtensionComponent());
+
                     break;
                 case EntityType.DUCTCROSS:
                     AnimationComponent ductCrossAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 131, 128);
