@@ -19,7 +19,6 @@ namespace SuperMarioBros.Source.Systems
         private static float forwardSpeed = 4f;
         private bool canShoot = true;
         private static readonly List<Action> pendingActions = new List<Action>();
-        public static AetherVector2 positionExprotion { get; set; }
         private static readonly Dictionary<Entity, float> fireballTimers = new Dictionary<Entity, float>();
         public static readonly float waitTime = 0.5f;
 
@@ -32,9 +31,6 @@ namespace SuperMarioBros.Source.Systems
                 IEnumerable<Entity> playerEntities = entities.WithComponents(
                     typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent),
                     typeof(MovementComponent), typeof(CameraComponent));
-                IEnumerable<Entity> fireEntities = entities.WithComponents(
-                    typeof(FireBoolComponent), typeof(AnimationComponent), typeof(ColliderComponent));
-
                 foreach (var player in playerEntities)
                 {
                     var keyboardState = Keyboard.GetState();
@@ -95,7 +91,7 @@ namespace SuperMarioBros.Source.Systems
                 var fireballCollider = fireball.GetComponent<ColliderComponent>().collider;
                 if (fireballCollider.BodyType == BodyType.Dynamic && fireballCollider.Position.Y > 8.5f)
                 {
-                    pendingActions.Add(() => MoveFireballAfterWait(fireball));
+                    pendingActions.Add(() => FireBoolCollisionSystem.MoveFireballAfterWait(fireball));
                 }
             }
         }
@@ -124,7 +120,7 @@ namespace SuperMarioBros.Source.Systems
 
             foreach (var fireball in fireballsToMove)
             {
-                MoveFireballAfterWait(fireball);
+                FireBoolCollisionSystem.MoveFireballAfterWait(fireball);
                 fireballTimers.Remove(fireball);
             }
         }
@@ -166,15 +162,15 @@ namespace SuperMarioBros.Source.Systems
             IEnumerable<Entity> entities, List<Action> pendingActions, CameraComponent cameraComponent,
             float forwardSpeedFire)
         {
-            var fireballEntity = GetEntityByCollider(entities, fixtureA.Body) ??
-                                 GetEntityByCollider(entities, fixtureB.Body);
+            var fireballEntity = FireBoolCollisionSystem.GetEntityByCollider(entities, fixtureA.Body) ??
+                                 FireBoolCollisionSystem.GetEntityByCollider(entities, fixtureB.Body);
 
             if (fireballEntity == null || fireballEntity.GetComponent<FireBoolComponent>() == null) return true;
 
             var fireballComponent = fireballEntity.GetComponent<FireBoolComponent>();
             forwardSpeedFire = fireballComponent.InitialDirection * Math.Abs(forwardSpeedFire);
 
-            var otherEntity = GetOtherEntityByCollider(entities, fixtureA, fixtureB, fireballEntity);
+            var otherEntity = FireBoolCollisionSystem.GetOtherEntityByCollider(entities, fixtureA, fixtureB, fireballEntity);
 
             if (otherEntity != null)
             {
@@ -195,27 +191,12 @@ namespace SuperMarioBros.Source.Systems
             var fireballBody = fireballEntity.GetComponent<ColliderComponent>()?.collider;
             if (fireballBody != null)
             {
-                Restitution(fireballBody, forwardSpeedFire);
+                FireBoolCollisionSystem.Restitution(fireballBody, forwardSpeedFire);
             }
 
             CheckCameraPosition(cameraComponent, fireballEntity, pendingActions);
 
             return true;
-        }
-
-        private static Entity GetEntityByCollider(IEnumerable<Entity> entities, Body body)
-        {
-            return entities.FirstOrDefault(e => e.GetComponent<ColliderComponent>()?.collider == body);
-        }
-
-        private static Entity GetOtherEntityByCollider(IEnumerable<Entity> entities, Fixture fixtureA, Fixture fixtureB,
-            Entity fireballEntity)
-        {
-            return entities.FirstOrDefault(e =>
-                e.GetComponent<ColliderComponent>()?.collider ==
-                (fixtureA.Body == fireballEntity.GetComponent<ColliderComponent>()?.collider
-                    ? fixtureB.Body
-                    : fixtureA.Body));
         }
 
         private static void HandleEntityCollision(EntitiesName otherEntityName, Entity otherEntity,
@@ -230,8 +211,8 @@ namespace SuperMarioBros.Source.Systems
                         fireballComponent.collidedWithGoomba = true;
                     }
 
-                    pendingActions.Add(() => DisableCollider(otherEntity));
-                    pendingActions.Add(() => MoveFireball(fireballEntity));
+                    pendingActions.Add(() => FireBoolCollisionSystem.DisableCollider(otherEntity));
+                    pendingActions.Add(() => FireBoolCollisionSystem.MoveFireball(fireballEntity,fireballTimers,waitTime));
                     break;
 
                 case EntitiesName.DUCT:
@@ -240,7 +221,7 @@ namespace SuperMarioBros.Source.Systems
 
                 case EntitiesName.BLOCK:
                 case EntitiesName.DUCTEXTENSION:
-                    pendingActions.Add(() => MoveFireball(fireballEntity));
+                    pendingActions.Add(() => FireBoolCollisionSystem.MoveFireball(fireballEntity,fireballTimers,waitTime));
                     break;
 
                 case EntitiesName.COINBLOCK:
@@ -260,7 +241,7 @@ namespace SuperMarioBros.Source.Systems
             float fireballY = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
             if (fireballY > bottomPart1)
             {
-                pendingActions.Add(() => MoveFireball(fireballEntity));
+                pendingActions.Add(() => FireBoolCollisionSystem.MoveFireball(fireballEntity,fireballTimers,waitTime));
             }
         }
 
@@ -271,7 +252,7 @@ namespace SuperMarioBros.Source.Systems
             float fireballY2 = fireballEntity.GetComponent<ColliderComponent>().collider.Position.Y;
             if (fireballY2 > bottomPart2)
             {
-                pendingActions.Add(() => MoveFireball(fireballEntity));
+                pendingActions.Add(() => FireBoolCollisionSystem.MoveFireball(fireballEntity,fireballTimers,waitTime));
             }
         }
 
@@ -288,7 +269,7 @@ namespace SuperMarioBros.Source.Systems
                 if ((fireballY > collider.collider.Position.Y && fireballX > 28.5f && fireballX < 30.5f) ||
                     (fireballY > collider.collider.Position.Y && fireballX > 35.5f && fireballX < 37.5f))
                 {
-                    pendingActions.Add(() => MoveFireball(fireballEntity));
+                    pendingActions.Add(() => FireBoolCollisionSystem.MoveFireball(fireballEntity,fireballTimers,waitTime));
                 }
             }
         }
@@ -298,66 +279,15 @@ namespace SuperMarioBros.Source.Systems
         {
             if (cameraComponent.Position.X / 100 > fireballEntity.GetComponent<ColliderComponent>().collider.Position.X)
             {
-                pendingActions.Add(() => MoveFireballAfterWait(fireballEntity));
+                pendingActions.Add(() => FireBoolCollisionSystem.MoveFireballAfterWait(fireballEntity));
             }
             else if (cameraComponent.Position.X / 77 <
                      fireballEntity.GetComponent<ColliderComponent>().collider.Position.X &&
                      fireballEntity.GetComponent<ColliderComponent>().collider.Position.X > 40f)
             {
-                pendingActions.Add(() => MoveFireballAfterWait(fireballEntity));
+                pendingActions.Add(() => FireBoolCollisionSystem.MoveFireballAfterWait(fireballEntity));
             }
         }
 
-        private static void DisableCollider(Entity entity)
-        {
-            var colliderComponent = entity.GetComponent<ColliderComponent>();
-            if (colliderComponent != null)
-            {
-                colliderComponent.RemoveCollider();
-            }
-        }
-
-        private static void MoveFireball(Entity fireballEntity)
-        {
-            var colliderComponent = fireballEntity.GetComponent<ColliderComponent>();
-            var fireAnimation = fireballEntity.GetComponent<AnimationComponent>();
-
-            if (colliderComponent != null && fireAnimation != null)
-            {
-                var positionExprotion = colliderComponent.collider.Position;
-
-                colliderComponent.collider.Position = positionExprotion;
-                fireAnimation.animations =
-                    new AnimationComponent(Animations.entityTextures[EntitiesName.FIREEXPLOSION], 34, 34).animations;
-                colliderComponent.Enabled(false);
-
-                fireballTimers[fireballEntity] = waitTime;
-            }
-        }
-
-        private static void MoveFireballAfterWait(Entity fireballEntity)
-        {
-            var colliderComponent = fireballEntity.GetComponent<ColliderComponent>();
-            var fireAnimation = fireballEntity.GetComponent<AnimationComponent>();
-
-            if (colliderComponent != null && fireAnimation != null)
-            {
-                colliderComponent.collider.Position = new AetherVector2(-100, 750);
-                colliderComponent.collider.BodyType = BodyType.Static;
-                fireAnimation.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.FIRE], 34, 34)
-                    .animations;
-                colliderComponent.Enabled(true);
-            }
-        }
-
-        private static void Restitution(Body body, float forwardSpeedFire)
-        {
-            float minBounceVelocity = 4.0f;
-
-            if (body.LinearVelocity.Y > 0)
-            {
-                body.LinearVelocity = new AetherVector2(forwardSpeedFire, -minBounceVelocity);
-            }
-        }
     }
 }
