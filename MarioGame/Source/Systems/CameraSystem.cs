@@ -38,7 +38,6 @@ namespace SuperMarioBros.Source.Systems
                         camera.LastXPosition = playerPosition.collider.Position.X * GameConstants.pixelPerMeter;
                     }
                     camera.LeftWall.Position = new AetherVector(camera.Position.X / GameConstants.pixelPerMeter, camera.Position.Y / GameConstants.pixelPerMeter);
-                    Console.WriteLine(camera.Position.X + " " + camera.Position.Y);
                     camera.Transform = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
                 }
             }

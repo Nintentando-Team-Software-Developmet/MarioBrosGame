@@ -43,7 +43,7 @@ namespace SuperMarioBros.Source.Components
                 while (contactEdge != null)
                 {
                     var currentContact = contactEdge.Contact;
-                    if (CollisionAnalyzer.GetDirectionCollision(currentContact) == CollisionType.UP)
+                    if (CollisionAnalyzer.IsUpCollision(currentContact))
                     {
                         return false;
                     }
