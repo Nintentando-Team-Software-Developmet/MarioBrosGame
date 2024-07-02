@@ -149,7 +149,8 @@ namespace SuperMarioBros.Source.Systems
 
             if (playerComponent.DeathTimer <= 1f)
             {
-                colliderComponent.collider.ApplyForce(new AetherVector2(0, -22f));
+                colliderComponent.collider.LinearVelocity = new AetherVector2(0, 0);
+                colliderComponent.collider.ApplyLinearImpulse(new AetherVector2(0, -8f));
 
             }
             else if (playerComponent.DeathTimer > 1f && playerComponent.DeathTimer <= 2f)

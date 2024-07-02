@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
-
 using Microsoft.Xna.Framework;
-
 using nkast.Aether.Physics2D.Dynamics;
-using nkast.Aether.Physics2D.Dynamics.Contacts;
 
 using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.Scene;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -15,22 +13,48 @@ namespace SuperMarioBros.Source.Components
     public class ColliderComponent : BaseComponent
     {
         public Body collider { get; set; }
+        public Fixture fixture { get; set; }
         public float maxSpeed { get; set; }
         public float velocity { get; set; }
         public float friction { get; set; }
         private Fixture[] _storedFixtures;
+        public int width { get; set; }
+        public int height { get; set; }
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
             AetherVector2 position = new AetherVector2(x / GameConstants.pixelPerMeter, y / GameConstants.pixelPerMeter);
             collider = physicsWorld?.CreateBody(position, rotation, bodyType);
             collider.FixedRotation = true;
-            collider.CreateRectangle(rectangle.Width / GameConstants.pixelPerMeter, rectangle.Height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
+            fixture = collider.CreateRectangle(rectangle.Width / GameConstants.pixelPerMeter, rectangle.Height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
+            fixture.CollisionCategories = Categories.World;
+            fixture.CollidesWith = Categories.World | Categories.Player;
+            width = rectangle.Width;
+            height = rectangle.Height;
         }
 
         public bool isJumping()
         {
-            return collider.LinearVelocity.Y != 0;
+            if (collider.LinearVelocity.Y != 0) return true;
+            var position = (int)collider.Position.Y * GameConstants.pixelPerMeter;
+            if (position != GameConstants.positionFloor)
+            {
+                var contactEdge = collider.ContactList;
+                while (contactEdge != null)
+                {
+                    var currentContact = contactEdge.Contact;
+                    if (CollisionAnalyzer.IsUpCollision(currentContact))
+                    {
+                        return false;
+                    }
+                    contactEdge = contactEdge.Next;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public void Enabled(bool enabled)
         {
@@ -41,7 +65,9 @@ namespace SuperMarioBros.Source.Components
         {
             get
             {
-                return new Vector2(collider.Position.X * GameConstants.pixelPerMeter, collider.Position.Y * GameConstants.pixelPerMeter);
+                float x = collider.Position.X * GameConstants.pixelPerMeter;
+                float y = collider.Position.Y * GameConstants.pixelPerMeter;
+                return new Vector2(x, y);
             }
         }
 
@@ -55,6 +81,27 @@ namespace SuperMarioBros.Source.Components
                     collider.Remove(fixture);
                 }
             }
+        }
+
+        public void ResizeRectangle(int width, int height)
+        {
+            if (width == this.width && height == this.height) return;
+            float heightPosition;
+            if (height > this.height)
+            {
+                heightPosition = height / 4;
+                collider.Position = new AetherVector2(collider.Position.X, collider.Position.Y - (heightPosition / GameConstants.pixelPerMeter));
+            }
+            else
+            {
+                heightPosition = height / 2;
+                collider.Position = new AetherVector2(collider.Position.X, collider.Position.Y + (heightPosition / GameConstants.pixelPerMeter));
+            }
+            this.width = width;
+            this.height = height;
+            collider.Remove(fixture);
+            fixture = collider.CreateRectangle(width / GameConstants.pixelPerMeter, height / GameConstants.pixelPerMeter, 1f, AetherVector2.Zero);
+
         }
     }
 }

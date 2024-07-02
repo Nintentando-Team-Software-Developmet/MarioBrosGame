@@ -9,9 +9,7 @@ using MarioGame.Utils.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
 using Newtonsoft.Json;
-
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
@@ -92,6 +90,7 @@ namespace SuperMarioBros.Source.Scenes
 
         private void InitializeSystems(SpriteData spriteData)
         {
+            Systems.Add(new InputSystem());
             Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new CameraSystem());
             Systems.Add(new NonPlayerMovementSystem());
@@ -309,7 +308,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
             if (playerEntity == null) return;
-
+            
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && !player.IsAlive)
             {

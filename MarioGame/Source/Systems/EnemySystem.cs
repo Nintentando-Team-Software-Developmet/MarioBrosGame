@@ -147,7 +147,8 @@ namespace SuperMarioBros.Source.Systems
                         {
                             enemy.IsAlive = false;
                             animation.Play(AnimationState.DIE);
-                            otherBody.ApplyForce(new AetherVector2(0, -300));
+                            float force = 300 *(otherBody.Mass / GameConstants.PlayerMass);
+                            otherBody.ApplyForce(new AetherVector2(0, -force));
                             enemyBody.ResetDynamics();
                             _bodiesToRemove.Add(enemyBody);
                         }

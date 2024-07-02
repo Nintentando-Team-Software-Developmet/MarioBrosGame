@@ -9,6 +9,7 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.Scene;
 
 namespace SuperMarioBros.Source.Entities
 {
@@ -85,19 +86,24 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.PLAYER:
-                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64, 0.09f);
+                    PlayerComponent playerComponent = new PlayerComponent();
+                    entity.AddComponent(playerComponent);
+                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.GetAnimation(playerComponent.State), 64, 64, 0.09f);
                     entity.AddComponent(playerAnimationComponent);
-                    entity.AddComponent(new PlayerComponent());
                     ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
                     colliderComponent.maxSpeed = 3f;
                     colliderComponent.velocity = 3f;
                     colliderComponent.friction = 0.97f;
+                    colliderComponent.fixture.CollisionCategories = Categories.Player;
+                    colliderComponent.fixture.CollidesWith = Categories.World | Categories.LeftWall | Categories.Player;
                     entity.AddComponent(colliderComponent);
                     entity.AddComponent(new CameraComponent(
                         new Viewport(0, 0, GameConstants.CameraViewportWidth, GameConstants.CameraViewportHeight),
                         GameConstants.CameraWorldWidth,
-                        GameConstants.CameraViewportHeight));
+                        GameConstants.CameraViewportHeight,
+                        physicsWorld));
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
+                    entity.AddComponent(new InputComponent());
                     break;
 
                 case EntityType.WINGAME:
@@ -131,7 +137,6 @@ namespace SuperMarioBros.Source.Entities
                     CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(coinBlockComponent);
                     break;
-
 
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
