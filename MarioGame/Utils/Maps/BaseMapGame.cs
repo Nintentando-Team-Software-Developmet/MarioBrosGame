@@ -78,15 +78,12 @@ namespace SuperMarioBros.Utils.Maps
                 AetherVector2 position = positions[i];
 
                 Body largeBody = physicsWorld.CreateBody(position, 0f, BodyType.Static);
-<<<<<<< HEAD:MarioGame/Utils/MapGame.cs
 
                 Fixture fixture = largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
                 fixture.CollisionCategories = Categories.World;
                 fixture.CollidesWith = Categories.Player | Categories.World;
                 largeBody.FixedRotation = true;
-=======
                 largeBody.CreateRectangle(size.X, size.Y, 1f, AetherVector2.Zero);
->>>>>>> develop:MarioGame/Utils/Maps/BaseMapGame.cs
                 largeBody.Tag = i + 1;
             }
         }
