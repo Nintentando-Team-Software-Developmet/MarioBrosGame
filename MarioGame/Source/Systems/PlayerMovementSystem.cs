@@ -54,7 +54,7 @@ namespace SuperMarioBros.Source.Systems
 
                 if (!input.DOWN.IsPressed && playerComponent.State == PlayerState.BIG)
                 {
-                    
+
                     animation.height = GameConstants.playerHeightBig;
                     collider.ResizeRectangle(GameConstants.playerWidth, GameConstants.playerHeightBig);
                 }
@@ -157,14 +157,14 @@ namespace SuperMarioBros.Source.Systems
             if (!collider.isJumping())
             {
                 collider.collider.LinearVelocity = new AetherVector2(velocityX * collider.friction, velocityY);
-            }
-            if (movement.Direction == MovementType.LEFT && !collider.isJumping())
-            {
-                animation.Play(AnimationState.STOPLEFT);
-            }
-            else if (movement.Direction == MovementType.RIGHT && !collider.isJumping())
-            {
-                animation.Play(AnimationState.STOP);
+                if (movement.Direction == MovementType.LEFT)
+                {
+                    animation.Play(AnimationState.STOPLEFT);
+                }
+                else if (movement.Direction == MovementType.RIGHT)
+                {
+                    animation.Play(AnimationState.STOP);
+                }
             }
         }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
+
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Utils;
@@ -20,6 +22,7 @@ namespace SuperMarioBros.Source.Components
         private Fixture[] _storedFixtures;
         public int width { get; set; }
         public int height { get; set; }
+        public float lastYVelocity { get; set; }
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
@@ -35,25 +38,14 @@ namespace SuperMarioBros.Source.Components
 
         public bool isJumping()
         {
-            if (collider.LinearVelocity.Y != 0) return true;
-            var position = (int)collider.Position.Y * GameConstants.pixelPerMeter;
-            if (position != GameConstants.positionFloor)
+            if (collider.LinearVelocity.Y != 0)
             {
-                var contactEdge = collider.ContactList;
-                while (contactEdge != null)
-                {
-                    var currentContact = contactEdge.Contact;
-                    if (CollisionAnalyzer.IsUpCollision(currentContact))
-                    {
-                        return false;
-                    }
-                    contactEdge = contactEdge.Next;
-                }
+                lastYVelocity = collider.LinearVelocity.Y;
                 return true;
             }
             else
             {
-                return false;
+                return lastYVelocity < 0;
             }
         }
         public void Enabled(bool enabled)
