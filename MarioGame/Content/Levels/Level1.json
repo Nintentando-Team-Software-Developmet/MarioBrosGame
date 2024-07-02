@@ -304,6 +304,21 @@
             "position": {
                 "x": 6047,
                 "y": 544 }
+        },
+        {
+            "type": "FIREBALL",
+            "name": "FIRE",
+            "position": {
+                "x": 10,
+                "y": 10 }
+        },
+        {
+            "type": "FIREBALL",
+            "name": "FIRE",
+            "position": {
+                "x": 10,
+                "y": 10 }
         }
+
     ]
 }
