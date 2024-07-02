@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MarioGame;
@@ -9,11 +8,11 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
-namespace SuperMarioBros.Source.Systems;
+namespace SuperMarioBros.Utils;
 
-public static class FireBoolCollisionSystem
+public static class FireBoolCollision
 {
-    public static void Restitution(Body body, float forwardSpeedFire)
+        public static void Restitution(Body body, float forwardSpeedFire)
     {
         float minBounceVelocity = 4.0f;
 
@@ -83,5 +82,4 @@ public static class FireBoolCollisionSystem
             }
         }
     }
-
 }
