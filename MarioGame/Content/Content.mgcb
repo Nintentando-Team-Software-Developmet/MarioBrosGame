@@ -27,6 +27,78 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Title.spritefont
 
+#begin SoundEffects/block_destroy.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/block_destroy.mp3
+
+#begin SoundEffects/block_not_destroy.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/block_not_destroy.mp3
+
+#begin SoundEffects/block_power_up.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/block_power_up.mp3
+
+#begin SoundEffects/coin_collected.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/coin_collected.mp3
+
+#begin SoundEffects/destroy_enemy.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/destroy_enemy.mp3
+
+#begin SoundEffects/fireball_hit.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/fireball_hit.mp3
+
+#begin SoundEffects/fireball.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/fireball.mp3
+
+#begin SoundEffects/loss_life.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/loss_life.mp3
+
+#begin SoundEffects/lost_power_up.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/lost_power_up.mp3
+
+#begin SoundEffects/player_jump.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/player_jump.mp3
+
+#begin SoundEffects/power_up_collected.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/power_up_collected.mp3
+
+#begin SoundEffects/smash.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/smash.mp3
+
 #begin Sounds/end.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -1431,18 +1503,6 @@
 /processorParam:TextureFormat=Color
 /build:sprites/props/triple_cloud.png
 
-#begin sprites/props/win_flag_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:sprites/props/win_flag_1.png
-
 #begin sprites/props/win_flag_1_ball.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1454,6 +1514,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/props/win_flag_1_ball.png
+
+#begin sprites/props/win_flag_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/win_flag_1.png
 
 #begin sprites/props/win_flag_2.png
 /importer:TextureImporter

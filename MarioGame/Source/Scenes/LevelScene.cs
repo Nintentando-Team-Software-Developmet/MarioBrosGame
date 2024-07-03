@@ -86,9 +86,36 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
+            MediaPlayer.Volume = 0.7f;
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
+            LoadSoundEffects(spriteData);
         }
+
+
+        private static void LoadSoundEffects(SpriteData spriteData)
+        {
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockDestroyed, "SoundEffects/block_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.NonBreakableBlockCollided, "SoundEffects/block_not_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "SoundEffects/coin_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyed, "SoundEffects/smash");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireball, "SoundEffects/fireball");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireballCollided, "SoundEffects/fireball_hit");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "SoundEffects/player_jump");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostLife, "SoundEffects/loss_life");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "SoundEffects/lost_power_up");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
+        }
+
+
+        /*
+         * Initializes the systems for the level scene.
+         * This method creates and adds systems to the scene.
+         *
+         * Parameters:
+         *   spriteData: SpriteData object containing sprite batch and content manager.
+         */
 
         private void InitializeSystems(SpriteData spriteData)
         {
@@ -102,6 +129,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
 
+            Systems.Add(new SoundEffectSystem());
         }
 
         /*
