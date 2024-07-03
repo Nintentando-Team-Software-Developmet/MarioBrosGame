@@ -12,6 +12,7 @@ namespace SuperMarioBros.Source.Components
         public bool ShouldProcessDeath { get; set; }
         public bool IsTimeOver { get; set; }
         public bool MayTeleport { get; set; }
+        public bool IsBig { get; set; }
 
         public PlayerComponent()
         {

@@ -1,3 +1,5 @@
+using System;
+
 using MarioGame;
 using MarioGame.Utils.DataStructures;
 
@@ -122,6 +124,7 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, questionBlockAnimationComponent.textureRectangle, BodyType.Static));
                     QuestionBlockComponent questionBlockComponent = new QuestionBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(questionBlockComponent);
+                    entity.AddComponent(new BlockComponent(false, BlockType.QuestionMark));
                     break;
 
                 case EntityType.COINBLOCK:
@@ -130,8 +133,23 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinBlockAnimationComponent.textureRectangle, BodyType.Static));
                     CoinBlockComponent coinBlockComponent = new CoinBlockComponent(entityData.TypeContent, entityData.Quantity);
                     entity.AddComponent(coinBlockComponent);
+                    if (entityData.TypeContent == EntitiesName.NORMAL)
+                        entity.AddComponent(new BlockComponent(true, BlockType.Normal));
+                    else
+                    {
+                        entity.AddComponent(new BlockComponent(false, BlockType.Coin));
+                    }
                     break;
 
+                case EntityType.FIREBALL:
+                    AnimationComponent fireBlockAnimationComponent = new AnimationComponent(Animations.fire, 34, 34);
+                    fireBlockAnimationComponent.velocity = fireBlockAnimationComponent.velocity/3;
+                    entity.AddComponent(fireBlockAnimationComponent);
+                    ColliderComponent colliderFireComponent = new ColliderComponent(physicsWorld, -100, 750, fireBlockAnimationComponent.textureRectangle, BodyType.Static);
+                    entity.AddComponent(colliderFireComponent);
+                    FireBoolComponent fireBlockComponent = new FireBoolComponent();
+                    entity.AddComponent(fireBlockComponent);
+                    break;
 
                 case EntityType.BLOCK:
                     AnimationComponent blockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);
@@ -149,6 +167,8 @@ namespace SuperMarioBros.Source.Entities
                     AnimationComponent ductExtensionAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 128, 64);
                     entity.AddComponent(ductExtensionAnimationComponent);
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ductExtensionAnimationComponent.textureRectangle, BodyType.Static));
+                    entity.AddComponent(new DuctExtensionComponent());
+
                     break;
                 case EntityType.DUCTCROSS:
                     AnimationComponent ductCrossAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 131, 128);

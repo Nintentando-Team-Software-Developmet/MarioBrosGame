@@ -8,6 +8,7 @@ using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -151,6 +152,7 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.JUMPRIGHT);
                     movement.Direction = MovementType.RIGHT;
                 }
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerJump));
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
             }
 
