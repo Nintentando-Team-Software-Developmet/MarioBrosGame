@@ -88,7 +88,33 @@ namespace SuperMarioBros.Source.Scenes
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
+            LoadSoundEffects(spriteData);
         }
+
+
+        private static void LoadSoundEffects(SpriteData spriteData)
+        {
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockDestroyed, "Sounds/block_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.NonBreakableBlockCollided, "Sounds/block_not_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "Sounds/coin_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyed, "Sounds/destroy_enemy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireball, "Sounds/fireball");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireballCollided, "Sounds/fireball_hit");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "Sounds/jump");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostLife, "Sounds/lost_life");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "Sounds/lost_power_up");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "Sounds/power_up_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyedByStar, "Sounds/smash");
+        }
+
+
+        /*
+         * Initializes the systems for the level scene.
+         * This method creates and adds systems to the scene.
+         *
+         * Parameters:
+         *   spriteData: SpriteData object containing sprite batch and content manager.
+         */
 
         private void InitializeSystems(SpriteData spriteData)
         {
