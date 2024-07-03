@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
@@ -33,6 +34,7 @@ public class SoundEffectManager
 
     public SoundEffect GetSoundEffect(SoundEffectType type)
     {
+        Console.WriteLine("Getting sound effect... " + type.ToString());
         return _soundEffects.ContainsKey(type) ? _soundEffects[type] : null;
     }
 }

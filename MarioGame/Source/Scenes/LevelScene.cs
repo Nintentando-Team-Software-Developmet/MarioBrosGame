@@ -86,25 +86,25 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
-            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            //MediaPlayer.IsRepeating = true;
             LoadSoundEffects(spriteData);
         }
 
 
         private static void LoadSoundEffects(SpriteData spriteData)
         {
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockDestroyed, "Sounds/block_destroy");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.NonBreakableBlockCollided, "Sounds/block_not_destroy");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "Sounds/coin_collected");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyed, "Sounds/destroy_enemy");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireball, "Sounds/fireball");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireballCollided, "Sounds/fireball_hit");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "Sounds/jump");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostLife, "Sounds/lost_life");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "Sounds/lost_power_up");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "Sounds/power_up_collected");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyedByStar, "Sounds/smash");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockDestroyed, "SoundEffects/block_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.NonBreakableBlockCollided, "SoundEffects/block_not_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "SoundEffects/coin_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyed, "SoundEffects/smash");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireball, "SoundEffects/fireball");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireballCollided, "SoundEffects/fireball_hit");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "SoundEffects/player_jump");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostLife, "SoundEffects/loss_life");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "SoundEffects/lost_power_up");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
         }
 
 
@@ -126,6 +126,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new EnemySystem());
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
+            Systems.Add(new SoundEffectSystem());
         }
 
         /*
