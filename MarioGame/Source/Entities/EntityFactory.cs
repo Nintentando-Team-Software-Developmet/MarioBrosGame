@@ -143,7 +143,7 @@ namespace SuperMarioBros.Source.Entities
 
                 case EntityType.FIREBALL:
                     AnimationComponent fireBlockAnimationComponent = new AnimationComponent(Animations.fire, 34, 34);
-                    fireBlockAnimationComponent.velocity = fireBlockAnimationComponent.velocity/3;
+                    fireBlockAnimationComponent.velocity = fireBlockAnimationComponent.velocity / 3;
                     entity.AddComponent(fireBlockAnimationComponent);
                     ColliderComponent colliderFireComponent = new ColliderComponent(physicsWorld, -100, 750, fireBlockAnimationComponent.textureRectangle, BodyType.Static);
                     entity.AddComponent(colliderFireComponent);

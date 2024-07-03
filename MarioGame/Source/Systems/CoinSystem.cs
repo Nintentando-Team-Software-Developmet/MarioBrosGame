@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+
 using MarioGame;
+
 using Microsoft.Xna.Framework;
+
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
-using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Systems
