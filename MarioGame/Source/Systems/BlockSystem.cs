@@ -162,6 +162,8 @@ public class BlockSystem : BaseSystem
                 animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
                 coinBlock.HasMoved = true;
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
+                Console.WriteLine("Colliding with coin block with no value, so no destructible" + coinBlock);
+
             }
             else
             {
@@ -245,10 +247,12 @@ public class BlockSystem : BaseSystem
                     if (playerState.IsBig)
                     {
                         EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockDestroyed));
+                        //TODO add destroy of the block
                     }
                     else
                     {
                         EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
+                        Console.WriteLine("Colliding with non breakable block" + block);
                     }
                 }
 

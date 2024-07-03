@@ -20,15 +20,17 @@ public class SoundEffectSystem : BaseSystem
     private void OnSoundEffectEvent(object eventArgs)
     {
         var soundEffectEvent = eventArgs as SoundEffectEvent;
-        Console.WriteLine("Playing sound effect... " + soundEffectEvent.SoundEffectType.ToString());
         if (soundEffectEvent != null) PlaySoundEffect(soundEffectEvent.SoundEffectType);
     }
 
     private static void PlaySoundEffect(SoundEffectType soundEffectType)
     {
-        Console.WriteLine("Playing sound effect... " + soundEffectType.ToString());
         var soundEffect = SoundEffectManager.Instance.GetSoundEffect(soundEffectType);
-        soundEffect?.CreateInstance().Play();
+        var instance = soundEffect?.CreateInstance();
+        if (soundEffectType == SoundEffectType.PlayerJump || soundEffectType == SoundEffectType.EnemyDestroyed) instance.Volume = 0.3f;
+        else instance.Volume = 1f;
+
+        instance?.Play();
     }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)

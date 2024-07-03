@@ -86,8 +86,9 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
-            //MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.7f;
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            MediaPlayer.IsRepeating = true;
             LoadSoundEffects(spriteData);
         }
 
