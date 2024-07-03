@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -54,6 +55,7 @@ namespace SuperMarioBros.Source.Systems
                         coin.IsCollected = true;
                         _progressDataManager.Coins++;
                         _progressDataManager.Score += 200;
+                        EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
                     }
                 }
 

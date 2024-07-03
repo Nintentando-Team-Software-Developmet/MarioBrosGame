@@ -7,6 +7,7 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
 
@@ -52,6 +53,10 @@ namespace SuperMarioBros.Source.Scenes
             _map = new SecretLevelMapGame(_levelData.pathMap, _levelData.backgroundEntitiesPath, spriteData, _physicsWorld);
             LoadEntities();
             InitializeSystems(spriteData);
+            MediaPlayer.Volume = 0.6f;
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/secret-level-song"));
+            MediaPlayer.IsRepeating = true;
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "SoundEffects/coin_collected");
         }
 
         private void InitializeSystems(SpriteData spriteData)
@@ -60,6 +65,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
             Systems.Add(new CoinSystem(_progressDataManager));
+            Systems.Add(new SoundEffectSystem());
         }
 
         private void LoadEntities()
@@ -93,6 +99,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             Entities.ClearAll();
             Systems.Clear();
+            MediaPlayer.Stop();
             foreach (var body in _physicsWorld.BodyList.ToList())
             {
                 _physicsWorld.Remove(body);
