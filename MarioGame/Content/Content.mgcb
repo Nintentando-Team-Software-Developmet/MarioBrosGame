@@ -1347,6 +1347,30 @@
 /processorParam:TextureFormat=Color
 /build:sprites/props/coin_icon_1.png
 
+#begin sprites/props/coin_icon_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/coin_icon_2.png
+
+#begin sprites/props/coin_icon_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/coin_icon_3.png
+
 #begin sprites/props/double_bush.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1431,18 +1455,6 @@
 /processorParam:TextureFormat=Color
 /build:sprites/props/triple_cloud.png
 
-#begin sprites/props/win_flag_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:sprites/props/win_flag_1.png
-
 #begin sprites/props/win_flag_1_ball.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1454,6 +1466,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/props/win_flag_1_ball.png
+
+#begin sprites/props/win_flag_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/win_flag_1.png
 
 #begin sprites/props/win_flag_2.png
 /importer:TextureImporter

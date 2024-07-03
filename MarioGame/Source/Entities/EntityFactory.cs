@@ -78,7 +78,7 @@ namespace SuperMarioBros.Source.Entities
                     AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 45, 45);
                     entity.AddComponent(coinAnimationComponent);
                     entity.AddComponent(new CoinComponent());
-                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle, BodyType.Dynamic);
+                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle, BodyType.Static);
                     entity.AddComponent(colliderComponentCoin);
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     colliderComponentCoin.Enabled(false);

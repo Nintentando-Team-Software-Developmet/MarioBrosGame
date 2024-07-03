@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using MarioGame;
 using Microsoft.Xna.Framework;
-
 using nkast.Aether.Physics2D.Dynamics;
-
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
+using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Systems
 {
@@ -14,51 +15,65 @@ namespace SuperMarioBros.Source.Systems
     {
         private HashSet<Entity> _entities = new();
         private List<Body> _bodiesToRemove = new();
+        private ProgressDataManager _progressDataManager;
+
+        public CoinSystem(ProgressDataManager progressDataManager)
+        {
+            _progressDataManager = progressDataManager;
+        }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> coins = entities.WithComponents(typeof(ColliderComponent), typeof(CoinComponent));
+            IEnumerable<Entity> coins = entities.WithComponents(typeof(ColliderComponent), typeof(CoinComponent), typeof(AnimationComponent));
+            IEnumerable<Entity> players = entities.WithComponents(typeof(ColliderComponent), typeof(PlayerComponent));
+
             foreach (var entity in coins)
             {
                 var collider = entity.GetComponent<ColliderComponent>();
                 var coin = entity.GetComponent<CoinComponent>();
-                if (collider == null || coin == null) continue;
+                var animation = entity.GetComponent<AnimationComponent>();
+
+                if (collider == null || coin == null || animation == null) continue;
+
+                animation.animations = Animations.coinBlink;
+                animation.velocity = 0.15f;
+                animation.Play(AnimationState.BlINK);
 
                 if (!_entities.Contains(entity))
                 {
-                    RegisterCoinEvents(collider, coin);
                     _entities.Add(entity);
                     collider.collider.BodyType = BodyType.Static;
                 }
 
+                foreach (var player in players)
+                {
+                    var playerCollider = player.GetComponent<ColliderComponent>();
+
+                    if (IsEntityNearby(collider.Position, playerCollider.Position))
+                    {
+                        coin.IsCollected = true;
+                        _progressDataManager.Coins++;
+                        _progressDataManager.Score += 200;
+                    }
+                }
+
                 if (coin.IsCollected)
                 {
+                    _bodiesToRemove.Add(collider.collider);
                     entity.RemoveComponent<ColliderComponent>();
+                    foreach (var body in _bodiesToRemove)
+                    {
+                        body.World.Remove(body);
+                    }
+                    _bodiesToRemove.Clear();
                 }
             }
-            foreach (var body in _bodiesToRemove)
-            {
-                body.World.Remove(body);
-            }
-            _bodiesToRemove.Clear();
         }
 
-        private void RegisterCoinEvents(ColliderComponent collider, CoinComponent coin)
+        private static bool IsEntityNearby(Vector2 coinPosition, Vector2 playerPosition)
         {
-            collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
-            {
-                var collisionDirection = CollisionAnalyzer.GetDirectionCollision(contact);
-                var coinBody = fixtureA.Body;
-
-                if (collisionDirection == CollisionType.RIGHT || collisionDirection == CollisionType.LEFT ||
-                    collisionDirection == CollisionType.DOWN || collisionDirection == CollisionType.UP)
-                {
-                    coin.IsCollected = true;
-                    _bodiesToRemove.Add(coinBody);
-                }
-                return true;
-            };
-            collider.Enabled(true);
+            float distanceThreshold = 50f;
+            return Vector2.Distance(coinPosition, playerPosition) <= distanceThreshold;
         }
     }
 }

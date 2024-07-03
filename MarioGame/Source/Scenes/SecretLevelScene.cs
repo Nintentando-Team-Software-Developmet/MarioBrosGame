@@ -59,7 +59,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
-            Systems.Add(new CoinSystem());
+            Systems.Add(new CoinSystem(_progressDataManager));
         }
 
         private void LoadEntities()
@@ -154,10 +154,6 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
-            using (var deb = new DebuggerColliders(_physicsWorld, spriteData))
-            {
-                deb.DrawColliders();
-            }
             spriteData.spriteBatch.End();
         }
 
