@@ -45,7 +45,7 @@ namespace SuperMarioBros.Source.Components
             }
             else
             {
-                return lastYVelocity < 0;
+                return lastYVelocity < -8;
             }
         }
         public void Enabled(bool enabled)

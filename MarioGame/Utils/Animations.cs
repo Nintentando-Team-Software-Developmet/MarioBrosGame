@@ -100,8 +100,8 @@ namespace MarioGame
 
         public static readonly Dictionary<AnimationState, Texture2D[]> bigPlayerAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
-            { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.BigWalk1, Sprites.BigWalk2, Sprites.BigWalk3 } },
-            { AnimationState.WALKLEFT, new Texture2D[] { Sprites.BigWalk1Left, Sprites.BigWalk2Left, Sprites.BigWalk3Left } },
+            { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.BigWalk1, Sprites.BigWalk3, Sprites.BigWalk2 } },
+            { AnimationState.WALKLEFT, new Texture2D[] { Sprites.BigWalk1Left, Sprites.BigWalk3Left, Sprites.BigWalk2Left } },
             { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.BigJumpBackLeft } },
             { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.BigJumpBack } },
             { AnimationState.RUNLEFT, new Texture2D[] { Sprites.BigRunLeft } },

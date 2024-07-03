@@ -35,6 +35,7 @@ namespace SuperMarioBros.Source.Systems
                 var movement = player.GetComponent<MovementComponent>();
                 var input = player.GetComponent<InputComponent>();
                 var playerComponent = player.GetComponent<PlayerComponent>();
+                Console.WriteLine(animation.currentState + " :: curent state");
                 if (input.LEFT.IsPressed && !input.DOWN.IsPressed)
                 {
                     HandleLeftKey(collider, animation, movement);
