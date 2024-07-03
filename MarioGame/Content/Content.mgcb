@@ -69,12 +69,6 @@
 /processorParam:Quality=Best
 /build:SoundEffects/fireball.mp3
 
-#begin SoundEffects/jump.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SoundEffects/jump.mp3
-
 #begin SoundEffects/loss_life.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
