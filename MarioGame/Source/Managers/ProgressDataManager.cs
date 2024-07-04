@@ -81,4 +81,9 @@ public class ProgressDataManager
     {
         return _highScoreManager.GetHighScore();
     }
+
+    public void IncreaseScore(int score)
+    {
+        _data.Score += score;
+    }
 }

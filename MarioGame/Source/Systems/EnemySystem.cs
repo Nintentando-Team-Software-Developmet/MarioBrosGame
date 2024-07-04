@@ -9,6 +9,7 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -20,6 +21,12 @@ namespace SuperMarioBros.Source.Systems
         private HashSet<Entity> registeredEntities = new();
         private List<Body> _bodiesToRemove = new();
         private List<Body> _playerBodies = new();
+        private ProgressDataManager _progressDataManager;
+
+        public EnemySystem(ProgressDataManager progressDataManager)
+        {
+            _progressDataManager = progressDataManager;
+        }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
@@ -117,6 +124,7 @@ namespace SuperMarioBros.Source.Systems
                 {
                     if (CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                     {
+                        _progressDataManager.IncreaseScore(100);
                         movement.Direction = MovementType.STOP;
                         if (entity.HasComponent<KoopaComponent>())
                         {

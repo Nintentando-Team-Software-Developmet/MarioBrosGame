@@ -86,7 +86,7 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
         }
 
@@ -97,7 +97,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
-            Systems.Add(new EnemySystem());
+            Systems.Add(new EnemySystem(_progressDataManager));
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
         }

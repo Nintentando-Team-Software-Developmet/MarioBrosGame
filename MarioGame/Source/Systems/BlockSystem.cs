@@ -154,6 +154,7 @@ public class BlockSystem : BaseSystem
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             coinBlock.Quantity--;
             _progressDataManager.Coins++;
+            _progressDataManager.IncreaseScore(200);
             if (coinBlock.Quantity == 0)
             {
                 coinBlock.statusBlock = false;
@@ -186,6 +187,7 @@ public class BlockSystem : BaseSystem
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             _progressDataManager.Coins++;
+            _progressDataManager.IncreaseScore(200);
         }
         questionBlock.HasMoved = true;
     }
