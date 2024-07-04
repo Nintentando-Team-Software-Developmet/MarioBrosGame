@@ -29,7 +29,7 @@ namespace SuperMarioBros.Source.Components
             ShouldProcessDeath = false;
             IsTimeOver = false;
             //TODO: Refactor
-            State = PlayerState.SMALL;
+            State = PlayerState.BIG;
             MayTeleport = false;
         }
     }

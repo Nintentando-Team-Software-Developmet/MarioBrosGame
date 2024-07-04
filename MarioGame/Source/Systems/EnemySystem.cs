@@ -139,7 +139,8 @@ namespace SuperMarioBros.Source.Systems
                             else
                             {
                                 koopa.IsKnocked = true;
-                                otherBody.ApplyForce(new AetherVector2(0, -300));
+                                float force = 6.5f * (otherBody.Mass / GameConstants.PlayerMass);
+                                otherBody.ApplyLinearImpulse(new AetherVector2(0, -force));
                                 animation.Play(AnimationState.KNOCKED);
                             }
                         }
@@ -147,7 +148,7 @@ namespace SuperMarioBros.Source.Systems
                         {
                             enemy.IsAlive = false;
                             animation.Play(AnimationState.DIE);
-                            float force = 300 *(otherBody.Mass / GameConstants.PlayerMass);
+                            float force = 300 * (otherBody.Mass / GameConstants.PlayerMass);
                             otherBody.ApplyForce(new AetherVector2(0, -force));
                             enemyBody.ResetDynamics();
                             _bodiesToRemove.Add(enemyBody);

@@ -111,6 +111,7 @@ namespace MarioGame
             { AnimationState.BENDLEFT , new Texture2D[] { Sprites.BigBendLeft } },
             { AnimationState.BENDRIGHT, new Texture2D[] { Sprites.BigBend} },
             { AnimationState.WIN, new Texture2D[] { Sprites.LowerThePostLeft } },
+            { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } }
         };
 
         public static readonly Dictionary<AnimationState, Texture2D[]> koopaAnimations = new Dictionary<AnimationState, Texture2D[]>
