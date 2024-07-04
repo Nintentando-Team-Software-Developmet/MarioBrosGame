@@ -129,6 +129,12 @@
 /processorParam:Quality=Best
 /build:Sounds/mario-bros-remix.mp3
 
+#begin Sounds/secret-level-song.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/secret-level-song.mp3
+
 #begin Sounds/win_music.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -1418,6 +1424,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/props/coin_icon_1.png
+
+#begin sprites/props/coin_icon_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/coin_icon_2.png
+
+#begin sprites/props/coin_icon_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/props/coin_icon_3.png
 
 #begin sprites/props/double_bush.png
 /importer:TextureImporter

@@ -77,10 +77,10 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.COINANIMATION:
-                    AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 55, 55);
+                    AnimationComponent coinAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 45, 45);
                     entity.AddComponent(coinAnimationComponent);
                     entity.AddComponent(new CoinComponent());
-                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle, BodyType.Dynamic);
+                    ColliderComponent colliderComponentCoin = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, coinAnimationComponent.textureRectangle, BodyType.Static);
                     entity.AddComponent(colliderComponentCoin);
                     entity.AddComponent(new MovementComponent(MovementType.RIGHT));
                     colliderComponentCoin.Enabled(false);
@@ -143,7 +143,7 @@ namespace SuperMarioBros.Source.Entities
 
                 case EntityType.FIREBALL:
                     AnimationComponent fireBlockAnimationComponent = new AnimationComponent(Animations.fire, 34, 34);
-                    fireBlockAnimationComponent.velocity = fireBlockAnimationComponent.velocity/3;
+                    fireBlockAnimationComponent.velocity = fireBlockAnimationComponent.velocity / 3;
                     entity.AddComponent(fireBlockAnimationComponent);
                     ColliderComponent colliderFireComponent = new ColliderComponent(physicsWorld, -100, 750, fireBlockAnimationComponent.textureRectangle, BodyType.Static);
                     entity.AddComponent(colliderFireComponent);

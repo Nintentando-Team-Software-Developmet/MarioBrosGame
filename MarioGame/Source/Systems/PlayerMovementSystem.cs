@@ -27,6 +27,12 @@ namespace SuperMarioBros.Source.Systems
             IEnumerable<Entity> playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent), typeof(MovementComponent));
             foreach (var player in playerEntities)
             {
+                var playerComponent = player.GetComponent<PlayerComponent>();
+                if (playerComponent != null && !playerComponent.IsAlive)
+                {
+                    continue;
+                }
+
                 var collider = player.GetComponent<ColliderComponent>();
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
