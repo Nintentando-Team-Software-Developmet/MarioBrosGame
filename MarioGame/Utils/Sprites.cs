@@ -54,6 +54,8 @@ namespace SuperMarioBros.Utils
         public static Texture2D CastleBrown { get; set; }
         public static Texture2D CastleBlue { get; set; }
         public static Texture2D CoinIcon { get; set; }
+        public static Texture2D CoinIcon2 { get; set; }
+        public static Texture2D CoinIcon3 { get; set; }
         public static Texture2D WinFlag { get; set; }
         public static Texture2D WinFlagGreenBall { get; set; }
         public static Texture2D WinFlagGreen { get; set; }
@@ -197,6 +199,8 @@ namespace SuperMarioBros.Utils
             CastleBrown = content.Load<Texture2D>("sprites/props/castle_1");
             CastleBlue = content.Load<Texture2D>("sprites/props/castle_2");
             CoinIcon = content.Load<Texture2D>("sprites/props/coin_icon_1");
+            CoinIcon2 = content.Load<Texture2D>("sprites/props/coin_icon_2");
+            CoinIcon3 = content.Load<Texture2D>("sprites/props/coin_icon_3");
             WinFlagGreen = content.Load<Texture2D>("sprites/props/win_flag_1");
             WinFlagBrown = content.Load<Texture2D>("sprites/props/win_flag_2");
             WinFlagWhite = content.Load<Texture2D>("sprites/props/win_flag_3");

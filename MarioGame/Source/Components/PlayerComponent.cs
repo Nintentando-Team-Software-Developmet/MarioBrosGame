@@ -16,6 +16,7 @@ namespace SuperMarioBros.Source.Components
         //TODO: provitional Refactor 
         public PlayerState State { get; set; }
         public bool MayTeleport { get; set; }
+        public bool IsBig { get; set; }
 
         public PlayerComponent()
         {

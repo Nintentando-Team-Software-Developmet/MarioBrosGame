@@ -9,6 +9,7 @@ using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -30,11 +31,16 @@ namespace SuperMarioBros.Source.Systems
 
             foreach (var player in playerEntities)
             {
+                var playerComponent = player.GetComponent<PlayerComponent>();
+                if (playerComponent != null && !playerComponent.IsAlive)
+                {
+                    continue;
+                }
+
                 var collider = player.GetComponent<ColliderComponent>();
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
                 var input = player.GetComponent<InputComponent>();
-                var playerComponent = player.GetComponent<PlayerComponent>();
                 if (input.LEFT.IsPressed && !input.DOWN.IsPressed)
                 {
                     HandleLeftKey(collider, animation, movement);
@@ -145,6 +151,7 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.JUMPRIGHT);
                     movement.Direction = MovementType.RIGHT;
                 }
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerJump));
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -force));
                 input.A.setHeld(false);
             }

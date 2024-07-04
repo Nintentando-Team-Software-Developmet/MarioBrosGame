@@ -191,6 +191,10 @@ namespace MarioGame
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon } }
         };
+        public static readonly Dictionary<AnimationState, Texture2D[]> coinBlink = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.CoinIcon, Sprites.CoinIcon2, Sprites.CoinIcon3 } }
+        };
         public static readonly Dictionary<AnimationState, Texture2D[]> ductCross = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.DuctCrossGreen } }

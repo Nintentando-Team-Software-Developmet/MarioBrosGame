@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using MarioGame;
 
@@ -9,6 +11,7 @@ using nkast.Aether.Physics2D.Dynamics.Contacts;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -148,18 +151,26 @@ public class BlockSystem : BaseSystem
             var animationComponent = entity.GetComponent<AnimationComponent>();
             animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
             coinBlock.HasMoved = true;
+            EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockPowerUpCollided));
         }
         else if (coinBlock.TypeContent == EntitiesName.COIN && coinBlock.Quantity > 0)
         {
-            ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
-            coinBlock.Quantity--;
-            _progressDataManager.Coins++;
             if (coinBlock.Quantity == 0)
             {
                 coinBlock.statusBlock = false;
                 var animationComponent = entity.GetComponent<AnimationComponent>();
                 animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
                 coinBlock.HasMoved = true;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
+                Console.WriteLine("Colliding with coin block with no value, so no destructible" + coinBlock);
+
+            }
+            else
+            {
+                ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
+                coinBlock.Quantity--;
+                _progressDataManager.Coins++;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
             }
         }
 
@@ -181,11 +192,14 @@ public class BlockSystem : BaseSystem
             {
                 ActivateEntities<FlowerComponent>(flowerEntities, collider.collider.Position);
             }
+            EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockPowerUpCollided));
+
         }
         else if (questionBlock.TypeContent == EntitiesName.COIN)
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             _progressDataManager.Coins++;
+            EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
         }
         questionBlock.HasMoved = true;
     }
@@ -221,11 +235,27 @@ public class BlockSystem : BaseSystem
             Fixture colliderFixture = colliderBody.FixtureList[0];
 
             float blockBottomY = colliderBody.Position.Y * GameConstants.pixelPerMeter + colliderFixture.Shape.Radius;
-
+            var playerState = entities.WithComponents(typeof(PlayerComponent)).FirstOrDefault().GetComponent<PlayerComponent>();
             if (IsCollisionAtBase(contact, blockBottomY, entities))
             {
                 var questionBlock = entity.GetComponent<QuestionBlockComponent>();
                 var coinBlock = entity.GetComponent<CoinBlockComponent>();
+                var block = entity.GetComponent<BlockComponent>();
+
+                if (block.IsDestrucible)
+                {
+                    if (playerState.IsBig)
+                    {
+                        EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockDestroyed));
+                        //TODO add destroy of the block
+                    }
+                    else
+                    {
+                        EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
+                        Console.WriteLine("Colliding with non breakable block" + block);
+                    }
+                }
+
                 if (entityStates[entity] == "idle" &&
                     ((questionBlock == null || !questionBlock.HasMoved) && (coinBlock == null || !coinBlock.HasMoved)))
                 {
