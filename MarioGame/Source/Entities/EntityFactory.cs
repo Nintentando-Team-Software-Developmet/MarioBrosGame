@@ -90,7 +90,7 @@ namespace SuperMarioBros.Source.Entities
                 case EntityType.PLAYER:
                     PlayerComponent playerComponent = new PlayerComponent();
                     entity.AddComponent(playerComponent);
-                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.GetAnimation(playerComponent.State), 64, 64, 0.09f);
+                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.GetAnimation(playerComponent.State), 64,128, 0.09f);
                     entity.AddComponent(playerAnimationComponent);
                     ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
                     colliderComponent.maxSpeed = 3f;

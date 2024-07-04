@@ -41,7 +41,15 @@ namespace SuperMarioBros.Source.Systems
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
                 var input = player.GetComponent<InputComponent>();
-                if (input.LEFT.IsPressed && !input.DOWN.IsPressed)
+                if(!playerComponent.HasReachedEnd){
+                    HandleInput(playerComponent, collider, animation, movement, input);
+                }
+            }
+        }
+
+        private static void HandleInput(PlayerComponent playerComponent, ColliderComponent collider, AnimationComponent animation, MovementComponent movement, InputComponent input)
+        {
+            if (input.LEFT.IsPressed && !input.DOWN.IsPressed)
                 {
                     HandleLeftKey(collider, animation, movement);
                 }
@@ -66,7 +74,6 @@ namespace SuperMarioBros.Source.Systems
                 }
                 HandleUpKey(input, collider, animation, movement);
                 LimitSpeed(collider, collider.maxSpeed);
-            }
         }
 
         private static void HandleLeftKey(ColliderComponent collider, AnimationComponent animation, MovementComponent movement)

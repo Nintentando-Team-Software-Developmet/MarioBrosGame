@@ -122,6 +122,7 @@ namespace SuperMarioBros.Source.Systems
                 if (animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                 {
                     animationComponent.Play(AnimationState.WALKRIGHT);
+                    Console.WriteLine("startign walk right");
                     collider.collider.IgnoreGravity = false;
                 }
                 return true;
@@ -148,7 +149,8 @@ namespace SuperMarioBros.Source.Systems
 
             if (animationComponent == null) throw new ArgumentNullException(nameof(animationComponent));
             animationComponent.Play(AnimationState.DIE);
-
+            animationComponent.height = GameConstants.playerHeightSmall;
+            
             if (playerComponent.DeathTimer <= 1f)
             {
                 colliderComponent.collider.LinearVelocity = new AetherVector2(0, 0);
