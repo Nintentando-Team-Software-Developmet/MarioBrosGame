@@ -31,7 +31,7 @@ namespace SuperMarioBros.Source.Systems
                 foreach (var player in playerEntities)
                 {
                     var keyboardState = Keyboard.GetState();
-                    if (keyboardState.IsKeyDown(Keys.A))
+                    if (keyboardState.IsKeyDown(Keys.A) && player.GetComponent<PlayerComponent>().statusMario == StatusMario.FireMario)
                     {
                         if (canShoot)
                         {

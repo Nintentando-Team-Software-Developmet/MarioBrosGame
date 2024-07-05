@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 
+using MarioGame;
+
 using Microsoft.Xna.Framework;
 
+using nkast.Aether.Physics2D.Collision.Shapes;
+using nkast.Aether.Physics2D.Common;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
@@ -111,7 +115,18 @@ namespace SuperMarioBros.Source.Systems
                 {
                     CollisionType collisionDirection = CollisionAnalyzer.GetDirectionCollision(contact);
 
-                    if (collisionDirection == CollisionType.DOWN ||
+                    if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.FireMario )
+                    {
+                        if (collisionDirection == CollisionType.DOWN ||
+                            collisionDirection == CollisionType.LEFT ||
+                            collisionDirection == CollisionType.RIGHT)
+                        {
+                            ChangeAnimationColliderPlayer.TransformToSmallMario(animationComponent,collider);
+                            playerComponent.statusMario = StatusMario.SmallMario;
+                        }
+                    }
+
+                    else if (collisionDirection == CollisionType.DOWN ||
                         collisionDirection == CollisionType.LEFT ||
                         collisionDirection == CollisionType.RIGHT)
                     {

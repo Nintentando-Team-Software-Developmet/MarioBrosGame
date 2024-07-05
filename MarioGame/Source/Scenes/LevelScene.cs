@@ -128,6 +128,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
+            Systems.Add(new MarioPowersSystem());
 
             Systems.Add(new SoundEffectSystem());
         }
@@ -383,6 +384,11 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
+            //TODO Borrar - Debugger Colliders
+            using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
+            {
+                debuuger.DrawColliders();
+            }
             CommonRenders.DrawProgressData(Entities,
                                             spriteData, _progressDataManager.Score,
                                             _progressDataManager.Coins,

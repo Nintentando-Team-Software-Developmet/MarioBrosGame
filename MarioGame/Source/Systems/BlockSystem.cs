@@ -29,6 +29,7 @@ public class BlockSystem : BaseSystem
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
     private static bool statusMario { get; set; }
+    private static StatusMario showStatusMario { get; set; }
 
     public BlockSystem(ProgressDataManager progressDataManager)
     {
@@ -162,7 +163,6 @@ public class BlockSystem : BaseSystem
                 animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
                 coinBlock.HasMoved = true;
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
-                Console.WriteLine("Colliding with coin block with no value, so no destructible" + coinBlock);
 
             }
             else
@@ -184,7 +184,7 @@ public class BlockSystem : BaseSystem
 
         if (questionBlock.TypeContent == EntitiesName.POWERUP)
         {
-            if (!statusMario)
+            if (showStatusMario == StatusMario.SmallMario)
             {
                 ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
             }
@@ -252,7 +252,6 @@ public class BlockSystem : BaseSystem
                     else
                     {
                         EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
-                        Console.WriteLine("Colliding with non breakable block" + block);
                     }
                 }
 
@@ -290,6 +289,9 @@ public class BlockSystem : BaseSystem
         foreach (var playerEntity in entities)
         {
             var playerCollider = playerEntity.GetComponent<ColliderComponent>().collider;
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            getStatusMario(playerComponent);
+            Console.WriteLine(playerComponent.statusMario);
             if (playerCollider == bodyA || playerCollider == bodyB)
             {
                 isPlayerInvolved = true;
@@ -311,4 +313,13 @@ public class BlockSystem : BaseSystem
         bodyA.ApplyLinearImpulse(-repulsionForce * normal);
         bodyB.ApplyLinearImpulse(repulsionForce * normal);
     }
+
+    private static StatusMario getStatusMario(PlayerComponent playerComponentMario)
+    {
+
+        showStatusMario = playerComponentMario.statusMario;
+
+        return showStatusMario;
+    }
 }
+

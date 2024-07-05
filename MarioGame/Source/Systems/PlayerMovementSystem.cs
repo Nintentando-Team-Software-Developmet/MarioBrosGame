@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using nkast.Aether.Physics2D.Collision.Shapes;
+using nkast.Aether.Physics2D.Common;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
@@ -21,6 +23,7 @@ namespace SuperMarioBros.Source.Systems
         private static ColliderComponent colliderCamera { get; set; }
         private bool keyboardJumpReleased = true;
         private bool gamepadJumpReleased = true;
+        private static bool verifyDirection { get; set; }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
@@ -44,10 +47,19 @@ namespace SuperMarioBros.Source.Systems
                     if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
                     {
                         HandleLeftKey(collider, animation, movement);
+                        verifyDirection = true;
                     }
                     else if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed)
                     {
                         HandleKeyRight(collider, animation, movement);
+                        verifyDirection = false;
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.BigMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.BigMario
+                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.FireMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.FireMario)
+                    {
+                        Console.WriteLine('A');
+                        HandleKeyBend(collider, animation);
+
                     }
                     else
                     {
@@ -56,6 +68,17 @@ namespace SuperMarioBros.Source.Systems
                     if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                     LimitSpeed(collider, collider.maxSpeed);
                     CreateInvisibleWall(camera, collider);
+                    if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.FireMario)
+                    {
+                        if (animation.currentState == AnimationState.BENDLEFT || animation.currentState == AnimationState.BENDRIGHT)
+                        {
+                            ChangeAnimationColliderPlayer.TransformToBigBendMario(animation, collider);
+                        }
+                        else
+                        {
+                            ChangeAnimationColliderPlayer.TransformToBigNormalMario(animation,collider);
+                        }
+                    }
                 }
             }
         }
@@ -127,6 +150,24 @@ namespace SuperMarioBros.Source.Systems
                 collider.collider.ApplyForce(new AetherVector2(collider.velocity, 0));
             };
         }
+        private static void HandleKeyBend(ColliderComponent collider, AnimationComponent animation)
+        {
+            if (!collider.isJumping())
+            {
+                Console.WriteLine(animation.currentState);
+                if (verifyDirection)
+                {
+                    animation.Play(AnimationState.BENDLEFT);
+                }
+                else
+                {
+                    animation.Play(AnimationState.BENDRIGHT);
+                }
+
+            }
+
+        }
+
 
         private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement, GameTime gameTime)
         {
@@ -180,7 +221,7 @@ namespace SuperMarioBros.Source.Systems
         {
             if (!collider.isJumping())
             {
-                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y);
+                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y );
             }
             if (movement.Direction == MovementType.LEFT && !collider.isJumping())
             {

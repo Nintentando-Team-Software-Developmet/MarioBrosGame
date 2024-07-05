@@ -17,6 +17,8 @@ namespace SuperMarioBros.Utils.DataStructures
         NORMAL,
         CASTLE,
         MARIO,
+        BIGMARIO,
+        FIREMARIO,
         QUESTIONBLOCK,
         COINBLOCK,
         DUCT,
