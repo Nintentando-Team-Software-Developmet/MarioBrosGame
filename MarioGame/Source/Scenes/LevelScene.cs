@@ -213,7 +213,7 @@ namespace SuperMarioBros.Source.Scenes
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
 
-                if (IsPlayerAtSecretLocation(3620, 3776))
+                if (playerEntity.GetComponent<PlayerComponent>().IsInSecretLevel)
                 {
                     _progressDataManager.Data.PlayerComponent.PlayerPositionX = 128;
                     _progressDataManager.Data.PlayerComponent.PlayerPositionY = 32;
@@ -239,23 +239,6 @@ namespace SuperMarioBros.Source.Scenes
 
             UpdateSystems(gameTime);
             CheckPlayerState(gameTime, sceneManager);
-        }
-
-        private bool IsPlayerAtSecretLocation(float secretLocationStart, float secretLocationEnd)
-        {
-            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
-            if (playerEntity != null)
-            {
-                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && IsHKeyPressed();
-            }
-            return false;
-        }
-
-        private static bool IsHKeyPressed()
-        {
-            KeyboardState state = Keyboard.GetState();
-            return state.IsKeyDown(Keys.X);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)

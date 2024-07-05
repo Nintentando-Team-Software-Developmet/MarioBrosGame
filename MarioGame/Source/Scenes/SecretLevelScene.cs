@@ -114,7 +114,7 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
             if (playerEntity != null)
             {
-                if (IsPlayerAtSecretLocation(910, 736))
+                if (!playerEntity.GetComponent<PlayerComponent>().IsInSecretLevel)
                 {
                     _progressDataManager.Data.PlayerComponent.PlayerPositionX = 10520;
                     _progressDataManager.Data.PlayerComponent.PlayerPositionY = 500;
@@ -124,17 +124,6 @@ namespace SuperMarioBros.Source.Scenes
 
             UpdateProgressData(gameTime);
             UpdateSystems(gameTime);
-        }
-
-        private bool IsPlayerAtSecretLocation(float secretLocationX, float secretLocationY)
-        {
-            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
-            if (playerEntity != null)
-            {
-                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X > secretLocationX && playerPosition.Y > secretLocationY;
-            }
-            return false;
         }
         private void UpdateSystems(GameTime gameTime)
         {
