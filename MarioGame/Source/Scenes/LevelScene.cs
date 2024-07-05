@@ -255,7 +255,7 @@ namespace SuperMarioBros.Source.Scenes
         private static bool IsHKeyPressed()
         {
             KeyboardState state = Keyboard.GetState();
-            return state.IsKeyDown(Keys.H);
+            return state.IsKeyDown(Keys.X);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
