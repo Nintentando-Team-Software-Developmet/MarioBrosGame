@@ -146,6 +146,7 @@ namespace SuperMarioBros.Source.Systems
         {
             float mass = collider.collider.Mass;
             float force = GameConstants.jumpForce * (mass / GameConstants.PlayerMass);
+            if(input.DOWN.IsPressed) return;
             if (input.A.IsPressed && input.A.IsHeld && !collider.isJumping())
             {
                 if (movement.Direction == MovementType.LEFT)

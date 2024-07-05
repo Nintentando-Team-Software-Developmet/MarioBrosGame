@@ -122,7 +122,6 @@ namespace SuperMarioBros.Source.Systems
                 if (animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                 {
                     animationComponent.Play(AnimationState.WALKRIGHT);
-                    Console.WriteLine("startign walk right");
                     collider.collider.IgnoreGravity = false;
                 }
                 return true;
