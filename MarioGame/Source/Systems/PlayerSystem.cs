@@ -52,14 +52,14 @@ namespace SuperMarioBros.Source.Systems
 
                 if (playerComponent.ShouldProcessDeath)
                 {
-                    StartDeathAnimation(playerComponent, colliderComponent, 50);
+                    StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);
                     playerComponent.ShouldProcessDeath = false;
                 }
 
                 if (playerPosition.Y > GameConstants.CameraViewportHeight + 100 && playerComponent.IsAlive)
                 {
                     playerComponent.IsAlive = false;
-                    StartDeathAnimation(playerComponent, colliderComponent, 500);
+                    StartDeathAnimation(playerComponent, colliderComponent, 500,animationComponent);
                 }
                 if (!registeredEntities.Contains(player))
                 {
@@ -143,8 +143,9 @@ namespace SuperMarioBros.Source.Systems
             };
         }
 
-        public static void StartDeathAnimation(PlayerComponent playerComponent, ColliderComponent colliderComponent, float jumpForce)
+        public static void StartDeathAnimation(PlayerComponent playerComponent, ColliderComponent colliderComponent, float jumpForce,AnimationComponent animationComponent)
         {
+            ChangeAnimationColliderPlayer.TransformToSmallMario(animationComponent,colliderComponent);
             if (playerComponent == null) throw new ArgumentNullException(nameof(playerComponent));
             if (colliderComponent == null) throw new ArgumentNullException(nameof(colliderComponent));
             playerComponent.IsDying = true;

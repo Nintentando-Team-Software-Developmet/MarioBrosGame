@@ -187,7 +187,7 @@ namespace MarioGame
             { AnimationState.STOP, new Texture2D[] { Sprites.PowerStop } },
             { AnimationState.STOPLEFT, new Texture2D[] { Sprites.PowerStopLeft } },
             { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } },
-            { AnimationState.WIN, new Texture2D[] { Sprites.LowerThePostLeft } },
+            { AnimationState.WIN, new Texture2D[] { Sprites.LowerThePost1FireMario } },
             { AnimationState.BENDRIGHT, new Texture2D[] { Sprites.PowerBend } },
             { AnimationState.BENDLEFT, new Texture2D[] { Sprites.PowerBendLeft } }
         };

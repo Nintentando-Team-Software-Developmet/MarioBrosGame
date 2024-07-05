@@ -129,6 +129,7 @@ namespace SuperMarioBros.Utils
 
         // Mario Power
         public static Texture2D PowerBendLeft { get; set; }
+        public static Texture2D LowerThePost1FireMario { get; set; }
         public static Texture2D PowerBend { get; set; }
         public static Texture2D PowerJumpLeft { get; set; }
         public static Texture2D PowerJump { get; set; }
@@ -281,6 +282,7 @@ namespace SuperMarioBros.Utils
             PowerWalk2 = content.Load<Texture2D>("sprites/Mario/Power/Walk-2");
             PowerWalk3Left = content.Load<Texture2D>("sprites/Mario/Power/Walk-3_l");
             PowerWalk3 = content.Load<Texture2D>("sprites/Mario/Power/Walk-3");
+            LowerThePost1FireMario = content.Load<Texture2D>("sprites/Mario/Power/LowerThePost_1FireMario");
 
             MountainMenu = content.Load<Texture2D>("sprites/props/mountain");
             BushMenu = content.Load<Texture2D>("sprites/props/bush");

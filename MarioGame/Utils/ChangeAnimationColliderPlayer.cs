@@ -22,13 +22,13 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 100,playerCollider, 40f, 50f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101,playerCollider, 40f, 51f);
     }
     public static void TransformToFireMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 100,playerCollider, 40f, 50f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101,playerCollider, 40f, 51f);
 
     }
     public static void TransformToSmallMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -72,13 +72,13 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, 64, 85, playerCollider, 40f, 45f);
+                TransformMario(playerAnimation, 64, 90, playerCollider, 40f, 47f);
     }
     public static void TransformToBigNormalMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, 64, 100, playerCollider, 40f, 50f);
+                TransformMario(playerAnimation, 64, 101, playerCollider, 40f, 51f);
     }
 
 
