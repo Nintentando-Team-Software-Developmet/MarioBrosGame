@@ -26,7 +26,7 @@ public class CameraComponent : BaseComponent
         LeftWall = null;
         if(physicsWorld != null)
         {
-            LeftWall = physicsWorld.CreateBody(new AetherVector(2,2), 0, BodyType.Static);
+            LeftWall = physicsWorld.CreateBody(new AetherVector(0,0), 0, BodyType.Static);
             Fixture fixture = LeftWall.CreateRectangle(0.01f, worldHeight, 1, AetherVector.Zero);
             fixture.CollisionCategories = Categories.LeftWall;
             fixture.CollidesWith = Categories.Player;

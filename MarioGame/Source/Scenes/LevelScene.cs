@@ -127,7 +127,6 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
-
             Systems.Add(new SoundEffectSystem());
         }
 
@@ -244,17 +243,12 @@ namespace SuperMarioBros.Source.Scenes
             if (playerEntity != null)
             {
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && IsHKeyPressed();
+                var inputPlayer = playerEntity.GetComponent<InputComponent>();
+                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && inputPlayer.DOWN.IsPressed;
             }
             return false;
         }
-
-        private static bool IsHKeyPressed()
-        {
-            KeyboardState state = Keyboard.GetState();
-            return state.IsKeyDown(Keys.H);
-        }
-
+        
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
         {
             var entitiesToLoad = _levelData.entities.Where(entityData =>
