@@ -72,7 +72,7 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, 64, 80, playerCollider, 40f, 45f);
+                TransformMario(playerAnimation, 64, 85, playerCollider, 40f, 45f);
     }
     public static void TransformToBigNormalMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
