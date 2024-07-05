@@ -5,7 +5,6 @@ using MarioGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
 
-using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;

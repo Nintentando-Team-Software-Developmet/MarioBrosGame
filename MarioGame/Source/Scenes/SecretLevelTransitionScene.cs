@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Media;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
-using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes;
 

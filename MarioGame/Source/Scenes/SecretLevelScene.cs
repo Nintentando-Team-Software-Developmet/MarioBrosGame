@@ -18,7 +18,6 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
