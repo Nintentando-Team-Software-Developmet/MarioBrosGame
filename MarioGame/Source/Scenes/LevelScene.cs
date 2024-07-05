@@ -142,7 +142,7 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(playerEntityData));
             }
 
@@ -154,7 +154,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entity in initialStaticEntities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entity));
             }
         }
@@ -216,7 +216,9 @@ namespace SuperMarioBros.Source.Scenes
 
                 if (IsPlayerAtSecretLocation(3620, 3776))
                 {
-                    sceneManager.ChangeScene(SceneName.SecretLevel);
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionX = 128;
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionY = 32;
+                    sceneManager.ChangeScene(SceneName.SecretLevelTransition);
                 }
             }
 
@@ -267,7 +269,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entityData in entitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
 
@@ -279,7 +281,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entityData in staticEntitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
         }

@@ -73,20 +73,20 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(playerEntityData, _physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, _physicsWorld, _progressDataManager.Data));
                 LoadedEntities.Add(GetEntityKey(playerEntityData));
             }
             foreach (var entityData in _levelData.entities)
             {
                 if (entityData.type != EntityType.PLAYER)
                 {
-                    Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld));
+                    Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld, _progressDataManager.Data));
                     LoadedEntities.Add(GetEntityKey(entityData));
                 }
             }
             foreach (var entityData in _map.staticEntities.entities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld, _progressDataManager.Data));
                 LoadedEntities.Add(GetEntityKey(entityData));
             }
         }
@@ -117,7 +117,9 @@ namespace SuperMarioBros.Source.Scenes
             {
                 if (IsPlayerAtSecretLocation(910, 736))
                 {
-                    sceneManager.ChangeScene(SceneName.Level1);
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionX = 10520;
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionY = 500;
+                    sceneManager.ChangeScene(SceneName.Level1Transition);
                 }
             }
 

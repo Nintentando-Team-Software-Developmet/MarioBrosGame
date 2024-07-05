@@ -52,6 +52,8 @@ namespace SuperMarioBros.Source.Systems
                 var movementComponent = player.GetComponent<MovementComponent>();
                 var playerPosition = colliderComponent.Position;
 
+                playerComponent.PlayerPositionX = (int) playerPosition.X;
+                playerComponent.PlayerPositionY = (int) playerPosition.Y;
                 if (playerComponent.ShouldProcessDeath)
                 {
                     StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);

@@ -51,4 +51,7 @@
   <ItemGroup>
     <Folder Include="Content\SoundEffects\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Source\Scenes\Level1TransitionScene.cs" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 
+using SuperMarioBros.Source.Components;
+
 namespace SuperMarioBros.Utils;
 
 /*
@@ -11,13 +13,15 @@ public class ProgressData
     private int _coins;
     private int _score;
     private int _lives;
+    private PlayerComponent _player;
 
-    public ProgressData(double time, int coins, int score, int lives)
+    public ProgressData(double time, int coins, int score, int lives, PlayerComponent player)
     {
         _time = time;
         _coins = coins;
         _score = score;
         _lives = lives;
+        _player = player;
     }
 
     public double Time
@@ -42,5 +46,11 @@ public class ProgressData
     {
         get => _lives;
         set => _lives = value;
+    }
+
+    public PlayerComponent PlayerComponent
+    {
+        get => _player;
+        set => _player = value;
     }
 }
