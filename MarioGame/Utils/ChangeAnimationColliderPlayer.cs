@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
+using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 using MarioGame;
 
@@ -11,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using nkast.Aether.Physics2D.Collision.Shapes;
 using nkast.Aether.Physics2D.Common;
 using SuperMarioBros.Source.Components;
-
+using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Utils;
@@ -81,6 +82,38 @@ public static class ChangeAnimationColliderPlayer
                 TransformMario(playerAnimation, 64, 101, playerCollider, 40f, 51f);
     }
 
+    public static void CheckEnemyProximity(ColliderComponent playerCollider, IEnumerable<Entity> enemyEntities, GameTime gameTime,double invulnerabilityEndTime)
+    {
+        if (playerCollider != null)
+        {
+            var playerPosition = playerCollider.collider.Position;
 
+            if (enemyEntities != null)
+                foreach (var enemyEntity in enemyEntities)
+                {
+                    var enemyCollider = enemyEntity.GetComponent<ColliderComponent>();
+                    if (enemyCollider != null)
+                    {
+                        var enemyPosition = enemyCollider.collider.Position;
+                        float distance;
+                        AetherVector2.Distance(ref playerPosition, ref enemyPosition, out distance);
+
+                        if (distance < 2f)
+                        {
+                            enemyCollider.Enabled(false);
+                        }
+
+                        if (gameTime != null && gameTime.TotalGameTime.TotalSeconds > invulnerabilityEndTime)
+                        {
+                            enemyCollider.Enabled(true);
+                        }
+                        else
+                        {
+                            enemyCollider.Enabled(true);
+                        }
+                    }
+                }
+        }
+    }
 
 }

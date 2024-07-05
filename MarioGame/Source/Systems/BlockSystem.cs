@@ -291,7 +291,6 @@ public class BlockSystem : BaseSystem
             var playerCollider = playerEntity.GetComponent<ColliderComponent>().collider;
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
             getStatusMario(playerComponent);
-            Console.WriteLine(playerComponent.statusMario);
             if (playerCollider == bodyA || playerCollider == bodyB)
             {
                 isPlayerInvolved = true;

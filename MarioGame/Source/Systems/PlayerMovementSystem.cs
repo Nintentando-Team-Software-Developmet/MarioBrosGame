@@ -57,7 +57,6 @@ namespace SuperMarioBros.Source.Systems
                     else if (keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.BigMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.BigMario
                              || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.FireMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.FireMario)
                     {
-                        Console.WriteLine('A');
                         HandleKeyBend(collider, animation);
 
                     }
@@ -154,7 +153,6 @@ namespace SuperMarioBros.Source.Systems
         {
             if (!collider.isJumping())
             {
-                Console.WriteLine(animation.currentState);
                 if (verifyDirection)
                 {
                     animation.Play(AnimationState.BENDLEFT);

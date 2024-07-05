@@ -67,9 +67,9 @@ public class MarioPowersSystem : BaseSystem
                 }
             }
 
-            if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime)
+            if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.BigMario)
             {
-                CheckEnemyProximity(playerCollider, enemyEntities,gameTime);
+                ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider, enemyEntities,gameTime,invulnerabilityEndTime);
             }
 
         }
@@ -101,36 +101,6 @@ public class MarioPowersSystem : BaseSystem
 
             return true;
         };
-    }
-
-    private static void CheckEnemyProximity(ColliderComponent playerCollider, IEnumerable<Entity> enemyEntities, GameTime gameTime)
-    {
-        var playerPosition = playerCollider.collider.Position;
-
-        foreach (var enemyEntity in enemyEntities)
-        {
-            var enemyCollider = enemyEntity.GetComponent<ColliderComponent>();
-            if (enemyCollider != null)
-            {
-                var enemyPosition = enemyCollider.collider.Position;
-                float distance;
-                AetherVector2.Distance(ref playerPosition, ref enemyPosition, out distance);
-
-                if (distance < 0.7f)
-                {
-                    enemyCollider.Enabled(false);
-                }
-
-                if (gameTime.TotalGameTime.TotalSeconds > invulnerabilityEndTime)
-                {
-                    enemyCollider.Enabled(true);
-                }
-                else
-                {
-                    enemyCollider.Enabled(true);
-                }
-            }
-        }
     }
 
     private static void RemoveMushroomCollider(Entity mushroom)

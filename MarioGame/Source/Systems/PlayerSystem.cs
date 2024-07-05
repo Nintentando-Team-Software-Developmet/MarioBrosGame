@@ -26,12 +26,14 @@ namespace SuperMarioBros.Source.Systems
         private List<Body> _enemyBodies = new();
         private HashSet<Entity> registeredEntities = new();
         private List<Body> _poleBodies = new();
-
+        private static double invulnerabilityEndTime { get; set; }
+        private bool isInvulnerable { get; set; }
 
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
-            IEnumerable<Entity> enemies = entities.WithComponents(typeof(EnemyComponent), typeof(ColliderComponent));
+
+            IEnumerable<Entity> enemies = entities.WithComponents(typeof(EnemyComponent), typeof(ColliderComponent),typeof(AnimationComponent));
             foreach (Entity enemy in enemies)
             {
                 _enemyBodies.Add(enemy.GetComponent<ColliderComponent>().collider);
@@ -63,7 +65,7 @@ namespace SuperMarioBros.Source.Systems
                 }
                 if (!registeredEntities.Contains(player))
                 {
-                    RegisterPlayerEvents(colliderComponent, playerComponent, animationComponent);
+                    RegisterPlayerEvents(colliderComponent, playerComponent, animationComponent,gameTime,enemies);
                     registeredEntities.Add(player);
                 }
                 if (playerComponent.MayTeleport)
@@ -93,10 +95,15 @@ namespace SuperMarioBros.Source.Systems
                         UpdateDeathAnimation(gameTime, playerComponent, colliderComponent, animationComponent);
                     }
                 }
+                if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.SmallMario)
+                {
+                    ChangeAnimationColliderPlayer.CheckEnemyProximity(colliderComponent, enemies,gameTime,invulnerabilityEndTime);
+                }
             }
 
+
         }
-        private void RegisterPlayerEvents(ColliderComponent collider, PlayerComponent playerComponent, AnimationComponent animationComponent)
+        private void RegisterPlayerEvents(ColliderComponent collider, PlayerComponent playerComponent, AnimationComponent animationComponent,GameTime gameTime,IEnumerable<Entity> enemyEntities)
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
@@ -123,6 +130,11 @@ namespace SuperMarioBros.Source.Systems
                         {
                             ChangeAnimationColliderPlayer.TransformToSmallMario(animationComponent,collider);
                             playerComponent.statusMario = StatusMario.SmallMario;
+                            isInvulnerable = true;
+                            if (gameTime != null)
+                            {
+                                invulnerabilityEndTime = gameTime.TotalGameTime.TotalSeconds + 10.0;
+                            }
                         }
                     }
 
@@ -139,6 +151,7 @@ namespace SuperMarioBros.Source.Systems
                     animationComponent.Play(AnimationState.WALKRIGHT);
                     collider.collider.IgnoreGravity = false;
                 }
+
                 return true;
             };
         }
