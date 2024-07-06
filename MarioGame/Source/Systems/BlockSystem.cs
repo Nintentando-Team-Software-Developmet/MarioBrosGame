@@ -28,7 +28,6 @@ public class BlockSystem : BaseSystem
     private static Dictionary<Entity, bool> entitiesProcessed = new Dictionary<Entity, bool>();
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
-    private static bool statusMario { get; set; }
     private static StatusMario showStatusMario { get; set; }
 
     public BlockSystem(ProgressDataManager progressDataManager)
@@ -63,7 +62,7 @@ public class BlockSystem : BaseSystem
                     RegisterBlock(entity, collider, entitiesPlayer);
                 }
 
-                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin);
+                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin,entitiesPlayer);
 
             }
         }
@@ -78,7 +77,7 @@ public class BlockSystem : BaseSystem
     }
 
     private void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
-        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
+        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities, IEnumerable<Entity> playerEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
         float timeToMove = 0.02f;
@@ -184,7 +183,7 @@ public class BlockSystem : BaseSystem
 
         if (questionBlock.TypeContent == EntitiesName.POWERUP)
         {
-            if (showStatusMario == StatusMario.SmallMario)
+            if ( showStatusMario == StatusMario.SmallMario)
             {
                 ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
             }
@@ -289,8 +288,7 @@ public class BlockSystem : BaseSystem
         foreach (var playerEntity in entities)
         {
             var playerCollider = playerEntity.GetComponent<ColliderComponent>().collider;
-            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-            getStatusMario(playerComponent);
+            showStatusMario = playerEntity.GetComponent<PlayerComponent>().statusMario;
             if (playerCollider == bodyA || playerCollider == bodyB)
             {
                 isPlayerInvolved = true;
@@ -311,14 +309,6 @@ public class BlockSystem : BaseSystem
 
         bodyA.ApplyLinearImpulse(-repulsionForce * normal);
         bodyB.ApplyLinearImpulse(repulsionForce * normal);
-    }
-
-    private static StatusMario getStatusMario(PlayerComponent playerComponentMario)
-    {
-
-        showStatusMario = playerComponentMario.statusMario;
-
-        return showStatusMario;
     }
 }
 

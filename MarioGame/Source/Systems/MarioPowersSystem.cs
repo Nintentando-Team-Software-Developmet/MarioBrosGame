@@ -27,10 +27,10 @@ public class MarioPowersSystem : BaseSystem
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
-        var playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(ColliderComponent), typeof(AnimationComponent));
-        var mushroomEntities = entities.WithComponents(typeof(MushroomComponent), typeof(ColliderComponent));
-        var flowerEntities = entities.WithComponents(typeof(FlowerComponent), typeof(ColliderComponent));
-        var enemyEntities = entities.WithComponents(typeof(EnemyComponent), typeof(ColliderComponent), typeof(AnimationComponent));
+        var playerEntities = entities.WithComponents(typeof(PlayerComponent));
+        var mushroomEntities = entities.WithComponents(typeof(MushroomComponent));
+        var flowerEntities = entities.WithComponents(typeof(FlowerComponent));
+        var enemyEntities = entities.WithComponents(typeof(EnemyComponent));
 
         foreach (var player in playerEntities)
         {
