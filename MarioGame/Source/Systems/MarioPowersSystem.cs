@@ -60,10 +60,11 @@ public class MarioPowersSystem : BaseSystem
             }
             else if (colitionFlower)
             {
-                if (playerComponent.statusMario == StatusMario.BigMario)
+                if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.SmallMario)
                 {
                     ChangeAnimationColliderPlayer.TransformToFireMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.FireMario;
+                    colitionFlower = false;
                 }
             }
 
