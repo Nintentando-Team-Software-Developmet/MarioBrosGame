@@ -885,6 +885,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/Mario/Power/jump_p.png
 
+#begin sprites/Mario/Power/LowerThePost_1FireMario.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/Mario/Power/LowerThePost_1FireMario.png
+
 #begin sprites/Mario/Power/Run_l.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -128,6 +128,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
+            Systems.Add(new MarioPowersSystem());
 
             Systems.Add(new SoundEffectSystem());
         }
@@ -323,7 +324,7 @@ namespace SuperMarioBros.Source.Scenes
             if (playerComponent != null && animationComponent != null && colliderComponent != null && playerComponent.IsAlive)
             {
                 playerComponent.IsAlive = false;
-                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50);
+                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);
             }
         }
 

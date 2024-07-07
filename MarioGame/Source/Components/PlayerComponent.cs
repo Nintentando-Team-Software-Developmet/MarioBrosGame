@@ -1,3 +1,5 @@
+using SuperMarioBros.Utils.DataStructures;
+
 namespace SuperMarioBros.Source.Components
 {
     public class PlayerComponent : BaseComponent
@@ -13,6 +15,7 @@ namespace SuperMarioBros.Source.Components
         public bool IsTimeOver { get; set; }
         public bool MayTeleport { get; set; }
         public bool IsBig { get; set; }
+        public StatusMario statusMario { get; set; }
 
         public PlayerComponent()
         {
@@ -26,6 +29,7 @@ namespace SuperMarioBros.Source.Components
             ShouldProcessDeath = false;
             IsTimeOver = false;
             MayTeleport = false;
+            statusMario = StatusMario.SmallMario;
         }
     }
 }
