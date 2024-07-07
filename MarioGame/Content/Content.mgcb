@@ -99,6 +99,12 @@
 /processorParam:Quality=Best
 /build:SoundEffects/smash.mp3
 
+#begin SoundEffects/duct_entry.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/duct_entry.mp3
+
 #begin Sounds/end.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -134,6 +140,12 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/secret-level-song.mp3
+
+#begin Sounds/StockTune.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/StockTune.mp3
 
 #begin Sounds/win_music.mp3
 /importer:Mp3Importer

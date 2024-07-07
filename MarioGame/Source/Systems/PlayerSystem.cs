@@ -183,6 +183,7 @@ namespace SuperMarioBros.Source.Systems
 
                 if (playerComponent.IsInTransition)
                 {
+                    EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.Ducting));
                     fixtureA.Body.ResetDynamics();
                     fixtureB.CollidesWith = Category.None;
                 }
