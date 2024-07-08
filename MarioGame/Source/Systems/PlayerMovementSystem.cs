@@ -253,10 +253,6 @@ namespace SuperMarioBros.Source.Systems
             }
         }
 
-        private static bool IsPlayerAtSecretLocation(float secretLocationStartX, float secretLocationEndX, PlayerComponent playerComponent)
-        {
-            return playerComponent.PlayerPositionX > secretLocationStartX && playerComponent.PlayerPositionX < secretLocationEndX;
-        }
 
         private static bool IsPlayerAtSecretLocation(float secretLocationStartX, float secretLocationEndX, float secretLocationStartY, float secretLocationEndY, PlayerComponent playerComponent)
         {
