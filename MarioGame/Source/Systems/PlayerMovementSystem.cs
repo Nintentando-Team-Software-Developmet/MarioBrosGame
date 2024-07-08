@@ -42,8 +42,18 @@ namespace SuperMarioBros.Source.Systems
                 var keyboardState = Keyboard.GetState();
                 var gamePadState = GamePad.GetState(PlayerIndex.One);
                 var camera = player.GetComponent<CameraComponent>();
-                if (!player.GetComponent<PlayerComponent>().HasReachedEnd)
+                if (!player.GetComponent<PlayerComponent>().HasReachedEnd && !player.GetComponent<PlayerComponent>().IsInTransition)
                 {
+                    if (!player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent) && (keyboardState.IsKeyDown(Keys.Down) || gamePadState.DPad.Down == ButtonState.Pressed))
+                    {
+                        player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(0, -30));
+                        player.GetComponent<PlayerComponent>().IsInTransition = true;
+                    }
+                    if (player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(905, 917, 670, 737, playerComponent) && (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed))
+                    {
+                        player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(-20, 0));
+                        player.GetComponent<PlayerComponent>().IsInTransition = true;
+                    }
                     if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
                     {
                         HandleLeftKey(collider, animation, movement);
@@ -241,6 +251,13 @@ namespace SuperMarioBros.Source.Systems
             {
                 collider.collider.LinearVelocity = new AetherVector2(-maxSpeed, collider.collider.LinearVelocity.Y);
             }
+        }
+
+
+        private static bool IsPlayerAtSecretLocation(float secretLocationStartX, float secretLocationEndX, float secretLocationStartY, float secretLocationEndY, PlayerComponent playerComponent)
+        {
+            return playerComponent.PlayerPositionX > secretLocationStartX && playerComponent.PlayerPositionX <= secretLocationEndX &&
+                playerComponent.PlayerPositionY > secretLocationStartY && playerComponent.PlayerPositionY <= secretLocationEndY;
         }
     }
 }

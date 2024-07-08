@@ -19,7 +19,6 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -106,6 +105,7 @@ namespace SuperMarioBros.Source.Scenes
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "SoundEffects/lost_power_up");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
         }
 
 
@@ -142,7 +142,7 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(playerEntityData));
             }
 
@@ -154,7 +154,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entity in initialStaticEntities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entity));
             }
         }
@@ -214,9 +214,11 @@ namespace SuperMarioBros.Source.Scenes
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
 
-                if (IsPlayerAtSecretLocation(3620, 3776))
+                if (playerEntity.GetComponent<PlayerComponent>().IsInSecretLevel)
                 {
-                    sceneManager.ChangeScene(SceneName.SecretLevel);
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionX = 128;
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionY = 32;
+                    sceneManager.ChangeScene(SceneName.SecretLevelTransition);
                 }
             }
 
@@ -240,23 +242,6 @@ namespace SuperMarioBros.Source.Scenes
             CheckPlayerState(gameTime, sceneManager);
         }
 
-        private bool IsPlayerAtSecretLocation(float secretLocationStart, float secretLocationEnd)
-        {
-            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
-            if (playerEntity != null)
-            {
-                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && IsHKeyPressed();
-            }
-            return false;
-        }
-
-        private static bool IsHKeyPressed()
-        {
-            KeyboardState state = Keyboard.GetState();
-            return state.IsKeyDown(Keys.H);
-        }
-
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
         {
             var entitiesToLoad = _levelData.entities.Where(entityData =>
@@ -267,7 +252,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entityData in entitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
 
@@ -279,7 +264,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entityData in staticEntitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
         }

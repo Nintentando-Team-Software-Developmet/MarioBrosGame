@@ -23,9 +23,9 @@ namespace SuperMarioBros.Source.Entities
          * <param name="entityData">The data of the entity to create.</param>
          * <returns>The created entity.</returns>
          */
-        public static Entity CreateEntity(EntityData entityData, World physicsWorld)
+        public static Entity CreateEntity(EntityData entityData, World physicsWorld, ProgressData progressData)
         {
-            if (entityData == null)
+            if (entityData == null || progressData == null)
                 throw new System.ArgumentNullException(nameof(entityData));
             Entity entity = new Entity();
             switch (entityData.type)
@@ -87,10 +87,25 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.PLAYER:
-                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64, 0.09f);
+                    PlayerComponent playerComponent = progressData.PlayerComponent;
+                    AnimationComponent playerAnimationComponent;
+                    switch (playerComponent.statusMario)
+                    {
+                        case StatusMario.BigMario:
+                            playerAnimationComponent = new AnimationComponent(Animations.entityTextures[EntitiesName.BIGMARIO], 64, 64, 0.09f);
+                            break;
+                        case StatusMario.FireMario:
+                            playerAnimationComponent = new AnimationComponent(Animations.entityTextures[EntitiesName.FIREMARIO], 64, 64, 0.09f);
+                            break;
+                        default:
+                            playerAnimationComponent = new AnimationComponent(Animations.entityTextures[EntitiesName.MARIO], 64, 64, 0.09f);
+                            break;
+
+                    }
+
                     entity.AddComponent(playerAnimationComponent);
-                    entity.AddComponent(new PlayerComponent());
-                    ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
+                    entity.AddComponent(playerComponent);
+                    ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, progressData.PlayerComponent.PlayerPositionX, progressData.PlayerComponent.PlayerPositionY, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
                     colliderComponent.maxSpeed = 3f;
                     colliderComponent.velocity = 3f;
                     colliderComponent.friction = 0.97f;

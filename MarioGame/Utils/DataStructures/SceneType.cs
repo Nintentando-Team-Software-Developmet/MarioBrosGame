@@ -7,7 +7,9 @@ namespace MarioGame
         Level1,
         Lives,
         Win,
-        SecretLevel
+        SecretLevel,
+        SecretLevelTransition,
+        Level1Transition
     }
 
 }

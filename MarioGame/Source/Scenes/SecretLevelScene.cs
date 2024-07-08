@@ -18,7 +18,6 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -57,6 +56,7 @@ namespace SuperMarioBros.Source.Scenes
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/secret-level-song"));
             MediaPlayer.IsRepeating = true;
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "SoundEffects/coin_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
         }
 
         private void InitializeSystems(SpriteData spriteData)
@@ -73,20 +73,20 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(playerEntityData, _physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, _physicsWorld, _progressDataManager.Data));
                 LoadedEntities.Add(GetEntityKey(playerEntityData));
             }
             foreach (var entityData in _levelData.entities)
             {
                 if (entityData.type != EntityType.PLAYER)
                 {
-                    Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld));
+                    Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld, _progressDataManager.Data));
                     LoadedEntities.Add(GetEntityKey(entityData));
                 }
             }
             foreach (var entityData in _map.staticEntities.entities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, _physicsWorld, _progressDataManager.Data));
                 LoadedEntities.Add(GetEntityKey(entityData));
             }
         }
@@ -115,25 +115,16 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
             if (playerEntity != null)
             {
-                if (IsPlayerAtSecretLocation(910, 736))
+                if (!playerEntity.GetComponent<PlayerComponent>().IsInSecretLevel)
                 {
-                    sceneManager.ChangeScene(SceneName.Level1);
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionX = 10520;
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionY = 500;
+                    sceneManager.ChangeScene(SceneName.Level1Transition);
                 }
             }
 
             UpdateProgressData(gameTime);
             UpdateSystems(gameTime);
-        }
-
-        private bool IsPlayerAtSecretLocation(float secretLocationX, float secretLocationY)
-        {
-            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
-            if (playerEntity != null)
-            {
-                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X > secretLocationX && playerPosition.Y > secretLocationY;
-            }
-            return false;
         }
         private void UpdateSystems(GameTime gameTime)
         {

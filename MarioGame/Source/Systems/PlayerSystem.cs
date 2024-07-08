@@ -52,6 +52,8 @@ namespace SuperMarioBros.Source.Systems
                 var movementComponent = player.GetComponent<MovementComponent>();
                 var playerPosition = colliderComponent.Position;
 
+                playerComponent.PlayerPositionX = (int) playerPosition.X;
+                playerComponent.PlayerPositionY = (int) playerPosition.Y;
                 if (playerComponent.ShouldProcessDeath)
                 {
                     StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);
@@ -95,9 +97,36 @@ namespace SuperMarioBros.Source.Systems
                         UpdateDeathAnimation(gameTime, playerComponent, colliderComponent, animationComponent);
                     }
                 }
-                if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.SmallMario)
+
+                if (gameTime != null && isInvulnerable &&
+                    gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime &&
+                    playerComponent.statusMario == StatusMario.SmallMario)
                 {
-                    ChangeAnimationColliderPlayer.CheckEnemyProximity(colliderComponent, enemies,gameTime,invulnerabilityEndTime);
+                    ChangeAnimationColliderPlayer.CheckEnemyProximity(colliderComponent, enemies, gameTime,
+                        invulnerabilityEndTime);
+                }
+
+                if (playerComponent.IsInTransition)
+                {
+                    if (!playerComponent.IsInSecretLevel)
+                    {
+                        animationComponent.Play(AnimationState.STOPLEFT);
+                        if (playerComponent.PlayerPositionY > 600)
+                        {
+                            playerComponent.IsInTransition = false;
+                            playerComponent.IsInSecretLevel = true;
+                        }
+                    }
+                    else
+                    {
+                        animationComponent.Play(AnimationState.STOP);
+                        colliderComponent.collider.ApplyForce(new Vector2(4, 0));
+                        if (playerComponent.PlayerPositionX > 950)
+                        {
+                            playerComponent.IsInTransition = false;
+                            playerComponent.IsInSecretLevel = false;
+                        }
+                    }
                 }
             }
 
@@ -152,6 +181,12 @@ namespace SuperMarioBros.Source.Systems
                     collider.collider.IgnoreGravity = false;
                 }
 
+                if (playerComponent.IsInTransition)
+                {
+                    EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.Ducting));
+                    fixtureA.Body.ResetDynamics();
+                    fixtureB.CollidesWith = Category.None;
+                }
                 return true;
             };
         }
