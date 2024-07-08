@@ -87,9 +87,24 @@ namespace SuperMarioBros.Source.Entities
                     break;
 
                 case EntityType.PLAYER:
-                    AnimationComponent playerAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64, 0.09f);
+                    PlayerComponent playerComponent = progressData.PlayerComponent;
+                    AnimationComponent playerAnimationComponent;
+                    switch (playerComponent.statusMario)
+                    {
+                        case StatusMario.BigMario:
+                            playerAnimationComponent = new AnimationComponent(Animations.entityTextures[EntitiesName.BIGMARIO], 64, 64, 0.09f);
+                            break;
+                        case StatusMario.FireMario:
+                            playerAnimationComponent = new AnimationComponent(Animations.entityTextures[EntitiesName.FIREMARIO], 64, 64, 0.09f);
+                            break;
+                        default:
+                            playerAnimationComponent = new AnimationComponent(Animations.entityTextures[EntitiesName.MARIO], 64, 64, 0.09f);
+                            break;
+
+                    }
+
                     entity.AddComponent(playerAnimationComponent);
-                    entity.AddComponent(progressData.PlayerComponent);
+                    entity.AddComponent(playerComponent);
                     ColliderComponent colliderComponent = new ColliderComponent(physicsWorld, progressData.PlayerComponent.PlayerPositionX, progressData.PlayerComponent.PlayerPositionY, playerAnimationComponent.textureRectangle, BodyType.Dynamic);
                     colliderComponent.maxSpeed = 3f;
                     colliderComponent.velocity = 3f;
