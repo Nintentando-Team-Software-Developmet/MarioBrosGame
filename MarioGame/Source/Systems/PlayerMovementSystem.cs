@@ -44,12 +44,12 @@ namespace SuperMarioBros.Source.Systems
                 var camera = player.GetComponent<CameraComponent>();
                 if (!player.GetComponent<PlayerComponent>().HasReachedEnd && !player.GetComponent<PlayerComponent>().IsInTransition)
                 {
-                    if (!player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(3620, 3776, 476, 479, playerComponent) && (keyboardState.IsKeyDown(Keys.X) || gamePadState.DPad.Down == ButtonState.Pressed))
+                    if (!player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent) && (keyboardState.IsKeyDown(Keys.Down) || gamePadState.DPad.Down == ButtonState.Pressed))
                     {
                         player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(0, -30));
                         player.GetComponent<PlayerComponent>().IsInTransition = true;
                     }
-                    if (player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(915, 917, 735, 737, playerComponent) && (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed))
+                    if (player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(905, 917, 670, 737, playerComponent) && (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed))
                     {
                         player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(-20, 0));
                         player.GetComponent<PlayerComponent>().IsInTransition = true;
