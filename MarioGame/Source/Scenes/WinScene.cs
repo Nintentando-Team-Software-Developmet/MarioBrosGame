@@ -34,7 +34,7 @@ public class WinScene : IScene, IDisposable
     public void Unload()
     {
         MediaPlayer.Stop();
-        _progressDataManager.ResetTime();
+        _progressDataManager.ResetLevel();
         _displayTime = 0;
     }
 
