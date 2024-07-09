@@ -9,121 +9,10 @@ namespace MarioGame
 {
     public static class Animations
     {
-        public static readonly Texture2D[] playerTextures = new Texture2D[]
-        {
-            Sprites.BigStop,
-            Sprites.BigRunLeft,
-            Sprites.BigWalk1,
-            Sprites.BigWalk3,
-            Sprites.BigWalk2,
-
-            Sprites.BigStopLeft,
-            Sprites.BigRun,
-            Sprites.BigWalk1Left,
-            Sprites.BigWalk2Left,
-            Sprites.BigWalk3Left,
-
-            Sprites.BigBend,
-            Sprites.BigBendLeft,
-
-            Sprites.BigJumpBack,
-            Sprites.BigJumpBackLeft,
-
-            Sprites.LowerThePost1,
-            Sprites.LowerThePost2,
-            Sprites.LowerThePostLeft
-        };
-
-        public static readonly Texture2D[] goombaTextures = new Texture2D[]
-        {
-            Sprites.Goomba1,
-            Sprites.Goomba2,
-        };
-        public static readonly Texture2D[] koopaLeftTextures = new Texture2D[]
-        {
-            Sprites.Koopa1,
-            Sprites.Koopa2
-        };
-        public static readonly Texture2D[] koopaRigthTextures = new Texture2D[]
-        {
-            Sprites.Koopa3,
-            Sprites.Koopa4
-        };
-
-        public static readonly Texture2D[] koopaKnockedTextures = new Texture2D[]
-        {
-            Sprites.Koopa6
-        };
-
-        public static readonly Texture2D[] koopaReviveTextures = new Texture2D[]
-        {
-            Sprites.Koopa5
-        };
-
-        public static readonly Texture2D[] koopaDiesTextures = new Texture2D[]
-        {
-            Sprites.Koopa7
-        };
-
-        public static readonly Texture2D[] FlagWinTextures = new Texture2D[]
-        {
-            Sprites.WinFlagGreen,
-            Sprites.WinFlag
-        };
 
         public static readonly Dictionary<int, Texture2D> mapTextures = new Dictionary<int, Texture2D>
         {
             { 1, Sprites.StoneBlockBrown },
-        };
-
-        public static readonly Texture2D[] questionBlockTextures = new Texture2D[]
-        {
-            Sprites.QuestionBlockBrown,
-            Sprites.QuestionBlockAny
-        };
-
-        public static readonly Texture2D[] blockedBlockBrown = new Texture2D[]
-        {
-            Sprites.BlockedBlockBrown,
-            Sprites.BlockedBlockBrown
-        };
-
-        public static readonly Texture2D[] coinBlockTextures = new Texture2D[]
-        {
-            Sprites.BrickBlockBrown
-        };
-        public static readonly Texture2D[] blockTextures = new Texture2D[]
-        {
-            Sprites.PolishedStoneBlockBrown
-        };
-
-        public static readonly Texture2D[] ductTextures = new Texture2D[]
-        {
-            Sprites.DuctSquareGreen
-        };
-
-        public static readonly Texture2D[] ductExtensionTextures = new Texture2D[]
-        {
-            Sprites.DuctVerticalGreen
-        };
-
-        public static readonly Texture2D[] mushroomTextures = new Texture2D[]
-        {
-            Sprites.GrowMushroom1
-        };
-
-        public static readonly Texture2D[] fireFlowerTextures = new Texture2D[]
-        {
-            Sprites.FireFlower1,
-            Sprites.FireFlower2,
-            Sprites.FireFlower3
-        };
-
-        public static readonly Texture2D[] superStarTextures = new Texture2D[]
-        {
-            Sprites.SuperStar1,
-            Sprites.SuperStar2,
-            Sprites.SuperStar3
         };
 
         public static readonly Dictionary<string, Texture2D> mapTexturesBackground = new Dictionary<string, Texture2D>
@@ -161,6 +50,7 @@ namespace MarioGame
                 { AnimationState.BENDRIGHT, new Texture2D[] { Sprites.BigBend } },
                 { AnimationState.BENDLEFT, new Texture2D[] { Sprites.BigBendLeft } }
             };
+
         public static readonly Dictionary<AnimationState, Texture2D[]> playerAnimationsBig = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.BigWalk1, Sprites.BigWalk3, Sprites.BigWalk2 } },

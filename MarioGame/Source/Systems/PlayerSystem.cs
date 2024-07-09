@@ -106,7 +106,7 @@ namespace SuperMarioBros.Source.Systems
                     gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime &&
                     playerComponent.statusMario == StatusMario.SmallMario)
                 {
-                    ChangeAnimationColliderPlayer.CheckEnemyProximity(colliderComponent, enemies, gameTime,
+                    ChangeAnimationColliderPlayer.CheckEnemyProximity(colliderComponent,animationComponent, enemies, gameTime,
                         invulnerabilityEndTime);
                 }
 
@@ -165,7 +165,7 @@ namespace SuperMarioBros.Source.Systems
                             isInvulnerable = true;
                             if (gameTime != null)
                             {
-                                invulnerabilityEndTime = gameTime.TotalGameTime.TotalSeconds + 10.0;
+                                invulnerabilityEndTime = gameTime.TotalGameTime.TotalSeconds + 2.0;
                             }
                         }
                     }

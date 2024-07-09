@@ -15,5 +15,6 @@ public enum SoundEffectType
     PlayerFireballCollided, // when the player's fireball collides with an enemy, TODO
     EnemyDestroyedByStar, // when the player's star power up destroys an enemy, TODO
     Ducting, //when Mario enters on a duct
+    StarPlayer,
     // add more types of sound effects here
 }

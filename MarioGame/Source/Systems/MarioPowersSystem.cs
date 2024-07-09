@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 using SuperMarioBros.Source.Entities;
 
@@ -10,6 +11,7 @@ using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -29,6 +31,12 @@ public class MarioPowersSystem : BaseSystem
     private bool isInvulnerable { get; set; }
     private static double starEndTime { get; set; }
     private bool isStarPowerActive { get; set; }
+    private SpriteData spriteData{ get; set; }
+
+    public MarioPowersSystem(SpriteData spriteData)
+    {
+        this.spriteData = spriteData;
+    }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
@@ -55,12 +63,10 @@ public class MarioPowersSystem : BaseSystem
                 if (playerComponent.statusMario == StatusMario.SmallMario)
                 {
                     playerComponent.statusMario = StatusMario.BigMario;
-
-
                     isInvulnerable = true;
                     if (gameTime != null)
                     {
-                        invulnerabilityEndTime = gameTime.TotalGameTime.TotalSeconds + 5.0;
+                        invulnerabilityEndTime = gameTime.TotalGameTime.TotalSeconds + 1.0;
                     }
                 }
             }
@@ -74,10 +80,14 @@ public class MarioPowersSystem : BaseSystem
             }
             if (colitionStar)
             {
+
                 if (!isStarPowerActive)
                 {
+                   // EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.StarPlayer));
+                   if (spriteData != null)
+                       MediaPlayer.Play(spriteData.content.Load<Song>("SoundEffects/StarMarioPower"));
 
-                    playerComponent.previousStatusMario = playerComponent.statusMario;
+                   playerComponent.previousStatusMario = playerComponent.statusMario;
                     if ( playerComponent.previousStatusMario == StatusMario.BigMario ||  playerComponent.previousStatusMario == StatusMario.FireMario)
                     {
                         playerComponent.statusMario = StatusMario.StarMarioBig;
@@ -88,7 +98,7 @@ public class MarioPowersSystem : BaseSystem
                     }
                     if (gameTime != null)
                     {
-                        starEndTime = gameTime.TotalGameTime.TotalSeconds + 15.0;
+                        starEndTime = gameTime.TotalGameTime.TotalSeconds + 10.0;
                     }
                     isStarPowerActive = true;
                 }
@@ -110,7 +120,7 @@ public class MarioPowersSystem : BaseSystem
 
             if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.BigMario)
             {
-                ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider, enemyEntities,gameTime,invulnerabilityEndTime);
+                ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider,playerAnimation, enemyEntities,gameTime,invulnerabilityEndTime);
             }
 
             if (gameTime != null && isStarPowerActive && gameTime.TotalGameTime.TotalSeconds >= starEndTime)
@@ -118,6 +128,8 @@ public class MarioPowersSystem : BaseSystem
                 playerComponent.statusMario =  playerComponent.previousStatusMario;
                 colitionStar = false;
                 isStarPowerActive = false;
+                MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+
             }
 
             if (isStarPowerActive)

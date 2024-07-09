@@ -107,6 +107,7 @@ namespace SuperMarioBros.Source.Scenes
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
+            //SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.StarPlayer, "SoundEffects/StarMarioPower");
         }
 
 
@@ -129,7 +130,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
-            Systems.Add(new MarioPowersSystem());
+            Systems.Add(new MarioPowersSystem(spriteData));
 
             Systems.Add(new SoundEffectSystem());
         }

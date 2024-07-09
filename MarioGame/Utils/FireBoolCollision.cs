@@ -5,6 +5,7 @@ using MarioGame;
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Utils.DataStructures;
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -77,6 +78,7 @@ public static class FireBoolCollision
                 fireAnimation.animations =
                     new AnimationComponent(Animations.entityTextures[EntitiesName.FIREEXPLOSION], 34, 34).animations;
                 colliderComponent.Enabled(false);
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerFireballCollided));
 
                 if (fireballTimers != null) fireballTimers[fireballEntity] = waitTime;
             }

@@ -141,38 +141,65 @@ public static class ChangeAnimationColliderPlayer
                 TransformMario(playerAnimation, 64, 90, playerCollider, 40f, 47f);
     }
 
-    public static void CheckEnemyProximity(ColliderComponent playerCollider, IEnumerable<Entity> enemyEntities, GameTime gameTime,double invulnerabilityEndTime)
+public static void CheckEnemyProximity(ColliderComponent playerCollider, AnimationComponent playerAnimation, IEnumerable<Entity> enemyEntities, GameTime gameTime, double invulnerabilityEndTime)
+{
+    if (playerCollider != null)
     {
-        if (playerCollider != null)
+        var playerPosition = playerCollider.collider.Position;
+
+        if (enemyEntities != null)
         {
-            var playerPosition = playerCollider.collider.Position;
-
-            if (enemyEntities != null)
-                foreach (var enemyEntity in enemyEntities)
+            foreach (var enemyEntity in enemyEntities)
+            {
+                var enemyCollider = enemyEntity.GetComponent<ColliderComponent>();
+                if (enemyCollider != null)
                 {
-                    var enemyCollider = enemyEntity.GetComponent<ColliderComponent>();
-                    if (enemyCollider != null)
+                    var enemyPosition = enemyCollider.collider.Position;
+                    float distance;
+                    AetherVector2.Distance(ref playerPosition, ref enemyPosition, out distance);
+
+                    if (distance < 2f)
                     {
-                        var enemyPosition = enemyCollider.collider.Position;
-                        float distance;
-                        AetherVector2.Distance(ref playerPosition, ref enemyPosition, out distance);
+                        enemyCollider.Enabled(false);
+                    }
 
-                        if (distance < 2f)
-                        {
-                            enemyCollider.Enabled(false);
-                        }
-
-                        if (gameTime != null && gameTime.TotalGameTime.TotalSeconds > invulnerabilityEndTime)
-                        {
-                            enemyCollider.Enabled(true);
-                        }
-                        else
-                        {
-                            enemyCollider.Enabled(true);
-                        }
+                    if (gameTime != null && gameTime.TotalGameTime.TotalSeconds > invulnerabilityEndTime)
+                    {
+                        enemyCollider.Enabled(true);
+                    }
+                    else
+                    {
+                        enemyCollider.Enabled(true);
                     }
                 }
+            }
+        }
+
+        if (gameTime != null)
+        {
+            double currentTime = gameTime.TotalGameTime.TotalSeconds;
+            double oscillationPeriod = 0.2;
+
+            double elapsedTime = currentTime % oscillationPeriod;
+            float newColliderHeight = (elapsedTime < oscillationPeriod / 2) ? 90f : 60f;
+            int newAnimationHeight = (elapsedTime < oscillationPeriod / 2) ? 90 : 60;
+
+            if (playerCollider.collider.FixtureList.Count > 0)
+            {
+                var colliderShape = playerCollider.collider.FixtureList[0].Shape;
+                if (colliderShape is PolygonShape polygonShape)
+                {
+                    var halfWidth = polygonShape.Vertices.GetAABB().Width / 2;
+                    var halfHeight = newColliderHeight / GameConstants.pixelPerMeter / 2;
+                    polygonShape.Vertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
+                }
+            }
+
+            if (playerAnimation != null) playerAnimation.UpdateAnimationSize(playerAnimation.width, newAnimationHeight);
         }
     }
+}
+
+
 
 }

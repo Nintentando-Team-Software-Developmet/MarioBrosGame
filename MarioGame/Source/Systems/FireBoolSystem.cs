@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -113,6 +114,7 @@ namespace SuperMarioBros.Source.Systems
                 .FirstOrDefault(entity => entity.GetComponent<ColliderComponent>().collider.BodyType == BodyType.Static);
             if (fireball != null)
             {
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerFireball));
                 InitializeFireball(fireball, positionX, positionY, entities, pendingActions, cameraComponent, forwardSpeedFire);
             }
         }
