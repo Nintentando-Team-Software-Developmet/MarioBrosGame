@@ -31,13 +31,18 @@ namespace SuperMarioBros.Source.Systems
                 foreach (var player in playerEntities)
                 {
                     var keyboardState = Keyboard.GetState();
-                    if (keyboardState.IsKeyDown(Keys.A) && player.GetComponent<PlayerComponent>().statusMario == StatusMario.FireMario)
+                    if (keyboardState.IsKeyDown(Keys.A) )
                     {
-                        if (canShoot)
+                        if (player.GetComponent<PlayerComponent>().statusMario == StatusMario.FireMario ||
+                            player.GetComponent<PlayerComponent>().statusMario == StatusMario.StarMarioBig && player.GetComponent<PlayerComponent>().previousStatusMario == StatusMario.FireMario)
                         {
-                            HandleShooting(player.GetComponent<AnimationComponent>(), player.GetComponent<ColliderComponent>(), entities, pendingActions, player.GetComponent<CameraComponent>());
-                            canShoot = false;
+                            if (canShoot)
+                            {
+                                HandleShooting(player.GetComponent<AnimationComponent>(), player.GetComponent<ColliderComponent>(), entities, pendingActions, player.GetComponent<CameraComponent>());
+                                canShoot = false;
+                            }
                         }
+
                     }
                     else
                     {

@@ -51,6 +51,10 @@ namespace SuperMarioBros.Source.Systems
                 var animationComponent = player.GetComponent<AnimationComponent>();
                 var movementComponent = player.GetComponent<MovementComponent>();
                 var playerPosition = colliderComponent.Position;
+                ChangeAnimationColliderPlayer.TransformTogetherWithPlayerStatus(playerComponent,animationComponent,colliderComponent);
+
+                Console.WriteLine(playerComponent.statusMario);
+
 
                 playerComponent.PlayerPositionX = (int) playerPosition.X;
                 playerComponent.PlayerPositionY = (int) playerPosition.Y;
@@ -136,7 +140,7 @@ namespace SuperMarioBros.Source.Systems
         {
             collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
             {
-                if (!playerComponent.IsAlive)
+                if (!playerComponent.IsAlive )
                 {
                     return false;
                 }
@@ -157,7 +161,6 @@ namespace SuperMarioBros.Source.Systems
                             collisionDirection == CollisionType.LEFT ||
                             collisionDirection == CollisionType.RIGHT)
                         {
-                            ChangeAnimationColliderPlayer.TransformToSmallMario(animationComponent,collider);
                             playerComponent.statusMario = StatusMario.SmallMario;
                             isInvulnerable = true;
                             if (gameTime != null)
@@ -171,8 +174,12 @@ namespace SuperMarioBros.Source.Systems
                         collisionDirection == CollisionType.LEFT ||
                         collisionDirection == CollisionType.RIGHT)
                     {
-                        playerComponent.IsAlive = false;
-                        playerComponent.ShouldProcessDeath = true;
+                        if( playerComponent.statusMario != StatusMario.StarMarioBig && playerComponent.statusMario != StatusMario.StarMarioSmall )
+                        {
+                            playerComponent.IsAlive = false;
+                            playerComponent.ShouldProcessDeath = true;
+                        }
+
                     }
                 }
                 if (animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
@@ -193,11 +200,12 @@ namespace SuperMarioBros.Source.Systems
 
         public static void StartDeathAnimation(PlayerComponent playerComponent, ColliderComponent colliderComponent, float jumpForce,AnimationComponent animationComponent)
         {
-            ChangeAnimationColliderPlayer.TransformToSmallMario(animationComponent,colliderComponent);
+
             if (playerComponent == null) throw new ArgumentNullException(nameof(playerComponent));
             if (colliderComponent == null) throw new ArgumentNullException(nameof(colliderComponent));
             playerComponent.IsDying = true;
             playerComponent.DeathTimer = 0;
+            playerComponent.statusMario = StatusMario.SmallMario;
             colliderComponent.RemoveCollider();
             colliderComponent.collider.ApplyForce(new AetherVector2(0, -jumpForce));
             EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerLostLife));

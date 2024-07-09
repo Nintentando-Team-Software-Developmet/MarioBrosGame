@@ -65,7 +65,8 @@ namespace SuperMarioBros.Source.Systems
                         verifyDirection = false;
                     }
                     else if (keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.BigMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.BigMario
-                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.FireMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.FireMario)
+                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.FireMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.FireMario
+                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.StarMarioBig || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.StarMarioBig)
                     {
                         HandleKeyBend(collider, animation);
 
@@ -77,17 +78,7 @@ namespace SuperMarioBros.Source.Systems
                     if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                     LimitSpeed(collider, collider.maxSpeed);
                     CreateInvisibleWall(camera, collider);
-                    if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.FireMario)
-                    {
-                        if (animation.currentState == AnimationState.BENDLEFT || animation.currentState == AnimationState.BENDRIGHT)
-                        {
-                            ChangeAnimationColliderPlayer.TransformToBigBendMario(animation, collider);
-                        }
-                        else
-                        {
-                            ChangeAnimationColliderPlayer.TransformToBigNormalMario(animation,collider);
-                        }
-                    }
+
                 }
             }
         }

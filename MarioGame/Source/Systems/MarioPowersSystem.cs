@@ -20,16 +20,22 @@ public class MarioPowersSystem : BaseSystem
 {
     private bool colitionMushroom;
     private bool colitionFlower;
+    private bool colitionStar;
+
+
     private HashSet<ColliderComponent> registeredColliders = new HashSet<ColliderComponent>();
     private readonly Collection<Action> pendingActions = new Collection<Action>();
     private static double invulnerabilityEndTime { get; set; }
     private bool isInvulnerable { get; set; }
+    private static double starEndTime { get; set; }
+    private bool isStarPowerActive { get; set; }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
         var playerEntities = entities.WithComponents(typeof(PlayerComponent));
         var mushroomEntities = entities.WithComponents(typeof(MushroomComponent));
         var flowerEntities = entities.WithComponents(typeof(FlowerComponent));
+        var starEntities = entities.WithComponents(typeof(StarComponent));
         var enemyEntities = entities.WithComponents(typeof(EnemyComponent));
 
         foreach (var player in playerEntities)
@@ -40,7 +46,7 @@ public class MarioPowersSystem : BaseSystem
 
             if (!registeredColliders.Contains(playerCollider))
             {
-                RegisterCollisionEvent(playerCollider, player, mushroomEntities, flowerEntities);
+                RegisterCollisionEvent(playerCollider, player, mushroomEntities, flowerEntities,starEntities,enemyEntities);
                 registeredColliders.Add(playerCollider);
             }
 
@@ -48,8 +54,8 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (playerComponent.statusMario == StatusMario.SmallMario)
                 {
-                    ChangeAnimationColliderPlayer.TransformToBigMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.BigMario;
+
 
                     isInvulnerable = true;
                     if (gameTime != null)
@@ -62,15 +68,63 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.SmallMario)
                 {
-                    ChangeAnimationColliderPlayer.TransformToFireMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.FireMario;
                     colitionFlower = false;
                 }
             }
+            if (colitionStar)
+            {
+                if (!isStarPowerActive)
+                {
+
+                    playerComponent.previousStatusMario = playerComponent.statusMario;
+                    if ( playerComponent.previousStatusMario == StatusMario.BigMario ||  playerComponent.previousStatusMario == StatusMario.FireMario)
+                    {
+                        playerComponent.statusMario = StatusMario.StarMarioBig;
+                    }
+                    else if ( playerComponent.previousStatusMario == StatusMario.SmallMario)
+                    {
+                        playerComponent.statusMario = StatusMario.StarMarioSmall;
+                    }
+                    if (gameTime != null)
+                    {
+                        starEndTime = gameTime.TotalGameTime.TotalSeconds + 15.0;
+                    }
+                    isStarPowerActive = true;
+                }
+            }
+
+            if (isStarPowerActive && colitionMushroom)
+            {
+                playerComponent.statusMario = StatusMario.StarMarioBig;
+                playerComponent.previousStatusMario = StatusMario.BigMario;
+                colitionMushroom = false;
+            }
+            if (isStarPowerActive && colitionFlower)
+            {
+                playerComponent.statusMario = StatusMario.StarMarioBig;
+                playerComponent.previousStatusMario = StatusMario.FireMario;
+                colitionFlower = false;
+            }
+
 
             if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.BigMario)
             {
                 ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider, enemyEntities,gameTime,invulnerabilityEndTime);
+            }
+
+            if (gameTime != null && isStarPowerActive && gameTime.TotalGameTime.TotalSeconds >= starEndTime)
+            {
+                playerComponent.statusMario =  playerComponent.previousStatusMario;
+                colitionStar = false;
+                isStarPowerActive = false;
+            }
+
+            if (isStarPowerActive)
+            {
+                if (gameTime != null)
+                    Console.WriteLine(
+                        $"Star power time remaining: {starEndTime - gameTime.TotalGameTime.TotalSeconds} seconds.");
             }
 
         }
@@ -78,12 +132,15 @@ public class MarioPowersSystem : BaseSystem
         ExecutePendingActions();
     }
 
-    private void RegisterCollisionEvent(ColliderComponent collider, Entity player, IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> flowerEntities)
+    private void RegisterCollisionEvent(ColliderComponent collider, Entity player, IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> starEntities, IEnumerable<Entity> enemyEntities)
     {
         collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
         {
             var otherEntity = GetEntityFromBody(fixtureB.Body, mushroomEntities);
             var flowerEntity = GetEntityFromBody(fixtureB.Body, flowerEntities);
+            var starEntity = GetEntityFromBody(fixtureB.Body, starEntities);
+            var enemyEntity = GetEntityFromBody(fixtureB.Body, enemyEntities);
+
             if (otherEntity != null && otherEntity.HasComponent<MushroomComponent>())
             {
                 colitionMushroom = true;
@@ -94,6 +151,16 @@ public class MarioPowersSystem : BaseSystem
             {
                 colitionFlower = true;
                 pendingActions.Add(() => RemoveMushroomCollider(flowerEntity));
+            }
+            else if (starEntity != null && starEntity.HasComponent<StarComponent>())
+            {
+                colitionStar = true;
+                pendingActions.Add(() => RemoveMushroomCollider(starEntity));
+            }
+            else if (colitionStar && enemyEntity != null && enemyEntity.HasComponent<EnemyComponent>())
+            {
+                pendingActions.Add(() => enemyEntity.GetComponent<ColliderComponent>().RemoveCollider());
+
             }
             else
             {

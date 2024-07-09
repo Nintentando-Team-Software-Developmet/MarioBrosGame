@@ -192,6 +192,38 @@ namespace MarioGame
             { AnimationState.BENDLEFT, new Texture2D[] { Sprites.PowerBendLeft } }
         };
 
+        public static readonly Dictionary<AnimationState, Texture2D[]> playerAnimationsBigStar = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.BigWalk1Star, Sprites.BigWalk3, Sprites.BigWalk2Star } },
+            { AnimationState.WALKLEFT, new Texture2D[] { Sprites.BigWalk1LeftStar, Sprites.BigWalk3Left, Sprites.BigWalk2LeftStar } },
+            { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.BigJumpBackLeftStar,Sprites.BigJumpBackLeft } },
+            { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.BigJumpBackStar,Sprites.BigJumpBack } },
+            { AnimationState.RUNLEFT, new Texture2D[] { Sprites.BigRunLeftStar,Sprites.BigRunLeft } },
+            { AnimationState.RUNRIGHT, new Texture2D[] { Sprites.BigRunStar,Sprites.BigRun } },
+            { AnimationState.STOP, new Texture2D[] { Sprites.BigStopStar,Sprites.BigStop } },
+            { AnimationState.STOPLEFT, new Texture2D[] { Sprites.BigStopLeftStar,Sprites.BigStopLeft } },
+            { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } },
+            { AnimationState.WIN, new Texture2D[] { Sprites.LowerThePostLeft } },
+            { AnimationState.BENDRIGHT, new Texture2D[] { Sprites.BigBendStar,Sprites.BigBend } },
+            { AnimationState.BENDLEFT, new Texture2D[] { Sprites.BigBendLeftStar,Sprites.BigBendLeft } }
+        };
+
+        public static readonly Dictionary<AnimationState, Texture2D[]> playerAnimationsSmallStar = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.SmallWalk1Star, Sprites.SmallWalk3, Sprites.SmallWalk2Star } },
+            { AnimationState.WALKLEFT, new Texture2D[] { Sprites.SmallWalk1LeftStar, Sprites.SmallWalk3Left, Sprites.SmallWalk2LeftStar } },
+            { AnimationState.JUMPLEFT, new Texture2D[] { Sprites.SmallJumpLeftStar,Sprites.SmallJumpLeft } },
+            { AnimationState.JUMPRIGHT, new Texture2D[] { Sprites.SmallJumpStar,Sprites.SmallJump } },
+            { AnimationState.RUNLEFT, new Texture2D[] { Sprites.SmallRunLeftStar,Sprites.SmallRunLeft } },
+            { AnimationState.RUNRIGHT, new Texture2D[] { Sprites.SmallRunStar ,Sprites.SmallRun } },
+            { AnimationState.STOP, new Texture2D[] { Sprites.SmallStopStar ,Sprites.SmallStop } },
+            { AnimationState.STOPLEFT, new Texture2D[] { Sprites.SmallStopLeftStar, Sprites.SmallStopLeft } },
+            { AnimationState.DIE, new Texture2D[] { Sprites.SmallDie } },
+            { AnimationState.WIN, new Texture2D[] { Sprites.LowerThePostLeft } },
+            { AnimationState.BENDRIGHT, new Texture2D[] { Sprites.BigBend } },
+            { AnimationState.BENDLEFT, new Texture2D[] { Sprites.BigBendLeft } }
+        };
+
         public static readonly Dictionary<AnimationState, Texture2D[]> koopaAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.WALKRIGHT, new Texture2D[] { Sprites.Koopa3, Sprites.Koopa4 } },
@@ -313,7 +345,9 @@ namespace MarioGame
             { EntitiesName.DUCTCROSS , ductCross },
             { EntitiesName.SECRETLEVELDUCTENTRANCE , ductCrossSquare },
             { EntitiesName.FIRE, fire},
-            { EntitiesName.FIREEXPLOSION, fireExprotion}
+            { EntitiesName.FIREEXPLOSION, fireExprotion},
+            { EntitiesName.STARBIGMARIO , playerAnimationsBigStar },
+            { EntitiesName.STARSMALLMARIO , playerAnimationsSmallStar }
         };
 
 
