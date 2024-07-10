@@ -53,9 +53,6 @@ namespace SuperMarioBros.Source.Systems
                 var playerPosition = colliderComponent.Position;
                 ChangeAnimationColliderPlayer.TransformTogetherWithPlayerStatus(playerComponent,animationComponent,colliderComponent);
 
-                Console.WriteLine(playerComponent.statusMario);
-
-
                 playerComponent.PlayerPositionX = (int) playerPosition.X;
                 playerComponent.PlayerPositionY = (int) playerPosition.Y;
                 if (playerComponent.ShouldProcessDeath)

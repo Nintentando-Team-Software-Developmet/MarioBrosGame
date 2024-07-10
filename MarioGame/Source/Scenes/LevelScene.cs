@@ -107,7 +107,6 @@ namespace SuperMarioBros.Source.Scenes
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
-            //SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.StarPlayer, "SoundEffects/StarMarioPower");
         }
 
 
@@ -371,11 +370,6 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
             map.Draw(spriteData);
             DrawEntities(gameTime);
-            //TODO Borrar - Debugger Colliders
-            using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
-            {
-                debuuger.DrawColliders();
-            }
             CommonRenders.DrawProgressData(Entities,
                                             spriteData, _progressDataManager.Score,
                                             _progressDataManager.Coins,

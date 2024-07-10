@@ -80,13 +80,10 @@ public class MarioPowersSystem : BaseSystem
             }
             if (colitionStar)
             {
-
                 if (!isStarPowerActive)
                 {
-                   // EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.StarPlayer));
                    if (spriteData != null)
                        MediaPlayer.Play(spriteData.content.Load<Song>("SoundEffects/StarMarioPower"));
-
                    playerComponent.previousStatusMario = playerComponent.statusMario;
                     if ( playerComponent.previousStatusMario == StatusMario.BigMario ||  playerComponent.previousStatusMario == StatusMario.FireMario)
                     {
@@ -103,7 +100,6 @@ public class MarioPowersSystem : BaseSystem
                     isStarPowerActive = true;
                 }
             }
-
             if (isStarPowerActive && colitionMushroom)
             {
                 playerComponent.statusMario = StatusMario.StarMarioBig;
@@ -116,29 +112,17 @@ public class MarioPowersSystem : BaseSystem
                 playerComponent.previousStatusMario = StatusMario.FireMario;
                 colitionFlower = false;
             }
-
-
             if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.BigMario)
             {
                 ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider,playerAnimation, enemyEntities,gameTime,invulnerabilityEndTime);
             }
-
             if (gameTime != null && isStarPowerActive && gameTime.TotalGameTime.TotalSeconds >= starEndTime)
             {
                 playerComponent.statusMario =  playerComponent.previousStatusMario;
                 colitionStar = false;
                 isStarPowerActive = false;
                 MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
-
             }
-
-            if (isStarPowerActive)
-            {
-                if (gameTime != null)
-                    Console.WriteLine(
-                        $"Star power time remaining: {starEndTime - gameTime.TotalGameTime.TotalSeconds} seconds.");
-            }
-
         }
 
         ExecutePendingActions();
