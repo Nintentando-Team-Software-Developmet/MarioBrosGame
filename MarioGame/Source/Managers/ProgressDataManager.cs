@@ -37,6 +37,28 @@ public class ProgressDataManager
         _temporaryScores.Add(new TemporaryScore(new Vector2(_data.PlayerComponent.PlayerPositionX, _data.PlayerComponent.PlayerPositionY), points, 1.5f));
     }
 
+    public void CalculatePoleHeight()
+    {
+        int jumpHeight = _data.PlayerComponent.PlayerPositionY;
+
+        int points = jumpHeight switch
+        {
+            < 150 => 10000,
+            < 350 => 5000,
+            < 450 => 2000,
+            < 500 => 1000,
+            _ => 100
+        };
+
+        _data.Score += points;
+        _temporaryScores.Add(new TemporaryScore(new Vector2(_data.PlayerComponent.PlayerPositionX, _data.PlayerComponent.PlayerPositionY), points, 1.5f));
+    }
+
+    public void ConvertTimeIntoScore()
+    {
+
+    }
+
     public ProgressData Data
     {
         get => _data;

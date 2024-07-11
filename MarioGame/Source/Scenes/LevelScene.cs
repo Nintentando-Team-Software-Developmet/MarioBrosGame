@@ -128,7 +128,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem());
             Systems.Add(new EnemySystem(_progressDataManager));
             Systems.Add(new BlockSystem(_progressDataManager));
-            Systems.Add(new WinPoleSystem());
+            Systems.Add(new WinPoleSystem(_progressDataManager));
             Systems.Add(new FireBoolSystem());
             Systems.Add(new MarioPowersSystem(_progressDataManager));
             Systems.Add(new SoundEffectSystem());
