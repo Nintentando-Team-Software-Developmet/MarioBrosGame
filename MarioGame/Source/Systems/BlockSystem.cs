@@ -203,7 +203,6 @@ public class BlockSystem : BaseSystem
         const float descentSpeed = 0.5f;
         const float descentDistance = 2000.0f;
         const float descentStep = descentSpeed * GameConstants.pixelPerMeter / 500.0f;
-
         entityTimers[entity] = 0;
         entityStates[entity] = "descending";
         var collider = entity.GetComponent<ColliderComponent>();
