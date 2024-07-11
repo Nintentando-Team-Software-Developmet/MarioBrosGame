@@ -55,7 +55,7 @@ namespace SuperMarioBros.Source.Scenes
             LoadEntities();
             InitializeSystems(spriteData);
             MediaPlayer.Volume = 0.6f;
-            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/secret-level-song"));
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/secret-level-song"));
             MediaPlayer.IsRepeating = true;
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "SoundEffects/coin_collected");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
