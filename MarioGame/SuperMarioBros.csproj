@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\SoundEffects\" />
+    <Folder Include="Content\sprites\Mario\Star\Big\" />
+    <Folder Include="Content\sprites\Mario\Star\Small\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Source\Scenes\Level1TransitionScene.cs" />

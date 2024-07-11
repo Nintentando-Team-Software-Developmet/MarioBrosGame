@@ -20,6 +20,7 @@ namespace SuperMarioBros.Source.Components
         public bool IsInTransition { get; set; }
         public int PlayerPositionX { get; set; }
         public int PlayerPositionY { get; set; }
+        public StatusMario previousStatusMario { get; set; }
 
         public PlayerComponent()
         {

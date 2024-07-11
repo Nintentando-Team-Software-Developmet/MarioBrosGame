@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -31,13 +32,18 @@ namespace SuperMarioBros.Source.Systems
                 foreach (var player in playerEntities)
                 {
                     var keyboardState = Keyboard.GetState();
-                    if (keyboardState.IsKeyDown(Keys.A) && player.GetComponent<PlayerComponent>().statusMario == StatusMario.FireMario)
+                    if (keyboardState.IsKeyDown(Keys.A) )
                     {
-                        if (canShoot)
+                        if (player.GetComponent<PlayerComponent>().statusMario == StatusMario.FireMario ||
+                            player.GetComponent<PlayerComponent>().statusMario == StatusMario.StarMarioBig && player.GetComponent<PlayerComponent>().previousStatusMario == StatusMario.FireMario)
                         {
-                            HandleShooting(player.GetComponent<AnimationComponent>(), player.GetComponent<ColliderComponent>(), entities, pendingActions, player.GetComponent<CameraComponent>());
-                            canShoot = false;
+                            if (canShoot)
+                            {
+                                HandleShooting(player.GetComponent<AnimationComponent>(), player.GetComponent<ColliderComponent>(), entities, pendingActions, player.GetComponent<CameraComponent>());
+                                canShoot = false;
+                            }
                         }
+
                     }
                     else
                     {
@@ -108,6 +114,7 @@ namespace SuperMarioBros.Source.Systems
                 .FirstOrDefault(entity => entity.GetComponent<ColliderComponent>().collider.BodyType == BodyType.Static);
             if (fireball != null)
             {
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerFireball));
                 InitializeFireball(fireball, positionX, positionY, entities, pendingActions, cameraComponent, forwardSpeedFire);
             }
         }

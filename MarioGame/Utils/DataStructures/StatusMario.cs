@@ -5,5 +5,6 @@ public enum StatusMario
     SmallMario,
     BigMario,
     FireMario,
-    StartMario
+    StarMarioBig,
+    StarMarioSmall
 }

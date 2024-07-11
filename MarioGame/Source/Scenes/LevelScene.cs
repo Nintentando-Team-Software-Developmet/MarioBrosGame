@@ -19,6 +19,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -128,7 +129,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
-            Systems.Add(new MarioPowersSystem());
+            Systems.Add(new MarioPowersSystem(spriteData));
 
             Systems.Add(new SoundEffectSystem());
         }
