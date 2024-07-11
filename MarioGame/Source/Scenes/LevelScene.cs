@@ -124,7 +124,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new CameraSystem());
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
-            Systems.Add(new PlayerSystem());
+            Systems.Add(new PlayerSystem(_progressDataManager));
             Systems.Add(new EnemySystem(_progressDataManager));
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem(_progressDataManager));

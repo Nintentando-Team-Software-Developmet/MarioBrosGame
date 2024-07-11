@@ -65,7 +65,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new PlayerMovementSystem());
-            Systems.Add(new PlayerSystem());
+            Systems.Add(new PlayerSystem(_progressDataManager));
             Systems.Add(new CoinSystem(_progressDataManager));
             Systems.Add(new SoundEffectSystem());
         }
