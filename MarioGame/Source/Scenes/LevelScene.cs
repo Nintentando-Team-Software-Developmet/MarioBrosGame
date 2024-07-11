@@ -51,6 +51,9 @@ namespace SuperMarioBros.Source.Scenes
 
         private const int LoadRadius = 1000;
 
+        private int entitiesLoadedCount { get; set; }
+        private int entitiesRemovedCount { get; set; }
+
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
@@ -155,6 +158,9 @@ namespace SuperMarioBros.Source.Scenes
                 Entities.Add(player);
                 _loadedEntities.Add(playerEntityData.Guid);
                 _positionToGuidMap[GetPositionKey(playerEntityData)] = playerEntityData.Guid;
+                entitiesLoadedCount++;
+                Console.WriteLine($"Loaded player entity {playerEntityData.Guid} at position ({playerEntityData.position.x}, {playerEntityData.position.y})");
+
             }
 
             var initialStaticEntities = map.staticEntities.entities.Where(entityData =>
@@ -171,8 +177,12 @@ namespace SuperMarioBros.Source.Scenes
                     Entities.Add(newEntity);
                     _loadedEntities.Add(entityData.Guid);
                     _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
+                    entitiesLoadedCount++;
+                    Console.WriteLine($"Loaded initial static entity {entityData.Guid} at position ({entityData.position.x}, {entityData.position.y})");
+
                 }
             }
+            Console.WriteLine($"Total essential entities loaded: {entitiesLoadedCount}");
         }
 
 
@@ -269,6 +279,9 @@ namespace SuperMarioBros.Source.Scenes
                     Entities.Add(entity);
                     _loadedEntities.Add(entityData.Guid);
                     _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
+                    entitiesLoadedCount++;
+                    Console.WriteLine($"Loaded entity {entityData.Guid} at position ({entityData.position.x}, {entityData.position.y})");
+
                 }
             }
 
@@ -286,8 +299,12 @@ namespace SuperMarioBros.Source.Scenes
                     Entities.Add(entity);
                     _loadedEntities.Add(entityData.Guid);
                     _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
+                    entitiesLoadedCount++;
+                    Console.WriteLine($"Loaded static entity {entityData.Guid} at position ({entityData.position.x}, {entityData.position.y})");
+
                 }
             }
+            Console.WriteLine($"Total entities loaded: {entitiesLoadedCount}");
         }
 
 
