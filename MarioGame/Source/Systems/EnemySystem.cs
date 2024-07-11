@@ -125,7 +125,7 @@ namespace SuperMarioBros.Source.Systems
                 {
                     if (CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                     {
-                        _progressDataManager.IncreaseScore(100);
+                        _progressDataManager.AddCollectItem(100);
                         movement.Direction = MovementType.STOP;
                         if (entity.HasComponent<KoopaComponent>())
                         {

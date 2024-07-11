@@ -31,9 +31,10 @@ public class ProgressDataManager
         if (gameTime != null) _data.Time -= gameTime.ElapsedGameTime.TotalSeconds;
     }
 
-    private void OnMarioCollectItem(int points, Vector2 marioPosition)
+    public void AddCollectItem(int points)
     {
-        _temporaryScores.Add(new TemporaryScore(marioPosition, points, 2.0f));
+        _data.Score += points;
+        _temporaryScores.Add(new TemporaryScore(new Vector2(_data.PlayerComponent.PlayerPositionX, _data.PlayerComponent.PlayerPositionY), points, 1.5f));
     }
 
     public ProgressData Data

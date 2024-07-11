@@ -170,7 +170,7 @@ public class BlockSystem : BaseSystem
                 ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
                 coinBlock.Quantity--;
                 _progressDataManager.Coins++;
-                _progressDataManager.TemporaryScores.Add(new TemporaryScore(new Vector2(_progressDataManager.Data.PlayerComponent.PlayerPositionX, _progressDataManager.Data.PlayerComponent.PlayerPositionY), 100, 2.0f));
+                _progressDataManager.AddCollectItem(100);
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
             }
         }
@@ -200,7 +200,7 @@ public class BlockSystem : BaseSystem
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             _progressDataManager.Coins++;
-            _progressDataManager.TemporaryScores.Add(new TemporaryScore(new Vector2(_progressDataManager.Data.PlayerComponent.PlayerPositionX, _progressDataManager.Data.PlayerComponent.PlayerPositionY), 100, 2.0f));
+            _progressDataManager.AddCollectItem(200);
             EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
         }
         questionBlock.HasMoved = true;

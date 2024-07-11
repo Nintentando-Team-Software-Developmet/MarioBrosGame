@@ -11,6 +11,7 @@ using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -24,6 +25,12 @@ public class MarioPowersSystem : BaseSystem
     private readonly Collection<Action> pendingActions = new Collection<Action>();
     private static double invulnerabilityEndTime { get; set; }
     private bool isInvulnerable { get; set; }
+    private ProgressDataManager _progressDataManager;
+
+    public MarioPowersSystem(ProgressDataManager progressDataManager)
+    {
+        _progressDataManager = progressDataManager;
+    }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
@@ -48,6 +55,7 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (playerComponent.statusMario == StatusMario.SmallMario)
                 {
+                    _progressDataManager.AddCollectItem(1000);
                     ChangeAnimationColliderPlayer.TransformToBigMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.BigMario;
 
@@ -62,6 +70,7 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.SmallMario)
                 {
+                    _progressDataManager.AddCollectItem(1000);
                     ChangeAnimationColliderPlayer.TransformToFireMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.FireMario;
                     colitionFlower = false;

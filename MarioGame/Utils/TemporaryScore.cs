@@ -4,7 +4,7 @@ namespace SuperMarioBros.Utils;
 
 public class TemporaryScore
 {
-    public Vector2 Position { get; set; }
+    public Vector2 Position { get; }
     public int Value { get; set; }
     public float TimeToLive { get; set; }
 

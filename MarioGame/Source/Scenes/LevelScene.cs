@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -129,8 +130,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
-            Systems.Add(new MarioPowersSystem());
-
+            Systems.Add(new MarioPowersSystem(_progressDataManager));
             Systems.Add(new SoundEffectSystem());
         }
 
@@ -239,6 +239,13 @@ namespace SuperMarioBros.Source.Scenes
                 }
             }
 
+            UpdateProgressManager(gameTime);
+            UpdateSystems(gameTime);
+            CheckPlayerState(gameTime, sceneManager);
+        }
+
+        private void UpdateProgressManager(GameTime gameTime)
+        {
             var expiredScores = new List<TemporaryScore>();
 
             foreach (var tempScore in _progressDataManager.TemporaryScores)
@@ -254,9 +261,6 @@ namespace SuperMarioBros.Source.Scenes
             {
                 _progressDataManager.TemporaryScores.Remove(expiredScore);
             }
-
-            UpdateSystems(gameTime);
-            CheckPlayerState(gameTime, sceneManager);
         }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
@@ -384,20 +388,27 @@ namespace SuperMarioBros.Source.Scenes
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
+
             map.Draw(spriteData);
+            DrawProgressManager(gameTime, spriteData);
+
+            spriteData.spriteBatch.End();
+        }
+
+        private void DrawProgressManager(GameTime gameTime, SpriteData spriteData)
+        {
             DrawEntities(gameTime);
             CommonRenders.DrawProgressData(Entities,
-                                            spriteData, _progressDataManager.Score,
-                                            _progressDataManager.Coins,
-                                            "1-1",
-                                            _progressDataManager.Time);
+                spriteData, _progressDataManager.Score,
+                _progressDataManager.Coins,
+                "1-1",
+                _progressDataManager.Time);
 
             foreach (var tempScore in _progressDataManager.TemporaryScores)
             {
-                spriteData.spriteBatch.DrawString(spriteData.spriteFont, /*tempScore.Value.ToString()*/"100", tempScore.Position, Color.White);
+                Debug.Assert(spriteData != null, nameof(spriteData) + " != null");
+                spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{tempScore.Value}", tempScore.Position, Color.White);
             }
-
-            spriteData.spriteBatch.End();
         }
 
         /*
