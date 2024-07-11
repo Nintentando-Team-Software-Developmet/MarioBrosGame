@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+using System;
 
 using Microsoft.Xna.Framework;
 
 using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils;
+using System.Collections.ObjectModel;
 
 namespace SuperMarioBros.Source.Managers;
 
@@ -17,6 +17,7 @@ public class ProgressDataManager
     private ProgressData _data;
     private const int DefaultTime = 400;
     private HighScoreManager _highScoreManager;
+    private Collection<TemporaryScore> _temporaryScores = new();
 
     public ProgressDataManager()
     {
@@ -26,7 +27,41 @@ public class ProgressDataManager
 
     public void Update(GameTime gameTime)
     {
-        if (gameTime != null) _data.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+        if (gameTime == null)
+            throw new ArgumentNullException(nameof(gameTime));
+
+        if (!_data.PlayerComponent.HasReachedEnd)
+        {
+            _data.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        else if (_data.PlayerComponent.HasReachedEnd)
+        {
+            _data.Score += (int)_data.Time*100;
+            _data.Time = 0;
+        }
+    }
+
+    public void AddCollectItem(int points)
+    {
+        _data.Score += points;
+        _temporaryScores.Add(new TemporaryScore(new Vector2(_data.PlayerComponent.PlayerPositionX, _data.PlayerComponent.PlayerPositionY), points, 1.5f));
+    }
+
+    public void CalculatePoleHeight()
+    {
+        int jumpHeight = _data.PlayerComponent.PlayerPositionY;
+
+        int points = jumpHeight switch
+        {
+            < 150 => 10000,
+            < 350 => 5000,
+            < 450 => 2000,
+            < 500 => 1000,
+            _ => 100
+        };
+
+        _data.Score += points;
+        _temporaryScores.Add(new TemporaryScore(new Vector2(_data.PlayerComponent.PlayerPositionX, _data.PlayerComponent.PlayerPositionY), points, 1.5f));
     }
 
     public ProgressData Data
@@ -59,6 +94,11 @@ public class ProgressDataManager
         set => _data.Lives = value;
     }
 
+    public Collection<TemporaryScore> TemporaryScores
+    {
+        get => _temporaryScores;
+    }
+
     public void ResetTime()
     {
         _data.Time = DefaultTime;
@@ -86,5 +126,10 @@ public class ProgressDataManager
     public int GetHighScore()
     {
         return _highScoreManager.GetHighScore();
+    }
+
+    public void IncreaseScore(int score)
+    {
+        _data.Score += score;
     }
 }
