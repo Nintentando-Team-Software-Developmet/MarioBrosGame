@@ -312,7 +312,7 @@ namespace SuperMarioBros.Source.Scenes
 
         private void CheckGameOverConditions()
         {
-            if (_progressDataManager.Time <= 0)
+            if (_progressDataManager.Time <= 0 && !_progressDataManager.Data.PlayerComponent.HasReachedEnd)
             {
                 HandleTimeOver();
             }

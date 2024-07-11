@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -28,7 +29,18 @@ public class ProgressDataManager
 
     public void Update(GameTime gameTime)
     {
-        if (gameTime != null) _data.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+        if (gameTime == null)
+            throw new ArgumentNullException(nameof(gameTime));
+
+        if (!_data.PlayerComponent.HasReachedEnd)
+        {
+            _data.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        else if (_data.PlayerComponent.HasReachedEnd)
+        {
+            _data.Score += (int)_data.Time*100;
+            _data.Time = 0;
+        }
     }
 
     public void AddCollectItem(int points)
@@ -52,11 +64,6 @@ public class ProgressDataManager
 
         _data.Score += points;
         _temporaryScores.Add(new TemporaryScore(new Vector2(_data.PlayerComponent.PlayerPositionX, _data.PlayerComponent.PlayerPositionY), points, 1.5f));
-    }
-
-    public void ConvertTimeIntoScore()
-    {
-
     }
 
     public ProgressData Data
