@@ -185,7 +185,7 @@ public class BlockSystem : BaseSystem
 
         if (questionBlock.TypeContent == EntitiesName.POWERUP)
         {
-            if ( showStatusMario == StatusMario.SmallMario)
+            if ( showStatusMario == StatusMario.SmallMario || showStatusMario == StatusMario.StarMarioSmall)
             {
                 ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
             }

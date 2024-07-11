@@ -27,6 +27,8 @@ namespace SuperMarioBros.Utils.DataStructures
         DUCTCROSS,
         SECRETLEVELDUCTENTRANCE,
         FIRE,
-        FIREEXPLOSION
+        FIREEXPLOSION,
+        STARBIGMARIO,
+        STARSMALLMARIO
     }
 }

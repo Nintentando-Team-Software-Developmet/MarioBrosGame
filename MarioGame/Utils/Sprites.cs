@@ -145,6 +145,40 @@ namespace SuperMarioBros.Utils
         public static Texture2D PowerWalk3 { get; set; }
         public static Texture2D MountainMenu { get; set; }
         public static Texture2D BushMenu { get; set; }
+
+        // Mario Star Big
+        public static Texture2D BigBendLeftStar { get; set; }
+        public static Texture2D BigBendStar { get; set; }
+        public static Texture2D BigJumpBackLeftStar { get; set; }
+        public static Texture2D BigJumpBackStar { get; set; }
+        public static Texture2D BigRunLeftStar { get; set; }
+        public static Texture2D BigRunStar { get; set; }
+        public static Texture2D BigStopLeftStar { get; set; }
+        public static Texture2D BigStopStar { get; set; }
+        public static Texture2D BigWalk1LeftStar { get; set; }
+        public static Texture2D BigWalk1Star { get; set; }
+        public static Texture2D BigWalk2LeftStar { get; set; }
+        public static Texture2D BigWalk2Star { get; set; }
+        public static Texture2D BigWalk3LeftStar { get; set; }
+        public static Texture2D BigWalk3Star { get; set; }
+        public static Texture2D LowerThePost1Star { get; set; }
+        public static Texture2D LowerThePost2Star { get; set; }
+        public static Texture2D LowerThePostLeftStar { get; set; }
+        // Mario Star Small
+
+        public static Texture2D SmallDieStar { get; set; }
+        public static Texture2D SmallJumpLeftStar { get; set; }
+        public static Texture2D SmallJumpStar { get; set; }
+        public static Texture2D SmallRunLeftStar { get; set; }
+        public static Texture2D SmallRunStar { get; set; }
+        public static Texture2D SmallStopLeftStar { get; set; }
+        public static Texture2D SmallStopStar { get; set; }
+        public static Texture2D SmallWalk1LeftStar { get; set; }
+        public static Texture2D SmallWalk1Star { get; set; }
+        public static Texture2D SmallWalk2LeftStar { get; set; }
+        public static Texture2D SmallWalk2Star { get; set; }
+        public static Texture2D SmallWalk3LeftStar { get; set; }
+        public static Texture2D SmallWalk3Star { get; set; }
         public static void Load(ContentManager content)
         {
             if (content == null)
@@ -283,6 +317,37 @@ namespace SuperMarioBros.Utils
             PowerWalk3Left = content.Load<Texture2D>("sprites/Mario/Power/Walk-3_l");
             PowerWalk3 = content.Load<Texture2D>("sprites/Mario/Power/Walk-3");
             LowerThePost1FireMario = content.Load<Texture2D>("sprites/Mario/Power/LowerThePost_1FireMario");
+
+            // Mario Small Star
+            SmallDieStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Die_Star");
+            SmallJumpLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Jump_l_Star");
+            SmallJumpStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Jump_Star");
+            SmallRunLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Run_l_Star");
+            SmallRunStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Run_Star");
+            SmallStopLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Stopped_l_Star");
+            SmallStopStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Stopped_Star");
+            SmallWalk1LeftStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Walk1_l_Star");
+            SmallWalk1Star = content.Load<Texture2D>("sprites/Mario/Star/Small/Walk1_Star");
+            SmallWalk2LeftStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Walk2_l_Star");
+            SmallWalk2Star = content.Load<Texture2D>("sprites/Mario/Star/Small/Walk2_Star");
+            SmallWalk3LeftStar = content.Load<Texture2D>("sprites/Mario/Star/Small/Walk3_l_Star");
+            SmallWalk3Star = content.Load<Texture2D>("sprites/Mario/Star/Small/Walk3_Star");
+
+            // Mario Power Star
+            BigBendLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Bend_l_Star");
+            BigBendStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Bend_Star");
+            BigJumpBackLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Jump_b_l_Star");
+            BigJumpBackStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Jump_b_Star");
+            BigRunLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/RunB_l_Star");
+            BigRunStar = content.Load<Texture2D>("sprites/Mario/Star/Big/RunB_Star");
+            BigStopLeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/StoppedB_l_Star");
+            BigStopStar = content.Load<Texture2D>("sprites/Mario/Star/Big/StoppedB_Star");
+            BigWalk1LeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Walk_1_l_Star");
+            BigWalk1Star = content.Load<Texture2D>("sprites/Mario/Star/Big/Walk_1_Star");
+            BigWalk2LeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Walk_2_l_Star");
+            BigWalk2Star = content.Load<Texture2D>("sprites/Mario/Star/Big/Walk_2_Star");
+            BigWalk3LeftStar = content.Load<Texture2D>("sprites/Mario/Star/Big/Walk_3_l_Star");
+            BigWalk3Star = content.Load<Texture2D>("sprites/Mario/Star/Big/Walk_3_Star");
 
             MountainMenu = content.Load<Texture2D>("sprites/props/mountain");
             BushMenu = content.Load<Texture2D>("sprites/props/bush");
