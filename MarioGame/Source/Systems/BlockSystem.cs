@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -205,19 +206,15 @@ public class BlockSystem : BaseSystem
 
         entityTimers[entity] = 0;
         entityStates[entity] = "descending";
-
         var collider = entity.GetComponent<ColliderComponent>();
         collider.Enabled(false);
-
         Action descentAction = null;
         descentAction = () =>
         {
             AetherVector2 currentPosition = collider.collider.Position;
             currentPosition.Y += descentStep;
             collider.collider.Position = currentPosition;
-
             entityTimers[entity] += descentStep;
-
             if (entityTimers[entity] < descentDistance)
             {
                 pendingActions.Add(descentAction);
@@ -228,7 +225,6 @@ public class BlockSystem : BaseSystem
                 entityStates[entity] = "idle";
             }
         };
-
         pendingActions.Add(descentAction);
     }
 
