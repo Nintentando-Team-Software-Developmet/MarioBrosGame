@@ -16,6 +16,7 @@ using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
+using SuperMarioBros.Utils.SceneCommonData;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 namespace SuperMarioBros.Source.Systems;
@@ -169,6 +170,7 @@ public class BlockSystem : BaseSystem
                 ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
                 coinBlock.Quantity--;
                 _progressDataManager.Coins++;
+                _progressDataManager.TemporaryScores.Add(new TemporaryScore(new Vector2(_progressDataManager.Data.PlayerComponent.PlayerPositionX, _progressDataManager.Data.PlayerComponent.PlayerPositionY), 100, 2.0f));
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
             }
         }
@@ -198,6 +200,7 @@ public class BlockSystem : BaseSystem
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             _progressDataManager.Coins++;
+            _progressDataManager.TemporaryScores.Add(new TemporaryScore(new Vector2(_progressDataManager.Data.PlayerComponent.PlayerPositionX, _progressDataManager.Data.PlayerComponent.PlayerPositionY), 100, 2.0f));
             EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
         }
         questionBlock.HasMoved = true;

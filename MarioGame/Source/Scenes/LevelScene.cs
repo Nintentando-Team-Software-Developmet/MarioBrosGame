@@ -19,6 +19,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -86,7 +87,7 @@ namespace SuperMarioBros.Source.Scenes
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             MediaPlayer.Volume = 0.7f;
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
             LoadSoundEffects(spriteData);
         }
@@ -124,7 +125,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
-            Systems.Add(new EnemySystem());
+            Systems.Add(new EnemySystem(_progressDataManager));
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
             Systems.Add(new FireBoolSystem());
@@ -236,6 +237,22 @@ namespace SuperMarioBros.Source.Scenes
                     _isLevelCompleted = true;
                     sceneManager.ChangeScene(SceneName.Win);
                 }
+            }
+
+            var expiredScores = new List<TemporaryScore>();
+
+            foreach (var tempScore in _progressDataManager.TemporaryScores)
+            {
+                tempScore.Update(gameTime);
+                if (tempScore.IsExpired())
+                {
+                    expiredScores.Add(tempScore);
+                }
+            }
+
+            foreach (var expiredScore in expiredScores)
+            {
+                _progressDataManager.TemporaryScores.Remove(expiredScore);
             }
 
             UpdateSystems(gameTime);
@@ -374,6 +391,12 @@ namespace SuperMarioBros.Source.Scenes
                                             _progressDataManager.Coins,
                                             "1-1",
                                             _progressDataManager.Time);
+
+            foreach (var tempScore in _progressDataManager.TemporaryScores)
+            {
+                spriteData.spriteBatch.DrawString(spriteData.spriteFont, /*tempScore.Value.ToString()*/"100", tempScore.Position, Color.White);
+            }
+
             spriteData.spriteBatch.End();
         }
 

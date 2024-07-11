@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils;
+using System.Collections.ObjectModel;
 
 namespace SuperMarioBros.Source.Managers;
 
@@ -17,6 +18,7 @@ public class ProgressDataManager
     private ProgressData _data;
     private const int DefaultTime = 400;
     private HighScoreManager _highScoreManager;
+    private Collection<TemporaryScore> _temporaryScores = new();
 
     public ProgressDataManager()
     {
@@ -27,6 +29,11 @@ public class ProgressDataManager
     public void Update(GameTime gameTime)
     {
         if (gameTime != null) _data.Time -= gameTime.ElapsedGameTime.TotalSeconds;
+    }
+
+    private void OnMarioCollectItem(int points, Vector2 marioPosition)
+    {
+        _temporaryScores.Add(new TemporaryScore(marioPosition, points, 2.0f));
     }
 
     public ProgressData Data
@@ -57,6 +64,11 @@ public class ProgressDataManager
     {
         get => _data.Lives;
         set => _data.Lives = value;
+    }
+
+    public Collection<TemporaryScore> TemporaryScores
+    {
+        get => _temporaryScores;
     }
 
     public void ResetTime()
