@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
@@ -26,15 +27,21 @@ public class SoundEffectSystem : BaseSystem
     private static void PlaySoundEffect(SoundEffectType soundEffectType)
     {
         var soundEffect = SoundEffectManager.Instance.GetSoundEffect(soundEffectType);
-        var instance = soundEffect?.CreateInstance();
-        if (soundEffectType == SoundEffectType.PlayerJump || soundEffectType == SoundEffectType.EnemyDestroyed) instance.Volume = 0.3f;
-        else instance.Volume = 1f;
+        var instance = soundEffect.CreateInstance();
+        if (soundEffectType == SoundEffectType.PlayerJump)
+        {
+            instance.Volume = 0.1f;
+        }
+        else
+        {
+            instance.Volume = 0.3f;
 
-        instance?.Play();
+        }
+        instance.Play();
+        instance = null;
     }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
-        // No need to update anything per frame
     }
 }
