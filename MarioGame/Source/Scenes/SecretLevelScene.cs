@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -18,6 +19,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -63,7 +65,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             Systems.Add(new AnimationSystem(spriteData.spriteBatch));
             Systems.Add(new PlayerMovementSystem());
-            Systems.Add(new PlayerSystem());
+            Systems.Add(new PlayerSystem(_progressDataManager));
             Systems.Add(new CoinSystem(_progressDataManager));
             Systems.Add(new SoundEffectSystem());
         }
@@ -122,10 +124,30 @@ namespace SuperMarioBros.Source.Scenes
                     sceneManager.ChangeScene(SceneName.Level1Transition);
                 }
             }
-
+            UpdateProgressManager(gameTime);
             UpdateProgressData(gameTime);
             UpdateSystems(gameTime);
         }
+
+        private void UpdateProgressManager(GameTime gameTime)
+        {
+            var expiredScores = new List<TemporaryScore>();
+
+            foreach (var tempScore in _progressDataManager.TemporaryScores)
+            {
+                tempScore.Update(gameTime);
+                if (tempScore.IsExpired())
+                {
+                    expiredScores.Add(tempScore);
+                }
+            }
+
+            foreach (var expiredScore in expiredScores)
+            {
+                _progressDataManager.TemporaryScores.Remove(expiredScore);
+            }
+        }
+
         private void UpdateSystems(GameTime gameTime)
         {
             foreach (var system in Systems)
@@ -146,12 +168,8 @@ namespace SuperMarioBros.Source.Scenes
 
             spriteData.graphics.GraphicsDevice.Clear(Color.Black);
             _map.Draw(spriteData);
-            DrawEntities(gameTime);
-            CommonRenders.DrawProgressData(Entities,
-                                            spriteData, _progressDataManager.Score,
-                                            _progressDataManager.Coins,
-                                            "1-1",
-                                            _progressDataManager.Time);
+            DrawProgressManager(gameTime, spriteData);
+
             spriteData.spriteBatch.End();
         }
 
@@ -182,6 +200,22 @@ namespace SuperMarioBros.Source.Scenes
             if (_disposed)
                 return;
             _disposed = true;
+        }
+
+        private void DrawProgressManager(GameTime gameTime, SpriteData spriteData)
+        {
+            DrawEntities(gameTime);
+            CommonRenders.DrawProgressData(Entities,
+                spriteData, _progressDataManager.Score,
+                _progressDataManager.Coins,
+                "1-1",
+                _progressDataManager.Time);
+
+            foreach (var tempScore in _progressDataManager.TemporaryScores)
+            {
+                Debug.Assert(spriteData != null, nameof(spriteData) + " != null");
+                spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{tempScore.Value}", tempScore.Position, Color.White);
+            }
         }
     }
 }

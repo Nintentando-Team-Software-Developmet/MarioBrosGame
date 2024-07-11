@@ -13,6 +13,7 @@ using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -28,6 +29,12 @@ namespace SuperMarioBros.Source.Systems
         private List<Body> _poleBodies = new();
         private static double invulnerabilityEndTime { get; set; }
         private bool isInvulnerable { get; set; }
+        private ProgressDataManager _progressDataManager;
+
+        public PlayerSystem(ProgressDataManager progressDataManager)
+        {
+            _progressDataManager = progressDataManager;
+        }
 
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
@@ -176,7 +183,10 @@ namespace SuperMarioBros.Source.Systems
                             playerComponent.IsAlive = false;
                             playerComponent.ShouldProcessDeath = true;
                         }
-
+                        else
+                        {
+                            _progressDataManager.AddCollectItem(100);
+                        }
                     }
                 }
                 if (animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
