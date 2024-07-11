@@ -50,10 +50,7 @@ namespace SuperMarioBros.Source.Scenes
         private Dictionary<(int, int), Guid> _positionToGuidMap;
 
         private const int LoadRadius = 1000;
-
-        private int entitiesLoadedCount { get; set; }
-        private int entitiesRemovedCount { get; set; }
-
+        private List<Body> _bodiesToRemove { get; set; } = new();
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
@@ -158,9 +155,15 @@ namespace SuperMarioBros.Source.Scenes
                 Entities.Add(player);
                 _loadedEntities.Add(playerEntityData.Guid);
                 _positionToGuidMap[GetPositionKey(playerEntityData)] = playerEntityData.Guid;
-                entitiesLoadedCount++;
-                Console.WriteLine($"Loaded player entity {playerEntityData.Guid} at position ({playerEntityData.position.x}, {playerEntityData.position.y})");
+            }
 
+            if (_bodiesToRemove.Count > 0)
+            {
+                foreach (var body in _bodiesToRemove)
+                {
+                    physicsWorld.Remove(body);
+                }
+                _bodiesToRemove.Clear();
             }
 
             var initialStaticEntities = map.staticEntities.entities.Where(entityData =>
@@ -177,12 +180,8 @@ namespace SuperMarioBros.Source.Scenes
                     Entities.Add(newEntity);
                     _loadedEntities.Add(entityData.Guid);
                     _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
-                    entitiesLoadedCount++;
-                    Console.WriteLine($"Loaded initial static entity {entityData.Guid} at position ({entityData.position.x}, {entityData.position.y})");
-
                 }
             }
-            Console.WriteLine($"Total essential entities loaded: {entitiesLoadedCount}");
         }
 
 
@@ -205,6 +204,8 @@ namespace SuperMarioBros.Source.Scenes
             Entities.ClearAll();
             Systems.Clear();
             _loadedEntities.Clear();
+            _bodiesToRemove.Clear();
+
 
             foreach (var body in physicsWorld.BodyList.ToList())
             {
@@ -234,6 +235,7 @@ namespace SuperMarioBros.Source.Scenes
             {
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
+                UnloadEntitiesOutsideBounds(playerPosition);
 
                 if (playerEntity.GetComponent<PlayerComponent>().IsInSecretLevel)
                 {
@@ -263,6 +265,62 @@ namespace SuperMarioBros.Source.Scenes
             CheckPlayerState(gameTime, sceneManager);
         }
 
+        private void UnloadEntitiesOutsideBounds(Vector2 cornerPosition)
+        {
+            var entitiesToRemove = new List<Entity>();
+
+            foreach (var entity in Entities)
+            {
+                if (ShouldRemoveEntity(entity, cornerPosition))
+                {
+                    entitiesToRemove.Add(entity);
+                }
+            }
+
+            foreach (var entityToRemove in entitiesToRemove)
+            {
+                _loadedEntities.Remove(entityToRemove.Id);
+                Entities.Remove(entityToRemove);
+            }
+
+        }
+
+        private bool ShouldRemoveEntity(Entity entity, Vector2 cornerPosition)
+        {
+            if (entity.HasComponent<ColliderComponent>())
+            {
+                var colliderComponent = entity.GetComponent<ColliderComponent>();
+                var entityPosition = colliderComponent.Position;
+                float distance = Vector2.Distance(cornerPosition, entityPosition);
+
+                if (distance > LoadRadius)
+                {
+                    var body = colliderComponent.collider;
+                    if (body != null)
+                    {
+                        _bodiesToRemove.Add(body);
+                    }
+                    return true;
+                }
+            }
+            else if (entity.HasComponent<PositionComponent>())
+            {
+                var positionComponent = entity.GetComponent<PositionComponent>();
+                var entityPosition = positionComponent.Position;
+                float distance = Vector2.Distance(cornerPosition, entityPosition);
+
+                if (distance > LoadRadius)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+
+
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
         {
             var entitiesToLoad = _levelData.entities.Where(entityData =>
@@ -279,9 +337,6 @@ namespace SuperMarioBros.Source.Scenes
                     Entities.Add(entity);
                     _loadedEntities.Add(entityData.Guid);
                     _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
-                    entitiesLoadedCount++;
-                    Console.WriteLine($"Loaded entity {entityData.Guid} at position ({entityData.position.x}, {entityData.position.y})");
-
                 }
             }
 
@@ -299,12 +354,8 @@ namespace SuperMarioBros.Source.Scenes
                     Entities.Add(entity);
                     _loadedEntities.Add(entityData.Guid);
                     _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
-                    entitiesLoadedCount++;
-                    Console.WriteLine($"Loaded static entity {entityData.Guid} at position ({entityData.position.x}, {entityData.position.y})");
-
                 }
             }
-            Console.WriteLine($"Total entities loaded: {entitiesLoadedCount}");
         }
 
 
