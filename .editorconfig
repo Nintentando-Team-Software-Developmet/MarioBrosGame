@@ -49,3 +49,5 @@ dotnet_diagnostic.CS1591.severity = warning
 # Example rule: Avoid unused parameters
 dotnet_diagnostic.IDE0060.severity = warning
 
+[*.{cs,vb}]
+dotnet_diagnostic.CA1720.severity = none

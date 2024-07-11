@@ -33,6 +33,7 @@ namespace MarioGame.Utils.DataStructures
         public int Quantity { get; set; }
 
         public Position position { get; set; }
+        public Guid Guid { get; set; } = Guid.NewGuid();
     }
 
     /*

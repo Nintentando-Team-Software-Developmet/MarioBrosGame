@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using SuperMarioBros.Source.Components;
@@ -7,6 +8,12 @@ namespace SuperMarioBros.Source.Entities
     public class Entity
     {
         private Dictionary<string, BaseComponent> _components = new();
+        public Guid Id { get; private set; }
+
+        public Entity()
+        {
+            Id = Guid.NewGuid();
+        }
 
         public void AddComponent<T>(T component) where T : BaseComponent
         {

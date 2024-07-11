@@ -46,7 +46,9 @@ namespace SuperMarioBros.Source.Scenes
         private bool _isLevelCompleted { get; set; }
         private double _levelCompleteDisplayTime;
         private const double LevelCompleteMaxDisplayTime = 6.5;
-        private HashSet<string> _loadedEntities { get; }
+        private HashSet<Guid> _loadedEntities { get; }
+        private Dictionary<(int, int), Guid> _positionToGuidMap;
+
         private const int LoadRadius = 1000;
 
 
@@ -70,7 +72,9 @@ namespace SuperMarioBros.Source.Scenes
             _isFlagEventPlayed = false;
             _isLevelCompleted = false;
             _levelCompleteDisplayTime = 0;
-            _loadedEntities = new HashSet<string>();
+            _loadedEntities = new HashSet<Guid>();
+            _positionToGuidMap = new Dictionary<(int, int), Guid>();
+
         }
 
         /*
@@ -108,6 +112,11 @@ namespace SuperMarioBros.Source.Scenes
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
         }
 
+        private static (int, int) GetPositionKey(EntityData entityData)
+        {
+            return (entityData.position.x, entityData.position.y);
+        }
+
 
         /*
          * Initializes the systems for the level scene.
@@ -142,8 +151,10 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld, _progressDataManager.Data));
-                _loadedEntities.Add(GetEntityKey(playerEntityData));
+                var player = EntityFactory.CreateEntity(playerEntityData, physicsWorld, _progressDataManager.Data);
+                Entities.Add(player);
+                _loadedEntities.Add(playerEntityData.Guid);
+                _positionToGuidMap[GetPositionKey(playerEntityData)] = playerEntityData.Guid;
             }
 
             var initialStaticEntities = map.staticEntities.entities.Where(entityData =>
@@ -152,16 +163,16 @@ namespace SuperMarioBros.Source.Scenes
                 return Vector2.Distance(new Vector2(playerEntityData.position.x, playerEntityData.position.y), entityPosition) <= LoadRadius;
             }).ToList();
 
-            foreach (var entity in initialStaticEntities)
+            foreach (var entityData in initialStaticEntities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld, _progressDataManager.Data));
-                _loadedEntities.Add(GetEntityKey(entity));
+                if (!_loadedEntities.Contains(entityData.Guid))
+                {
+                    var newEntity = EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data);
+                    Entities.Add(newEntity);
+                    _loadedEntities.Add(entityData.Guid);
+                    _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
+                }
             }
-        }
-
-        private static string GetEntityKey(EntityData entityData)
-        {
-            return $"{entityData.type}_{entityData.position.x}_{entityData.position.y}";
         }
 
 
@@ -247,27 +258,38 @@ namespace SuperMarioBros.Source.Scenes
             var entitiesToLoad = _levelData.entities.Where(entityData =>
             {
                 var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
-                return Vector2.Distance(playerPosition, entityPosition) <= radius && !_loadedEntities.Contains(GetEntityKey(entityData));
+                return Vector2.Distance(playerPosition, entityPosition) <= radius;
             }).ToList();
 
             foreach (var entityData in entitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
-                _loadedEntities.Add(GetEntityKey(entityData));
+                if (!_loadedEntities.Contains(entityData.Guid))
+                {
+                    var entity = EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data);
+                    Entities.Add(entity);
+                    _loadedEntities.Add(entityData.Guid);
+                    _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
+                }
             }
 
             var staticEntitiesToLoad = map.staticEntities.entities.Where(entityData =>
             {
                 var entityPosition = new Vector2(entityData.position.x, entityData.position.y);
-                return Vector2.Distance(playerPosition, entityPosition) <= radius && !_loadedEntities.Contains(GetEntityKey(entityData));
+                return Vector2.Distance(playerPosition, entityPosition) <= radius;
             }).ToList();
 
             foreach (var entityData in staticEntitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
-                _loadedEntities.Add(GetEntityKey(entityData));
+                if (!_loadedEntities.Contains(entityData.Guid))
+                {
+                    var entity = EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data);
+                    Entities.Add(entity);
+                    _loadedEntities.Add(entityData.Guid);
+                    _positionToGuidMap[GetPositionKey(entityData)] = entityData.Guid;
+                }
             }
         }
+
 
 
 
