@@ -7,12 +7,10 @@ using Microsoft.Xna.Framework.Media;
 
 using SuperMarioBros.Source.Entities;
 
-using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
-
 using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
@@ -23,18 +21,19 @@ public class MarioPowersSystem : BaseSystem
     private bool colitionMushroom;
     private bool colitionFlower;
     private bool colitionStar;
-
+    private bool isStarPowerActive { get; set; }
+    private bool isInvulnerable { get; set; }
 
     private HashSet<ColliderComponent> registeredColliders = new HashSet<ColliderComponent>();
     private readonly Collection<Action> pendingActions = new Collection<Action>();
-    private static double invulnerabilityEndTime { get; set; }
-    private bool isInvulnerable { get; set; }
     private static double starEndTime { get; set; }
-    private bool isStarPowerActive { get; set; }
+    private static double invulnerabilityEndTime { get; set; }
     private SpriteData spriteData{ get; set; }
+    private ProgressDataManager _progressDataManager;
 
-    public MarioPowersSystem(SpriteData spriteData)
+    public MarioPowersSystem(ProgressDataManager progressDataManager, SpriteData spriteData)
     {
+        _progressDataManager = progressDataManager;
         this.spriteData = spriteData;
     }
 
@@ -62,6 +61,8 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (playerComponent.statusMario == StatusMario.SmallMario)
                 {
+                    _progressDataManager.AddCollectItem(1000);
+                    ChangeAnimationColliderPlayer.TransformToBigMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.BigMario;
                     isInvulnerable = true;
                     if (gameTime != null)
@@ -74,6 +75,8 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.SmallMario)
                 {
+                    _progressDataManager.AddCollectItem(1000);
+                    ChangeAnimationColliderPlayer.TransformToFireMario(playerAnimation, playerCollider);
                     playerComponent.statusMario = StatusMario.FireMario;
                     colitionFlower = false;
                 }

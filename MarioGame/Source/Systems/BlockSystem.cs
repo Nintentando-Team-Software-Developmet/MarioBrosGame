@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -169,6 +168,7 @@ public class BlockSystem : BaseSystem
                 ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
                 coinBlock.Quantity--;
                 _progressDataManager.Coins++;
+                _progressDataManager.AddCollectItem(100);
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
             }
         }
@@ -198,6 +198,7 @@ public class BlockSystem : BaseSystem
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             _progressDataManager.Coins++;
+            _progressDataManager.AddCollectItem(200);
             EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
         }
         questionBlock.HasMoved = true;

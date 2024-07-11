@@ -11,6 +11,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Systems
@@ -57,7 +58,7 @@ namespace SuperMarioBros.Source.Systems
                     {
                         coin.IsCollected = true;
                         _progressDataManager.Coins++;
-                        _progressDataManager.Score += 200;
+                        _progressDataManager.AddCollectItem(200);
                         EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
                     }
                 }
