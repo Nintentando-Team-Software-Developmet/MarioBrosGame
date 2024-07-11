@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +15,6 @@ using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
-using SuperMarioBros.Utils.SceneCommonData;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 namespace SuperMarioBros.Source.Systems;

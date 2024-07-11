@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
 using SuperMarioBros.Source.Components;
-using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils;
 using System.Collections.ObjectModel;
 
