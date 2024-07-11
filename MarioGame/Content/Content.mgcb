@@ -63,11 +63,23 @@
 /processorParam:Quality=Best
 /build:SoundEffects/duct_entry.mp3
 
+#begin SoundEffects/enemy_destroyed_star.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/enemy_destroyed_star.mp3
+
 #begin SoundEffects/fireball_hit.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/fireball_hit.mp3
+
+#begin SoundEffects/fireball_powerup.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/fireball_powerup.mp3
 
 #begin SoundEffects/fireball.mp3
 /importer:Mp3Importer
@@ -87,6 +99,12 @@
 /processorParam:Quality=Best
 /build:SoundEffects/lost_power_up.mp3
 
+#begin SoundEffects/mushroom.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/mushroom.mp3
+
 #begin SoundEffects/player_jump.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -104,6 +122,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/smash.mp3
+
+#begin SoundEffects/star_powerup.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/star_powerup.mp3
 
 #begin SoundEffects/StarMarioPower.mp3
 /importer:Mp3Importer

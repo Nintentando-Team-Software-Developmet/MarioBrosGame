@@ -140,21 +140,25 @@ public class MarioPowersSystem : BaseSystem
             if (otherEntity != null && otherEntity.HasComponent<MushroomComponent>())
             {
                 colitionMushroom = true;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.Mushroom));
                 pendingActions.Add(() => RemoveMushroomCollider(otherEntity));
                 colitionFlower = false;
             }
             else if (flowerEntity != null && flowerEntity.HasComponent<FlowerComponent>())
             {
                 colitionFlower = true;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.Flower));
                 pendingActions.Add(() => RemoveMushroomCollider(flowerEntity));
             }
             else if (starEntity != null && starEntity.HasComponent<StarComponent>())
             {
                 colitionStar = true;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.Star));
                 pendingActions.Add(() => RemoveMushroomCollider(starEntity));
             }
             else if (colitionStar && enemyEntity != null && enemyEntity.HasComponent<EnemyComponent>())
             {
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.EnemyDestroyedByStar));
                 pendingActions.Add(() => enemyEntity.GetComponent<ColliderComponent>().RemoveCollider());
 
             }

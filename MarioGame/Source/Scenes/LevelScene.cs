@@ -107,6 +107,10 @@ namespace SuperMarioBros.Source.Scenes
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Mushroom, "SoundEffects/mushroom");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Star, "SoundEffects/fireball_powerup");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Flower, "SoundEffects/star_powerup");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyedByStar, "SoundEffects/enemy_destroyed_star");
         }
 
 
