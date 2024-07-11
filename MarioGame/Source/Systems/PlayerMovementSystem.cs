@@ -40,7 +40,7 @@ namespace SuperMarioBros.Source.Systems
                 var movement = player.GetComponent<MovementComponent>();
                 var camera = player.GetComponent<CameraComponent>();
                 var playerEntity = player.GetComponent<PlayerComponent>();
-                var isPlayerAtSecretLocation = IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent);
+                var isPlayerAtSecretLocation = IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent) || IsPlayerAtSecretLocation(905, 917, 670, 737, playerComponent) ;
                 if( input == null || collider == null || animation == null || movement == null || camera == null || playerEntity == null) continue;
                 if (!player.GetComponent<PlayerComponent>().HasReachedEnd && !player.GetComponent<PlayerComponent>().IsInTransition)
                 {
