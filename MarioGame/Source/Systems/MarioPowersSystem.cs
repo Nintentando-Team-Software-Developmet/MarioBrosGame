@@ -35,13 +35,9 @@ public class MarioPowersSystem : BaseSystem
     private bool isStarPowerActive { get; set; }
     private SpriteData spriteData{ get; set; }
 
-    public MarioPowersSystem(ProgressDataManager progressDataManager)
+    public MarioPowersSystem(ProgressDataManager progressDataManager, SpriteData spriteData)
     {
         _progressDataManager = progressDataManager;
-    }
-
-    public MarioPowersSystem(SpriteData spriteData)
-    {
         this.spriteData = spriteData;
     }
 
