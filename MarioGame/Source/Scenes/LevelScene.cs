@@ -42,9 +42,11 @@ namespace SuperMarioBros.Source.Scenes
         private LevelData _levelData;
         private bool _disposed;
         private Song _flagSoundEffect { get; set; }
+        private Song _runningOutOfTimeSong { get; set; }
         private ProgressDataManager _progressDataManager;
         private bool _isFlagEventPlayed { get; set; }
         private bool _isLevelCompleted { get; set; }
+        private bool _isRunningOutOfTime { get; set; }
         private double _levelCompleteDisplayTime;
         private const double LevelCompleteMaxDisplayTime = 6.5;
         private HashSet<string> _loadedEntities { get; }
@@ -53,6 +55,7 @@ namespace SuperMarioBros.Source.Scenes
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
+
 
         /*
          * Constructs a new LevelScene object.
@@ -72,6 +75,7 @@ namespace SuperMarioBros.Source.Scenes
             _isLevelCompleted = false;
             _levelCompleteDisplayTime = 0;
             _loadedEntities = new HashSet<string>();
+            _runningOutOfTimeSong = null;
         }
 
         /*
@@ -86,6 +90,7 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
+            _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/running_out_time_mario");
             MediaPlayer.Volume = 0.7f;
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
@@ -179,6 +184,17 @@ namespace SuperMarioBros.Source.Scenes
             }
         }
 
+        private void CheckRunningOutTime()
+        {
+            if (_progressDataManager.Time <= 101)
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.Play(_runningOutOfTimeSong);
+                MediaPlayer.IsRepeating = true;
+                _isRunningOutOfTime = true;
+            }
+        }
+
         /*
          * Unloads resources and performs cleanup operations for the level scene.
          * This method is called when the scene is being unloaded or switched.
@@ -225,6 +241,11 @@ namespace SuperMarioBros.Source.Scenes
                     _progressDataManager.Data.PlayerComponent.PlayerPositionY = 32;
                     sceneManager.ChangeScene(SceneName.SecretLevelTransition);
                 }
+            }
+
+            if (!_isRunningOutOfTime)
+            {
+                CheckRunningOutTime();
             }
 
             if (!_isFlagEventPlayed)

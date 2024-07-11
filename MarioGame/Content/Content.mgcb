@@ -165,6 +165,12 @@
 /processorParam:Quality=Best
 /build:Sounds/mario-bros-remix.mp3
 
+#begin Sounds/running_out_time_mario.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/running_out_time_mario.mp3
+
 #begin Sounds/secret-level-song.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
