@@ -8,21 +8,22 @@ using Microsoft.Xna.Framework.Media;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
-using SuperMarioBros.Utils.SceneCommonData;
 
 namespace SuperMarioBros.Source.Scenes;
 
-public class LivesScene : IScene, IDisposable
+public class SecretLevelTransitionScene: IScene, IDisposable
 {
     private bool _disposed;
     private ProgressDataManager _progressDataManager;
     private double _displayTime;
-    public const double MaxDisplayTime = 3.5;
+    public const double MaxDisplayTime = 2.0;
+    private SceneName _nextScene;
 
-    public LivesScene(ProgressDataManager progressDataManager)
+    public SecretLevelTransitionScene(ProgressDataManager progressDataManager, SceneName sceneName)
     {
         _progressDataManager = progressDataManager;
         _displayTime = 0;
+        _nextScene = sceneName;
     }
 
     /*
@@ -36,8 +37,9 @@ public class LivesScene : IScene, IDisposable
     public void Load(SpriteData spriteData)
     {
         Sprites.Load(spriteData?.content);
-        MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/lost_life"));
+        MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/StockTune"));
         MediaPlayer.IsRepeating = true;
+
     }
 
     /*
@@ -59,20 +61,8 @@ public class LivesScene : IScene, IDisposable
     public void Draw(SpriteData spriteData, GameTime gameTime)
     {
         spriteData?.graphics.GraphicsDevice.Clear(Color.Black);
-
-        if (spriteData != null)
-        {
-            spriteData.spriteBatch.Begin();
-            CommonRenders.DrawProgressData(spriteData, _progressDataManager.Score,
-                _progressDataManager.Coins,
-                "1-1",
-                0);
-            CommonRenders.DrawText("WORLD 1-1", 480, 200, spriteData);
-            CommonRenders.DrawIcon(spriteData, 490, 320, Sprites.SmallStop);
-            CommonRenders.DrawText($"x {_progressDataManager.Lives}", 610, 350, spriteData);
-            spriteData.spriteBatch.End();
-        }
     }
+
 
     public void Update(GameTime gameTime, SceneManager sceneManager)
     {
@@ -81,16 +71,7 @@ public class LivesScene : IScene, IDisposable
         if (_displayTime >= MaxDisplayTime)
         {
             _displayTime = 0;
-            if (_progressDataManager.Lives > 0)
-            {
-                _progressDataManager.ResetTime();
-                _progressDataManager.ResetPlayer();
-                sceneManager.ChangeScene(SceneName.Level1);
-            }
-            else
-            {
-                sceneManager.ChangeScene(SceneName.GameOver);
-            }
+            sceneManager.ChangeScene(_nextScene);
         }
     }
 
@@ -109,7 +90,6 @@ public class LivesScene : IScene, IDisposable
         GC.SuppressFinalize(this);
     }
 
-
     /*
      * Releases managed resources if disposing is true.
      */
@@ -121,3 +101,5 @@ public class LivesScene : IScene, IDisposable
         _disposed = true;
     }
 }
+
+

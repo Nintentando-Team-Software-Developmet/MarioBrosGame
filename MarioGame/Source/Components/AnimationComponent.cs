@@ -68,6 +68,11 @@ namespace SuperMarioBros.Source.Components
         {
             return !state.Contains(currentState);
         }
-
+        public void UpdateAnimationSize(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+            this.textureRectangle = new Rectangle(textureRectangle.X, textureRectangle.Y, width, height);
+        }
     }
 }

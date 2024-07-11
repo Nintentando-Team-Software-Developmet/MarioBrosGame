@@ -39,9 +39,11 @@ namespace SuperMarioBros
             _sceneManager.AddScene(SceneName.MainMenu, new MenuScene(_progressDataManager));
             _sceneManager.AddScene(SceneName.Level1, new LevelScene(LevelPath.Level1, _progressDataManager));
             _sceneManager.AddScene(SceneName.GameOver, new GameOverScene(_progressDataManager));
+            _sceneManager.AddScene(SceneName.SecretLevelTransition, new SecretLevelTransitionScene(_progressDataManager, SceneName.SecretLevel));
             _sceneManager.AddScene(SceneName.Lives, new LivesScene(_progressDataManager));
             _sceneManager.AddScene(SceneName.Win, new WinScene(_progressDataManager));
             _sceneManager.AddScene(SceneName.SecretLevel, new SecretLevelScene(LevelPath.SecretLevel1, _progressDataManager));
+            _sceneManager.AddScene(SceneName.Level1Transition, new SecretLevelTransitionScene(_progressDataManager, SceneName.Level1));
         }
 
 

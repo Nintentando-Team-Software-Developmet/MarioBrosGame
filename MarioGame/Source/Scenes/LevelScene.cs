@@ -19,7 +19,6 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -86,9 +85,37 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            //MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            MediaPlayer.Volume = 0.7f;
+            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
+            LoadSoundEffects(spriteData);
         }
+
+
+        private static void LoadSoundEffects(SpriteData spriteData)
+        {
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockDestroyed, "SoundEffects/block_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.NonBreakableBlockCollided, "SoundEffects/block_not_destroy");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.CoinCollected, "SoundEffects/coin_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyed, "SoundEffects/smash");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireball, "SoundEffects/fireball");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireballCollided, "SoundEffects/fireball_hit");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "SoundEffects/player_jump");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostLife, "SoundEffects/loss_life");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "SoundEffects/lost_power_up");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
+        }
+
+
+        /*
+         * Initializes the systems for the level scene.
+         * This method creates and adds systems to the scene.
+         *
+         * Parameters:
+         *   spriteData: SpriteData object containing sprite batch and content manager.
+         */
 
         private void InitializeSystems(SpriteData spriteData)
         {
@@ -97,9 +124,13 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
             Systems.Add(new PlayerSystem());
-            Systems.Add(new EnemySystem(_progressDataManager));
+            Systems.Add(new EnemySystem());
             Systems.Add(new BlockSystem(_progressDataManager));
             Systems.Add(new WinPoleSystem());
+            Systems.Add(new FireBoolSystem());
+            Systems.Add(new MarioPowersSystem());
+
+            Systems.Add(new SoundEffectSystem());
         }
 
         /*
@@ -111,7 +142,7 @@ namespace SuperMarioBros.Source.Scenes
             var playerEntityData = _levelData.entities.FirstOrDefault(e => e.type == EntityType.PLAYER);
             if (playerEntityData != null)
             {
-                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(playerEntityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(playerEntityData));
             }
 
@@ -123,7 +154,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entity in initialStaticEntities)
             {
-                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entity, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entity));
             }
         }
@@ -183,9 +214,11 @@ namespace SuperMarioBros.Source.Scenes
                 var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
                 LoadEntitiesNearPlayer(playerPosition, LoadRadius);
 
-                if (IsPlayerAtSecretLocation(3620, 3776))
+                if (playerEntity.GetComponent<PlayerComponent>().IsInSecretLevel)
                 {
-                    sceneManager.ChangeScene(SceneName.SecretLevel);
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionX = 128;
+                    _progressDataManager.Data.PlayerComponent.PlayerPositionY = 32;
+                    sceneManager.ChangeScene(SceneName.SecretLevelTransition);
                 }
             }
 
@@ -209,23 +242,6 @@ namespace SuperMarioBros.Source.Scenes
             CheckPlayerState(gameTime, sceneManager);
         }
 
-        private bool IsPlayerAtSecretLocation(float secretLocationStart, float secretLocationEnd)
-        {
-            var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
-            if (playerEntity != null)
-            {
-                var playerPosition = playerEntity.GetComponent<ColliderComponent>().Position;
-                return playerPosition.X > secretLocationStart && playerPosition.X < secretLocationEnd && IsHKeyPressed();
-            }
-            return false;
-        }
-
-        private static bool IsHKeyPressed()
-        {
-            KeyboardState state = Keyboard.GetState();
-            return state.IsKeyDown(Keys.H);
-        }
-
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
         {
             var entitiesToLoad = _levelData.entities.Where(entityData =>
@@ -236,7 +252,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entityData in entitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
 
@@ -248,7 +264,7 @@ namespace SuperMarioBros.Source.Scenes
 
             foreach (var entityData in staticEntitiesToLoad)
             {
-                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld));
+                Entities.Add(EntityFactory.CreateEntity(entityData, physicsWorld, _progressDataManager.Data));
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
         }
@@ -293,7 +309,7 @@ namespace SuperMarioBros.Source.Scenes
             if (playerComponent != null && animationComponent != null && colliderComponent != null && playerComponent.IsAlive)
             {
                 playerComponent.IsAlive = false;
-                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50);
+                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);
             }
         }
 

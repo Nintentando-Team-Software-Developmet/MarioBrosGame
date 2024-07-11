@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using MarioGame;
 
@@ -9,6 +11,7 @@ using nkast.Aether.Physics2D.Dynamics.Contacts;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -25,7 +28,7 @@ public class BlockSystem : BaseSystem
     private static Dictionary<Entity, bool> entitiesProcessed = new Dictionary<Entity, bool>();
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
-    private static bool statusMario { get; set; }
+    private static StatusMario showStatusMario { get; set; }
 
     public BlockSystem(ProgressDataManager progressDataManager)
     {
@@ -59,7 +62,7 @@ public class BlockSystem : BaseSystem
                     RegisterBlock(entity, collider, entitiesPlayer);
                 }
 
-                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin);
+                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin,entitiesPlayer);
 
             }
         }
@@ -74,7 +77,7 @@ public class BlockSystem : BaseSystem
     }
 
     private void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
-        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
+        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities, IEnumerable<Entity> playerEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
         float timeToMove = 0.02f;
@@ -148,19 +151,25 @@ public class BlockSystem : BaseSystem
             var animationComponent = entity.GetComponent<AnimationComponent>();
             animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
             coinBlock.HasMoved = true;
+            EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockPowerUpCollided));
         }
         else if (coinBlock.TypeContent == EntitiesName.COIN && coinBlock.Quantity > 0)
         {
-            ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
-            coinBlock.Quantity--;
-            _progressDataManager.Coins++;
-            _progressDataManager.IncreaseScore(200);
             if (coinBlock.Quantity == 0)
             {
                 coinBlock.statusBlock = false;
                 var animationComponent = entity.GetComponent<AnimationComponent>();
                 animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BLOCKERBLOCKBROWN], 64, 64).animations;
                 coinBlock.HasMoved = true;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
+
+            }
+            else
+            {
+                ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
+                coinBlock.Quantity--;
+                _progressDataManager.Coins++;
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
             }
         }
 
@@ -174,7 +183,7 @@ public class BlockSystem : BaseSystem
 
         if (questionBlock.TypeContent == EntitiesName.POWERUP)
         {
-            if (!statusMario)
+            if ( showStatusMario == StatusMario.SmallMario)
             {
                 ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
             }
@@ -182,12 +191,14 @@ public class BlockSystem : BaseSystem
             {
                 ActivateEntities<FlowerComponent>(flowerEntities, collider.collider.Position);
             }
+            EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockPowerUpCollided));
+
         }
         else if (questionBlock.TypeContent == EntitiesName.COIN)
         {
             ActivateEntities<CoinComponent>(coinEntities, collider.collider.Position);
             _progressDataManager.Coins++;
-            _progressDataManager.IncreaseScore(200);
+            EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
         }
         questionBlock.HasMoved = true;
     }
@@ -223,11 +234,26 @@ public class BlockSystem : BaseSystem
             Fixture colliderFixture = colliderBody.FixtureList[0];
 
             float blockBottomY = colliderBody.Position.Y * GameConstants.pixelPerMeter + colliderFixture.Shape.Radius;
-
+            var playerState = entities.WithComponents(typeof(PlayerComponent)).FirstOrDefault().GetComponent<PlayerComponent>();
             if (IsCollisionAtBase(contact, blockBottomY, entities))
             {
                 var questionBlock = entity.GetComponent<QuestionBlockComponent>();
                 var coinBlock = entity.GetComponent<CoinBlockComponent>();
+                var block = entity.GetComponent<BlockComponent>();
+
+                if (block.IsDestrucible)
+                {
+                    if (playerState.IsBig)
+                    {
+                        EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.BlockDestroyed));
+                        //TODO add destroy of the block
+                    }
+                    else
+                    {
+                        EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.NonBreakableBlockCollided));
+                    }
+                }
+
                 if (entityStates[entity] == "idle" &&
                     ((questionBlock == null || !questionBlock.HasMoved) && (coinBlock == null || !coinBlock.HasMoved)))
                 {
@@ -262,6 +288,7 @@ public class BlockSystem : BaseSystem
         foreach (var playerEntity in entities)
         {
             var playerCollider = playerEntity.GetComponent<ColliderComponent>().collider;
+            showStatusMario = playerEntity.GetComponent<PlayerComponent>().statusMario;
             if (playerCollider == bodyA || playerCollider == bodyB)
             {
                 isPlayerInvolved = true;
@@ -284,3 +311,4 @@ public class BlockSystem : BaseSystem
         bodyB.ApplyLinearImpulse(repulsionForce * normal);
     }
 }
+

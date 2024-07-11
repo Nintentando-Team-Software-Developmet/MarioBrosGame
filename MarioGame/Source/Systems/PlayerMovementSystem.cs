@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using nkast.Aether.Physics2D.Collision.Shapes;
+using nkast.Aether.Physics2D.Common;
 using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
@@ -20,27 +23,52 @@ namespace SuperMarioBros.Source.Systems
         private static ColliderComponent colliderCamera { get; set; }
         private bool keyboardJumpReleased = true;
         private bool gamepadJumpReleased = true;
+        private static bool verifyDirection { get; set; }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
         {
             IEnumerable<Entity> playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent), typeof(MovementComponent));
             foreach (var player in playerEntities)
             {
+                var playerComponent = player.GetComponent<PlayerComponent>();
+                if (playerComponent != null && !playerComponent.IsAlive)
+                {
+                    continue;
+                }
+
                 var collider = player.GetComponent<ColliderComponent>();
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
                 var keyboardState = Keyboard.GetState();
                 var gamePadState = GamePad.GetState(PlayerIndex.One);
                 var camera = player.GetComponent<CameraComponent>();
-                if (!player.GetComponent<PlayerComponent>().HasReachedEnd)
+                if (!player.GetComponent<PlayerComponent>().HasReachedEnd && !player.GetComponent<PlayerComponent>().IsInTransition)
                 {
+                    if (!player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent) && (keyboardState.IsKeyDown(Keys.Down) || gamePadState.DPad.Down == ButtonState.Pressed))
+                    {
+                        player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(0, -30));
+                        player.GetComponent<PlayerComponent>().IsInTransition = true;
+                    }
+                    if (player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(905, 917, 670, 737, playerComponent) && (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed))
+                    {
+                        player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(-20, 0));
+                        player.GetComponent<PlayerComponent>().IsInTransition = true;
+                    }
                     if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
                     {
                         HandleLeftKey(collider, animation, movement);
+                        verifyDirection = true;
                     }
                     else if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed)
                     {
                         HandleKeyRight(collider, animation, movement);
+                        verifyDirection = false;
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.BigMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.BigMario
+                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.FireMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.FireMario)
+                    {
+                        HandleKeyBend(collider, animation);
+
                     }
                     else
                     {
@@ -49,6 +77,17 @@ namespace SuperMarioBros.Source.Systems
                     if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
                     LimitSpeed(collider, collider.maxSpeed);
                     CreateInvisibleWall(camera, collider);
+                    if (playerComponent.statusMario == StatusMario.BigMario || playerComponent.statusMario == StatusMario.FireMario)
+                    {
+                        if (animation.currentState == AnimationState.BENDLEFT || animation.currentState == AnimationState.BENDRIGHT)
+                        {
+                            ChangeAnimationColliderPlayer.TransformToBigBendMario(animation, collider);
+                        }
+                        else
+                        {
+                            ChangeAnimationColliderPlayer.TransformToBigNormalMario(animation,collider);
+                        }
+                    }
                 }
             }
         }
@@ -120,6 +159,23 @@ namespace SuperMarioBros.Source.Systems
                 collider.collider.ApplyForce(new AetherVector2(collider.velocity, 0));
             };
         }
+        private static void HandleKeyBend(ColliderComponent collider, AnimationComponent animation)
+        {
+            if (!collider.isJumping())
+            {
+                if (verifyDirection)
+                {
+                    animation.Play(AnimationState.BENDLEFT);
+                }
+                else
+                {
+                    animation.Play(AnimationState.BENDRIGHT);
+                }
+
+            }
+
+        }
+
 
         private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement, GameTime gameTime)
         {
@@ -145,6 +201,7 @@ namespace SuperMarioBros.Source.Systems
                     animation.Play(AnimationState.JUMPRIGHT);
                     movement.Direction = MovementType.RIGHT;
                 }
+                EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerJump));
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
             }
 
@@ -172,7 +229,7 @@ namespace SuperMarioBros.Source.Systems
         {
             if (!collider.isJumping())
             {
-                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y);
+                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y );
             }
             if (movement.Direction == MovementType.LEFT && !collider.isJumping())
             {
@@ -194,6 +251,13 @@ namespace SuperMarioBros.Source.Systems
             {
                 collider.collider.LinearVelocity = new AetherVector2(-maxSpeed, collider.collider.LinearVelocity.Y);
             }
+        }
+
+
+        private static bool IsPlayerAtSecretLocation(float secretLocationStartX, float secretLocationEndX, float secretLocationStartY, float secretLocationEndY, PlayerComponent playerComponent)
+        {
+            return playerComponent.PlayerPositionX > secretLocationStartX && playerComponent.PlayerPositionX <= secretLocationEndX &&
+                playerComponent.PlayerPositionY > secretLocationStartY && playerComponent.PlayerPositionY <= secretLocationEndY;
         }
     }
 }

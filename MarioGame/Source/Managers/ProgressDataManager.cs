@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
+using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils;
 
@@ -14,12 +15,12 @@ namespace SuperMarioBros.Source.Managers;
 public class ProgressDataManager
 {
     private ProgressData _data;
-    private const int DefaultTime = 70;
+    private const int DefaultTime = 400;
     private HighScoreManager _highScoreManager;
 
     public ProgressDataManager()
     {
-        _data = new ProgressData(DefaultTime, 0, 0, 3);
+        _data = new ProgressData(DefaultTime, 0, 0, 3, new PlayerComponent());
         _highScoreManager = new HighScoreManager();
     }
 
@@ -70,6 +71,11 @@ public class ProgressDataManager
         _data.Coins = 0;
         _data.Score = 0;
         _data.Lives = 3;
+        _data.PlayerComponent = new PlayerComponent();
+    }
+    public void ResetPlayer()
+    {
+        _data.PlayerComponent = new PlayerComponent();
     }
 
     public void UpdateHighScore()

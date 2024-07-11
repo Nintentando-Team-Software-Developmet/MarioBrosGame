@@ -8,6 +8,7 @@ using nkast.Aether.Physics2D.Dynamics;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
+using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils;
@@ -159,6 +160,7 @@ namespace SuperMarioBros.Source.Systems
                             enemyBody.ResetDynamics();
                             _bodiesToRemove.Add(enemyBody);
                         }
+                        EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.EnemyDestroyed));
                     }
                 }
                 return true;
