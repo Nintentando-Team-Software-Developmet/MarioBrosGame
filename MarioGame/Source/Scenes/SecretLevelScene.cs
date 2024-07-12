@@ -7,6 +7,7 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
@@ -99,6 +100,7 @@ namespace SuperMarioBros.Source.Scenes
         {
             Entities.ClearAll();
             Systems.Clear();
+            SoundEffect.MasterVolume = SoundEffect.MasterVolume - SoundEffect.MasterVolume * 0.33f;
             MediaPlayer.Stop();
             foreach (var body in _physicsWorld.BodyList.ToList())
             {
