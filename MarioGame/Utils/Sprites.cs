@@ -274,8 +274,8 @@ namespace SuperMarioBros.Utils
             BigBend = content.Load<Texture2D>("sprites/Mario/Big/Bend");
             BigJumpBackLeft = content.Load<Texture2D>("sprites/Mario/Big/Jump_b_l");
             BigJumpBack = content.Load<Texture2D>("sprites/Mario/Big/Jump_b");
-            BigRunLeft = content.Load<Texture2D>("sprites/Mario/Big/RunB_l");
-            BigRun = content.Load<Texture2D>("sprites/Mario/Big/RunB");
+            BigRunLeft = content.Load<Texture2D>("sprites/Mario/Big/RunB");
+            BigRun = content.Load<Texture2D>("sprites/Mario/Big/RunB_l");
             BigStopLeft = content.Load<Texture2D>("sprites/Mario/Big/StoppedB_l");
             BigStop = content.Load<Texture2D>("sprites/Mario/Big/StoppedB");
             BigWalk1Left = content.Load<Texture2D>("sprites/Mario/Big/Walk_1_l");
