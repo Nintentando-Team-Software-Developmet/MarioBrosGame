@@ -79,19 +79,19 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARBIGMARIO], 64, 101,playerCollider, 34f, 51f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARBIGMARIO], 64, 101,playerCollider, 48f, 88f);
     }
     public static void TransformToBigMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101,playerCollider, 34f, 51f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101,playerCollider, 48f, 88f);
     }
     public static void TransformToFireMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101,playerCollider, 34f, 51f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101,playerCollider, 48f, 88f);
 
     }
     public static void TransformToSmallMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -99,7 +99,7 @@ public static class ChangeAnimationColliderPlayer
 
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.MARIO], 64, 64,playerCollider, 30f, 32f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.MARIO], 64, 64,playerCollider, 48f, 57f);
 
     }
     public static void TransformToSmallMarioStar(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -107,25 +107,46 @@ public static class ChangeAnimationColliderPlayer
 
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARSMALLMARIO], 64, 64,playerCollider, 30f, 32f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARSMALLMARIO], 64, 64,playerCollider, 50f, 57f);
 
     }
-    private static void TransformMario(AnimationComponent playerAnimation, Dictionary<AnimationState, Texture2D[]> animations, int animationWidth, int animationHeight, ColliderComponent playerCollider, float colliderWidth, float colliderHeight)
-    {
-        playerAnimation.animations = new AnimationComponent(animations, animationWidth, animationHeight, 0.09f).animations;
-        playerAnimation.UpdateAnimationSize(animationWidth, animationHeight);
+private static void TransformMario(AnimationComponent playerAnimation, Dictionary<AnimationState, Texture2D[]> animations, int animationWidth, int animationHeight, ColliderComponent playerCollider, float colliderWidth, float colliderHeight)
+{
+    playerAnimation.animations = new AnimationComponent(animations, animationWidth, animationHeight, 0.09f).animations;
+    playerAnimation.UpdateAnimationSize(animationWidth, animationHeight);
 
-        if (playerCollider.collider.FixtureList.Count > 0)
+    if (playerCollider.collider.FixtureList.Count > 0)
+    {
+        var colliderShape = playerCollider.collider.FixtureList[0].Shape;
+        if (colliderShape is PolygonShape)
         {
-            var colliderShape = playerCollider.collider.FixtureList[0].Shape;
-            if (colliderShape is PolygonShape polygonShape)
-            {
-                var halfWidth = colliderWidth / GameConstants.pixelPerMeter;
-                var halfHeight = colliderHeight / GameConstants.pixelPerMeter;
-                polygonShape.Vertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
-            }
+            var halfWidth = colliderWidth / GameConstants.pixelPerMeter / 2;
+            var halfHeight = colliderHeight / GameConstants.pixelPerMeter / 2;
+            var cornerRadius = Math.Min(halfWidth, halfHeight) / 4;
+
+            var vertices = new Vertices();
+
+            AddRoundedCornerVertices(vertices,-halfWidth,-halfHeight,180,cornerRadius);
+            AddRoundedCornerVertices(vertices,halfWidth,-halfHeight,270,cornerRadius);
+            AddRoundedCornerVertices(vertices,halfWidth,halfHeight,0,cornerRadius);
+            AddRoundedCornerVertices(vertices,-halfWidth,halfHeight,90,cornerRadius);
+
+            ((PolygonShape)colliderShape).Vertices = vertices;
         }
     }
+}
+
+private static void AddRoundedCornerVertices(Vertices vertices, float halfWidth, float halfHeight, int startAngle,float cornerRadius)
+{
+    for (int i = 0; i <= 90; i += 15)
+    {
+        float angle = MathHelper.ToRadians(i + startAngle);
+        vertices.Add(new AetherVector2(
+            halfWidth + cornerRadius * (float)Math.Cos(angle),
+            halfHeight + cornerRadius * (float)Math.Sin(angle)));
+    }
+}
+
 
     private static void TransformMario(AnimationComponent playerAnimation,int animationWidth,
         int animationHeight,ColliderComponent playerCollider,float colliderWidth, float colliderHeight)
@@ -145,7 +166,7 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, 64, 90, playerCollider, 40f, 47f);
+                TransformMario(playerAnimation, 64, 90, playerCollider, 35f, 47f);
     }
 
     public static void CheckEnemyProximity(ColliderComponent playerCollider, AnimationComponent playerAnimation, IEnumerable<Entity> enemyEntities, GameTime gameTime, double invulnerabilityEndTime)

@@ -390,6 +390,7 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
 
             map.Draw(spriteData);
+
             DrawProgressManager(gameTime, spriteData);
 
             spriteData.spriteBatch.End();

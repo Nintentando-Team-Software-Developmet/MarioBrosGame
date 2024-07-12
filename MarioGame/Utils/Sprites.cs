@@ -10,6 +10,7 @@ namespace SuperMarioBros.Utils
         //blocks
         public static Texture2D BlockedBlockBrown { get; set; }
         public static Texture2D BlockedBlockBlue { get; set; }
+        public static Texture2D BreakBlock { get; set; }
         public static Texture2D BlockedBlockGrey { get; set; }
         public static Texture2D BrickBlockBrown { get; set; }
         public static Texture2D BrickBlockBlue { get; set; }
@@ -188,6 +189,7 @@ namespace SuperMarioBros.Utils
             //blocks
             BlockedBlockBrown = content.Load<Texture2D>("sprites/blocks/blocked_block_1");
             BlockedBlockBlue = content.Load<Texture2D>("sprites/blocks/blocked_block_2");
+            BreakBlock = content.Load<Texture2D>("sprites/blocks/break_block");
             BlockedBlockGrey = content.Load<Texture2D>("sprites/blocks/blocked_block_3");
             BrickBlockBrown = content.Load<Texture2D>("sprites/blocks/brick_block_1");
             BrickBlockBlue = content.Load<Texture2D>("sprites/blocks/brick_block_2");
