@@ -21,8 +21,6 @@ namespace SuperMarioBros.Source.Systems
     public class PlayerMovementSystem : BaseSystem
     {
         private static ColliderComponent colliderCamera { get; set; }
-        private bool keyboardJumpReleased = true;
-        private bool gamepadJumpReleased = true;
         private static bool verifyDirection { get; set; }
 
         public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
@@ -36,46 +34,50 @@ namespace SuperMarioBros.Source.Systems
                     continue;
                 }
 
+                var input = player.GetComponent<InputComponent>();
                 var collider = player.GetComponent<ColliderComponent>();
                 var animation = player.GetComponent<AnimationComponent>();
                 var movement = player.GetComponent<MovementComponent>();
-                var keyboardState = Keyboard.GetState();
-                var gamePadState = GamePad.GetState(PlayerIndex.One);
                 var camera = player.GetComponent<CameraComponent>();
+                var playerEntity = player.GetComponent<PlayerComponent>();
+                var isPlayerAtSecretLocation = IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent) || IsPlayerAtSecretLocation(905, 917, 670, 737, playerComponent) ;
+                if( input == null || collider == null || animation == null || movement == null || camera == null || playerEntity == null) continue;
                 if (!player.GetComponent<PlayerComponent>().HasReachedEnd && !player.GetComponent<PlayerComponent>().IsInTransition)
                 {
-                    if (!player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(3620, 3674, 443, 479, playerComponent) && (keyboardState.IsKeyDown(Keys.Down) || gamePadState.DPad.Down == ButtonState.Pressed))
+                    collider.velocity = input.B.IsPressed? GameConstants.RUNVELOCITY : GameConstants.BASEVELOCITY;
+                    collider.maxSpeed = collider.velocity;
+                    animation.velocity = input.B.IsPressed? GameConstants.RUNFRAMEVELOCITY : GameConstants.BASEFRAMEVELOCITY;
+                    if (!player.GetComponent<PlayerComponent>().IsInSecretLevel && isPlayerAtSecretLocation && input.DOWN.IsPressed)
                     {
-                        player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(0, -30));
-                        player.GetComponent<PlayerComponent>().IsInTransition = true;
+                        collider.collider.ApplyForce(new AetherVector2(0, -30));
+                        playerEntity.IsInTransition = true;
                     }
-                    if (player.GetComponent<PlayerComponent>().IsInSecretLevel && IsPlayerAtSecretLocation(905, 917, 670, 737, playerComponent) && (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed))
+                    if (player.GetComponent<PlayerComponent>().IsInSecretLevel && isPlayerAtSecretLocation && input.RIGHT.IsPressed)
                     {
-                        player.GetComponent<ColliderComponent>().collider.ApplyForce(new AetherVector2(-20, 0));
-                        player.GetComponent<PlayerComponent>().IsInTransition = true;
+                        collider.collider.ApplyForce(new AetherVector2(-20, 0));
+                        playerEntity.IsInTransition = true;
                     }
-                    if (keyboardState.IsKeyDown(Keys.Left) || gamePadState.DPad.Left == ButtonState.Pressed)
+                    if (input.LEFT.IsPressed)
                     {
                         HandleLeftKey(collider, animation, movement);
                         verifyDirection = true;
                     }
-                    else if (keyboardState.IsKeyDown(Keys.Right) || gamePadState.DPad.Right == ButtonState.Pressed)
+                    else if (input.RIGHT.IsPressed)
                     {
                         HandleKeyRight(collider, animation, movement);
                         verifyDirection = false;
                     }
-                    else if (keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.BigMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.BigMario
-                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.FireMario || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.FireMario
-                             || keyboardState.IsKeyDown(Keys.Down) && playerComponent.statusMario == StatusMario.StarMarioBig || gamePadState.DPad.Down == ButtonState.Pressed && playerComponent.statusMario == StatusMario.StarMarioBig)
+                    else if (input.DOWN.IsPressed && playerComponent.statusMario == StatusMario.BigMario 
+                             || input.DOWN.IsPressed && playerComponent.statusMario == StatusMario.FireMario 
+                             || input.DOWN.IsPressed && playerComponent.statusMario == StatusMario.StarMarioBig)
                     {
                         HandleKeyBend(collider, animation);
-
                     }
                     else
                     {
                         HandleStop(collider, animation, movement);
                     }
-                    if (gameTime != null) HandleUpKey(gamePadState, keyboardState, collider, animation, movement, gameTime);
+                    if (gameTime != null) HandleUpKey(input, collider, animation, movement, gameTime);
                     LimitSpeed(collider, collider.maxSpeed);
                     CreateInvisibleWall(camera, collider);
 
@@ -167,21 +169,15 @@ namespace SuperMarioBros.Source.Systems
 
         }
 
-
-        private void HandleUpKey(GamePadState gamePadState, KeyboardState keyboardState, ColliderComponent collider, AnimationComponent animation, MovementComponent movement, GameTime gameTime)
+        private static void HandleUpKey(InputComponent input, ColliderComponent collider, AnimationComponent animation, MovementComponent movement, GameTime gameTime)
         {
-            if (collider == null || animation == null || movement == null || colliderCamera == null)
+            if(input == null || collider == null || animation == null || movement == null || gameTime == null || colliderCamera == null)
             {
                 return;
             }
-
-            bool jumpCondition = (keyboardState.IsKeyDown(Keys.Z) && keyboardJumpReleased) || (gamePadState.Buttons.A == ButtonState.Pressed && gamepadJumpReleased);
-
-            if (jumpCondition && !collider.isJumping())
+            if(input.DOWN.IsPressed) return;
+            if (input.A.IsPressed && input.A.IsHeld && !collider.isJumping())
             {
-                if (keyboardState.IsKeyDown(Keys.Z)) keyboardJumpReleased = false;
-                if (gamePadState.Buttons.A == ButtonState.Pressed) gamepadJumpReleased = false;
-
                 if (movement.Direction == MovementType.LEFT)
                 {
                     animation.Play(AnimationState.JUMPLEFT);
@@ -195,23 +191,13 @@ namespace SuperMarioBros.Source.Systems
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerJump));
                 collider.collider.ApplyLinearImpulse(new AetherVector2(0, -4.29f));
             }
-
-            if (keyboardState.IsKeyUp(Keys.Z))
-            {
-                keyboardJumpReleased = true;
-            }
-            if (gamePadState.Buttons.A == ButtonState.Released)
-            {
-                gamepadJumpReleased = true;
-            }
-
-
             if (collider.isJumping())
             {
                 if (collider.collider.Position.X + collider.collider.LinearVelocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds <= colliderCamera.collider.Position.X + 0.3f)
                 {
                     collider.collider.LinearVelocity = new AetherVector2(0, collider.collider.LinearVelocity.Y);
                     animation.Play(AnimationState.JUMPLEFT);
+                    input.A.setHeld(false);
                 }
             }
         }

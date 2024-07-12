@@ -35,11 +35,12 @@ namespace SuperMarioBros.Source.Systems
             if (gameTime != null)
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                IEnumerable<Entity> playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent),typeof(MovementComponent), typeof(CameraComponent));
+                IEnumerable<Entity> playerEntities = entities.WithComponents(typeof(PlayerComponent), typeof(AnimationComponent), typeof(ColliderComponent),typeof(MovementComponent), typeof(CameraComponent), typeof(InputComponent));
+        
                 foreach (var player in playerEntities)
                 {
-                    var keyboardState = Keyboard.GetState();
-                    if (keyboardState.IsKeyDown(Keys.A) )
+                    var input = player.GetComponent<InputComponent>();
+                    if (input.B.IsPressed) 
                     {
                         if (player.GetComponent<PlayerComponent>().statusMario == StatusMario.FireMario ||
                             player.GetComponent<PlayerComponent>().statusMario == StatusMario.StarMarioBig && player.GetComponent<PlayerComponent>().previousStatusMario == StatusMario.FireMario)
