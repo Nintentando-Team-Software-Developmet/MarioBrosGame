@@ -147,6 +147,12 @@
 /processorParam:Quality=Best
 /build:Sounds/end.mp3
 
+#begin Sounds/fast_level.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/fast_level.mp3
+
 #begin Sounds/game_over.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -170,12 +176,6 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/mario-bros-remix.mp3
-
-#begin Sounds/running_out_time_mario.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/running_out_time_mario.mp3
 
 #begin Sounds/secret-level-song.mp3
 /importer:Mp3Importer

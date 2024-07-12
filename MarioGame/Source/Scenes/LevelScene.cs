@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -19,6 +20,7 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
+using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -89,7 +91,7 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/running_out_time_mario");
+            _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/fast_level");
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
             MediaPlayer.IsRepeating = true;
             LoadSoundEffects(spriteData);
@@ -131,13 +133,12 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new CameraSystem());
             Systems.Add(new NonPlayerMovementSystem());
             Systems.Add(new PlayerMovementSystem());
-            Systems.Add(new PlayerSystem());
-            Systems.Add(new EnemySystem());
+            Systems.Add(new PlayerSystem(_progressDataManager));
+            Systems.Add(new EnemySystem(_progressDataManager));
             Systems.Add(new BlockSystem(_progressDataManager));
-            Systems.Add(new WinPoleSystem());
-            Systems.Add(new FireBoolSystem());
-            Systems.Add(new MarioPowersSystem(spriteData));
-
+            Systems.Add(new WinPoleSystem(_progressDataManager));
+            Systems.Add(new FireBoolSystem(_progressDataManager));
+            Systems.Add(new MarioPowersSystem(_progressDataManager, spriteData));
             Systems.Add(new SoundEffectSystem());
         }
 
@@ -210,7 +211,7 @@ namespace SuperMarioBros.Source.Scenes
             {
                 physicsWorld.Remove(body);
             }
-
+            MediaPlayer.Stop();
             _isLevelCompleted = false;
             _isFlagEventPlayed = false;
             _levelCompleteDisplayTime = 0;
@@ -243,10 +244,6 @@ namespace SuperMarioBros.Source.Scenes
                 }
             }
 
-            if (!_isRunningOutOfTime)
-            {
-                CheckRunningOutTime();
-            }
 
             if (!_isFlagEventPlayed)
             {
@@ -254,6 +251,12 @@ namespace SuperMarioBros.Source.Scenes
                 UpdateProgressData(gameTime);
                 CheckGameOverConditions();
             }
+
+            if (!_isRunningOutOfTime)
+            {
+                CheckRunningOutTime();
+            }
+
             else if (!_isLevelCompleted)
             {
                 _levelCompleteDisplayTime += gameTime.ElapsedGameTime.TotalSeconds;
@@ -264,10 +267,30 @@ namespace SuperMarioBros.Source.Scenes
                 }
             }
 
+            UpdateProgressManager(gameTime);
             UpdateSystems(gameTime);
             CheckPlayerState(gameTime, sceneManager);
         }
 
+
+        private void UpdateProgressManager(GameTime gameTime)
+        {
+            var expiredScores = new List<TemporaryScore>();
+
+            foreach (var tempScore in _progressDataManager.TemporaryScores)
+            {
+                tempScore.Update(gameTime);
+                if (tempScore.IsExpired())
+                {
+                    expiredScores.Add(tempScore);
+                }
+            }
+
+            foreach (var expiredScore in expiredScores)
+            {
+                _progressDataManager.TemporaryScores.Remove(expiredScore);
+            }
+        }
 
         private void LoadEntitiesNearPlayer(Vector2 playerPosition, float radius)
         {
@@ -306,6 +329,7 @@ namespace SuperMarioBros.Source.Scenes
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && player.HasReachedEnd)
             {
+                _isRunningOutOfTime = true;
                 _isFlagEventPlayed = true;
                 PlayFlagSound();
             }
@@ -318,7 +342,7 @@ namespace SuperMarioBros.Source.Scenes
 
         private void CheckGameOverConditions()
         {
-            if (_progressDataManager.Time <= 0)
+            if (_progressDataManager.Time <= 0 && !_progressDataManager.Data.PlayerComponent.HasReachedEnd)
             {
                 HandleTimeOver();
             }
@@ -394,14 +418,27 @@ namespace SuperMarioBros.Source.Scenes
             if (spriteData == null) throw new ArgumentNullException(nameof(spriteData));
             spriteData.graphics.GraphicsDevice.Clear(new Color(121, 177, 249));
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
+
             map.Draw(spriteData);
+            DrawProgressManager(gameTime, spriteData);
+
+            spriteData.spriteBatch.End();
+        }
+
+        private void DrawProgressManager(GameTime gameTime, SpriteData spriteData)
+        {
             DrawEntities(gameTime);
             CommonRenders.DrawProgressData(Entities,
-                                            spriteData, _progressDataManager.Score,
-                                            _progressDataManager.Coins,
-                                            "1-1",
-                                            _progressDataManager.Time);
-            spriteData.spriteBatch.End();
+                spriteData, _progressDataManager.Score,
+                _progressDataManager.Coins,
+                "1-1",
+                _progressDataManager.Time);
+
+            foreach (var tempScore in _progressDataManager.TemporaryScores)
+            {
+                Debug.Assert(spriteData != null, nameof(spriteData) + " != null");
+                spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{tempScore.Value}", tempScore.Position, Color.White);
+            }
         }
 
         /*

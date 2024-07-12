@@ -8,6 +8,7 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
+using SuperMarioBros.Source.Managers;
 
 using Vector2 = nkast.Aether.Physics2D.Common.Vector2;
 
@@ -17,6 +18,12 @@ public class WinPoleSystem : BaseSystem
 {
     private HashSet<Entity> registeredEntities = new();
     private List<Body> _playerBodies = new();
+    private ProgressDataManager _progressDataManager;
+
+    public WinPoleSystem(ProgressDataManager progressDataManager)
+    {
+        _progressDataManager = progressDataManager;
+    }
 
     public override void Update(GameTime gameTime, IEnumerable<Entity> entities)
     {
@@ -45,7 +52,6 @@ public class WinPoleSystem : BaseSystem
                 {
                     flag.GetComponent<ColliderComponent>().collider.IgnoreGravity = false;
                     flag.GetComponent<ColliderComponent>().collider.LinearVelocity = new Vector2(0, 3);
-
                 }
             }
         }
@@ -63,6 +69,7 @@ public class WinPoleSystem : BaseSystem
             }
             if (_playerBodies.Contains(otherBody))
             {
+                _progressDataManager.CalculatePoleHeight();
                 winPoleSensorComponent.MarioContact = true;
             }
             return true;
