@@ -88,6 +88,7 @@ public class MarioPowersSystem : BaseSystem
                 {
                     if (spriteData != null)
                         MediaPlayer.Play(spriteData.content.Load<Song>("SoundEffects/StarMarioPower"));
+
                     playerComponent.previousStatusMario = playerComponent.statusMario;
                     if (playerComponent.previousStatusMario == StatusMario.BigMario || playerComponent.previousStatusMario == StatusMario.FireMario)
                     {
@@ -125,7 +126,14 @@ public class MarioPowersSystem : BaseSystem
                 playerComponent.statusMario = playerComponent.previousStatusMario;
                 colitionStar = false;
                 isStarPowerActive = false;
-                MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+                if (_progressDataManager.Time < 101)
+                {
+                    MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/fast_level"));
+                }
+                else
+                {
+                    MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+                }
             }
         }
 
