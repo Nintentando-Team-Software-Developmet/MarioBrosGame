@@ -79,19 +79,19 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARBIGMARIO], 64, 101,playerCollider, 54f, 88f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARBIGMARIO], 64, 101,playerCollider, 48f, 88f);
     }
     public static void TransformToBigMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101,playerCollider, 54f, 88f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101,playerCollider, 48f, 88f);
     }
     public static void TransformToFireMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101,playerCollider, 54f, 88f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101,playerCollider, 48f, 88f);
 
     }
     public static void TransformToSmallMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -99,7 +99,7 @@ public static class ChangeAnimationColliderPlayer
 
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.MARIO], 64, 64,playerCollider, 55f, 57f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.MARIO], 64, 64,playerCollider, 48f, 57f);
 
     }
     public static void TransformToSmallMarioStar(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -107,7 +107,7 @@ public static class ChangeAnimationColliderPlayer
 
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARSMALLMARIO], 64, 64,playerCollider, 55f, 57f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARSMALLMARIO], 64, 64,playerCollider, 50f, 57f);
 
     }
 private static void TransformMario(AnimationComponent playerAnimation, Dictionary<AnimationState, Texture2D[]> animations, int animationWidth, int animationHeight, ColliderComponent playerCollider, float colliderWidth, float colliderHeight)
