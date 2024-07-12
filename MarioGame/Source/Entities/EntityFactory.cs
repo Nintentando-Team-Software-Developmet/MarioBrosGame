@@ -132,7 +132,16 @@ namespace SuperMarioBros.Source.Entities
                     entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
                     entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, flagAnimation.textureRectangle, BodyType.Dynamic));
                     entity.GetComponent<ColliderComponent>().collider.IgnoreGravity = true;
+                    entity.GetComponent<ColliderComponent>().collider.Enabled = false;
                     break;
+                case EntityType.WINBALL:
+                    var ballAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name]);
+                    entity.AddComponent(ballAnimationComponent);
+                    entity.AddComponent(new PositionComponent(new Vector2(entityData.position.x, entityData.position.y)));
+                    entity.AddComponent(new ColliderComponent(physicsWorld, entityData.position.x, entityData.position.y, ballAnimationComponent.textureRectangle, BodyType.Static));
+                    entity.GetComponent<ColliderComponent>().collider.Enabled = false;
+                    break;
+
 
                 case EntityType.QUESTIONBLOCK:
                     AnimationComponent questionBlockAnimationComponent = new AnimationComponent(Animations.entityTextures[entityData.name], 64, 64);

@@ -14,6 +14,7 @@ namespace SuperMarioBros.Utils.DataStructures
         POWERUP,
         COINANIMATION,
         WINFLAG,
+        WINBALL,
         DUCTCROSS,
         SECRETLEVELDUCTENTRANCE,
         FIREBALL

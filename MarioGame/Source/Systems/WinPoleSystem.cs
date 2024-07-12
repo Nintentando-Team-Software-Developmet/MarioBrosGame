@@ -50,6 +50,7 @@ public class WinPoleSystem : BaseSystem
             {
                 foreach (Entity flag in flags)
                 {
+                    flag.GetComponent<ColliderComponent>().collider.Enabled = true;
                     flag.GetComponent<ColliderComponent>().collider.IgnoreGravity = false;
                     flag.GetComponent<ColliderComponent>().collider.LinearVelocity = new Vector2(0, 3);
                 }

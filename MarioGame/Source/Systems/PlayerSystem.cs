@@ -80,7 +80,7 @@ namespace SuperMarioBros.Source.Systems
                 }
                 if (playerComponent.MayTeleport)
                 {
-                    colliderComponent.collider.Position = new Vector2(colliderComponent.collider.Position.X + 0.64f, colliderComponent.collider.Position.Y + -0.5f);
+                    colliderComponent.collider.Position = new Vector2(128.05f, colliderComponent.collider.Position.Y + -0.5f);
                     playerComponent.MayTeleport = false;
                 }
                 if (colliderComponent.collider.Position.X < 131.25)
@@ -189,7 +189,7 @@ namespace SuperMarioBros.Source.Systems
                         }
                     }
                 }
-                if (animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
+                if (!_poleBodies.Contains(otherBody) && animationComponent.currentState == AnimationState.WIN && CollisionAnalyzer.GetDirectionCollision(contact) == CollisionType.UP)
                 {
                     animationComponent.Play(AnimationState.WALKRIGHT);
                     collider.collider.IgnoreGravity = false;
