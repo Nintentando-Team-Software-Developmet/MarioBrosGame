@@ -60,6 +60,7 @@ public class WinScene : IScene, IDisposable
 
         if (_displayTime >= MaxDisplayTime)
         {
+            _progressDataManager.UpdateHighScore();
             sceneManager.ChangeScene(SceneName.MainMenu);
         }
     }
