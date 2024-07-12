@@ -63,17 +63,35 @@
 /processorParam:Quality=Best
 /build:SoundEffects/duct_entry.mp3
 
+#begin SoundEffects/enemy_destroyed_star.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/enemy_destroyed_star.mp3
+
 #begin SoundEffects/fireball_hit.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/fireball_hit.mp3
 
+#begin SoundEffects/fireball_powerup.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/fireball_powerup.mp3
+
 #begin SoundEffects/fireball.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/fireball.mp3
+
+#begin SoundEffects/jump.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/jump.mp3
 
 #begin SoundEffects/loss_life.mp3
 /importer:Mp3Importer
@@ -87,10 +105,16 @@
 /processorParam:Quality=Best
 /build:SoundEffects/lost_power_up.mp3
 
-#begin SoundEffects/player_jump.mp3
+#begin SoundEffects/mushroom.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
+/build:SoundEffects/mushroom.mp3
+
+#begin SoundEffects/player_jump.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
 /build:SoundEffects/player_jump.mp3
 
 #begin SoundEffects/power_up_collected.mp3
@@ -105,6 +129,12 @@
 /processorParam:Quality=Best
 /build:SoundEffects/smash.mp3
 
+#begin SoundEffects/star_powerup.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/star_powerup.mp3
+
 #begin SoundEffects/StarMarioPower.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -116,6 +146,12 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/end.mp3
+
+#begin Sounds/fast_level.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/fast_level.mp3
 
 #begin Sounds/game_over.mp3
 /importer:Mp3Importer

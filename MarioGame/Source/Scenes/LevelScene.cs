@@ -8,6 +8,7 @@ using MarioGame;
 using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
@@ -42,9 +43,11 @@ namespace SuperMarioBros.Source.Scenes
         private LevelData _levelData;
         private bool _disposed;
         private Song _flagSoundEffect { get; set; }
+        private Song _runningOutOfTimeSong { get; set; }
         private ProgressDataManager _progressDataManager;
         private bool _isFlagEventPlayed { get; set; }
         private bool _isLevelCompleted { get; set; }
+        private bool _isRunningOutOfTime { get; set; }
         private double _levelCompleteDisplayTime;
         private const double LevelCompleteMaxDisplayTime = 6.5;
         private HashSet<string> _loadedEntities { get; }
@@ -53,6 +56,7 @@ namespace SuperMarioBros.Source.Scenes
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
             e => e.HasComponent<CameraComponent>())?.GetComponent<CameraComponent>().Transform;
+
 
         /*
          * Constructs a new LevelScene object.
@@ -72,6 +76,7 @@ namespace SuperMarioBros.Source.Scenes
             _isLevelCompleted = false;
             _levelCompleteDisplayTime = 0;
             _loadedEntities = new HashSet<string>();
+            _runningOutOfTimeSong = null;
         }
 
         /*
@@ -86,8 +91,16 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
-            MediaPlayer.Volume = 0.7f;
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/fast_level");
+            if (_progressDataManager.Time <= 100)
+            {
+                MediaPlayer.Play(_runningOutOfTimeSong);
+                _isRunningOutOfTime = true;
+            }
+            else
+            {
+                MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            }
             MediaPlayer.IsRepeating = true;
             LoadSoundEffects(spriteData);
         }
@@ -101,12 +114,16 @@ namespace SuperMarioBros.Source.Scenes
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyed, "SoundEffects/smash");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireball, "SoundEffects/fireball");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerFireballCollided, "SoundEffects/fireball_hit");
-            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "SoundEffects/player_jump");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerJump, "SoundEffects/jump");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostLife, "SoundEffects/loss_life");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PlayerLostPowerUpBecauseHit, "SoundEffects/lost_power_up");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.PowerUpCollected, "SoundEffects/power_up_collected");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.BlockPowerUpCollided, "SoundEffects/block_power_up");
             SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Ducting, "SoundEffects/duct_entry");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Mushroom, "SoundEffects/mushroom");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Star, "SoundEffects/fireball_powerup");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.Flower, "SoundEffects/star_powerup");
+            SoundEffectManager.Instance.LoadSoundEffect(spriteData.content, SoundEffectType.EnemyDestroyedByStar, "SoundEffects/enemy_destroyed_star");
         }
 
 
@@ -175,6 +192,17 @@ namespace SuperMarioBros.Source.Scenes
             }
         }
 
+        private void CheckRunningOutTime()
+        {
+            if (_progressDataManager.Time <= 101 && _progressDataManager.Time != 0)
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.Volume = 0.3f;
+                MediaPlayer.Play(_runningOutOfTimeSong);
+                _isRunningOutOfTime = true;
+            }
+        }
+
         /*
          * Unloads resources and performs cleanup operations for the level scene.
          * This method is called when the scene is being unloaded or switched.
@@ -185,15 +213,18 @@ namespace SuperMarioBros.Source.Scenes
             Entities.ClearAll();
             Systems.Clear();
             _loadedEntities.Clear();
+            SoundEffect.MasterVolume = SoundEffect.MasterVolume - SoundEffect.MasterVolume * 0.33f;
 
             foreach (var body in physicsWorld.BodyList.ToList())
             {
                 physicsWorld.Remove(body);
             }
             MediaPlayer.Stop();
+            _isRunningOutOfTime = false;
             _isLevelCompleted = false;
             _isFlagEventPlayed = false;
             _levelCompleteDisplayTime = 0;
+            _disposed = false;
         }
 
         /*
@@ -223,6 +254,7 @@ namespace SuperMarioBros.Source.Scenes
                 }
             }
 
+
             if (!_isFlagEventPlayed)
             {
                 CheckFlagEvent();
@@ -235,14 +267,22 @@ namespace SuperMarioBros.Source.Scenes
                 if (_levelCompleteDisplayTime >= LevelCompleteMaxDisplayTime)
                 {
                     _isLevelCompleted = true;
+                    MediaPlayer.Stop();
                     sceneManager.ChangeScene(SceneName.Win);
                 }
+            }
+
+
+            if (!_isRunningOutOfTime && !_isFlagEventPlayed && !_isLevelCompleted)
+            {
+                CheckRunningOutTime();
             }
 
             UpdateProgressManager(gameTime);
             UpdateSystems(gameTime);
             CheckPlayerState(gameTime, sceneManager);
         }
+
 
         private void UpdateProgressManager(GameTime gameTime)
         {
@@ -291,7 +331,6 @@ namespace SuperMarioBros.Source.Scenes
         }
 
 
-
         private void CheckFlagEvent()
         {
             var playerEntity = Entities.FirstOrDefault(e => e.HasComponent<PlayerComponent>());
@@ -300,6 +339,7 @@ namespace SuperMarioBros.Source.Scenes
             var player = playerEntity.GetComponent<PlayerComponent>();
             if (player != null && player.HasReachedEnd)
             {
+                _isRunningOutOfTime = true;
                 _isFlagEventPlayed = true;
                 PlayFlagSound();
             }
@@ -330,7 +370,7 @@ namespace SuperMarioBros.Source.Scenes
             if (playerComponent != null && animationComponent != null && colliderComponent != null && playerComponent.IsAlive)
             {
                 playerComponent.IsAlive = false;
-                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);
+                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50);
             }
         }
 

@@ -1,10 +1,10 @@
 using System;
+using System.Collections.ObjectModel;
 
 using Microsoft.Xna.Framework;
 
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Utils;
-using System.Collections.ObjectModel;
 
 namespace SuperMarioBros.Source.Managers;
 
@@ -36,7 +36,7 @@ public class ProgressDataManager
         }
         else if (_data.PlayerComponent.HasReachedEnd)
         {
-            _data.Score += (int)_data.Time*100;
+            _data.Score += (int)_data.Time * 100;
             _data.Time = 0;
         }
     }

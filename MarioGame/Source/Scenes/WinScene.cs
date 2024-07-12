@@ -28,6 +28,7 @@ public class WinScene : IScene, IDisposable
     public void Load(SpriteData spriteData)
     {
         Sprites.Load(spriteData?.content);
+        MediaPlayer.Stop();
         MediaPlayer.Play(spriteData?.content.Load<Song>("Sounds/end"));
     }
 

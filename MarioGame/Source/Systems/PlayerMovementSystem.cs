@@ -206,7 +206,7 @@ namespace SuperMarioBros.Source.Systems
         {
             if (!collider.isJumping())
             {
-                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y );
+                collider.collider.LinearVelocity = new AetherVector2(collider.collider.LinearVelocity.X * collider.friction, collider.collider.LinearVelocity.Y);
             }
             if (movement.Direction == MovementType.LEFT && !collider.isJumping())
             {

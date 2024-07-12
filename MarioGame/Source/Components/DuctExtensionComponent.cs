@@ -1,6 +1,6 @@
 namespace SuperMarioBros.Source.Components;
 
-public class DuctExtensionComponent: BaseComponent
+public class DuctExtensionComponent : BaseComponent
 {
 
 }
