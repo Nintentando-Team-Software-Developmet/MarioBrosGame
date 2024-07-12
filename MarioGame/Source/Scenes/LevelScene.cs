@@ -8,7 +8,6 @@ using MarioGame.Utils.DataStructures;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using Newtonsoft.Json;
@@ -20,7 +19,6 @@ using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Source.Systems;
-using SuperMarioBros.Utils;
 using SuperMarioBros.Utils.DataStructures;
 using SuperMarioBros.Utils.Maps;
 using SuperMarioBros.Utils.SceneCommonData;
@@ -52,7 +50,6 @@ namespace SuperMarioBros.Source.Scenes
         private const double LevelCompleteMaxDisplayTime = 6.5;
         private HashSet<string> _loadedEntities { get; }
         private const int LoadRadius = 1000;
-        private bool IsLastLife { get; set; }
 
 
         public Matrix Camera => (Matrix)Entities.FirstOrDefault(
@@ -91,18 +88,6 @@ namespace SuperMarioBros.Source.Scenes
             map = new MapGame(_levelData.pathMap, _levelData.backgroundJsonPath, _levelData.backgroundEntitiesPath, spriteData, physicsWorld);
             LoadEssentialEntities();
             InitializeSystems(spriteData);
-            MediaPlayer.Volume = 0.5f;
-            if (_progressDataManager.Lives == 2)
-            {
-                SoundEffect.MasterVolume = 0.4f;
-            } else if (_progressDataManager.Lives == 1)
-            {
-                SoundEffect.MasterVolume = 0.2f;
-            }
-            else
-            {
-                SoundEffect.MasterVolume = 0.6f;
-            }
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/running_out_time_mario");
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
@@ -218,13 +203,14 @@ namespace SuperMarioBros.Source.Scenes
             Entities.ClearAll();
             Systems.Clear();
             _loadedEntities.Clear();
+            SoundEffect.MasterVolume = SoundEffect.MasterVolume - SoundEffect.MasterVolume * 0.33f;
             _isRunningOutOfTime = false;
 
             foreach (var body in physicsWorld.BodyList.ToList())
             {
                 physicsWorld.Remove(body);
             }
-            MediaPlayer.Stop();
+
             _isLevelCompleted = false;
             _isFlagEventPlayed = false;
             _levelCompleteDisplayTime = 0;
@@ -395,10 +381,6 @@ namespace SuperMarioBros.Source.Scenes
             else
             {
                 sceneManager.ChangeScene(SceneName.GameOver);
-            }
-            if (_progressDataManager.Lives == 1)
-            {
-                IsLastLife = true;
             }
         }
 
