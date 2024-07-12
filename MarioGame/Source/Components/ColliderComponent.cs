@@ -19,6 +19,7 @@ namespace SuperMarioBros.Source.Components
         public float velocity { get; set; }
         public float friction { get; set; }
         private Fixture[] _storedFixtures;
+        public bool IsColliderRemoved { get; private set; }
 
         public ColliderComponent(World physicsWorld, float x, float y, Rectangle rectangle, BodyType bodyType, int rotation = 0)
         {
@@ -54,6 +55,8 @@ namespace SuperMarioBros.Source.Components
                 {
                     collider.Remove(fixture);
                 }
+                IsColliderRemoved = true;
+
             }
         }
     }

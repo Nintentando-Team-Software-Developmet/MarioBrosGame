@@ -8,6 +8,7 @@ using nkast.Aether.Physics2D.Dynamics;
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
+using SuperMarioBros.Source.Managers;
 using SuperMarioBros.Utils.DataStructures;
 
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
@@ -42,14 +43,22 @@ public static class FireBoolCollision
             }
         }
     }
-    public static void DisableCollider(Entity entity)
+    public static void DisableCollider(Entity entity, ProgressDataManager progressDataManager)
     {
         if (entity != null)
         {
             var colliderComponent = entity.GetComponent<ColliderComponent>();
             if (colliderComponent != null)
             {
-                colliderComponent.RemoveCollider();
+                if (!colliderComponent.IsColliderRemoved)
+                {
+                    colliderComponent.RemoveCollider();
+
+                    if (colliderComponent.IsColliderRemoved && progressDataManager != null)
+                    {
+                        progressDataManager.AddCollectItem(100);
+                    }
+                }
             }
         }
     }

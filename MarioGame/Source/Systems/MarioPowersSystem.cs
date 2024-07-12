@@ -92,10 +92,12 @@ public class MarioPowersSystem : BaseSystem
                     playerComponent.previousStatusMario = playerComponent.statusMario;
                     if (playerComponent.previousStatusMario == StatusMario.BigMario || playerComponent.previousStatusMario == StatusMario.FireMario)
                     {
+                        _progressDataManager.AddCollectItem(1000);
                         playerComponent.statusMario = StatusMario.StarMarioBig;
                     }
                     else if (playerComponent.previousStatusMario == StatusMario.SmallMario)
                     {
+                        _progressDataManager.AddCollectItem(1000);
                         playerComponent.statusMario = StatusMario.StarMarioSmall;
                     }
                     if (gameTime != null)
