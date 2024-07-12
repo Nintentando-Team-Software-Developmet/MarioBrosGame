@@ -214,7 +214,8 @@ namespace SuperMarioBros.Source.Systems
             playerComponent.DeathTimer = 0;
             playerComponent.statusMario = StatusMario.SmallMario;
             colliderComponent.RemoveCollider();
-            colliderComponent.collider.ApplyForce(new AetherVector2(0, -jumpForce));
+            colliderComponent.collider.ResetDynamics();
+            colliderComponent.collider.LinearVelocity = new AetherVector2(0, -jumpForce/100);
             EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerLostLife));
         }
 
@@ -228,12 +229,12 @@ namespace SuperMarioBros.Source.Systems
             if (animationComponent == null) throw new ArgumentNullException(nameof(animationComponent));
             animationComponent.Play(AnimationState.DIE);
 
-            if (playerComponent.DeathTimer <= 1f)
+            if (playerComponent.DeathTimer <= 0.7f)
             {
                 colliderComponent.collider.ApplyForce(new AetherVector2(0, -22f));
 
             }
-            else if (playerComponent.DeathTimer > 1f && playerComponent.DeathTimer <= 2f)
+            else if (playerComponent.DeathTimer > 0.7f && playerComponent.DeathTimer <= 2f)
             {
                 colliderComponent.collider.ApplyForce(new AetherVector2(0, 22f));
             }

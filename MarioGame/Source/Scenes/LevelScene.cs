@@ -370,7 +370,8 @@ namespace SuperMarioBros.Source.Scenes
             if (playerComponent != null && animationComponent != null && colliderComponent != null && playerComponent.IsAlive)
             {
                 playerComponent.IsAlive = false;
-                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50);
+                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 10);
+
             }
         }
 
