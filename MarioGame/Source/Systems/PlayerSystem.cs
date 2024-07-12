@@ -214,6 +214,7 @@ namespace SuperMarioBros.Source.Systems
             playerComponent.DeathTimer = 0;
             playerComponent.statusMario = StatusMario.SmallMario;
             colliderComponent.RemoveCollider();
+            colliderComponent.collider.ResetDynamics();
             colliderComponent.collider.ApplyForce(new AetherVector2(0, -jumpForce));
             EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.PlayerLostLife));
         }
