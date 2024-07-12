@@ -69,6 +69,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new PlayerSystem(_progressDataManager));
             Systems.Add(new CoinSystem(_progressDataManager));
             Systems.Add(new SoundEffectSystem());
+            Systems.Add(new InputSystem());
         }
 
         private void LoadEntities()

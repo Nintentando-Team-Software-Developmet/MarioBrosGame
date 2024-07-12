@@ -143,6 +143,11 @@ namespace MarioGame
             { AnimationState.BlINK, new Texture2D[] { Sprites.BrickBlockBrown } }
         };
 
+        public static readonly Dictionary<AnimationState, Texture2D[]> BreakBlockAnimations = new Dictionary<AnimationState, Texture2D[]>
+        {
+            { AnimationState.BlINK, new Texture2D[] { Sprites.BreakBlock } }
+        };
+
         public static readonly Dictionary<AnimationState, Texture2D[]> blockAnimations = new Dictionary<AnimationState, Texture2D[]>
         {
             { AnimationState.BlINK, new Texture2D[] { Sprites.PolishedStoneBlockBrown } }
@@ -237,7 +242,9 @@ namespace MarioGame
             { EntitiesName.FIRE, fire},
             { EntitiesName.FIREEXPLOSION, fireExprotion},
             { EntitiesName.STARBIGMARIO , playerAnimationsBigStar },
-            { EntitiesName.STARSMALLMARIO , playerAnimationsSmallStar }
+            { EntitiesName.STARSMALLMARIO , playerAnimationsSmallStar },
+            { EntitiesName.BREAKBLOCK , BreakBlockAnimations }
+
         };
 
 

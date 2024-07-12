@@ -24,6 +24,7 @@ namespace SuperMarioBros.Utils.DataStructures
         DUCT,
         DUCTEXTENSION,
         BLOCKERBLOCKBROWN,
+        BREAKBLOCK,
         DUCTCROSS,
         SECRETLEVELDUCTENTRANCE,
         FIRE,

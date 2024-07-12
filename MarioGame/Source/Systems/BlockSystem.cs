@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using MarioGame;
 
@@ -28,7 +30,7 @@ public class BlockSystem : BaseSystem
     private static Dictionary<Entity, float> entityTimers = new Dictionary<Entity, float>();
     private static Dictionary<Entity, string> entityStates = new Dictionary<Entity, string>();
     private static StatusMario showStatusMario { get; set; }
-
+    static List<Action> pendingActions = new List<Action>();
     public BlockSystem(ProgressDataManager progressDataManager)
     {
         _progressDataManager = progressDataManager;
@@ -47,6 +49,16 @@ public class BlockSystem : BaseSystem
         UpdateBlocks(questionBlockEntities, gameTime, mushroomEntities, startEntities, playerEntities, flowerEntities, coinEntities);
         UpdateBlocks(coinBlockEntities, gameTime, mushroomEntities, startEntities, playerEntities, flowerEntities, coinEntities);
 
+        // Clonar la lista de acciones pendientes para evitar modificaciones durante la iteración
+        var actions = pendingActions.ToList();
+        pendingActions.Clear(); // Limpiar la lista de acciones pendientes
+
+        // Ejecutar todas las acciones pendientes
+        foreach (var action in actions)
+        {
+            action();
+        }
+
     }
     private void UpdateBlocks(IEnumerable<Entity> entities, GameTime gameTime, IEnumerable<Entity> entitiesMushroom, IEnumerable<Entity> entitiesStar, IEnumerable<Entity> entitiesPlayer,
         IEnumerable<Entity> entitiesflower, IEnumerable<Entity> entitiesCoin)
@@ -61,7 +73,7 @@ public class BlockSystem : BaseSystem
                     RegisterBlock(entity, collider, entitiesPlayer);
                 }
 
-                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin);
+                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin, entitiesPlayer);
 
             }
         }
@@ -76,7 +88,7 @@ public class BlockSystem : BaseSystem
     }
 
     private void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
-        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
+        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities, IEnumerable<Entity> playerEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
         float timeToMove = 0.02f;
@@ -111,6 +123,7 @@ public class BlockSystem : BaseSystem
                     entityTimers[entity] = 0;
                 }
 
+
                 break;
             case "movingDown":
                 if (entityTimers[entity] >= timeToMove)
@@ -119,6 +132,7 @@ public class BlockSystem : BaseSystem
                     entityStates[entity] = "idle";
                     entityTimers[entity] = 0;
                     entitiesInContact.Remove(entity);
+
                 }
 
                 break;
@@ -171,8 +185,46 @@ public class BlockSystem : BaseSystem
                 _progressDataManager.AddCollectItem(100);
                 EventDispatcher.Instance.Dispatch(new SoundEffectEvent(SoundEffectType.CoinCollected));
             }
+        }else if (coinBlock.TypeContent == EntitiesName.NORMAL)
+        {
+            if (StatusMario.BigMario == showStatusMario || StatusMario.FireMario == showStatusMario || StatusMario.StarMarioBig == showStatusMario)
+            {
+                var animationComponent = entity.GetComponent<AnimationComponent>();
+                animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BREAKBLOCK], 64, 64).animations;
+                collider.Enabled(false);
+                StartBlockDescent(entity);
+            }
         }
 
+    }
+
+    private static void StartBlockDescent(Entity entity)
+    {
+        const float descentSpeed = 0.5f;
+        const float descentDistance = 2000.0f;
+        const float descentStep = descentSpeed * GameConstants.pixelPerMeter / 500.0f;
+        entityTimers[entity] = 0;
+        entityStates[entity] = "descending";
+        var collider = entity.GetComponent<ColliderComponent>();
+        collider.Enabled(false);
+        Action descentAction = null;
+        descentAction = () =>
+        {
+            AetherVector2 currentPosition = collider.collider.Position;
+            currentPosition.Y += descentStep;
+            collider.collider.Position = currentPosition;
+            entityTimers[entity] += descentStep;
+            if (entityTimers[entity] < descentDistance)
+            {
+                pendingActions.Add(descentAction);
+            }
+            else
+            {
+                collider.Enabled(true);
+                entityStates[entity] = "idle";
+            }
+        };
+        pendingActions.Add(descentAction);
     }
 
     private void HandleQuestionBlockContent(QuestionBlockComponent questionBlock, ColliderComponent collider, Entity entity,
@@ -183,7 +235,7 @@ public class BlockSystem : BaseSystem
 
         if (questionBlock.TypeContent == EntitiesName.POWERUP)
         {
-            if (showStatusMario == StatusMario.SmallMario || showStatusMario == StatusMario.StarMarioSmall)
+            if ( showStatusMario == StatusMario.SmallMario || showStatusMario == StatusMario.StarMarioSmall)
             {
                 ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
             }
