@@ -141,7 +141,8 @@ namespace SuperMarioBros.Source.Scenes
             DrawBackground(spriteData);
 
             float fontSize = 60f;
-            Vector2 textSize = spriteData.spriteFont.MeasureString("MARIO BROS") * (fontSize / spriteData.spriteFont.LineSpacing);
+            string text = "MARCO BROS";
+            Vector2 textSize = spriteData.spriteFont.MeasureString(text) * (fontSize / spriteData.spriteFont.LineSpacing);
 
             Rectangle textRectangle = new Rectangle(320, 150, 600, 300);
 
@@ -152,34 +153,36 @@ namespace SuperMarioBros.Source.Scenes
 
             Vector2 shadowOffset = new Vector2(5, 5);
 
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "MARIO BROS", titlePosition + shadowOffset, Color.Black, 0f, Vector2.Zero, fontSize / spriteData.spriteFont.LineSpacing, SpriteEffects.None, 0f);
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "MARIO BROS", titlePosition, new Color(235, 211, 170), 0f, Vector2.Zero, fontSize / spriteData.spriteFont.LineSpacing, SpriteEffects.None, 0f);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, titlePosition + shadowOffset, Color.Black, 0f, Vector2.Zero, fontSize / spriteData.spriteFont.LineSpacing, SpriteEffects.None, 0f);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, titlePosition, new Color(235, 211, 170), 0f, Vector2.Zero, fontSize / spriteData.spriteFont.LineSpacing, SpriteEffects.None, 0f);
         }
 
 
         private static void DrawStartButton(SpriteData spriteData)
         {
+            string text = "Press Enter or Circle";
             float fontSize = 30f;
-            float scale = fontSize / spriteData.spriteFont.MeasureString("START").Y;
+            float scale = fontSize / spriteData.spriteFont.MeasureString(text).Y;
             Vector2 startPosition = new Vector2(
-                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString("START").X * scale) / 2,
+                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString(text).X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 200
             );
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "START", startPosition, Color.Yellow, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, startPosition, Color.Yellow, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
 
         private void DrawHighScore(SpriteData spriteData)
         {
             float fontSize = 30f;
             int highScore = _progressDataManager.GetHighScore();
-            float scale = fontSize / spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").Y;
+            string text = "HIGHSCORE";
+            float scale = fontSize / spriteData.spriteFont.MeasureString($"{text}{highScore}").Y;
             Vector2 startPosition = new Vector2(
-                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString($"HIGHSCORE{highScore}").X * scale) / 2,
+                (spriteData.graphics.GraphicsDevice.Viewport.Width - spriteData.spriteFont.MeasureString($"{text}{highScore}").X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 250
             );
-            spriteData.spriteBatch.DrawString(spriteData.spriteFont, "HIGHSCORE", startPosition, Color.White);
+            spriteData.spriteBatch.DrawString(spriteData.spriteFont, text, startPosition, Color.White);
             Vector2 highScorePosition = new Vector2(
-                (spriteData.graphics.GraphicsDevice.Viewport.Width + spriteData.spriteFont.MeasureString("HIGHSCORE").X * scale) / 2,
+                (spriteData.graphics.GraphicsDevice.Viewport.Width + spriteData.spriteFont.MeasureString(text).X * scale) / 2,
                 spriteData.graphics.GraphicsDevice.Viewport.Height - 250
             );
             spriteData.spriteBatch.DrawString(spriteData.spriteFont, $"{highScore}", highScorePosition, Color.White);
