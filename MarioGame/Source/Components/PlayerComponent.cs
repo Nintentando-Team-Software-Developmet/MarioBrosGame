@@ -37,8 +37,8 @@ namespace SuperMarioBros.Source.Components
             statusMario = StatusMario.SmallMario;
             IsInSecretLevel = false;
             IsInTransition = false;
-            PlayerPositionX = 12000;
-            PlayerPositionY = 245;
+            PlayerPositionX = 100;
+            PlayerPositionY = 645;
         }
     }
 }
