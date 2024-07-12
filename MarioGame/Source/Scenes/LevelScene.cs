@@ -180,12 +180,13 @@ namespace SuperMarioBros.Source.Scenes
             {
                 MediaPlayer.Stop();
                 MediaPlayer.Play(_flagSoundEffect);
+                _isRunningOutOfTime = true;
             }
         }
 
         private void CheckRunningOutTime()
         {
-            if (_progressDataManager.Time <= 101)
+            if (_progressDataManager.Time <= 101 && _progressDataManager.Time != 0) 
             {
                 MediaPlayer.Stop();
                 MediaPlayer.Volume = 0.3f;
@@ -251,20 +252,22 @@ namespace SuperMarioBros.Source.Scenes
                 UpdateProgressData(gameTime);
                 CheckGameOverConditions();
             }
-
-            if (!_isRunningOutOfTime)
-            {
-                CheckRunningOutTime();
-            }
-
             else if (!_isLevelCompleted)
             {
                 _levelCompleteDisplayTime += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_levelCompleteDisplayTime >= LevelCompleteMaxDisplayTime)
                 {
                     _isLevelCompleted = true;
+                    _isRunningOutOfTime = true;
+                    MediaPlayer.Stop();
                     sceneManager.ChangeScene(SceneName.Win);
                 }
+            }
+
+
+            if (!_isRunningOutOfTime && !_isFlagEventPlayed && !_isLevelCompleted)
+            {
+                CheckRunningOutTime();
             }
 
             UpdateProgressManager(gameTime);
@@ -318,7 +321,6 @@ namespace SuperMarioBros.Source.Scenes
                 _loadedEntities.Add(GetEntityKey(entityData));
             }
         }
-
 
 
         private void CheckFlagEvent()
