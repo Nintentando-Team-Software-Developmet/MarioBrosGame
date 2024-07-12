@@ -131,6 +131,7 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Add(new FireBoolSystem(_progressDataManager));
             Systems.Add(new MarioPowersSystem(_progressDataManager, spriteData));
             Systems.Add(new SoundEffectSystem());
+            Systems.Add(new InputSystem());
         }
 
         /*
