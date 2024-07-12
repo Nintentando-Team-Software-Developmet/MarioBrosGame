@@ -171,10 +171,9 @@ namespace SuperMarioBros.Source.Systems
                 case EntitiesName.GOOMBA: case EntitiesName.KOOPA:
                     if (fireballComponent != null)
                     {
-                        _progressDataManager.AddCollectItem(100);
                         fireballComponent.collidedWithGoomba = true;
                     }
-                    pendingActions.Add(() => FireBoolCollision.DisableCollider(otherEntity));
+                    pendingActions.Add(() => FireBoolCollision.DisableCollider(otherEntity,_progressDataManager));
                     pendingActions.Add(() => FireBoolCollision.MoveFireball(fireballEntity,fireballTimers,waitTime));
                     break;
                 case EntitiesName.DUCT:
