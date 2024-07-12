@@ -390,6 +390,12 @@ namespace SuperMarioBros.Source.Scenes
             spriteData.spriteBatch.Begin(transformMatrix: Camera);
 
             map.Draw(spriteData);
+
+            //TODO Borrar - Debugger Colliders
+            using (var debuuger = new DebuggerColliders(physicsWorld, spriteData))
+            {
+                debuuger.DrawColliders();
+            }
             DrawProgressManager(gameTime, spriteData);
 
             spriteData.spriteBatch.End();
