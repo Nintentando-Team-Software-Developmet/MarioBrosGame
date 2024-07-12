@@ -92,7 +92,15 @@ namespace SuperMarioBros.Source.Scenes
             InitializeSystems(spriteData);
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/fast_level");
-            MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            if (_progressDataManager.Time <= 100)
+            {
+                MediaPlayer.Play(_runningOutOfTimeSong);
+                _isRunningOutOfTime = true;
+            }
+            else
+            {
+                MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
+            }
             MediaPlayer.IsRepeating = true;
             LoadSoundEffects(spriteData);
         }
@@ -180,7 +188,6 @@ namespace SuperMarioBros.Source.Scenes
             {
                 MediaPlayer.Stop();
                 MediaPlayer.Play(_flagSoundEffect);
-                _isRunningOutOfTime = true;
             }
         }
 
@@ -206,16 +213,17 @@ namespace SuperMarioBros.Source.Scenes
             Systems.Clear();
             _loadedEntities.Clear();
             SoundEffect.MasterVolume = SoundEffect.MasterVolume - SoundEffect.MasterVolume * 0.33f;
-            _isRunningOutOfTime = false;
 
             foreach (var body in physicsWorld.BodyList.ToList())
             {
                 physicsWorld.Remove(body);
             }
             MediaPlayer.Stop();
+            _isRunningOutOfTime = false;
             _isLevelCompleted = false;
             _isFlagEventPlayed = false;
             _levelCompleteDisplayTime = 0;
+            _disposed = false;
         }
 
         /*
@@ -258,7 +266,6 @@ namespace SuperMarioBros.Source.Scenes
                 if (_levelCompleteDisplayTime >= LevelCompleteMaxDisplayTime)
                 {
                     _isLevelCompleted = true;
-                    _isRunningOutOfTime = true;
                     MediaPlayer.Stop();
                     sceneManager.ChangeScene(SceneName.Win);
                 }
