@@ -5,10 +5,10 @@ using System.Collections.ObjectModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
 
-using SuperMarioBros.Source.Entities;
-
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
+using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Source.Extensions;
 using SuperMarioBros.Source.Managers;
@@ -29,7 +29,7 @@ public class MarioPowersSystem : BaseSystem
     private readonly Collection<Action> pendingActions = new Collection<Action>();
     private static double starEndTime { get; set; }
     private static double invulnerabilityEndTime { get; set; }
-    private SpriteData spriteData{ get; set; }
+    private SpriteData spriteData { get; set; }
     private ProgressDataManager _progressDataManager;
 
     public MarioPowersSystem(ProgressDataManager progressDataManager, SpriteData spriteData)
@@ -54,7 +54,7 @@ public class MarioPowersSystem : BaseSystem
 
             if (!registeredColliders.Contains(playerCollider))
             {
-                RegisterCollisionEvent(playerCollider, player, mushroomEntities, flowerEntities,starEntities,enemyEntities);
+                RegisterCollisionEvent(playerCollider, mushroomEntities, flowerEntities, starEntities, enemyEntities);
                 registeredColliders.Add(playerCollider);
             }
 
@@ -86,14 +86,14 @@ public class MarioPowersSystem : BaseSystem
             {
                 if (!isStarPowerActive)
                 {
-                   if (spriteData != null)
-                       MediaPlayer.Play(spriteData.content.Load<Song>("SoundEffects/StarMarioPower"));
-                   playerComponent.previousStatusMario = playerComponent.statusMario;
-                    if ( playerComponent.previousStatusMario == StatusMario.BigMario ||  playerComponent.previousStatusMario == StatusMario.FireMario)
+                    if (spriteData != null)
+                        MediaPlayer.Play(spriteData.content.Load<Song>("SoundEffects/StarMarioPower"));
+                    playerComponent.previousStatusMario = playerComponent.statusMario;
+                    if (playerComponent.previousStatusMario == StatusMario.BigMario || playerComponent.previousStatusMario == StatusMario.FireMario)
                     {
                         playerComponent.statusMario = StatusMario.StarMarioBig;
                     }
-                    else if ( playerComponent.previousStatusMario == StatusMario.SmallMario)
+                    else if (playerComponent.previousStatusMario == StatusMario.SmallMario)
                     {
                         playerComponent.statusMario = StatusMario.StarMarioSmall;
                     }
@@ -118,11 +118,11 @@ public class MarioPowersSystem : BaseSystem
             }
             if (gameTime != null && isInvulnerable && gameTime.TotalGameTime.TotalSeconds < invulnerabilityEndTime && playerComponent.statusMario == StatusMario.BigMario)
             {
-                ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider,playerAnimation, enemyEntities,gameTime,invulnerabilityEndTime);
+                ChangeAnimationColliderPlayer.CheckEnemyProximity(playerCollider, playerAnimation, enemyEntities, gameTime, invulnerabilityEndTime);
             }
             if (gameTime != null && isStarPowerActive && gameTime.TotalGameTime.TotalSeconds >= starEndTime)
             {
-                playerComponent.statusMario =  playerComponent.previousStatusMario;
+                playerComponent.statusMario = playerComponent.previousStatusMario;
                 colitionStar = false;
                 isStarPowerActive = false;
                 MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
@@ -132,7 +132,7 @@ public class MarioPowersSystem : BaseSystem
         ExecutePendingActions();
     }
 
-    private void RegisterCollisionEvent(ColliderComponent collider, Entity player, IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> starEntities, IEnumerable<Entity> enemyEntities)
+    private void RegisterCollisionEvent(ColliderComponent collider, IEnumerable<Entity> mushroomEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> starEntities, IEnumerable<Entity> enemyEntities)
     {
         collider.collider.OnCollision += (fixtureA, fixtureB, contact) =>
         {

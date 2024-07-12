@@ -2,19 +2,19 @@
 using System;
 using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
-
-using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
-
 using MarioGame;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using nkast.Aether.Physics2D.Collision.Shapes;
 using nkast.Aether.Physics2D.Common;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Utils.DataStructures;
+
+using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Utils;
 
@@ -79,19 +79,19 @@ public static class ChangeAnimationColliderPlayer
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARBIGMARIO], 64, 101,playerCollider, 34f, 51f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARBIGMARIO], 64, 101, playerCollider, 34f, 51f);
     }
     public static void TransformToBigMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101,playerCollider, 34f, 51f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.BIGMARIO], 64, 101, playerCollider, 34f, 51f);
     }
     public static void TransformToFireMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
     {
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101,playerCollider, 34f, 51f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.FIREMARIO], 64, 101, playerCollider, 34f, 51f);
 
     }
     public static void TransformToSmallMario(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -99,7 +99,7 @@ public static class ChangeAnimationColliderPlayer
 
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.MARIO], 64, 64,playerCollider, 30f, 32f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.MARIO], 64, 64, playerCollider, 30f, 32f);
 
     }
     public static void TransformToSmallMarioStar(AnimationComponent playerAnimation, ColliderComponent playerCollider)
@@ -107,7 +107,7 @@ public static class ChangeAnimationColliderPlayer
 
         if (playerAnimation != null)
             if (playerCollider != null)
-                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARSMALLMARIO], 64, 64,playerCollider, 30f, 32f);
+                TransformMario(playerAnimation, Animations.entityTextures[EntitiesName.STARSMALLMARIO], 64, 64, playerCollider, 30f, 32f);
 
     }
     private static void TransformMario(AnimationComponent playerAnimation, Dictionary<AnimationState, Texture2D[]> animations, int animationWidth, int animationHeight, ColliderComponent playerCollider, float colliderWidth, float colliderHeight)
@@ -127,8 +127,8 @@ public static class ChangeAnimationColliderPlayer
         }
     }
 
-    private static void TransformMario(AnimationComponent playerAnimation,int animationWidth,
-        int animationHeight,ColliderComponent playerCollider,float colliderWidth, float colliderHeight)
+    private static void TransformMario(AnimationComponent playerAnimation, int animationWidth,
+        int animationHeight, ColliderComponent playerCollider, float colliderWidth, float colliderHeight)
     {
         playerAnimation.UpdateAnimationSize(animationWidth, animationHeight);
 
@@ -182,7 +182,7 @@ public static class ChangeAnimationColliderPlayer
         }
     }
 
-    private static void convertAnimationMario( GameTime gameTime,ColliderComponent playerCollider, AnimationComponent playerAnimation)
+    private static void convertAnimationMario(GameTime gameTime, ColliderComponent playerCollider, AnimationComponent playerAnimation)
     {
         if (gameTime != null)
         {

@@ -61,7 +61,7 @@ public class BlockSystem : BaseSystem
                     RegisterBlock(entity, collider, entitiesPlayer);
                 }
 
-                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin,entitiesPlayer);
+                HandleBlockMovement(gameTime, collider, entity, entitiesMushroom, entitiesStar, entitiesflower, entitiesCoin);
 
             }
         }
@@ -76,7 +76,7 @@ public class BlockSystem : BaseSystem
     }
 
     private void HandleBlockMovement(GameTime gameTime, ColliderComponent collider, Entity entity, IEnumerable<Entity> mushroomEntities,
-        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities, IEnumerable<Entity> playerEntities)
+        IEnumerable<Entity> starEntities, IEnumerable<Entity> flowerEntities, IEnumerable<Entity> coinEntities)
     {
         float movementSpeed = 10f / GameConstants.pixelPerMeter;
         float timeToMove = 0.02f;
@@ -183,7 +183,7 @@ public class BlockSystem : BaseSystem
 
         if (questionBlock.TypeContent == EntitiesName.POWERUP)
         {
-            if ( showStatusMario == StatusMario.SmallMario || showStatusMario == StatusMario.StarMarioSmall)
+            if (showStatusMario == StatusMario.SmallMario || showStatusMario == StatusMario.StarMarioSmall)
             {
                 ActivateEntities<MushroomComponent>(mushroomEntities, collider.collider.Position);
             }

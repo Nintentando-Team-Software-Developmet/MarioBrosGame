@@ -186,7 +186,7 @@ namespace SuperMarioBros.Source.Scenes
 
         private void CheckRunningOutTime()
         {
-            if (_progressDataManager.Time <= 101 && _progressDataManager.Time != 0) 
+            if (_progressDataManager.Time <= 101 && _progressDataManager.Time != 0)
             {
                 MediaPlayer.Stop();
                 MediaPlayer.Volume = 0.3f;
@@ -362,7 +362,7 @@ namespace SuperMarioBros.Source.Scenes
             if (playerComponent != null && animationComponent != null && colliderComponent != null && playerComponent.IsAlive)
             {
                 playerComponent.IsAlive = false;
-                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50,animationComponent);
+                PlayerSystem.StartDeathAnimation(playerComponent, colliderComponent, 50);
             }
         }
 

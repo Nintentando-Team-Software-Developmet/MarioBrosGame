@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
+
 using MarioGame;
 
 using nkast.Aether.Physics2D.Dynamics;
+
 using SuperMarioBros.Source.Components;
 using SuperMarioBros.Source.Entities;
 using SuperMarioBros.Source.Events;
 using SuperMarioBros.Utils.DataStructures;
+
 using AetherVector2 = nkast.Aether.Physics2D.Common.Vector2;
 
 namespace SuperMarioBros.Utils;
 
 public static class FireBoolCollision
 {
-        public static void Restitution(Body body, float forwardSpeedFire)
+    public static void Restitution(Body body, float forwardSpeedFire)
     {
         float minBounceVelocity = 4.0f;
 
@@ -63,7 +66,7 @@ public static class FireBoolCollision
     {
         return entities.FirstOrDefault(e => e.GetComponent<ColliderComponent>()?.collider == body);
     }
-    public static void MoveFireball(Entity fireballEntity,Dictionary<Entity, float> fireballTimers,float waitTime)
+    public static void MoveFireball(Entity fireballEntity, Dictionary<Entity, float> fireballTimers, float waitTime)
     {
         if (fireballEntity != null)
         {

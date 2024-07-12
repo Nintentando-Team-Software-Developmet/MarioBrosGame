@@ -11,7 +11,7 @@ using SuperMarioBros.Utils.DataStructures;
 
 namespace SuperMarioBros.Source.Scenes;
 
-public class SecretLevelTransitionScene: IScene, IDisposable
+public class SecretLevelTransitionScene : IScene, IDisposable
 {
     private bool _disposed;
     private ProgressDataManager _progressDataManager;
