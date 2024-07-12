@@ -28,15 +28,7 @@ public class SoundEffectSystem : BaseSystem
     {
         var soundEffect = SoundEffectManager.Instance.GetSoundEffect(soundEffectType);
         var instance = soundEffect.CreateInstance();
-        if (soundEffectType == SoundEffectType.PlayerJump)
-        {
-            instance.Volume = 0.1f;
-        }
-        else
-        {
-            instance.Volume = 0.3f;
-
-        }
+        instance.Volume = 0.5f;
         instance.Play();
         instance = null;
     }

@@ -92,7 +92,17 @@ namespace SuperMarioBros.Source.Scenes
             LoadEssentialEntities();
             InitializeSystems(spriteData);
             MediaPlayer.Volume = 0.5f;
-            SoundEffect.MasterVolume = 1f;
+            if (_progressDataManager.Lives == 2)
+            {
+                SoundEffect.MasterVolume = 0.4f;
+            } else if (_progressDataManager.Lives == 1)
+            {
+                SoundEffect.MasterVolume = 0.2f;
+            }
+            else
+            {
+                SoundEffect.MasterVolume = 0.6f;
+            }
             _flagSoundEffect = spriteData.content.Load<Song>("Sounds/win_music");
             _runningOutOfTimeSong = spriteData.content.Load<Song>("Sounds/running_out_time_mario");
             MediaPlayer.Play(spriteData.content.Load<Song>("Sounds/level1_naruto"));
