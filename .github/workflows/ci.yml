@@ -1,13 +1,12 @@
-# .github/workflows/ci.yml
 name: CI
 
 on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - develop
+    pull_request:
+        branches:
+            - 'develop'
+        types: [opened]
+        paths:
+            - '**'
 
 jobs:
   build-and-test:
@@ -25,13 +24,44 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    - name: Install Roslyn Analyzers
+      run: |
+        cd MarioGame
+        dotnet add package Microsoft.CodeAnalysis.NetAnalyzers
+        cd ..
+        cd MarioGame.Tests
+        dotnet add package Microsoft.CodeAnalysis.NetAnalyzers
+        cd ..
+
+
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        cd MarioGame
+        dotnet build --no-restore
+        cd ..
+        cd MarioGame.Tests
+        dotnet build --no-restore
+        cd ..
 
     - name: Run tests
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+      run: |
+        cd MarioGame.Tests
+        dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+        cd ..
 
-      
+    - name: Run Roslyn Analyzers Dev
+      run: |
+        cd MarioGame
+        dotnet build --no-restore /p:Analyzers=true /p:TreatWarningsAsErrors=true
+        cd ..
+
+    - name: Run Roslyn Analyzers Test
+      run: |
+        cd MarioGame.Tests
+        dotnet build --no-restore /p:Analyzers=true /p:TreatWarningsAsErrors=true
+        cd ..
+
+
   format:
     runs-on: ubuntu-latest
 

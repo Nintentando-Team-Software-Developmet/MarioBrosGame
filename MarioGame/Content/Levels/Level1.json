@@ -1,0 +1,324 @@
+{
+    "nameLevel": "1-1",
+    "pathMap": "Content/Maps/level1Map.json",
+    "backgroundJsonPath": "Content/Maps/background.json",
+    "backgroundEntitiesPath": "Content/Maps/SurfaceEntities.json",
+    "entities": [
+        {
+            "type": "PLAYER",
+            "name": "MARIO",
+            "position": {
+                "x": 100,
+                "y": 645
+            }
+        },
+        {
+            "type": "WINGAME",
+            "name": "POLE",
+            "position": {
+                "x": 12768,
+                "y": 416
+            }
+        },
+        {
+            "type": "WINBALL",
+            "name": "FLAGBALL",
+            "position": {
+                "x": 12768,
+                "y": 120
+            }
+        },
+        {
+            "type": "WINFLAG",
+            "name": "FLAG",
+            "position": {
+                "x": 12732,
+                "y": 164
+            }
+        },
+
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 1472,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 2752,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 3072,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 3145,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 5312,
+                "y": 256
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 5380,
+                "y": 256
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 6464,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 6400,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7040,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7360,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7872,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 7946,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 8074,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 8148,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 11200,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "GOOMBA",
+            "position": {
+                "x": 11284,
+                "y": 768
+            }
+        },
+        {
+            "type": "ENEMY",
+            "name": "KOOPA",
+            "position": {
+                "x": 6816,
+                "y": 760
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 1376,
+                "y": 544
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 5024,
+                "y": 544
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "MUSHROOM",
+            "position": {
+                "x": 6944,
+                "y": 320
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "STAR",
+            "position": {
+                "x": 6432,
+                "y": 544
+            }
+        },
+        {
+            "type": "POWERUP",
+            "name": "FLOWER",
+            "position": {
+                "x": 5024,
+                "y": 544 }
+        },
+        {
+            "type": "POWERUP",
+            "name": "FLOWER",
+            "position": {
+                "x": 6944,
+                "y": 320 }
+        },
+
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1056,
+                "y": 544 }
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 1056, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1504,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 1440,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6048,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6752,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6944,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 7136,
+                "y": 544 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 8288,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 8352,
+                "y": 320 }
+        },
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 10912,
+                "y": 544 }
+        }
+    ,
+        {
+            "type": "COINANIMATION",
+            "name": "COIN",
+            "position": {
+                "x": 6047,
+                "y": 544 }
+        },
+        {
+            "type": "FIREBALL",
+            "name": "FIRE",
+            "position": {
+                "x": 10,
+                "y": 10 }
+        },
+        {
+            "type": "FIREBALL",
+            "name": "FIRE",
+            "position": {
+                "x": 10,
+                "y": 10 }
+        }
+
+    ]
+}

@@ -1,0 +1,770 @@
+{
+    "entities": [
+        {
+            "type": "DUCT",
+            "name": "DUCT",
+            "position": { "x": 1792, "y": 704 }
+        },
+        {
+            "type": "DUCT",
+            "name": "DUCT",
+            "position": { "x": 2432, "y": 640 }
+        },
+        {
+            "type": "DUCTEXTENSION",
+            "name": "DUCTEXTENSION",
+            "position": { "x": 2432, "y": 736 }
+        },
+        {
+            "type": "DUCT",
+            "name": "DUCT",
+            "position": { "x": 2944, "y": 576 }
+        },
+        {
+            "type": "DUCTEXTENSION",
+            "name": "DUCTEXTENSION",
+            "position": { "x": 2944, "y": 672 }
+        },
+        {
+            "type": "DUCTEXTENSION",
+            "name": "DUCTEXTENSION",
+            "position": { "x": 2944, "y": 736 }
+        },
+        {
+            "type": "DUCT",
+            "name": "DUCT",
+            "position": { "x": 3648, "y": 576 }
+        },
+        {
+            "type": "DUCTEXTENSION",
+            "name": "DUCTEXTENSION",
+            "position": { "x": 3648, "y": 672 }
+        },
+        {
+            "type": "DUCTEXTENSION",
+            "name": "DUCTEXTENSION",
+            "position": { "x": 3648, "y": 736 }
+        },
+        {
+            "type": "DUCT",
+            "name": "DUCT",
+            "position": { "x": 10496, "y": 704 }
+        },
+        {
+            "type": "DUCT",
+            "name": "DUCT",
+            "position": { "x": 11584, "y": 704 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8608, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8672, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8736, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8800, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8672, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8736, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8800, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8736, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8800, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8800, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8992, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9056, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9120, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9184, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8992, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9056, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9120, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8992, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9056, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 8992, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9952, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 10016, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 10080, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 10144, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9952, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 10016, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 10080, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9952, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 10016, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9952, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9504, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9568, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9632, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9696, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9760, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9568, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9632, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9696, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9760, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9632, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9696, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9760, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9696, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 9760, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11680, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11744, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11808, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11872, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11936, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12000, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 736 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11744, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11808, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11872, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11936, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12000, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 672 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11808, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11872, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11936, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12000, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 608 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11872, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11936, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12000, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 544 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 11936, "y": 480 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12000, "y": 480 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 480 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 480 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 480 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12000, "y": 416 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 416 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 416 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 416 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12064, "y": 352 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 352 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 352 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12128, "y": 288 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12192, "y": 288 }
+        },
+        {
+            "type": "BLOCK",
+            "name": "BLOCK",
+            "position": { "x": 12768, "y": 736 }
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 1312, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 1376, "y": 544 },
+            "TypeContent": "POWERUP",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 1440, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 1504, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 1568, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 1440, "y": 320 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 4960, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 5024, "y": 544 },
+            "TypeContent": "POWERUP",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5088, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5152, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5216, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5280, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5344, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5408, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5472, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5536, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5600, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5856, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5920, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 5984, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 6048, "y": 320 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 6047, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 10
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 6368, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 6432, "y": 544 },
+            "TypeContent": "STAR",
+            "Quantity": 1
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 6752, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 6944, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 7136, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 6944, "y": 320 },
+            "TypeContent": "POWERUP",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 7520, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 7712, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 7776, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 7840, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 8224, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 8288, "y": 320 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 8352, "y": 320 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 8416, "y": 320 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 8288, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 8352, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 10784, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 10848, "y": 544 },
+            "TypeContent": "NORMAL"
+        },
+        {
+            "type": "QUESTIONBLOCK",
+            "name": "QUESTIONBLOCK",
+            "position": { "x": 10912, "y": 544 },
+            "TypeContent": "COIN",
+            "Quantity": 1
+        },
+        {
+            "type": "COINBLOCK",
+            "name": "COINBLOCK",
+            "position": { "x": 10976, "y": 544 },
+            "TypeContent": "NORMAL"
+        }
+    ]
+}
