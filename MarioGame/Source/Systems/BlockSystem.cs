@@ -192,6 +192,7 @@ public class BlockSystem : BaseSystem
                 var animationComponent = entity.GetComponent<AnimationComponent>();
                 animationComponent.animations = new AnimationComponent(Animations.entityTextures[EntitiesName.BREAKBLOCK], 64, 64).animations;
                 collider.Enabled(false);
+                _progressDataManager.AddCollectItem(50);
                 StartBlockDescent(entity);
             }
         }
