@@ -35,7 +35,7 @@ public static class CommonRenders
         CameraComponent camera = enumerator.Current.GetComponent<CameraComponent>();
 
         DrawCoin(spriteData, camera.Position.X, camera.Position.Y);
-        DrawTextWithNumber("Mario", FillZeros(score, 6), camera.Position.X + 50, camera.Position.Y + 10, spriteData);
+        DrawTextWithNumber("Marco", FillZeros(score, 6), camera.Position.X + 50, camera.Position.Y + 10, spriteData);
         DrawTextWithNumber($"x" + FillZeros(coins, 2), "", camera.Position.X + 435, camera.Position.Y + 40, spriteData);
         DrawTextWithNumber("WORLD", level, camera.Position.X + 678, camera.Position.Y + 10, spriteData);
         DrawTextWithNumber("TIME", time != 0 ? $"{(int)time}" : string.Empty, camera.Position.X + 1028, camera.Position.Y + 10, spriteData);
