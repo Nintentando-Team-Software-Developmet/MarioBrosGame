@@ -4,7 +4,7 @@ namespace SuperMarioBros.Source.Managers;
 
 public class HighScoreManager
 {
-    private string _highScorePath = "resources/HighScore";
+    private string _highScorePath = "resources/HighScore.txt";
 
     /*
      * GetHighScore returns the int value of the highScore saved on resources

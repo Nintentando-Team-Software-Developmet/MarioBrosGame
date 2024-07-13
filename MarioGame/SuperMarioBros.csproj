@@ -56,4 +56,10 @@
   <ItemGroup>
     <Compile Remove="Source\Scenes\Level1TransitionScene.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\HighScore.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
 </Project>
